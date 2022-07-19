@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  					   http://www.springframework.org/schema/beans/spring-beans.xsd
+      				   http://mybatis.org/schema/mybatis-spring 
+      				   http://mybatis.org/schema/mybatis-spring.xsd">
+	
+	
+
+	<!-- MariaDB JDBC DataSource,dataSource 객체 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://3.36.97.69:3306/seoul" />
+		<property name="username" value="hey" />
+		<property name="password" value="seon1011901" />
+		<property name="validationQuery" value="select 1"/>
+	</bean>
+	
+	<!-- SqlSessionFactory 객체 설정 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+         <property name="dataSource" ref="dataSource" />
+         <property name="mapperLocations">
+            <list>
+               <value>classpath:com/my/seoul2/map/*.xml</value>
+            </list>
+         </property> 
+         
+         <property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml" />
+         <property name="transactionFactory">
+         <bean class="org.mybatis.spring.transaction.SpringManagedTransactionFactory" />
+      <!-- <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" /> -->
+         </property>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+         <property name="dataSource" ref="dataSource" />
+    </bean>
+     
+     
+     <!-- SqlSession Template 설-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+         <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+    
+     
+     
+     <!-- Dao 추가 -->
+	<bean id="UserDao" class="com.my.seoul2.dao.UserDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+</beans>

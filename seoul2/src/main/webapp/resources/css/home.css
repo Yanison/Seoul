@@ -1,0 +1,610 @@
+
+
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+}
+
+@font-face{
+	font-family:"robo";
+	font-style:normal;
+	src:url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+/* font-family: 'Roboto', sans-serif; */
+
+* {
+	border-collapse: collapse;
+	box-sizing:border-box;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+a, abbr, acronym, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, embed, fieldset, form, h1, h2, h3, h4, h5, h6, html, i, iframe, img, ins, label, legend, li, object, ol, p, pre, q, s, samp, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, u, ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+a {
+	text-decoration:none;
+}
+
+html, body{
+	padding:0;
+	margin:0;
+	font-size:14px;
+	font-family:nt;
+	position: relative;
+}
+
+.wrapper {
+	width:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	background:#fff;
+	overflow: scroll;
+}
+
+.header {
+	height:80px;
+	width:100%;
+	background:#f4f5f8;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	font-size:15px;
+	color:#333333;
+	padding:10 20 10 20px;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:400;
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index: 1;
+	border-bottom:1px solid white;
+}
+
+.header-left, .header-right {
+	display:flex;
+	align-items:center;
+}
+.header-left-contents {
+	margin: 0 0 0 10px;
+}
+
+.headee-contents {
+	text-align:center;
+	min-width:80px;
+	margin:0 10 0 10;
+	cursor:pointer;
+}
+.logo {
+	object-fit:cover;
+	height:20px;
+}
+
+
+.home-main{
+	height:500px;
+	width:100%;
+	background:grey;
+	display:flex;
+	justify-content:center;
+	postion:relative;
+	background: #f4f5f8 url(https://cdn.upbit.com/upbit-web/images/main_gal_map.bddf5ae.png) no-repeat center 100px;
+
+}
+
+.home-main-content-wrapper {
+	position:relative;
+	width:1400px;
+	height:382px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.home-main-content {
+	width:100%px;
+	height:100%px;
+	position:absolute;
+	bottom:0;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.app-box {
+	width:340px;
+}
+.app-box-content {
+	display:flex;
+	justify-content:center;
+}
+
+.left-app-box-content {
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.right-app-box-content {
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.contents-num {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	margin:0 10 30;
+}
+
+.contents-num >span {
+	color:#7588AA;
+}
+.contents-num > p {
+	font-size:20px;
+}
+
+.contents-link > a {
+	margin:0 10px;
+}
+
+.linkbox{
+	width:150px;
+	height:46px;
+	text-align:center;
+	padding:13px;
+	margin:0 5px;
+	color:#fff;
+	font-size:16px;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+.linkbox:hover {
+	color:#fff;
+}
+
+.home-banner {
+	width:100%;
+	height:90px;
+}
+
+.home-banner > img {
+	object-fit:cover;
+	width:100%;
+	height:100%;
+	cursor:pointer;
+}
+
+.home-price{
+	width:100%;
+	height:400px;
+	display:flex;
+	justify-content:center;
+}
+
+.price-view-wrapper {
+	display:flex;
+	justify-content:space-between;
+}
+
+.price-box {
+	width:440px;
+	height:330px;
+	padding:0 40px;
+}
+.price-box-content {
+	width:100%;
+	height:100%;
+	background:black;
+}
+
+
+
+.home-moblie-ads {
+	width:100%;
+	height:960px;
+	background:#093684;
+	padding:80px 0 0;
+}
+
+.mob-contents-wrapper{
+	width:100%%;
+	height:880px;
+	padding:0 80px;
+	position:relative;
+	background: transparent url(https://cdn.upbit.com/upbit-web/images/sliderGalbg.fe1ae6c.png) no-repeat center 130px;
+	
+}
+
+.mob-contents-top{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	color:#fff;
+	
+}
+
+.app-link-box {
+	display:flex;
+	justify-content:center;
+}
+
+.app-link {
+	background:#002A76;
+	width:150px;
+	height:46px;
+	text-align:center;
+	padding:13px;
+	margin:0 5px;
+	color:#fff;
+	font-size:16px;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+.mob-contents-slider {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width: 900px;
+    height: calc(100% - 261px);
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.iphone {
+	width: 335px !important;
+    height: 580px !important;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.text {
+	display:flex;
+	flex-direction:column;
+}
+.text > span {
+	color:grey
+}
+
+.mob-contents-text{
+	color:#fff;
+	width:400px;
+	height:140px;
+	position:absolute;
+	display:flex;
+}
+
+.-right {
+	text-align: right;
+}
+
+.-left {
+	text-align: left;
+	display:flex;
+	flex-direction: row-reverse;
+}
+
+/* .text {
+	position:relative;
+}
+.button{
+	position:absolute;
+} */
+
+.text-1 {
+	top: 29%;
+    left: 17%;
+}
+
+.text-1:hover {
+	
+}
+
+.text-2 {
+	left: 16%;
+    bottom: 14%;
+}
+
+.text-3{
+	top: 25%;
+    right: 18%;
+}
+
+.text-4{
+	bottom: 20%;
+    right: 20%;
+}
+.home-secu-ads{
+	width:100%;
+	height:570px;
+	display:flex;
+	align-items:center;
+	text-align:center;
+}
+
+.secu-cotent-wrapper {
+	width:100%;
+	height:421px;
+	padding:80px 80px;
+
+}
+
+.secu-banner {
+	width:1150px;
+	height:121px;
+	object-fit:cover;
+	margin:0 0 10px 0;
+}
+
+.secu-cotent-textbox {
+	display:flex;
+	justify-content:center;
+}
+
+.secu-cotent-text {
+	margin: 0 20px;
+	width:350px;
+}
+
+.home-license-ads {
+	width:100%;
+	height:551px;
+	display:flex;
+	align-items:center;
+	background:#f4f5f8;
+}
+
+.home-license-wrappper {
+	width:100%;
+	height:390px;
+	
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+
+.home-license-wrappper > p {
+	text-align:center;
+}
+
+.license-box {
+	margin:50px 0 30px;
+	width:825px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+
+.license-box > img {
+	
+}
+
+.home-service {
+	height: 320px;
+    width: 100%;
+    min-width: 1200px;
+    display:flex;
+    align-items:center;
+}
+
+.home-service-wrapper {
+	display:flex;
+	justify-content:center;
+    align-items:center;
+    height:243px;
+    width:100%;
+    margin:0;	
+}
+
+.home-service-box {
+	width:440px;
+	height:242px;
+	display:flex;
+	flex-direction:column;
+	align-items:flex-start;
+	padding:0 40px;
+}
+
+
+.home-service-box > h3 {
+    margin: 60px 0px 24px;
+    display:flex;
+    align-items:center;
+    font-size:24px;
+
+}
+
+.home-service-box-contents > span {
+	font-family: 'Roboto', sans-serif;
+}
+
+.appico {
+	width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.app__ico01--15xJ1 {
+	background: transparent url(https://cdn.upbit.com/upbit-web/images/icoList.e20773d.png) no-repeat 0 -75px;
+    background-size: 50px;
+}
+
+.app__ico02--1oplF {
+	background: transparent url(https://cdn.upbit.com/upbit-web/images/icoList.e20773d.png) no-repeat 0 0;
+    background-size: 50px;
+	
+}
+
+.app__ico03--1DO14 {
+	background: transparent url(https://cdn.upbit.com/upbit-web/images/icoList.e20773d.png) no-repeat 0 -150px;
+    background-size: 50px;
+}
+
+.kakao-link {
+	width:200px;
+	height:46px;
+	text-align:center;
+	padding:13px;
+	margin:0 5px;
+	color:#666666;
+	font-size:16px;
+	text-decoration:none;
+	cursor:pointer;
+	border:1px solid #666666;
+}
+
+.kakao-link:hover {
+	color:#666666
+}
+
+.app-down-box {
+	display:flex;
+}
+
+.app-down-link{
+	width: 360px;
+	height:106px;
+	display:flex;
+	flex-direction:column;
+	justify-content:space-between;
+}
+
+.app-qr {
+	width:106px;
+	height:106px;
+	
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	
+	border:1px solid #999999;
+	margin:0 10 0 0;
+}
+	
+
+.qrcode {
+	object-fit:contain;
+	width:76px;
+	height:76px;
+}
+
+.app-down-link-link {
+	width:144px;
+	height:46px;
+	text-align:center;
+	padding:13px;
+	margin:0 5px;
+	color:#666666;
+	font-size:16px;
+	text-decoration:none;
+	cursor:pointer;
+	border:1px solid #666666;
+	background:#fff;
+}
+
+
+
+.home-footer {
+	width:100%;
+	height:288px;
+	display:flex;
+	align-items:center;
+	border-top:1px solid #999999;
+	
+}
+
+.home-footer-wrapper{
+	width:100%;
+	height:230px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	margin:0 122px;
+	padding:0px;
+}
+
+.company-info-box {
+	width:1200px;
+	height:100%;
+	display:flex;
+	align-items:flex-start;
+}
+
+.logo-link {
+	height:17px;
+	width: 77px;
+    margin:0 40px 0 0;
+    height: 17px;
+    display: inline-block;
+    background:transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit.19e2e01.svg) no-repeat 0 0;
+    
+}
+
+.company-info {
+	width:100%;
+	font-size:14px;
+	color:#999999;
+}
+
+.company-info > * {
+	margin:0 0 5;
+}
+
+.company-info span,a,img {
+	margin:0 5px 10px;
+}
+
+
+.sns-link {
+	color:#999999;
+	font-size:18px;
+}
+.sns-link:hover {
+	color:#999999;
+}
+
+.left-link-box {
+	width:calc(100% - 760px);
+	height:100%;
+	display:flex;
+	justify-content:left;
+}
+
+.left-link-box > div {
+	margin:0 40px 0 0;
+	font-size:14px;
+}
+
+dt {
+	margin:0 0 10px;
+}
+
+
+dd {
+	margin:5px 0;
+}
+
+dd > a {
+	color:#999999;
+	margin:0px;
+}
+
+dd > a:hover {
+	color:#999999;
+}

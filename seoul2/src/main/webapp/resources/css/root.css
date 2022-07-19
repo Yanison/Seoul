@@ -1,0 +1,104 @@
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url(../font/notosans/NotoSansKR-Medium.otf) format('opentype');
+}
+
+
+*{
+	box-sizing:border-box;
+	/* padding 으로 사이즈 늘어남 방지 */
+}
+
+ul{
+	list-style:none;
+}
+
+
+html, body{
+	padding:10px;
+	margin:0;
+	font-size:14px;
+	background:#fff;
+	font-family:nt;
+}
+
+.body-wrapper{
+	weight:100%;
+	height:100%;
+	display:flex;
+	background:#eaebf0;
+	border-radius:8px;
+	box-shadow: 6px 6px 12px -5px rgb(88 88 88);
+}
+
+.left-wrapper {
+	width: 400px;
+	height:100%;
+	padding:10px;
+	
+}
+
+.left {
+  width:300px;
+  height:100%;
+  background:#fff;
+  border-radius:8px;
+}
+
+.left-navi {
+	padding: 0px 10px 0 15;
+}
+
+.left-navi-header {
+	height:150px;
+	width:100%;
+	padding: 9px 0 0 16px;
+	margin:0 0 10px;
+}
+
+.header-nav {
+	display:flex;
+	align-items:center;
+	margin-top:10px;
+}
+
+.logo {
+	font-size:25px;
+	margin:30 0 ;
+}
+
+.btw-border {
+	color:#999999;
+}
+
+.right-wrapper {
+	width:100%;
+	height:100%;
+	padding:10px;
+	background:#grey;
+}
+
+
+
+.accordion-item {
+	border:none
+}
+
+.accordion-body-menue {
+	margin:4px 0;
+	cursor:pointer;
+}
+
+
+
+.accordion-body-menue:hover {
+	background:#eaeaef;
+}
+
+.right {
+  width:100%;
+  height:100%;
+  background:#fff;
+  border-radius:8px;
+}
