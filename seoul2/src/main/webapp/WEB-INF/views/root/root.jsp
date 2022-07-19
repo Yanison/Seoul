@@ -33,20 +33,14 @@
 	
 	
 			<div class="left-wrapper">
-				<%@ include file="../include/roo_left_navi.jsp" %>
 			
-				
+				<%@ include file="user_include/roo_left_navi.jsp" %>			
 			</div>
 
-				
-			<div class="right-wrapper">
 			
+			<div class="right-wrapper">
 				<%@ include file="user_include/userinfo.jsp" %>
-				<section class="right">
-					<header></header>
-					<div class="search-bar"></div>
-					<main class="right-main"></main>
-				</section>
+
 			</div>
 
 		

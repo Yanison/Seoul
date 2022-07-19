@@ -134,9 +134,9 @@
 						    </h2>
 						    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
 						      <div class="accordion-body">
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
+						        	<div class="accordion-body-menue">코드그룹 메뉴</div>
+						        	<div class="accordion-body-menue">코드그룹 메뉴</div>
+						        	<div class="accordion-body-menue">코드그룹 메뉴</div>
 						        	
 						      </div>
 						    </div>
@@ -185,9 +185,9 @@
 						    </h2>
 						    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
 						      <div class="accordion-body">
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
-						        	<div class="accordion-body-menue">관리자 메뉴</div>
+						        	<div class="accordion-body-menue">코드관리 메뉴</div>
+						        	<div class="accordion-body-menue">코드관리 메뉴</div>
+						        	<div class="accordion-body-menue">코드관리 메뉴</div>
 						        	
 						      </div>
 						    </div>
