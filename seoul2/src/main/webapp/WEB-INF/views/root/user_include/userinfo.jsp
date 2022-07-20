@@ -17,7 +17,9 @@
 					</header>
 					<div class="search-bar">
 					
-						<div></div>
+						<div class="search-bar-title">
+						유저 정보
+						</div>
 					
 					<form class="form">
 						<div class="form-box">
@@ -40,6 +42,7 @@
 						</div>
 						
 					</form>
+					</div>
 					
 					<main class="info_list_tb">
 						<table class="table">
@@ -108,44 +111,27 @@
 						</table>
 					
 					</main>
-					
-
-
-
-
-
-
-
-
-
-
-
-<!-- 					<nav class="navbar bg-light">
-					  <div class="container-fluid">
-					    <form class="d-flex" role="search">
-							<input class="form-control me-2 form-control-items" type="search" placeholder="" aria-label="Search">
-						      <input class="form-control me-2 form-control-items" type="search" placeholder="" aria-label="Search">
-						      <input class="form-control me-2 form-control-items" type="search" placeholder="" aria-label="Search">
-						      <input class="form-control me-2 form-control-items" type="search" placeholder="" aria-label="Search">
-						     <select class="form-select form-control-items" aria-label="Default select example" style="margin-right:15px;">
-							  <option selected>성별</option>
-							  <option value="1">남자</option>
-							  <option value="2">여자</option>
-							  
-							</select>
-					     
-					    </form>
-					  </div>
-					  <div class="container-fluid">
-					    <form class="d-flex" role="search" style="width:350px; display:flex; align-items:center;">
-							<input class="form-control me-2 form-control-items" type="search" placeholder="0000.00.00" aria-label="Search">
-							<span> ~ </span>
-						     <input class="form-control me-2 form-control-items" type="search" placeholder="0000.00.00" aria-label="Search">
-					    </form>
-					  </div>
-					</nav> -->
-					
-					
+						<div class="paging">
+						<nav aria-label="Page navigation example">
+						  <ul class="pagination">
+						    <li class="page-item">
+						      <a class="page-link" href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>
+						    <li class="page-item"><a class="page-link" href="#">2</a></li>
+						    <li class="page-item"><a class="page-link" href="#">3</a></li>
+						    <li class="page-item"><a class="page-link" href="#">4</a></li>
+						    <li class="page-item"><a class="page-link" href="#">5</a></li>
+						    <li class="page-item"><a class="page-link" href="#">6</a></li>
+						    <li class="page-item"><a class="page-link" href="#">7</a></li>
+						    <li class="page-item">
+						      <a class="page-link" href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</nav>
 					</div>
-					<main class="search-bar-table"></main>
 				</section>
