@@ -25,6 +25,8 @@ html, body {
 	background:#e7e7ed;
 }
 
+
+
 .wrapper {
 	width:100%;
 	height:100%;
@@ -37,8 +39,9 @@ html, body {
 }
 
 .header {
-	height:60px;
+	height:80px;
 	width:100%;
+	min-width:1600px;
 	background:#093687;
 	display:flex;
 	justify-content:space-between;

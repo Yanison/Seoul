@@ -8,13 +8,12 @@
 <%@ page session="false" %>
 
 
-<link type="text/css" rel="stylesheet" href="./resources/css/root.css">
-<script src="./resources/js/root.js"></script>
+<!-- css,js _ root.jsp에서 상속받음. --> 
+<!-- <link type="text/css" rel="stylesheet" href="./resources/css/root.css">
+<script src="./resources/js/root.js"></script> -->
 
 				<section class="right">
-					<header class="head-box">
-						<div class="logo-box"></div>
-					</header>
+					<%@ include file="layout_right_header.jsp" %>
 					<div class="search-bar">
 					
 						<div class="search-bar-title">
@@ -23,15 +22,15 @@
 					
 					<form class="form">
 						<div class="form-box">
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
 						</div>
 						<div class="form-box">
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
 							<span style="margin-right:10px"> ~ </span>				
-							<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
+							<input class="form-control" type="text" placeholder="" aria-label="default input example">
 							<select class="form-select form-control-items" aria-label="Default select example" style="margin-right:10px;">
 							  <option selected>성별</option>
 							  <option value="1">남자</option>
@@ -42,6 +41,28 @@
 						</div>
 						
 					</form>
+						<div class="delete" style="margin-right:47px; padding: 45px 0 0 0;">
+							
+							<button id="add-user" type="button" class="btn btn-primary btn-contents"
+							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
+							<i class="fa-brands fa-wpforms"></i> 등록
+							</button>
+							<button id="adit-user" type="button" class="btn btn-primary btn-contents"
+							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
+							<i class="fa-solid fa-pen"></i>  수정
+							</button>
+							
+							<div class="form-check form-check-inline btn-contents">
+										  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+										  <label class="form-check-label" for="inlineCheckbox1">전체선택</label>
+							</div>
+							
+							<button id="del-user" type="button" class="btn btn-primary btn-contents"
+							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
+							 <i class="fa-solid fa-trash-can"></i>삭제
+							</button>	
+						</div>
+					
 					</div>
 					
 					<main class="info_list_tb">
@@ -55,7 +76,7 @@
 						      <th scope="col">주소</th>
 						      <th scope="col">이메일</th>
 						      <th scope="col">여권 영문이름</th>
-						      <th scope="col">인증레벨</th>
+						      <th scope="col">인증여부</th>
 						      <th scope="col">직장정보</th>
 						      <th scope="col">직장명</th>
 						      <th scope="col">직장주소</th>
@@ -64,53 +85,30 @@
 						  </thead>
 						  <tbody>
 						    <tr>
-						      <th scope="row">1</th>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      
-						      
+						      <th scope="row" id="user_idx" >
+						      	<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+								  <label class="form-check-label" for="inlineCheckbox1">1</label>
+								</div>
+						      </th>
+						      <td id="name" ></td>
+						      <td id="dob"></td>
+						      <td id="address"></td>
+						      <td id="tel"></td>
+						      <td id="email" ></td>
+						      <td id="passport_name_eng" ></td>
+						      <td id="verifi"></td>
+						      <td id="job"></td>
+						      <td id="company_name" ></td>
+						      <td id="job_loca" ></td>
 						    </tr>
-						    <tr>
-						      <th scope="row">2</th>
-						       <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      
-						    </tr>
-						    <tr>
-						      <th scope="row">3</th>
-						      <td >Larry </td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						      <td></td>
-						   
-						     
-						    </tr>
+						    
+						    
 						  </tbody>
 						</table>
 					
 					</main>
+						<div class="footer"></div>
 						<div class="paging">
 						<nav aria-label="Page navigation example">
 						  <ul class="pagination">

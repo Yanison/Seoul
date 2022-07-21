@@ -34,7 +34,7 @@
 	
 			<div class="left-wrapper">
 			
-				<%@ include file="user_include/roo_left_navi.jsp" %>
+				<%@ include file="root_include/layout_root_leftnavi.jsp" %>
 			</div>
 
 			

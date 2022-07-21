@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.my.seoul2.vo.User;
+import com.my.seoul2.vo.UserInfoDetail;
 
 public class UserDao extends SqlSessionDaoSupport{
 	
@@ -33,4 +34,10 @@ public class UserDao extends SqlSessionDaoSupport{
 	public int addUser(User user) {
 		return this.getSqlSession().insert("user.adduser", user);
 	}
+
+	
+	public int addUserInfoDtail(UserInfoDetail user) {
+		return this.getSqlSession().insert("user.adduserInfo", user);
+	}
+	
 }

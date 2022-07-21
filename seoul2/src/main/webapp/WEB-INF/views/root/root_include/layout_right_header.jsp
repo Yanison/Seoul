@@ -7,6 +7,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page session="false" %>
 
-<!-- css,js _ (입력)에서 상속받음. --> 
-<link type="text/css" rel="stylesheet" href="./resources/css/입력.css">
-<script src="./resources/js/입력.js"></script>
+
+
+
+		<header class="head-box">
+			<div class="logo-box"></div>
+		</header>

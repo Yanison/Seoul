@@ -9,7 +9,7 @@
 
 
 <link type="text/css" rel="stylesheet" href="./resources/css/home.css">
-<script src="./resources/js/home.js"></script>
+
 
 
 <section class="home-footer">

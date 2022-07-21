@@ -34,12 +34,20 @@
 	
 			<div class="left-wrapper">
 			
-				<%@ include file="user_include/roo_left_navi.jsp" %>			
+				<%@ include file="root_include/layout_root_leftnavi.jsp" %>			
 			</div>
 
 			
-			<div class="right-wrapper">
-				<%@ include file="user_include/userinfo.jsp" %>
+			<div class="right-wrapper">  
+				
+			
+			
+			
+			
+			<%-- <c:if test="${now_menu eq userinfo}"> --%>
+				<%@ include file="root_include/userinfo.jsp" %>
+			<%-- </c:if> --%>
+				
 
 			</div>
 

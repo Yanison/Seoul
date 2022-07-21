@@ -200,7 +200,7 @@
 						    </h2>
 						    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
 						      <div class="accordion-body">
-						      		<div class="accordion-body-menue">회원 정보</div>
+						      		<div class="accordion-body-menue" id="user_info">회원 정보</div>
 						      		<div class="accordion-body-menue">회원 문의</div>
 						      		<div class="accordion-body-menue">회원 관리 메뉴</div>			      
 						      </div>

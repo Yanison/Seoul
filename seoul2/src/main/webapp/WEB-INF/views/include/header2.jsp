@@ -9,7 +9,7 @@
 
 
 <link type="text/css" rel="stylesheet" href="./resources/css/helpcenter.css">
-<script src="./resources/js/helpcenter.js"></script>
+<!-- <script src="./resources/js/helpcenter.js"></script> -->
 	
 	
 	<header class="header">

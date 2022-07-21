@@ -102,4 +102,17 @@ public class HomeController {
 		return "root/root3";
 	}
 	
+	@RequestMapping(value = "/user_info_form", method = RequestMethod.GET)
+	public String user_info_form(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","user_info_form");
+		
+		List<User> userlist = userDao.getAll();
+		model.addAttribute("userlist", userlist);
+		
+		
+		return "root/user_info_form";
+	}
+	
 }

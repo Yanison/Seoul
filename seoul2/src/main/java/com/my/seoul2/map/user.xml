@@ -9,6 +9,7 @@
 		
 		
 		</select>
+
 		
 		
 	 	<!-- 아이디 중복은 DB에서 직접 확인해야하기 때문에 mapper에서 아이디 데이터를 가져와야함 -->
@@ -17,7 +18,7 @@
 	 	<select id="getUserByIdAndPw" parameterType="User" resultType="User">
 	 		SELECT *
 	 		FROM userseoul
-	 		WHERE id = #{id} AND pw = MD5(#{pw})
+	 		WHERE id = #{tel} AND address = #{address} AND #{id} AND pw = MD5(#{pw})
 	 	</select>
 	 	
 	 	
@@ -27,7 +28,6 @@
 	 		FROM userseoul
 	 		WHERE nickname = #{nickname}
 	 	</select>
-	
 	
 		<select id="getUserById" parameterType="User" resultType="User">
 			SELECT *
@@ -48,6 +48,14 @@
 			(id, pw, nickname, tel, address, gender, created_date, user_idx)
 			VALUES
 			(#{id}, MD5(#{pw}),#{nickname}, #{tel}, #{address} , #{gender}, SYSDATE(), #{user_idx})
+		</insert>
+		
+		
+		<insert id="addUserInfoDtail" parameterType="UserInfoDetail">
+			INSERT INTO userInfoDetail
+			(dob, email, passPortNameEng, addressDetail, jobInfo, jobType, jobName, jobAddress, jobAddressDetail)
+			VALUES
+			(#{dob}, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo},#{jobType} , #{jobName}, #{jobAddress}, #{jobAddressDetail})
 		</insert>
 
 

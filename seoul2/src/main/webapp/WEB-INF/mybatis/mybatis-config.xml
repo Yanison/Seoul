@@ -17,7 +17,8 @@
 	
 	<!-- VO 등록 -->
 	<typeAliases>
-		<typeAlias alias="User" type="com.my.seoul2.vo.User" /> 	
+		<typeAlias alias="User" type="com.my.seoul2.vo.User" />
+		<typeAlias alias="UserInfoDetail" type="com.my.seoul2.vo.UserInfoDetail" /> 	
 	</typeAliases>
 	
 </configuration>

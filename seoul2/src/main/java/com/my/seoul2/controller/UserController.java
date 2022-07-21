@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.seoul2.dao.UserDao;
 import com.my.seoul2.vo.User;
+import com.my.seoul2.vo.UserInfoDetail;
 
 @Controller
 public class UserController {
@@ -52,9 +53,9 @@ public class UserController {
 			User userLogin = new User();
 			userLogin.setId(id);
 			userLogin.setPw(pw);
+			//유저의 기본정보도 불러와야함.
 			
 			User user = userDao.getUserByIdAndPw(userLogin);
-			
 			
 			//프로젝트 전체에 공유가 됨. 
 //			session.setAttribute("me", user);
@@ -63,6 +64,7 @@ public class UserController {
 			
 			if(user != null) {
 				session.setAttribute("me", user);
+//				session.setAttribute("me", userInfo);
 				//그래서 로그인 로직에다 구현하면 안전성이 생김
 				
 				return "ok";
@@ -72,6 +74,11 @@ public class UserController {
 			
 			
 		}
+		@RequestMapping(value = "/ajax_form", method = RequestMethod.GET)
+		private @ResponseBody String ajax_form(HttpSession session) {
+			
+			return "ok";
+			}
 
 		
 		@RequestMapping(value = "/ajax_logout", method = RequestMethod.GET)
@@ -122,17 +129,42 @@ public class UserController {
 			return "ok";
 		} else {
 			return "duplicated";
-		}
-		
-		
-		
-		
-		
-		
-		
+		}	
 	
 	}
+
 	
+	
+	@RequestMapping(value= "/ajax_addUserInfoDtail", method = RequestMethod.GET)
+	public @ResponseBody String ajax_addUserInfoDtail(
+			@RequestParam(value="dob") String dob,
+			@RequestParam(value="email") String email,
+			@RequestParam(value="passPortNameEng") String passPortNameEng,
+			@RequestParam(value="addressDetail") String addressDetail,
+			@RequestParam(value="jobInfo") String jobInfo,
+			@RequestParam(value="jobName") String jobName,
+			@RequestParam(value="jobType") String jobType,
+			@RequestParam(value="jobAddress") String jobAddress,
+			@RequestParam(value="jobAddressDetail") String jobAddressDetail
+			
+			) {
+		System.out.println("파라미터 받고");
+		UserInfoDetail userInfo = new UserInfoDetail();
+		userInfo.getDob();
+		userInfo.getPassPortNameEng();
+		userInfo.getEmail();
+		userInfo.getAddressDetail();
+		userInfo.getJobInfo();
+		userInfo.getJobType();
+		userInfo.getJobName();
+		userInfo.getJobAddress();
+		userInfo.getJobAddressDetail();
+		System.out.println("인스턴스 어서오고");
+		
+		userDao.addUserInfoDtail(userInfo);
+		
+		return "ok";
+	}
 	
 	
 }

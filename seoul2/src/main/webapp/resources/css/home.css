@@ -40,6 +40,10 @@ html, body{
 	position: relative;
 }
 
+body {
+	min-width:1600px;
+}
+
 .wrapper {
 	width:100%;
 	display:flex;
