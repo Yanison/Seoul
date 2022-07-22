@@ -8,12 +8,14 @@
 <%@ page session="false" %>
 
 
-<!-- css,js _ root.jsp에서 상속받음. --> 
-<!-- <link type="text/css" rel="stylesheet" href="./resources/css/root.css">
+<!-- <!-- css,js _ root.jsp에서 상속받음. --> 
+<link type="text/css" rel="stylesheet" href="./resources/css/root.css">
 <script src="./resources/js/root.js"></script> -->
 
 				<section class="right">
-					<%@ include file="layout_right_header.jsp" %>
+					
+					<%@ include file="../right_include/layout_right_header.jsp" %>
+					
 					<div class="search-bar">
 					
 						<div class="search-bar-title">

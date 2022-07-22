@@ -77,29 +77,45 @@ public class HomeController {
 		return "helpcenter/helpcenter";
 	}
 	
+////////////////////////////////////////////////////////////////////////////////
 	//root
-	@RequestMapping(value = "/root", method = RequestMethod.GET)
-	public String root(Model model, HttpSession session) {
+////////////////////////////////////////////////////////////////////////////////
+	
+	@RequestMapping(value = "/root_main", method = RequestMethod.GET)
+	public String root_main(Model model, HttpSession session) {
 
 		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root");
-		return "root/root";
+		model.addAttribute("now_menu","root_main");
+		return "root/root_main";
 	}
 	
-	@RequestMapping(value = "/root2", method = RequestMethod.GET)
-	public String root2(Model model, HttpSession session) {
+	@RequestMapping(value = "/root_codegroup", method = RequestMethod.GET)
+	public String root_codegroup(Model model, HttpSession session) {
 
 		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root2");
-		return "root/root2";
+		model.addAttribute("now_menu","root_codegroup");
+		return "root/root_codegroup";
 	}
 	
-	@RequestMapping(value = "/root3", method = RequestMethod.GET)
-	public String root3(Model model, HttpSession session) {
+	@RequestMapping(value = "/root_code_manage", method = RequestMethod.GET)
+	public String root_code_manage(Model model, HttpSession session) {
 
 		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root3");
-		return "root/root3";
+		model.addAttribute("now_menu","root_code_manage");
+		return "root/./root_code_manage";
+	}
+	
+	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+	public String userinfo(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","userinfo");
+		
+		List<User> userlist = userDao.getAll();
+		model.addAttribute("userlist", userlist);
+		
+		
+		return "root/root_right_section/root_right_user/userinfo";
 	}
 	
 	@RequestMapping(value = "/user_info_form", method = RequestMethod.GET)
@@ -107,10 +123,7 @@ public class HomeController {
 
 		serMeFromSession(session, model);
 		model.addAttribute("now_menu","user_info_form");
-		
-		List<User> userlist = userDao.getAll();
-		model.addAttribute("userlist", userlist);
-		
+	
 		
 		return "root/user_info_form";
 	}

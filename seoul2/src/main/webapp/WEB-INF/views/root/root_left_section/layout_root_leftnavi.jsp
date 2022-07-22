@@ -10,52 +10,53 @@
 
 <link type="text/css" rel="stylesheet" href="./resources/css/root.css">
 <script src="./resources/js/root.js"></script>
+<script src="./resources/js/root_left_section.js"></script>
 
 
 <section class="left">
 					<div class="left-navi-header">
 						<div class="logo">코인황</div>
 						
-								<c:if test="${now_menu eq 'root'}">
-									<ul class="nav nav-tabs" data-pade="root">
+								<c:if test="${now_menu eq 'root_main'}">
+									<ul class="nav nav-tabs" data-pade="root_main">
 									  <li class="nav-item">
-									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root">User</a>
+									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root_main">User</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root2" style="border:none">코드그룹관리</a>
+									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root_codegroup" style="border:none">코드그룹관리</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root3" style="border:none">코드관리</a>
+									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root_code_manage" style="border:none">코드관리</a>
 									  </li>
 									</ul>
 								</c:if>
 								
-								 <c:if test="${now_menu eq 'root2'}">
+								 <c:if test="${now_menu eq 'root_codegroup'}">
 								 
-									 <ul class="nav nav-tabs" data-pade="root2">
+									 <ul class="nav nav-tabs" data-pade="root_codegroup">
 									  <li class="nav-item">
-									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root"style="border:none">User</a>
+									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root_main"style="border:none">User</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root2" >코드그룹관리</a>
+									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root_codegroup" >코드그룹관리</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root3" style="border:none">코드관리</a>
+									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root_code_manage" style="border:none">코드관리</a>
 									  </li>
 									</ul>
 								 
 								 </c:if>
 								 
-								  <c:if test="${now_menu eq 'root3'}">
-									  	<ul class="nav nav-tabs <c:if test="${now_menu eq 'root3'}">active</c:if>" data-pade="root3">
+								  <c:if test="${now_menu eq 'root_code_manage'}">
+									  	<ul class="nav nav-tabs <c:if test="${now_menu eq 'root_code_manage'}">active</c:if>" data-pade="root_code_manage">
 									  <li class="nav-item">
-									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root"style="border:none">User</a>
+									    <a id="nav-link-1" class="nav-link active" aria-current="page" href="./root_main"style="border:none">User</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root2" style="border:none">코드그룹관리</a>
+									    <a id="nav-link-2" class="nav-link active" aria-current="page" href="./root_codegroup" style="border:none">코드그룹관리</a>
 									  </li>
 									  <li class="nav-item">
-									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root3" >코드관리</a>
+									    <a id="nav-link-3" class="nav-link active" aria-current="page" href="./root_code_manage" >코드관리</a>
 									  </li>
 									</ul>	  
 								  </c:if>
@@ -72,7 +73,7 @@
 					<div class="left-navi">
 						
 						
-						<c:if test="${now_menu eq 'root'}">
+						<c:if test="${now_menu eq 'root_main'}">
 						
 						<div class="accordion" id="accordionPanelsStayOpenExample">
 						  <div class="accordion-item">
@@ -123,7 +124,7 @@
 						
 						</c:if>
 						
-						<c:if test="${now_menu eq 'root2'}">
+						<c:if test="${now_menu eq 'root_codegroup'}">
 						
 						<div class="accordion" id="accordionPanelsStayOpenExample">
 						  <div class="accordion-item">
@@ -174,7 +175,7 @@
 						
 						</c:if>
 						
-						<c:if test="${now_menu eq 'root3'}">
+						<c:if test="${now_menu eq 'root_code_manage'}">
 						
 						<div class="accordion" id="accordionPanelsStayOpenExample">
 						  <div class="accordion-item">

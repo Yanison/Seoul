@@ -162,7 +162,8 @@ public class UserController {
 		System.out.println("인스턴스 어서오고");
 		
 		userDao.addUserInfoDtail(userInfo);
-		
+		//Mapped Statements collection does not contain 
+		//value for user.adduserInfo
 		return "ok";
 	}
 	

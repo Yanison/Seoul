@@ -8,7 +8,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-<title>CoinHwang</title>
+<title>root_code_manage</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- CSS only -->
@@ -34,21 +34,18 @@
 	
 			<div class="left-wrapper">
 			
-				<%@ include file="root_include/layout_root_leftnavi.jsp" %>			
+				<%@ include file="root_left_section/layout_root_leftnavi.jsp" %>
 			</div>
 
 			
-			<div class="right-wrapper">  
-				
-			
-			
-			
-			
-			<%-- <c:if test="${now_menu eq userinfo}"> --%>
-				<%@ include file="root_include/userinfo.jsp" %>
-			<%-- </c:if> --%>
-				
-
+			<div class="right-wrapper">
+				<section class="right">
+					<header class="head-box">
+						<div class="logo-box"></div>
+					</header>
+					<div class="search-bar"></div>
+					<main class="right-main"></main>
+				</section>
 			</div>
 
 		

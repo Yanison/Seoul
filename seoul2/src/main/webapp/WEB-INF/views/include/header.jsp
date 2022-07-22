@@ -10,7 +10,7 @@
 <!-- <script src="./resources/js/home.js"></script> -->
 <link type="text/css" rel="stylesheet" href="./resources/css/home.css">
 <link rel="stylesheet" href="./resources/css/all.min.css">
-
+<script src="./resources/js/header.js"></script>
 
 
 
@@ -24,7 +24,8 @@
 					<span id="earning" class="headee-contents">who's earning?</span>
 					<span id="helpcenter" class="headee-contents">고객센터(만드는중)</span> 
 					<span id="raise" class="headee-contents">코인동향</span> 
-					<span id="rootmenu" class="headee-contents" <c:if test="${me eq root }"></c:if>>관리자메뉴</span> 
+					<span id="rootmenu" class="headee-contents <c:if test="${me eq root }">active</c:if>">
+					관리자메뉴</span> 
 				</div>
 
 
