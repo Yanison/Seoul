@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	$('#cancel').on('click',function(){
-		alert('dd')
+		alert('d32323d')
 		location.href="./root_main_userinfo"
 		
 	})
