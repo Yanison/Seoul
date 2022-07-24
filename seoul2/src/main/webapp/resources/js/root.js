@@ -1,7 +1,5 @@
 $(document).ready(function(){
-	$('#add-user').on('click',function(){
-		location.href="./user_info_form"
+	$('#root_home').on('click',function(){
+		location.href="./root_main"
 	});
-	//수정은 select로 불러와서 저장하면 될 듯. 
-	
 });

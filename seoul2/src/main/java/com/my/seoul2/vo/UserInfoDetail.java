@@ -3,16 +3,17 @@ package com.my.seoul2.vo;
 public class UserInfoDetail {
 
 	
-	private int user_idx=0;
-	private String dob=null;
-	private String email =null;
-	private String addressDetail=null;
-	private String passPortNameEng=null;
-	private String jobInfo =null;
-	private String jobType =null;
-	private String jobName =null;
-	private String jobAddress=null;
-	private String jobAddressDetail =null;
+	private int user_idx = 0;
+	private String dob = null;
+	private String email = null;
+	private String addressDetail = null;
+	private String passPortNameEng = null;
+	private String jobInfo = null;
+	private String jobType = null;
+	private String jobName = null;
+	private String jobAddress = null;
+	private String jobAddressDetail = null;
+	
 	
 	public int getUser_idx() {
 		return user_idx;
@@ -74,6 +75,8 @@ public class UserInfoDetail {
 	public void setJobAddressDetail(String jobAddressDetail) {
 		this.jobAddressDetail = jobAddressDetail;
 	}
+	
+	
 	
 }
 	

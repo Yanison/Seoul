@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.my.seoul2.dao.UserDao;
 import com.my.seoul2.vo.User;
+import com.my.seoul2.vo.UserInfoDetail;
 
 /**
  * Handles requests for the application home page.
@@ -33,6 +35,30 @@ public class HomeController {
 //		User rootUser = new User();
 //		rootUser.setUser_idx(rootUser);
 	}
+	
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////
+//test
+////////////////////////////////////////////////////////////////////////////////	
+	
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String test(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","test");
+		return "test";
+	}
+	
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////
+//root
+////////////////////////////////////////////////////////////////////////////////
+	
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -81,43 +107,9 @@ public class HomeController {
 	//root
 ////////////////////////////////////////////////////////////////////////////////
 	
-	@RequestMapping(value = "/root_main", method = RequestMethod.GET)
-	public String root_main(Model model, HttpSession session) {
-
-		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root_main");
-		return "root/root_main";
-	}
-	
-	@RequestMapping(value = "/root_codegroup", method = RequestMethod.GET)
-	public String root_codegroup(Model model, HttpSession session) {
-
-		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root_codegroup");
-		return "root/root_codegroup";
-	}
-	
-	@RequestMapping(value = "/root_code_manage", method = RequestMethod.GET)
-	public String root_code_manage(Model model, HttpSession session) {
-
-		serMeFromSession(session, model);
-		model.addAttribute("now_menu","root_code_manage");
-		return "root/./root_code_manage";
-	}
-	
-	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
-	public String userinfo(Model model, HttpSession session) {
-
-		serMeFromSession(session, model);
-		model.addAttribute("now_menu","userinfo");
-		
-		List<User> userlist = userDao.getAll();
-		model.addAttribute("userlist", userlist);
-		
-		
-		return "root/root_right_section/root_right_user/userinfo";
-	}
-	
+	//////////////////////////////////////////////////////////////////////
+	//root_form
+	//////////////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/user_info_form", method = RequestMethod.GET)
 	public String user_info_form(Model model, HttpSession session) {
 
@@ -127,5 +119,85 @@ public class HomeController {
 		
 		return "root/user_info_form";
 	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	//root_main
+	//////////////////////////////////////////////////////////////////////	
+	@RequestMapping(value = "/root_main", method = RequestMethod.GET)
+	public String root_main(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_main");
+		return "root/root_main/root_main";
+	}
+	
+	@RequestMapping(value = "/root_main_userinfo", method = RequestMethod.GET)
+	public String root_main_userinfo(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_main_userinfo.jsp");
+		
+		List<UserInfoDetail> userlist = userDao.getAllInfo();
+		model.addAttribute("userlist", userlist);
+		
+		
+		return "root/root_main/root_main_userinfo";
+	}
+	@RequestMapping(value = "/root_main_mod_userinfo", method = RequestMethod.GET)
+	public String root_main_mod_userinfo(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_main_mod_userinfo");
+		return "root/root_main/root_main_mod_userinfo";
+	}
+	
+	
+	@RequestMapping(value = "/root_main_form_userinfo", method = RequestMethod.GET)
+	public String root_main_form_userinfo(
+			Model model,
+			HttpSession session
+			
+			) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_main_form_userinfo");
+		
+		
+		
+		
+		return "root/root_main/root_main_mod_userinfo";
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	//root_cd
+	//////////////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/root_codegroup", method = RequestMethod.GET)
+	public String root_codegroup(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_codegroup");
+		return "root/root_codegroup/root_codegroup";
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	//root_cm
+	//////////////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/root_code_manage", method = RequestMethod.GET)
+	public String root_code_manage(Model model, HttpSession session) {
+
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","root_code_manage");
+		return "root/./root_code_manage/root_code_manage";
+	}
+	
+	
+	
+
 	
 }

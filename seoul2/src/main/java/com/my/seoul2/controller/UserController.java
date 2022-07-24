@@ -41,6 +41,23 @@ public class UserController {
 //			
 //			return "ok";
 //		}
+	
+	
+		@RequestMapping(value = "/ajax_loadUserInfoByIdx", method = RequestMethod.GET)
+		private @ResponseBody UserInfoDetail ajax_loadUserInfoByIdx(
+				@RequestParam(value="user_idx") int user_idx
+				) {
+			
+			UserInfoDetail user = new UserInfoDetail();
+			user.setUser_idx(user_idx);
+			
+			UserInfoDetail dUser = userDao.getAllInfoByIdx(user);
+			
+			return dUser;
+		}
+	
+	
+	
 
 
 		@RequestMapping(value = "/ajax_login", method = RequestMethod.GET)
@@ -78,7 +95,7 @@ public class UserController {
 		private @ResponseBody String ajax_form(HttpSession session) {
 			
 			return "ok";
-			}
+		}
 
 		
 		@RequestMapping(value = "/ajax_logout", method = RequestMethod.GET)
@@ -132,9 +149,11 @@ public class UserController {
 		}	
 	
 	}
-
 	
 	
+////////////////////////////////////////////////////////////////////////////////
+//root
+////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping(value= "/ajax_addUserInfoDtail", method = RequestMethod.GET)
 	public @ResponseBody String ajax_addUserInfoDtail(
 			@RequestParam(value="dob") String dob,
@@ -150,15 +169,16 @@ public class UserController {
 			) {
 		System.out.println("파라미터 받고");
 		UserInfoDetail userInfo = new UserInfoDetail();
-		userInfo.getDob();
-		userInfo.getPassPortNameEng();
-		userInfo.getEmail();
-		userInfo.getAddressDetail();
-		userInfo.getJobInfo();
-		userInfo.getJobType();
-		userInfo.getJobName();
-		userInfo.getJobAddress();
-		userInfo.getJobAddressDetail();
+		userInfo.setDob(dob);
+		userInfo.setEmail(email);
+		userInfo.setPassPortNameEng(passPortNameEng);
+		userInfo.setAddressDetail(jobAddressDetail);
+		userInfo.setJobInfo(jobInfo);
+		userInfo.setJobName(jobName);
+		userInfo.setJobType(jobType);
+		userInfo.setJobAddress(jobAddressDetail);
+		userInfo.setJobAddressDetail(jobAddressDetail);
+		
 		System.out.println("인스턴스 어서오고");
 		
 		userDao.addUserInfoDtail(userInfo);
@@ -166,6 +186,27 @@ public class UserController {
 		//value for user.adduserInfo
 		return "ok";
 	}
+	
+	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
+	public @ResponseBody List<UserInfoDetail> getAllInfo() {
+			
+		List<UserInfoDetail> listInfo = userDao.getAllInfo();
+		
+		return listInfo;
+	}
+	
+//	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
+//	public @ResponseBody List<UserInfoDetail> getAllInfoByIdx(
+//			@RequestParam(value="user_idx") int user_idx
+//			) {
+//		
+//		
+//		List<UserInfoDetail> listInfo = userDao.getAllInfoByIdx();
+//		
+//		
+//		return listInfo;
+//	}
+	
 	
 	
 }

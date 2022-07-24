@@ -34,7 +34,7 @@
 	
 			<div class="left-wrapper">
 			
-				<%@ include file="root_left_section/layout_root_leftnavi.jsp" %>			
+				<%@ include file="../root_left_section/leftnavi_main.jsp" %>			
 			</div>
 
 			
@@ -45,7 +45,7 @@
 			
 			
 			<%-- <c:if test="${now_menu eq userinfo}"> --%>
-				<%@ include file="root_right_section/right_section_main.jsp" %>
+				<%@ include file="../root_right_section/right_section_main.jsp" %>
 			<%-- </c:if> --%>
 				
 

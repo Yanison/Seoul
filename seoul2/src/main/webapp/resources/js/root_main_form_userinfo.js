@@ -1,5 +1,12 @@
 $(document).ready(function() {
-
+	
+	$('#cancel').on('click',function(){
+		alert('dd')
+		location.href="./root_main_userinfo"
+		
+	})
+	
+	
 	$('#console1').on('click',function(){
 		var address_detail  = $('#address_detail').val();
 		console.log(address_detail);
@@ -12,14 +19,16 @@ $(document).ready(function() {
 	
 	
 	$('#detail_check1').change(function() {
-
+		
 		if ($('#detail_check1').is(':checked')) {
-			$('#address_detail').hide();
-			$('#address_detail').val('');
-			console.log('#address_detail');
+			
+			$('#addressDetail').hide();
+			$('#addressDetail').val('');
+			console.log('#addressDetail');
 		} else {
-			$('#address_detail').show();
-			console.log('#address_detail');
+			
+			$('#addressDetail').show();
+			console.log('#addressDetail');
 		}
 
 	});
@@ -27,11 +36,11 @@ $(document).ready(function() {
 	$('#detail_check2').change(function() {
 
 		if ($('#detail_check2').is(':checked')) {
-			$('#job_address_detail').hide();
-			$('#job_address_detail').val('');
+			$('#jobAddressDetail').hide();
+			$('#jobAddressDetail').val('');
 			console.log('#job_address_detail');
 		} else {
-			$('#job_address_detail').show();
+			$('#jobAddressDetail').show();
 			console.log('#job_address_detail');
 		}
 
@@ -50,6 +59,12 @@ $(document).ready(function() {
 		var jobAddressDetail = $('#jobAddressDetail').val();
 		
 		
+		if(dob == ''){
+			alert('생년월일 쓰세요')
+		}else {
+			return false;
+		}
+		
 		$.ajax({
 			url:'http://127.0.0.1:8080/seoul2/ajax_addUserInfoDtail',
 			type:'GET',
@@ -66,6 +81,7 @@ $(document).ready(function() {
 			},
 			success:function(result){
 				alert('ok');
+				location.replace('./root_main_userinfo')
 			},
 			error:function(err){
 				alert('err');
@@ -74,5 +90,9 @@ $(document).ready(function() {
 			
 		});
 	});
+	
+	
+
+	
 	
 });

@@ -1,5 +1,7 @@
 package com.my.seoul2.dao;
 
+
+
 import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -37,7 +39,15 @@ public class UserDao extends SqlSessionDaoSupport{
 
 	
 	public int addUserInfoDtail(UserInfoDetail user) {
-		return this.getSqlSession().insert("user.adduserInfo", user);
+		return this.getSqlSession().insert("user.addUserInfoDtail", user);
+	}
+	
+	public  List<UserInfoDetail> getAllInfo() {
+		return this.getSqlSession().selectList("user.getAllInfo");
+	}
+	
+	public  UserInfoDetail getAllInfoByIdx (UserInfoDetail user) {
+		return this.getSqlSession().selectOne("user.getAllInfoByIdx", user);
 	}
 	
 }

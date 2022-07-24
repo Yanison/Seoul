@@ -9,6 +9,8 @@
 		
 		
 		</select>
+		
+		
 
 		
 		
@@ -55,8 +57,20 @@
 			INSERT INTO userInfoDetail
 			(dob, email, passPortNameEng, addressDetail, jobInfo, jobType, jobName, jobAddress, jobAddressDetail)
 			VALUES
-			(#{dob}, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo},#{jobType} , #{jobName}, #{jobAddress}, #{jobAddressDetail})
+			(#{dob}, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo}, #{jobType}, #{jobName}, #{jobAddress}, #{jobAddressDetail})
 		</insert>
-
+		
+		<select id="getAllInfo" resultType="UserInfoDetail">
+		SELECT *
+		FROM userInfoDetail
+		
+		
+		</select>
+		
+		<select id="getAllInfoByIdx" resultType="UserInfoDetail">
+		SELECT * <!-- *는 조건절에 해당하는 컬럼 전체를 가져오라는 것.  -->
+		FROM userInfoDetail
+		WHERE user_idx=${user_idx}
+		</select>
 
 </mapper>
