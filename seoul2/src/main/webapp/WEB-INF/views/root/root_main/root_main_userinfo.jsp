@@ -72,18 +72,12 @@
 							
 							<button id="add-user" type="button" class="btn btn-primary btn-contents"
 							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
-							<i class="fa-brands fa-wpforms"></i> 등록
+							<i class="fa-brands fa-wpforms">등록</i> 
 							</button>
-							<button id="adit-user" type="button" class="btn btn-primary btn-contents"
-							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
-							<i class="fa-solid fa-pen"></i>  수정
-							</button>	
-						
-							
-							
+					
 							<button id="del-user" type="button" class="btn btn-primary btn-contents"
 							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
-							 <i class="fa-solid fa-trash-can"></i>삭제
+							 <i class="fa-solid fa-trash-can">삭제</i>
 							</button>	
 						</div>
 					
@@ -109,6 +103,7 @@
 						      <th scope="col">직장정보</th>
 						      <th scope="col"></th>
 						      <th scope="col">직장주소</th>
+						      <th></th>
 						      
 						    </tr>
 						  </thead>
@@ -117,8 +112,8 @@
 						  
 						  
 						  
-						 <%--  <c:forEach var="user" items="${userlist}">
-							 	<tr>
+						  <c:forEach var="user" items="${userlist}">
+							 	<tr class="dbContainer" data-user-idx="${user.user_idx}">
 							      <th scope="row" id="user_idx" >
 							      	<div class="form-check form-check-inline">
 									  <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="option1" style="margin-right:10px;">
@@ -143,9 +138,16 @@
 							      <td id="jobLoca">
 								      <span>직장주소_${user.jobAddress}</span><br>
 								      <span>직장상세주소_${user.jobAddressDetail}</span>
-							      </td>    
+							      </td>
+							      <td>
+							      <i class="fa-solid fa-pen"></i>
+							      <button id="del-user" type="button" class="btn btn-primary btn-contents"
+							        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
+									 <i class="fa-solid fa-pen">수정</i>
+									</button>
+							      </td>   
 							    </tr>
-						</c:forEach> --%>
+						</c:forEach>
 						  
 						  
 						    

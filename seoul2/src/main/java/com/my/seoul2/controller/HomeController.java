@@ -145,15 +145,23 @@ public class HomeController {
 		
 		return "root/root_main/root_main_userinfo";
 	}
+	
+	//수정
 	@RequestMapping(value = "/root_main_mod_userinfo", method = RequestMethod.GET)
-	public String root_main_mod_userinfo(Model model, HttpSession session) {
+	public String root_main_mod_userinfo(Model model, 
+			HttpSession session,
+			@RequestParam(value="user_idx") int user_idx
+			) {
 
 		serMeFromSession(session, model);
 		model.addAttribute("now_menu","root_main_mod_userinfo");
+		
+		model.addAttribute("user_idx",user_idx);
+		
 		return "root/root_main/root_main_mod_userinfo";
 	}
 	
-	
+	//등록폼
 	@RequestMapping(value = "/root_main_form_userinfo", method = RequestMethod.GET)
 	public String root_main_form_userinfo(
 			Model model,
@@ -167,7 +175,7 @@ public class HomeController {
 		
 		
 		
-		return "root/root_main/root_main_mod_userinfo";
+		return "root/root_main/root_main_form_userinfo";
 	}
 	
 	

@@ -243,3 +243,11 @@ box-shadow: 2px 6px 12px -5px rgb(88 88 88);
 	background:grey;
 	
 }
+
+
+.btn {
+	height:25px;
+	width:40px;
+	font-size:5px;
+	padding:0px;
+}

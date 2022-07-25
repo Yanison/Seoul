@@ -52,6 +52,7 @@ public class UserController {
 			user.setUser_idx(user_idx);
 			
 			UserInfoDetail dUser = userDao.getAllInfoByIdx(user);
+			dUser.getUser_idx();
 			
 			return dUser;
 		}
@@ -187,7 +188,7 @@ public class UserController {
 		return "ok";
 	}
 	
-	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
+	@RequestMapping(value= "/ajax_loadUserInfoDetail", method = RequestMethod.GET)
 	public @ResponseBody List<UserInfoDetail> getAllInfo() {
 			
 		List<UserInfoDetail> listInfo = userDao.getAllInfo();
@@ -195,17 +196,19 @@ public class UserController {
 		return listInfo;
 	}
 	
-//	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
-//	public @ResponseBody List<UserInfoDetail> getAllInfoByIdx(
-//			@RequestParam(value="user_idx") int user_idx
-//			) {
-//		
-//		
-//		List<UserInfoDetail> listInfo = userDao.getAllInfoByIdx();
-//		
-//		
-//		return listInfo;
-//	}
+	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
+	public @ResponseBody UserInfoDetail getAllInfoByIdx(
+			@RequestParam(value="user_idx") int user_idx
+			) {
+		
+		UserInfoDetail userInfo = new UserInfoDetail();
+		userInfo.setUser_idx(user_idx);
+		
+		UserInfoDetail dUser = userDao.getAllInfoByIdx(userInfo);
+		
+		
+		return dUser;
+	}
 	
 	
 	

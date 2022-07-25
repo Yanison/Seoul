@@ -3,7 +3,6 @@ $(document).ready(function() {
 	$('#cancel').on('click',function(){
 		alert('d32323d')
 		location.href="./root_main_userinfo"
-		
 	})
 	
 	
@@ -61,7 +60,6 @@ $(document).ready(function() {
 		
 		if(dob == ''){
 			alert('생년월일 쓰세요')
-		}else {
 			return false;
 		}
 		
