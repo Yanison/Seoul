@@ -8,7 +8,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-<title>CoinHwang</title>
+<title>개인신상등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- CSS only -->
@@ -79,21 +79,33 @@
 
 						<div class="form-wrapper">
 		
-							<h1 class="title" >개인정보 관리, 수정사항은 세션호출후 저장</h1>	
+							<h1 class="title" >개인신상등록</h1>	
 							<form class="user_form" action="" >
 								
 								<div class="personal_info">
 								
 								<h4 class="form-title form-contents">기본정보</h4>
 								
-								<span  class="name form-contents">이름</span>
-								<input id="id" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example">
+								<div class="small_wrap" style="display:flex; width:400px;">
+									<div>
+										<span  class="name form-contents" >이름 </span>
+										<input style="width:200px ; margin-right:10px;"  id="id" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example">									
+									</div>
+									<div>
+										<span  class="name form-contents" >성별</span>
+										<input style="width:70px" id="gender" class="form-control form-control-lg form-contents" type="text" placeholder="성별" aria-label=".form-control-lg example" readonly>
+									</div>
+								</div>
+								
+								<span  class="name form-contents" >닉네임</span>
+								<input  id="nickname" class="form-control form-control-lg form-contents" type="text" placeholder="닉네임" aria-label=".form-control-lg example" readonly>		
+								
 								
 								<span  class="name form-contents">생년월일</span>
 								<input id="dob" class="form-control form-control-lg form-contents" type="text" placeholder="생년월일" aria-label=".form-control-lg example">
 								
 								<span  class="name form-contents">휴대폰 번호</span>
-								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="휴대폰 번호" aria-label=".form-control-lg example">
+								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="휴대폰 번호" aria-label=".form-control-lg example" readonly>
 								
 								<span  class="name form-contents">여권영문 이름</span>
 								<input id="passPortNameEng" class="form-control form-control-lg form-contents" type="text" placeholder="여권 영문 이름" aria-label=".form-control-lg example">
@@ -102,7 +114,7 @@
 								<input id="email" class="form-control form-control-lg form-contents" type="text" placeholder="이메일" aria-label=".form-control-lg example">
 								
 								<span  class="name form-contents">거주지 주소</span>
-								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="거주지 주소" aria-label=".form-control-lg example">
+								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="거주지 주소" aria-label=".form-control-lg example" readonly>
 								<div class="address-detail-box">
 									<input id="addressDetail" class="form-control form-control-lg form-contents" type="text" placeholder="상세주소" aria-label=".form-control-lg example">
 									 <div class="form-check">
@@ -146,8 +158,8 @@
 								
 								<h4 class="form-title form-contents" >직장정보</h4>
 								
-								<span id="jobName" class="name form-contents">직장명</span>
-								<input id="job" class="form-control form-control-lg form-contents" type="text" placeholder="직장명" aria-label=".form-control-lg example">
+								<span class="name form-contents jobName">직장명</span>
+								<input id="jobName" class="form-control form-control-lg form-contents" type="text" placeholder="직장명" aria-label=".form-control-lg example">
 								<span  class="name form-contents">직장주소</span>
 								<input id="jobAddress" class="form-control form-control-lg form-contents" type="text" placeholder="직장 주소" aria-label=".form-control-lg example">
 								<div class="address-detail-box form-contents">

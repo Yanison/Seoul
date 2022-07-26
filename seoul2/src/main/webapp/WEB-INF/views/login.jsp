@@ -51,6 +51,10 @@
 				로그인
 			</button>
 			
+			<a class="login_sns kakao"><i class="fa-solid fa-comment fontaws" style="margin-right:10px;"></i>카카오 로그인</a>
+			<a class="login_sns google"><i class="fa-brands fa-google fontaws"></i>구글 로그인</a>
+			<a class="login_sns naver"><i class="fa-solid fa-n fontaws"></i>네이버 로그인</a>
+			
 	
 				<!-- <a class="kakao-login" href="javascript:void(0)">
           			<span>

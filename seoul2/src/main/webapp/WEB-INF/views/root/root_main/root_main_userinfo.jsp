@@ -99,9 +99,9 @@
 						      <th scope="col">주소</th>
 						      <th scope="col">이메일</th>
 						      <th scope="col">여권 영문이름</th>
-						      <th scope="col">인증여부</th>
-						      <th scope="col">직장정보</th>
-						      <th scope="col"></th>
+						      <th scope="col">성별</th>
+						      <th scope="col">직장명</th>
+						      <th scope="col">직장정보</th>					      
 						      <th scope="col">직장주소</th>
 						      <th></th>
 						      
@@ -129,12 +129,13 @@
 							      </td>							     	
 							      <td id="email"> ${user.email} </td> 
 							      <td id="passPortNameEng"> ${user.passPortNameEng} </td>
-							      <td>인증</td>			 
-							      <td id="job" > 
+							      <td id="gender">성별</td>		 
+							      <td id="jobName"> ${user.jobName} </td>
+							      <td id="job" >
 								      <span>직장명_${user.jobInfo}</span><br>
 								      <span>${user.jobType}</span>	
 							       </td>
-							      <td id="jobName"> ${user.jobName} </td>
+							      
 							      <td id="jobLoca">
 								      <span>직장주소_${user.jobAddress}</span><br>
 								      <span>직장상세주소_${user.jobAddressDetail}</span>

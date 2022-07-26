@@ -219,7 +219,7 @@ box-shadow: 2px 6px 12px -5px rgb(88 88 88);
 	width:600px;
 	display:flex;
 	justify-content:space-around;
-	margin:0 auto;
+	margin: 0px 0 0px 555px;
 }
 
 
@@ -250,4 +250,8 @@ box-shadow: 2px 6px 12px -5px rgb(88 88 88);
 	width:40px;
 	font-size:5px;
 	padding:0px;
+}
+
+.table {
+	font-size:12px;
 }

@@ -143,3 +143,46 @@ html, body{
   margin:0 0 5px;
   color:#fff;
 }
+
+.login_sns {
+	width:480px;
+	height:48px;
+	text-align:center;
+	padding:16px;
+	text-decoration:none;
+	font-size:16px;
+	cursor:pointer;
+	margin-top:10px;
+	
+}
+
+
+.kakao {
+	background:#fee500;
+	color:#191919;
+}
+.kakao:hover {
+	color:#191919;
+}
+
+.google {
+	background:#fff;
+	color:black;
+	border:1px solid #b9b8b9;
+}
+.google:hover {
+	color:#191919;
+}
+
+.naver {
+	background:#65cf5c;
+	color:#fff;
+}
+
+.naver:hover {
+	color:#191919;
+}
+
+.fontaws {
+	margin-right:10px;
+}

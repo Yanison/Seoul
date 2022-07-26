@@ -79,7 +79,7 @@ $(document).ready(function(){
 	
 	$('#rootmenu').on('click',function(){
 		event.preventDefault();
-		location.href='./root';
+		location.href='./root_main';
 		
 	});
 

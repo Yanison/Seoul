@@ -47,6 +47,7 @@ $(document).ready(function() {
 	
 	
 	$('#ok').on('click',function(){
+		var name = $('#name').val();
 		var dob = $('#dob').val();
 		var passPortNameEng = $('#passPortNameEng').val();
 		var email = $('#email').val();
@@ -58,15 +59,29 @@ $(document).ready(function() {
 		var jobAddressDetail = $('#jobAddressDetail').val();
 		
 		
+		if(name == ''){
+			alert('이름을 입력해주세요.')
+			return false;
+		}
+		
+		
 		if(dob == ''){
 			alert('생년월일 쓰세요')
 			return false;
 		}
 		
+		if(passPortNameEng == ''){
+			alert('생년월일 쓰세요')
+			return false;
+		}
+		
+		
+		
 		$.ajax({
-			url:'http://127.0.0.1:8080/seoul2/ajax_addUserInfoDtail',
+			url:'http://127.0.0.1:8080/seoul2/ajax_addUserInfoDetail',
 			type:'GET',
 			data: {
+				'name':name,
 				'dob': dob,
 				'passPortNameEng': passPortNameEng ,
 				'email': email,

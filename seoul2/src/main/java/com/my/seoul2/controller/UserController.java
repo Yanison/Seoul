@@ -44,14 +44,14 @@ public class UserController {
 	
 	
 		@RequestMapping(value = "/ajax_loadUserInfoByIdx", method = RequestMethod.GET)
-		private @ResponseBody UserInfoDetail ajax_loadUserInfoByIdx(
+		private @ResponseBody User ajax_loadUserInfoByIdx(
 				@RequestParam(value="user_idx") int user_idx
 				) {
 			
-			UserInfoDetail user = new UserInfoDetail();
+			User user = new User();
 			user.setUser_idx(user_idx);
 			
-			UserInfoDetail dUser = userDao.getAllInfoByIdx(user);
+			User dUser = userDao.getAllInfoByIdx(user);
 			dUser.getUser_idx();
 			
 			return dUser;
@@ -157,6 +157,7 @@ public class UserController {
 ////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping(value= "/ajax_addUserInfoDtail", method = RequestMethod.GET)
 	public @ResponseBody String ajax_addUserInfoDtail(
+			@RequestParam(value="name") String name,
 			@RequestParam(value="dob") String dob,
 			@RequestParam(value="email") String email,
 			@RequestParam(value="passPortNameEng") String passPortNameEng,
@@ -169,7 +170,8 @@ public class UserController {
 			
 			) {
 		System.out.println("파라미터 받고");
-		UserInfoDetail userInfo = new UserInfoDetail();
+		User userInfo = new User();
+		userInfo.setName(jobName);
 		userInfo.setDob(dob);
 		userInfo.setEmail(email);
 		userInfo.setPassPortNameEng(passPortNameEng);
@@ -189,25 +191,26 @@ public class UserController {
 	}
 	
 	@RequestMapping(value= "/ajax_loadUserInfoDetail", method = RequestMethod.GET)
-	public @ResponseBody List<UserInfoDetail> getAllInfo() {
+	public @ResponseBody List<User> getAllInfo() {
 			
-		List<UserInfoDetail> listInfo = userDao.getAllInfo();
+		List<User> listInfo = userDao.getAllInfo();
 		
 		return listInfo;
 	}
 	
 	@RequestMapping(value= "/ajax_loadUserInfoDtail", method = RequestMethod.GET)
-	public @ResponseBody UserInfoDetail getAllInfoByIdx(
+	public @ResponseBody User getAllInfoByIdx(
 			@RequestParam(value="user_idx") int user_idx
 			) {
 		
-		UserInfoDetail userInfo = new UserInfoDetail();
+		User userInfo = new User();
 		userInfo.setUser_idx(user_idx);
 		
-		UserInfoDetail dUser = userDao.getAllInfoByIdx(userInfo);
+		
+		User userIdx = userDao.getAllInfoByIdx(userInfo);
 		
 		
-		return dUser;
+		return userIdx;
 	}
 	
 	

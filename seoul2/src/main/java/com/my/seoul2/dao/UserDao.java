@@ -38,15 +38,15 @@ public class UserDao extends SqlSessionDaoSupport{
 	}
 
 	
-	public int addUserInfoDtail(UserInfoDetail user) {
+	public int addUserInfoDtail(User user) {
 		return this.getSqlSession().insert("user.addUserInfoDtail", user);
 	}
 	
-	public  List<UserInfoDetail> getAllInfo() {
+	public  List<User> getAllInfo() {
 		return this.getSqlSession().selectList("user.getAllInfo");
 	}
 	
-	public  UserInfoDetail getAllInfoByIdx (UserInfoDetail user) {
+	public  User getAllInfoByIdx (User user) {
 		return this.getSqlSession().selectOne("user.getAllInfoByIdx", user);
 	}
 	

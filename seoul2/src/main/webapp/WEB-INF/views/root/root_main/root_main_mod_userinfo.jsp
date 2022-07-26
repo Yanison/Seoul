@@ -22,7 +22,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script src="./resources/js/root.js"></script>
-<script src="./resources/js/root_main_form_userinfo.js"></script>
+<script src="./resources/js/root_main_mod_userinfo.js"></script>
 
 
 </head>
@@ -47,30 +47,9 @@
 					<div class="search-bar">
 					
 						<div class="search-bar-title">
-						유저 정보
+						유저 정보 수정
 						</div>
 					
-					<form class="form">
-						<div class="form-box">
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-						</div>
-						<div class="form-box">
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-							<span style="margin-right:10px"> ~ </span>				
-							<input class="form-control" type="text" placeholder="" aria-label="default input example">
-							<select class="form-select form-control-items" aria-label="Default select example" style="margin-right:10px;">
-							  <option selected>성별</option>
-							  <option value="1">남자</option>
-							  <option value="2">여자</option>
-							  
-							</select>
-						 	<button class="btn btn-outline-success" type="submit" style="margin-right:93px">검색</button>
-						</div>
-						
-					</form>
 					
 					
 					</div>
@@ -80,18 +59,18 @@
 
 						<div class="form-wrapper">
 		
-							<h1 class="title" >개인정보 관리, 수정사항은 세션호출후 저장</h1>	
+							<h1 class="title" >유저 정보 수정</h1>	
 							<form class="user_form" action="" >
 								
 								<div class="personal_info">
 								
 								<h4 class="form-title form-contents">기본정보</h4>
 								
-								<span  class="name form-contents">이름</span>
-								<input id="id" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example" >
+								<span  class="name form-contents">닉네임</span>
+								<input id="nickname" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example" >
 								
 								<span  class="name form-contents">생년월일</span>
-								<input id="dob" class="form-control form-control-lg form-contents" type="text" placeholder="생년월일" aria-label=".form-control-lg example" value="${userInfo.dob}">
+								<input id="dob" class="form-control form-control-lg form-contents" type="text" placeholder="생년월일" aria-label=".form-control-lg example" data-useInfo="${userInfo.dob}" value="${userInfo.dob}">
 								
 								<span  class="name form-contents">휴대폰 번호</span>
 								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="휴대폰 번호" aria-label=".form-control-lg example">
@@ -103,13 +82,13 @@
 								<input id="email" class="form-control form-control-lg form-contents" type="text" placeholder="이메일" aria-label=".form-control-lg example" value="${userInfo.email}">
 								
 								<span  class="name form-contents">거주지 주소</span>
-								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="거주지 주소" aria-label=".form-control-lg example">
+								<input id="address" class="form-control form-control-lg form-contents" type="text" placeholder="거주지 주소" aria-label=".form-control-lg example">
 								<div class="address-detail-box">
 									<input id="addressDetail" class="form-control form-control-lg form-contents" type="text" placeholder="상세주소" aria-label=".form-control-lg example" value="${userInfo.addressDetail}">
 									 <div class="form-check">
 									  <input id="detail_check1" class="form-check-input form-contents" type="checkbox" value="" id="flexCheckDefault">
 									  <label class="form-check-label" for="flexCheckDefault">
-									    상세주소 없음 <button type="button" id="console1">콘솔로그</button>
+									    상세주소 없음
 									  </label>
 									</div>
 								</div>
@@ -122,25 +101,25 @@
 								<h4  class="name form-contents">직업/상세</h4>
 								<div class="job_select">
 									
-									<select id="jobInfo" class="form-select form-select-lg mb-3 form-contents" aria-label=".form-select-lg example" >
-									  <option selected>직업</option>
-									  <option value="${userInfo.jobInfo}">근로소득자</option>
-									  <option value="${userInfo.jobInfo}">자영업자</option>
-									  <option value="${userInfo.jobInfo}">무직</option>
-									  <option value="${userInfo.jobInfo}">주부</option>
-									  <option value="${userInfo.jobInfo}">종교인</option>
-									  <option value="${userInfo.jobInfo}">정년퇴직자</option>
-									  <option value="${userInfo.jobInfo}">학생</option>
-									  <option value="${userInfo.jobInfo}">정치인</option>
+									<select id="jobInfo" class="form-select form-select-lg mb-3 form-contents" aria-label=".form-select-lg example">
+									  
+									  <option value="근로소득자">근로소득자</option>
+									  <option value="자영업자">자영업자</option>
+									  <option value="무직">무직</option>
+									  <option value="주부">주부</option>
+									  <option value="종교인">종교인</option>
+									  <option value="정년퇴직자">정년퇴직자</option>
+									  <option value="학생">학생</option>
+									  <option value="정치인">정치인</option>
 									</select>
 									
 									<select id="jobType" class="form-select form-select-lg mb-3 form-contents" aria-label=".form-select-lg example" >
-									  <option selected>상세</option>
-									  <option value="${userInfo.jobType}">급여소득자</option>
-									  <option value="${userInfo.jobType}">공무원</option>
-									  <option value="${userInfo.jobType}">카지노/대부업 종사자</option>
-									  <option value="${userInfo.jobType}">교육계 종사자</option>
-									  <option value="${userInfo.jobType}">가상자산업 종사자</option>
+									  
+									  <option value="급여소득자">급여소득자</option>
+									  <option value="공무원">공무원</option>
+									  <option value="카지노/대부업 종사자">카지노/대부업 종사자</option>
+									  <option value="교육계 종사자">교육계 종사자</option>
+									  <option value="가상자산업 종사자">가상자산업 종사자</option>
 									</select>
 								
 								</div>
@@ -157,7 +136,7 @@
 									<div class="form-check" style="margin:0 0 20px;">
 									  <input id="detail_check2" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 									  <label class="form-check-label" for="flexCheckDefault">
-									    상세주소 없음 <button type="button" id="console2">콘솔로그</button>
+									    상세주소 없음
 									  </label>
 									</div>
 								</div>

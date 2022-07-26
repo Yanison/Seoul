@@ -139,7 +139,7 @@ public class HomeController {
 		serMeFromSession(session, model);
 		model.addAttribute("now_menu","root_main_userinfo.jsp");
 		
-		List<UserInfoDetail> userlist = userDao.getAllInfo();
+		List<User> userlist = userDao.getAllInfo();
 		model.addAttribute("userlist", userlist);
 		
 		

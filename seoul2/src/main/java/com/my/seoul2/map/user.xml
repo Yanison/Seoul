@@ -4,9 +4,9 @@
 	
 	<!-- 추가된 데이터를 가져와보자 -->
 		<select id="getAll" resultType="User">
-		SELECT *
-		FROM userseoul
-		
+			SELECT *
+			FROM userseoul
+			
 		
 		</select>
 		
@@ -53,24 +53,24 @@
 		</insert>
 		
 		
-		<insert id="addUserInfoDtail" parameterType="UserInfoDetail">
-			INSERT INTO userInfoDetail
+		<insert id="addUserInfoDtail" parameterType="User">
+			INSERT INTO userseoul
 			(dob, email, passPortNameEng, addressDetail, jobInfo, jobType, jobName, jobAddress, jobAddressDetail)
 			VALUES
 			(#{dob}, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo}, #{jobType}, #{jobName}, #{jobAddress}, #{jobAddressDetail})
 		</insert>
 		
-		<select id="getAllInfo" resultType="UserInfoDetail">
-		SELECT *
-		FROM userInfoDetail
+		<select id="getAllInfo" resultType="User">
+			SELECT *
+			FROM userseoul
 		
 		
 		</select>
 		
-		<select id="getAllInfoByIdx" resultType="UserInfoDetail">
-		SELECT * <!-- *는 조건절에 해당하는 컬럼 전체를 가져오라는 것.  -->
-		FROM userInfoDetail
-		WHERE user_idx=${user_idx}
+		<select id="getAllInfoByIdx" resultType="User">
+			SELECT * <!-- *는 조건절에 해당하는 컬럼 전체를 가져오라는 것.  -->
+			FROM userseoul
+			WHERE user_idx=${user_idx}
 		</select>
 
 </mapper>
