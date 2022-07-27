@@ -66,19 +66,55 @@ $(document).ready(function() {
 		
 		
 		if(dob == ''){
-			alert('생년월일 쓰세요')
+			alert('생년월일을 입력해주세요')
 			return false;
 		}
 		
 		if(passPortNameEng == ''){
-			alert('생년월일 쓰세요')
+			alert('여권 영문이름을 입력해주세요')
+			return false;
+		}
+		
+		if(email == ''){
+			alert('이메일을 입력해주세요')
+			return false;
+		}
+		
+		if(addressDetail == ''){
+			alert('상세 주소를 입력해주세요')
+			return false;
+		}
+		
+		if(jobInfo == ''){
+			alert('직업을 선택해주세요')
+			return false;
+		}
+
+		if( jobType == ''){
+			alert('직업상세 정보를 선택해주세요')
+			return false;
+		}
+		
+		if( jobName == ''){
+			alert('직장명을 입력해주세요')
+			return false;
+		}
+		
+		if(jobAddress == ''){
+			alert('직장 주소를 입력해주세요')
+			return false;
+		}
+		
+		if(jobAddressDetail == ''){
+			alert('직장 주소 상세를 입력해주세요')
 			return false;
 		}
 		
 		
 		
+		
 		$.ajax({
-			url:'http://127.0.0.1:8080/seoul2/ajax_addUserInfoDetail',
+			url:'http://127.0.0.1:8080/seoul2/ajax_addUserInfoDtail',
 			type:'GET',
 			data: {
 				'name':name,

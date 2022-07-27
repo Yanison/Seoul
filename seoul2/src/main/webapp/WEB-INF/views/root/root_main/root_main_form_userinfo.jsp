@@ -89,7 +89,7 @@
 								<div class="small_wrap" style="display:flex; width:400px;">
 									<div>
 										<span  class="name form-contents" >이름 </span>
-										<input style="width:200px ; margin-right:10px;"  id="id" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example">									
+										<input style="width:200px ; margin-right:10px;"  id="name" class="form-control form-control-lg form-contents" type="text" placeholder="이름" aria-label=".form-control-lg example">									
 									</div>
 									<div>
 										<span  class="name form-contents" >성별</span>
@@ -102,7 +102,7 @@
 								
 								
 								<span  class="name form-contents">생년월일</span>
-								<input id="dob" class="form-control form-control-lg form-contents" type="text" placeholder="생년월일" aria-label=".form-control-lg example">
+								<input id="dob" class="form-control form-control-lg form-contents" type="date" placeholder="생년월일" aria-label=".form-control-lg example">
 								
 								<span  class="name form-contents">휴대폰 번호</span>
 								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="휴대폰 번호" aria-label=".form-control-lg example" readonly>
@@ -111,7 +111,7 @@
 								<input id="passPortNameEng" class="form-control form-control-lg form-contents" type="text" placeholder="여권 영문 이름" aria-label=".form-control-lg example">
 								
 								<span  class="name form-contents">이메일</span>
-								<input id="email" class="form-control form-control-lg form-contents" type="text" placeholder="이메일" aria-label=".form-control-lg example">
+								<input id="email" class="form-control form-control-lg form-contents" type="email" placeholder="이메일" aria-label=".form-control-lg example">
 								
 								<span  class="name form-contents">거주지 주소</span>
 								<input id="" class="form-control form-control-lg form-contents" type="text" placeholder="거주지 주소" aria-label=".form-control-lg example" readonly>

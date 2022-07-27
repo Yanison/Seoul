@@ -171,7 +171,7 @@ public class UserController {
 			) {
 		System.out.println("파라미터 받고");
 		User userInfo = new User();
-		userInfo.setName(jobName);
+		userInfo.setName(name);
 		userInfo.setDob(dob);
 		userInfo.setEmail(email);
 		userInfo.setPassPortNameEng(passPortNameEng);

@@ -55,9 +55,9 @@
 		
 		<insert id="addUserInfoDtail" parameterType="User">
 			INSERT INTO userseoul
-			(dob, email, passPortNameEng, addressDetail, jobInfo, jobType, jobName, jobAddress, jobAddressDetail)
+			(name, dob, email, passPortNameEng, addressDetail, jobInfo, jobType, jobName, jobAddress, jobAddressDetail)
 			VALUES
-			(#{dob}, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo}, #{jobType}, #{jobName}, #{jobAddress}, #{jobAddressDetail})
+			(#{name}, DAYOFMONTH, #{email}, #{passPortNameEng}, #{addressDetail}, #{jobInfo}, #{jobType}, #{jobName}, #{jobAddress}, #{jobAddressDetail})
 		</insert>
 		
 		<select id="getAllInfo" resultType="User">
