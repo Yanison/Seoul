@@ -12,7 +12,6 @@ public class User {
 	private String address = null ;
 	private String gender = null ;
 	private String created_date = null ;
-	
 	private String dob= null;
 	private String email= null;
 	private String addressDetail= null;
@@ -22,6 +21,7 @@ public class User {
 	private String jobAddressDetail= null;
 	private String jobAddress= null;
 	private String passPortNameEng= null;
+	
 	public int getUser_idx() {
 		return user_idx;
 	}

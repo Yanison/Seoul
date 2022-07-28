@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.seoul2.dao.UserDao;
 import com.my.seoul2.vo.User;
-import com.my.seoul2.vo.UserInfoDetail;
+
 
 @Controller
 public class UserController {
@@ -175,16 +175,17 @@ public class UserController {
 		userInfo.setDob(dob);
 		userInfo.setEmail(email);
 		userInfo.setPassPortNameEng(passPortNameEng);
-		userInfo.setAddressDetail(jobAddressDetail);
+		userInfo.setAddressDetail(addressDetail);
 		userInfo.setJobInfo(jobInfo);
 		userInfo.setJobName(jobName);
 		userInfo.setJobType(jobType);
-		userInfo.setJobAddress(jobAddressDetail);
+		userInfo.setJobAddress(jobAddress);
 		userInfo.setJobAddressDetail(jobAddressDetail);
 		
 		System.out.println("인스턴스 어서오고");
 		
 		userDao.addUserInfoDtail(userInfo);
+		System.out.println("이제 리턴하자");
 		//Mapped Statements collection does not contain 
 		//value for user.adduserInfo
 		return "ok";

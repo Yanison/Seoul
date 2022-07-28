@@ -109,7 +109,7 @@ $(document).ready(function() {
 			alert('직장 주소 상세를 입력해주세요')
 			return false;
 		}
-		
+//		
 		
 		
 		

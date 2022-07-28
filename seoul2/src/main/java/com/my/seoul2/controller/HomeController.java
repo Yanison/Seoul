@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.my.seoul2.dao.UserDao;
 import com.my.seoul2.vo.User;
-import com.my.seoul2.vo.UserInfoDetail;
+
 
 /**
  * Handles requests for the application home page.
