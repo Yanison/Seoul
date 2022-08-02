@@ -40,7 +40,7 @@ html, body{
 	position: relative;
 }
 
-body {
+body 
 	min-width:1600px;
 }
 
@@ -191,13 +191,26 @@ body {
 .home-price{
 	width:100%;
 	height:400px;
-	display:flex;
-	justify-content:center;
+	padding: 40px 100px;
 }
 
 .price-view-wrapper {
+	width:100%;
+	height:100%;
 	display:flex;
-	justify-content:space-between;
+	justify-content:center;
+	
+}
+.cointable thead {
+	background:#edeef1;
+	
+}
+.cointable tr{
+	border-bottom:1px solid #9b9b9c;
+}
+.cointable td {
+	padding:16px;
+	width:300px;
 }
 
 .price-box {

@@ -60,11 +60,16 @@ $(document).ready(function(){
 				
 			},
 			success:function(response){
-				if(response=='ok') {
+				if(response=='okuser') {
 					location.href="./"
+						alert('일반유저로그인')
+				}else if(response=='okroot') {
+					location.href="./"
+						alert('로그인')
 				}else {
-					alert('올바른 회원 정보가 아닙니다')
+						alert('로그인 실패')
 				}
+				
 			},
 			error:function(err){
 				alert('로그인 노노')

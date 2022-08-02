@@ -22,7 +22,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script src="./resources/js/adduser.js"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 
 
@@ -58,12 +57,12 @@
 			
 			<div class="gender-box-wrapper">
 				<label class="gender-box">
-					<input id="gd-men" type="radio" name="gender" value="m"/>
+					<input id="gd-men" type="radio" name="gender" value="1"/>
 					<label for="gd-men" >남자</label>
 				</label>
 				
 				<label class="gender-box">
-					<input id="gd-woman" type="radio" name="gender" value="w"/>
+					<input id="gd-woman" type="radio" name="gender" value="2"/>
 					<label for="gd-woman">여자</label>
 				</label>
 			</div>

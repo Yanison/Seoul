@@ -27,13 +27,25 @@ public class HomeController {
 	
 	
 	
-	void serMeFromSession(HttpSession s, Model m) {
+	void serMeFromSession(
+			HttpSession s,
+			Model m
+			) {
+		
 		//세션에서 정보를 받아와서 
-		User me = (User) s.getAttribute("me");	
+		User me = (User) s.getAttribute("me");
+//		String me2 = (String)s.getAttribute("me");
 		m.addAttribute("me",me);
 		
-//		User rootUser = new User();
-//		rootUser.setUser_idx(rootUser);
+		User root = (User) s.getAttribute("root");
+		m.addAttribute("root", root);
+	
+		
+
+//		// User rootUser = (User) s.getAttribute("root");
+//		String rootUser = (String)s.getAttribute("root");
+//		m.addAttribute("root",rootUser);
+		
 	}
 	
 	
@@ -66,8 +78,6 @@ public class HomeController {
 		
 		serMeFromSession(session, model);
 		model.addAttribute("now_menu","home");
-		
-		
 		
 		
 		return "home";

@@ -20,10 +20,9 @@
 	 	<select id="getUserByIdAndPw" parameterType="User" resultType="User">
 	 		SELECT *
 	 		FROM userseoul
-	 		WHERE id = #{tel} AND address = #{address} AND #{id} AND pw = MD5(#{pw})
+	 		WHERE id =#{id} AND pw = MD5(#{pw})
 	 	</select>
-	 	
-	 	
+	 
 	 	<!--닉네임 불러오기  -->
 	 	<select id="getUserByNick" parameterType="User" resultType="User">
 	 		SELECT *
@@ -41,7 +40,14 @@
 		<select id="getUserRoot" parameterType="User" resultType="User">
 			SELECT *
 			FROM userseoul
-			WHERE user_id =#{10}
+			WHERE id = "root3174" AND pw = MD5(#{pw})
+		
+		</select>
+		
+		<select id="getUserRootId" parameterType="User" resultType="User">
+			SELECT id
+			FROM userseoul
+			WHERE id = "root3174"
 		
 		</select>
 		

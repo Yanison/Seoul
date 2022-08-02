@@ -24,8 +24,11 @@
 					<span id="earning" class="headee-contents">who's earning?</span>
 					<span id="helpcenter" class="headee-contents">고객센터(만드는중)</span> 
 					<span id="raise" class="headee-contents">코인동향</span> 
-					<span id="rootmenu" class="headee-contents <c:if test="${me eq root }">active</c:if>">
-					관리자메뉴</span> 
+					<c:if test="${not empty root}">
+					<span id="rootmenu" class="headee-contents ">관리자메뉴</span> 
+					</c:if>
+					
+					
 				</div>
 
 

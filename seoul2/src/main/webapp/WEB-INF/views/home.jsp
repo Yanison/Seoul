@@ -80,17 +80,25 @@
 
 		<section class="home-price">
 			<div class="price-view-wrapper">
-				<div class="price-ubmi price-box">
 
-					<div class="price-box-content"></div>
+				<div id='tmp'></div>
+				<br />
+				<table id="table_ticker" class="table table-hover text-center cointable">
+					<thead>
+						<tr>
+							<!--td>NO</td-->
+							<td>코인</td>
+							<td>현재가</td>
+							<td>전일대비</td>
+							<td>거래대금</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<br /> <br /> <br />
+				<div id='tmp2'></div>
 
-				</div>
-				<div class="price-ubai price-box">
-					<div class="price-box-content"></div>
-				</div>
-				<div class="price-coin price-box">
-					<div class="price-box-content"></div>
-				</div>
 			</div>
 		</section>
 

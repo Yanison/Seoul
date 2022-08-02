@@ -209,7 +209,7 @@ $(document).ready(function(){
 			);
 			$('#gd-men','gd-woman').focus();
 			return false;
-		}else if(gender == "w" || gender == "m"){
+		}else if(gender == "2" || gender == "1"){
 			
 			$('#gender-alert').html(
 					'<div class="alert-box-ok">' +
@@ -230,7 +230,6 @@ $(document).ready(function(){
 	  	
 	  			},
 	  			success:function(result){
-	  				alert('전달 성공');
 	  				if(result == 'ok') {
 	  					alert('중복없음');	
 	  					'<div class="alert-box-ok">' +

@@ -66,32 +66,40 @@ public class UserController {
 				@RequestParam(value="id") String id,
 				@RequestParam(value="pw") String pw,
 				HttpSession session) {
-			
-			
+
 			User userLogin = new User();
 			userLogin.setId(id);
 			userLogin.setPw(pw);
-			//유저의 기본정보도 불러와야함.
 			
-			User user = userDao.getUserByIdAndPw(userLogin);
-			
-			//프로젝트 전체에 공유가 됨. 
-//			session.setAttribute("me", user);
-			//근데 여기다 쓰면 로그인 승인 상관없이 세션에 데이터를 저장하게 됨. 
+			User me = userDao.getUserByIdAndPw(userLogin);
+			User root = userDao.getUserRoot(userLogin);
 			
 			
-			if(user != null) {
-				session.setAttribute("me", user);
-//				session.setAttribute("me", userInfo);
+			
+			if( me != null) {
+				System.out.println("Check pont1 >>> " + userLogin.getId());
+				System.out.println("Check pont2 >>> " + root.getId());
+				if(userLogin.getId().equals(root.getId())) {
+					System.out.println('1');
+					System.out.println(userLogin.getId());
+					System.out.println(root.getId());
+					session.setAttribute("root", root);				
+				}
+				System.out.println('2');
+				System.out.println(userLogin.getId());
+				System.out.println(root.getId());
+				session.setAttribute("me", me);
+				return "okroot";
 				//그래서 로그인 로직에다 구현하면 안전성이 생김
-				
-				return "ok";
 			}else {
-				return "fail";
+				return "fail" ;
 			}
 			
 			
+			
 		}
+
+		
 		@RequestMapping(value = "/ajax_form", method = RequestMethod.GET)
 		private @ResponseBody String ajax_form(HttpSession session) {
 			
@@ -139,15 +147,21 @@ public class UserController {
 		user.setAddress(address);
 		user.setTel(tel);
 		
-		User resultUser = userDao.getUserById(user);
+		User getUserById = userDao.getUserById(user);
+		User getUserByNick = userDao.getUserByNick(user);
 		
-		
-		if(resultUser == null) {
-			userDao.addUser(user);
-			return "ok";
+		if(getUserById == null) {
+			if(getUserByNick == null) {
+				userDao.addUser(user);
+				return "ok";
+			}else {
+				return "duplicatedNick";
+			}	
 		} else {
-			return "duplicated";
-		}	
+			return "duplicatedId";
+		}
+		
+		
 	
 	}
 	

@@ -28,6 +28,10 @@ public class UserDao extends SqlSessionDaoSupport{
 		return this.getSqlSession().selectOne("user.getUserById", user);
 	}
 	
+	public User getUserRootId(User user) {
+		return this.getSqlSession().selectOne("user.getUserRootId", user);
+	}
+	
 	public User getUserRoot(User user) {
 		return this.getSqlSession().selectOne("user.getUserRoot", user);
 	}
