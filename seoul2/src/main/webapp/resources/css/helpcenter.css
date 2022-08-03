@@ -41,7 +41,8 @@ html, body {
 .header {
 	height:80px;
 	width:100%;
-	min-width:1600px;
+	min-width: 1200px;
+    max-width: 1400px;
 	background:#093687;
 	display:flex;
 	justify-content:space-between;

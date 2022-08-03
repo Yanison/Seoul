@@ -46,7 +46,7 @@
 			<div id="id-alert" class="alert-box"></div>
 			<input id="pw"  class="app-inp" type="text" name="myinfo" placeholder="비밀번호 : 영문, 숫자, 특수문자를 모두 조합하여 최소 8자리 이상 "/>
 			<div id="pw-alert" class="alert-box"></div>
-			<input id="pw_chk"  class="app-inp" type="text" name="myinfo" placeholder="비밀번호 확인"/>
+			<input id="pw-chk"  class="app-inp" type="text" name="myinfo" placeholder="비밀번호 확인"/>
 			<div id="pw_chk-alert" class="alert-box"></div>
 			<input id="nickname"  class="app-inp" type="text" name="myinfo" placeholder="닉네임"/>
 			<div id="nickname-alert" class="alert-box"></div>

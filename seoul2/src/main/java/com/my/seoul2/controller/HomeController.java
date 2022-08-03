@@ -215,7 +215,15 @@ public class HomeController {
 	}
 	
 	
-	
+	//////////////////////////////////////////////////////////////////////
+	//exchange
+	//////////////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/exchange", method = RequestMethod.GET)
+	public String ecxchange(Model model, HttpSession session) {
 
+		serMeFromSession(session, model);
+		model.addAttribute("now_menu","exchange");
+		return "exchange/exchange";
+	}
 	
 }

@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-
+	
 	
 	//회원가입 데이터를 받아올 데이터 변수 구현
 	$('#signup-btn').on('click',function(){
@@ -41,19 +41,40 @@ $(document).ready(function(){
         //var email = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
  
 
+        	
+        function check(re,what){
+        	//정규화데이터,아이템 id,메세지
+            if (re.test(what)) {//what의 문자열에 re의 패턴이 있는지 나타내는 함수 test
+            //만약 내가 입력한 곳의 값이 정규화 데이터를 썼다면 true를 반환해서 호출 된 곳으로 리턴됨
+            	console.log(typeof(re));
+            	console.log(what);
+            	
+                return true;
+            }
+            
         
+            what=""
+            console.log(what);	
+        }
         
-       
         //아이디 입력 하지 않았을 경우
+        
+        
+        	
+        
+        
+        
         if(id == ""){
+        	
 			$('#id-alert').html(
 					'<div class="alert-box">' +
-						'<span>' + '아이디를 입력해주세요' + '</span>' +
+						'<span>' + '아이디 입력해주세요' + '</span>' +
 					'</div>'		
 			);
 			$('#id').focus();
 			return false;
-			}else if(id != ""){
+			
+		}else if(id != ""){
 			
 			$('#id-alert').html(
 					'<div class="alert-box-ok">' +
@@ -61,17 +82,27 @@ $(document).ready(function(){
 					'</div>'		
 			);
 			
-			};
-        
-        //focus() 메소드는 해당 객체로 집중해줌.
-        if (!check(regul1,id,"아이디는 4~12자의 대소문자와 숫자로만 입력 가능합니다.")) {
-        	alert("아이디체크에러");
-            return false;//반환 할 곳 없이 if문 탈출
+		};
+		
+		if (!check(regul1,id)) {
+        	$('#id-alert').html(
+					'<div class="alert-box">' +
+						'<span>' + "아이디는 4자리 이상입력하셔야 합니다." + '</span>' +
+					'</div>'		
+			);
+            return false;
+        }else if(check(regul1,id)) {
+        	$('#id-alert').html(
+					'<div class="alert-box-ok">' +
+						'<span>' + '</span>' +
+					'</div>'		
+			);
         }
-        
-        //비밀번호 입력 하지 않았을 경우
-        
+
+		
+		
         if(pw == ""){
+        	
 			$('#pw-alert').html(
 					'<div class="alert-box">' +
 						'<span>' + '비밀번호를 입력해주세요' + '</span>' +
@@ -79,6 +110,7 @@ $(document).ready(function(){
 			);
 			$('#pw').focus();
 			return false;
+			
 		}else if(pw != ""){
 			
 			$('#pw-alert').html(
@@ -96,11 +128,11 @@ $(document).ready(function(){
 						'<span>' + '비밀번호를 입력해주세요' + '</span>' +
 					'</div>'		
 			);
-			$('#pw_chk').focus();
+			$('#pw-chk').focus();
 			return false;
 		}else if(pw != ""){
 			
-			$('#pw_chk-alert').html(
+			$('#pw-chk-alert').html(
 					'<div class="alert-box-ok">' +
 						'<span>' + '</span>' +
 					'</div>'		
@@ -111,9 +143,19 @@ $(document).ready(function(){
         
         //비밀번호 유효성 검사
         //만약 내가 비밀번호에 정규화 방식을 하나라도 지키지 않으면 if문 안으로 들어가서 alert message를 띄움
-        if (!check(regul1,pw,"비밀번호는 4~12자의 대소문자와 숫자로만 입력 가능합니다.")) {
-        	alert("비번체크 노노");
+        if (!check(regul1,pw)) {
+        	$('#pw-alert').html(
+					'<div class="alert-box">' +
+						'<span>' + "비밀번호는 4~12자의 대소문자와 숫자로만 입력 가능합니다." + '</span>' +
+					'</div>'		
+			);
             return false;
+        }else if(check(regul1,pw)) {
+        	$('#pw-chk-alert').html(
+					'<div class="alert-box-ok">' +
+						'<span>' + '</span>' +
+					'</div>'		
+			);
         }
         
         //비밀번호와 비밀번호 확인이 일치 하지 않을 경우
@@ -126,7 +168,7 @@ $(document).ready(function(){
 					'</div>'		
 			);
             $('#pw').focus();
-            $('#pw_check').focus();
+            $('#pw-check').focus();
 			return false;
 		}else if(pw = pw_chk){
 			
@@ -266,16 +308,7 @@ $(document).ready(function(){
 		};      
        	
         
-        function check(re,what,message){
-        	//정규화데이터,아이템 id,메세지
-            if (re.test(what.value)) {//what의 문자열에 re의 패턴이 있는지 나타내는 함수 test
-            //만약 내가 입력한 곳의 값이 정규화 데이터를 썼다면 true를 반환해서 호출 된 곳으로 리턴됨
-                return true;
-            }
-            alert(message);
-            what.value = "";
-            what.focus();
-        }
+       
         
 
 			

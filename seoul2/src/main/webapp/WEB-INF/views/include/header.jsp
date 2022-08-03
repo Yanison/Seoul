@@ -25,7 +25,7 @@
 					<span id="helpcenter" class="headee-contents">고객센터(만드는중)</span> 
 					<span id="raise" class="headee-contents">코인동향</span> 
 					<c:if test="${not empty root}">
-					<span id="rootmenu" class="headee-contents ">관리자메뉴</span> 
+					<span id="rootmenu" class="headee-contents " style="font-weight:900">관리자메뉴</span> 
 					</c:if>
 					
 					
@@ -42,7 +42,7 @@
 				
 				<c:if test="${not empty me}">
 					<span id="logout-btn" class="headee-contents">로그아웃</span> 
-					<span class="headee-contents">${me.nickname}님 어서오세요</span> 
+					<span class="headee-contents" style="font-weight:800">${me.nickname}</span> 
 				</c:if>
 			
 				

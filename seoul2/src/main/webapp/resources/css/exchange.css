@@ -1,0 +1,97 @@
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url(../font/notosans/NotoSansKR-Medium.otf) format('opentype');
+}
+
+
+*{
+	box-sizing:border-box;
+	/* padding 으로 사이즈 늘어남 방지 */
+}
+
+ul{
+	list-style:none;
+}
+
+
+html, body, {
+	padding:0;
+	margin:0;
+	font-size:14px;
+	background:#fff;
+	font-family:nt;
+}
+main > section {
+	padding:0;
+	margin:0;
+}
+
+
+.exWrapper {
+	width:100%;
+	min-width: 1200px;
+    max-width: 1400px;
+	height:1945px;
+	
+}
+
+.ex_main {
+	height:100%;
+	width:100%;
+	padding:95px 0 0 0;
+	
+	display:flex;
+}
+
+.trading {
+	width:990px;
+	height:100%;
+
+}
+.chartBox {
+	widht:100%;
+	height:600px;
+
+	padding:5px 5px 5px 0px;
+}
+.chartBoxIn {
+	widht:100%;
+	height:100%;
+	background:#9fbfc8;
+}
+
+.tradingBox {
+	width:100%;
+	height:800px;
+
+	display:flex;
+	padding:5px 5px 5px 0px;
+}
+.dibPriceBox {
+	width:490px;
+	height:100%;
+	background:#9fbfc8;
+	margin-right:10px;
+}
+
+.BoS {
+	width:490px;
+	height:100%;
+	background:#9fbfc8;
+}
+
+
+.cryptoList {
+	width:400px;
+	height:1400px;
+	padding:5px 0px 5px 5px;
+}
+
+.cryptoListIn {
+	width:100%;
+	height:100%;
+	background:#9fbfc8;
+}
+
+

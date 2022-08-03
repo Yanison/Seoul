@@ -17,14 +17,14 @@ $(document).ready(function(){
 		
 	});
 
-	$('market').on('click',function(){
+	$('#market').on('click',function(){
 		event.preventDefault();
-		alert("아직 구현중입니다. 죄송합니다.");
+		location.href='./exchange';
 		
 		
 	});
 	
-	$('earning').on('click',function(){
+	$('#earning').on('click',function(){
 		alert("아직 구현중입니다. 죄송합니다.");
 		event.preventDefault();
 		
