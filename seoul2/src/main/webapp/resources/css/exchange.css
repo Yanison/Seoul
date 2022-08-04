@@ -15,12 +15,12 @@ ul{
 }
 
 
-html, body, {
-	padding:0;
-	margin:0;
-	font-size:14px;
-	background:#fff;
-	font-family:nt;
+html, body {
+padding:0;
+margin:0;
+font-size:14px;
+background:#fff;
+font-family:nt;
 }
 main > section {
 	padding:0;
@@ -30,8 +30,6 @@ main > section {
 
 .exWrapper {
 	width:100%;
-	min-width: 1200px;
-    max-width: 1400px;
 	height:1945px;
 	
 }
@@ -39,9 +37,11 @@ main > section {
 .ex_main {
 	height:100%;
 	width:100%;
+	min-width: 1200px;
+    max-width: 1400px;
 	padding:95px 0 0 0;
-	
 	display:flex;
+	margin: 0 auto;
 }
 
 .trading {
@@ -50,15 +50,43 @@ main > section {
 
 }
 .chartBox {
-	widht:100%;
+	width:100%;
 	height:600px;
 
 	padding:5px 5px 5px 0px;
 }
-.chartBoxIn {
-	widht:100%;
-	height:100%;
-	background:#9fbfc8;
+
+.chartBoxHeader {
+	width:100%;
+	height:45px;
+	background:grey;
+	border-bottom:1px solid #ddd;
+	padding:0 14px;
+	
+	display:flex;
+	align-items:center;
+}
+
+.chartBoxHeaderLeft {
+	display:flex;
+	align-items:center;
+}
+
+.btcLogo {
+	heigth:26px; 
+	width:26px;
+	margin:0 10 0 0;
+}
+
+.Arrow {
+	display: inline-block;
+    height: 44px;
+    width: 13px;
+    padding: 0 8px;
+    background: url(https://cdn.upbit.com/upbit-web/images/ico_select_1.34dc566.png) center 18px no-repeat;
+    overflow: hidden;
+    text-indent: -999em;
+    vertical-align: top;
 }
 
 .tradingBox {

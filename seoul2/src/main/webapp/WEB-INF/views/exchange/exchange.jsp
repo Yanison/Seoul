@@ -32,8 +32,27 @@
 		<div class="ex_main"> 
 			<section class="trading">
 				<div class="chartBox">
-					<div class="chartBoxIn" ></div>
+					<div class="chartBoxHeader"> 
+						<div class="chartBoxHeaderLeft">
+							<img class="btcLogo" src="https://static.upbit.com/logos/BTC.png" alt="https://static.upbit.com/logos/BTC.png" >
+							<strong style="font-size:20px; color:#333333; padding:5 5 5 0px;">비트코인</strong>
+							<span style="font-size:12px; margin:0 4px;">BTC/KRW</span>
+							<a href="" class="Arrow">Arrow</a>
+						</div>
+						<div class="chartBoxHeaderRight">
+							<a class="cryptoPrice">
+								
+							</a>
+							<a class="cryptoInfo">
+							</a>
+						</div>
+					</div>
+					<div class="chartBoxIn" >
+					</div>
 				</div>
+				
+				
+				
 				<div class="tradingBox">
 					<div class="dibPriceBox">
 					</div>
