@@ -59,17 +59,45 @@ main > section {
 .chartBoxHeader {
 	width:100%;
 	height:45px;
-	background:grey;
 	border-bottom:1px solid #ddd;
 	padding:0 14px;
-	
 	display:flex;
+	
+
+}
+
+._chartBoxHeader {
+	height:100%;
+	width:100%;
+	display:flex;
+	justify-content:space-between;
 	align-items:center;
 }
 
 .chartBoxHeaderLeft {
 	display:flex;
 	align-items:center;
+}
+
+.btn-secondary {
+	background:none; 
+	border:none; 
+	height:40px;
+
+	display:flex;
+	align-items:center;
+}
+.btn-check:active+.btn:focus, .btn-check:checked+.btn:focus, .btn.active:focus, .btn.show:focus, .btn:active:focus
+{
+	box-shadow: none !important;
+}
+.btn-check:focus+.btn, .btn:focus {
+	box-shadow: none !important;
+}
+
+
+.setting{
+	transform: translate(-104px, 42px) !important;
 }
 
 .btcLogo {
@@ -88,6 +116,39 @@ main > section {
     text-indent: -999em;
     vertical-align: top;
 }
+
+.chartBoxHeaderRight {
+	height:100%;
+	display:flex;
+	align-items:center;
+}
+
+.chartBoxHeaderContents {
+	height:100%;
+	width:145px;
+	color:#333333;
+	font-size:16px;
+	font-weight: 700;
+	text-decoration:none;
+	cursor:pointer;
+	padding:12px 58px;
+}
+.chartBoxHeaderContents:hover {
+	color:#333333;
+	text-decoration:underline;
+}
+
+.dropdown-center {
+	height:44px;
+	widht:44px;
+}
+
+.dropdown-center:hover{
+	background:none;
+}
+
+
+
 
 .tradingBox {
 	width:100%;

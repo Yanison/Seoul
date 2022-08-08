@@ -16,6 +16,8 @@
 	
 <link type="text/css" rel="stylesheet" href="./resources/css/basic.css">
 
+<!-- fontawsome -->
+<script src="https://kit.fontawesome.com/a991bae8fd.js" crossorigin="anonymous"></script>
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
