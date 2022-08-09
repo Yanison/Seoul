@@ -61,7 +61,7 @@
 						</div>
 						<div class="dropdown-center">
 						  <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown">
-						    <i class="fa-solid fa-gear"></i>
+						    <i class="fa-solid fa-gear" style="color:#999999;"></i>
 						  </button>
 						  <ul class="dropdown-menu setting" style="transform: translate(-104px, 42px) !important;">
 						    <li><a class="dropdown-item" href="#">Action</a></li>
@@ -72,14 +72,60 @@
 					</div>
 					<div class="chartBoxIn" >
 					</div>
+					
+					<div class="livePriceBox">
+					
+						<div class="livePrice">
+							<div class="livePriceContents price">
+								<span style="font-size:32px; height:38px;"> 
+									<span>num</span> 
+									<span style="font-size:14px;">KRW</span> 
+								</span>
+								<div style="height:19px;">
+									<span style="font-size:11px; margin-right:4px;">전일대비</span>
+									<span  style="font-size:16px; margin-right:4px;">num%</span>
+									<span style="font-size:16px;">num</span>
+								</div>
+							</div>
+							
+							<div class="priceAndCap">
+								<div class="livePriceContents hightAndLow">
+									<div style="border-bottom:1px solid #dedede; margin-bottom:5px;">
+										<span style="font-size:12px;">고가</span>
+										<span style="font-size:14px;"> <strong> num </strong> </span>
+									</div >
+									<div>
+										<span style="font-size:12px;">저가</span>
+										<span style="font-size:14px;"> <strong> num </strong> </span>
+									</div>
+								</div>
+								<div class="livePriceContents cap">
+									<div style="border-bottom:1px solid #dedede; margin-bottom:5px;">
+										<span style="font-size:12px;">거래량(24H)</span>
+										<span style="font-size:14px;"> <strong> num </strong> <span style="font-size:11px;">BTC</span></span>
+									</div>
+									<div>
+										<span style="font-size:12px;">거래량대금(24H)</span>
+										<span style="font-size:14px;"> <strong> num </strong> <span style="font-size:11px;">KRW</span></span>
+									</div>
+								
+								</div>
+							</div>
+						</div>
+						
+						<div class="liveChartbox">
+						
+						</div>
+					</div>
+					
 				</div>
 				
 				
 				
 				<div class="tradingBox">
-					<div class="dibPriceBox">
+					<div class="dibPriceBox boxes">
 					</div>
-					<div class="BoS">
+					<div class="BoS boxes">
 					</div>
 				</div>
 			</section>
