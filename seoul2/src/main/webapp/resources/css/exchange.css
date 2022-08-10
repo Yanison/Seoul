@@ -207,8 +207,52 @@ main > section {
 	justify-content:space-between;
 	align-items:center;
 }
+.otherMarket {
+	width:100%;
+	height:33px;
+	background:#eef0f5;
+	display:flex;
+	justify-content:space-around;
+	align-items:center;
+}
 
+.marketName {
+	font-size:12px;
+	color:#3F8AC9
+}
 
+.MPrice {
+	font-size:13px;
+	color:#333333;
+	margin:0 5px;
+}
+
+.MPriceUSD {
+	font-size:12px;
+	color:#999999;
+}
+
+.liveChartbox{
+	width:100%;
+	height:calc(100% - 121px);
+	background:#b4b3b5;
+}
+
+.liveChartboxMenu{
+	height:38px;
+	width:100%;
+	background:#d4d6dc;
+	border-bottom:1px solide #d4d6dc;
+	
+	display:flex;
+	align-items:center;
+	padding:0 10px;
+}
+
+.menuContents {
+	margin-left:7px;
+	
+}
 
 
 .tradingBox {

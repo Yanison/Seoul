@@ -112,9 +112,33 @@
 								</div>
 							</div>
 						</div>
-						
+						<div class="otherMarket">
+							<span class="otherMarketContents">
+								<span class="marketName">Bitfinex</span>
+								<span class="MPrice">29,893,044</span>
+								<span class="MPriceUSD">($22,861.00)</span>
+							</span>
+							<span class="otherMarketContents">
+								<span class="marketName">Kraken</span>
+								<span class="MPrice">29,936,325</span>
+								<span class="MPriceUSD">($22,894.00)</span>
+							</span>
+							<span class="otherMarketContents">
+								<span class="marketName">Liquid</span>
+								<span class="MPrice">29,958,307</span>
+								<span class="MPriceUSD">(¥3,095,602.00)</span>
+							</span>
+						</div>
 						<div class="liveChartbox">
-						
+							<div class="liveChartboxMenu">
+								<div class="lCLeftMenu">
+									<span class="menuContents">
+										<i class="fa-solid fa-window-maximize"></i>
+									</span>
+								</div>
+								<div class="lCRightMenu">
+								</div>
+							</div>
 						</div>
 					</div>
 					
