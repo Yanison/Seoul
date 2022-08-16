@@ -1,80 +1,227 @@
 $(document).ready(function(){
 	
-	
-	//링크
-	$('#banner-link').on('click',function(){
-		event.preventDefault();
-		location.href='https://udc.upbit.comm/';
-	});
-	
-	
-	//시세
-	function comma(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    }
-    function setUpbitData(){
-      $.ajax({
-        url: "https://api.upbit.com/v1/market/all",
-        dataType: "json"
-      }).done(function(markets){
-        //$("#tmp").html( JSON.stringify(markets) );
-        let arr_krw_markets = "";	// 빈칸 생성
-        let arr_korean_name = []; // 빈배열 생성
-        for(var i = 0; i < 33;i++){
-          if( markets[i].market.indexOf("KRW") > -1 ){ 
-        	 
-            arr_krw_markets += markets[i].market+(",");
-            arr_korean_name.push(markets[i].korean_name.replace("",""));
-          }
-        }
-        arr_krw_markets = arr_krw_markets.substring(0, arr_krw_markets.length-1);
-        //$("#tmp").html( arr_krw_markets );
-        
-        $.ajax({
-          url: "https://api.upbit.com/v1/ticker?markets=" +arr_krw_markets,
-          dataType: "json"
-        }).done(function(tickers){
-          $("#table_ticker > tbody > tr").remove();
-          //alert($("#table_ticker > tbody > tr").length);
-          //시세변동시 글씨 깜빡임 fadeout
-          $("#table_ticker").fadeOut(0.5);
-
-          for(let i = 0;i < tickers.length;i++){
-            let rowHtml = "<tr><td>"+arr_korean_name[i].replace("코인","").replace("토큰","")+"</td>";
-            //rowHtml += "<td>" + arr_korean_name[i] +"</td>"
-            rowHtml += "<td>" + comma(tickers[i].trade_price)+"</td>"
-            rowHtml += "<td>" + comma((tickers[i].signed_change_rate*100).toFixed(2))+"</td>"
-            rowHtml += "<td>" + comma((     tickers[i].acc_trade_price_24h>1000000 ? ( tickers[i].acc_trade_price_24h / 1000000 ) : tickers[i].acc_trade_price_24h ).toFixed(0)) + (tickers[i].acc_trade_price_24h>1000000 ? "백만" : "") + "</td>"
-            rowHtml += "</tr>";
-            $("#table_ticker > tbody:last").append(rowHtml);
-            //markets[i].korean_name
-          } // end for...
-          //시세변동시 글씨 깜빡임 fadein
-          $("#table_ticker").fadeIn(0.5);
-        })  //done(function(tickers){
-      }) // end done(function(markets){
-      .fail(function(){
-        //alert("업비트 API 접근 중 에러.")}
-        $("#tmp").text( "API 접근 중 에러." );
-      })
-      //시세변동시 글씨 깜빡임 간격
-      setTimeout(setUpbitData, 2000);
-    }
-    $(function() {
-      var color = localStorage.getItem("test_upbit_color");
-      if( color ) $("body").css("color", color);
-      setUpbitData();
-    });
-    function setColor(color){
-      localStorage.setItem("test_upbit_color", color);
-      $("body").css("color", color);
-    }
-	
-	
-	
-
-	
-
-//end
+	init();  // 실행.
 });
+
+// 웹소켓. 
+
+function init(){
+    connectUpnitWebSocket();
+}
+
+var coinList = ["KRW-BTC","KRW-XRP","KRW-ETH"];
+
+
+function connectUpnitWebSocket(){
+    websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
+    websocket.binaryType = 'arraybuffer';
+    //websocket.binaryType = 'Blob';
+    //websocket.binaryType = 'String';
+    // 전송하는 방식을 blob 이나 string 어떤걸로 설정할지 정할 수 있는데 본문에는 arraybuffer 배열로 한 것 같음. 
+   
+//    연결이 성공 되면 아래 순차적으로 진행이 돰
+    websocket.onopen = function(evt) { 
+    	
+    	
+//    	onOpen(evt); // 연결됐을때 이벤트 자동으로 들어옴. ex ) 아작스 success
+    	
+//    	getCoinInfo("KRW-BTC");
+//    	getCoinInfo("KRW-ETH");
+//    	getCoinInfo("KRW-XRP");// 여기까지 는 좋은데 코인이 하나 추가될때마다 계속 이렇게 입력해야함. 
+    	
+//    	그래서위에서 coinList 배열 변수 만들어주고 반복문 돌림
+    	
+//    	for(var i= 0; i< coinList.length; i++){
+//    		var coin_name = coinList[i];
+//    		getCoinInfo(coin_name);
+//    		
+//    		console.log(coin_name)
+//    	}
+    	
+    	
+    	// 그러나 이걸 함수로 따로 객체롬 만들거임. 
+    	getAllcoins()
+    	
+    	
+    	
+    	setInterval(function(){
+    		getAllcoins()
+    	}, 500);
+    	
+    	
+    };
+    websocket.onclose = function(evt) {  
+    	// 소켓이 연결이 끊겼을때
+    };
+    websocket.onmessage = function(evt) {
+    	onMessage(evt);
+    	// _onMessage() 로 전달. 
+    	
+
+    };
+    websocket.onerror = function(evt) { 
+    	
+    };
+}
+
+function getAllcoins(){
+	for(var i= 0; i< coinList.length; i++){
+		var coin_name = coinList[i];
+		getCoinInfo(coin_name);
+		
+		console.log(coin_name)
+	}
+}
+
+
+function getCoinInfo(coinName){
+	var msg = [
+		{
+			"ticket"	: "TEST",
+		},
+		
+		{
+			"type"		: "ticker",
+			"codes"		: [coinName] // 여기에 보고싶은 통화쌍 입력, 배열이니깐 여러게 입력 가능. 
+		}
+	];
+	msg = JSON.stringify(msg); // 배열 형태를 문자열로 바꾸는 과정
+	doSend(msg); // 
+	
+}
+
+
+
+//function onOpen(evt){
+//	// 보낼 메세지를 만든것임. 
+//	var msg = [
+//		{
+//			"ticket"	: "TEST",
+//		},
+//
+//		{
+//			"type"		: "ticker",
+//			"codes"		: ["KRW-BTC"] // 여기에 보고싶은 통화쌍 입력, 배열이니깐 여러게 입력 가능. 
+//		}
+//
+//	];
+//	msg = JSON.stringify(msg); // 배열 형태를 문자열로 바꾸는 과정
+//	doSend(msg); // 
+//}
+
+function doSend(message){
+	websocket.send(message);
+}
+
+
+function onMessage(evt){
+	var enc = new TextDecoder("utf-8");
+	var arr = new Uint8Array(evt.data);
+//	console.log(enc.decode(arr));
+	
+//	var obj = enc.decode(arr);
+	
+	var obj =JSON.parse(enc.decode(arr)) ; // byte 형태를 json 형태로 바꿔줌. 
+	
+//	console.log('code : ' + JSON.parse(obj).code);
+	console.log(obj);
+	
+	
+	
+	if(obj.code == "KRW-BTC"){
+		var tp = obj.trade_price;
+		var pcp = obj.prev_closing_price;
+		
+		$('#btcPrice').html(tp+ '원');
+		$('#btcPreprice').html(pcp+ '원');
+		
+		if(Number(tp) > Number(pcp)){
+			$('#btcPrice').css('color','#c84a31');
+			$('#priceGapbtc').css('color','#c84a31');
+			$('#updownbtc').css('color','#c84a31');
+			$('#priceGapGapbtc').html('+'+tp-pcp);
+			$('#arrowbtc').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-up"></i>'+'</span>');
+		}else if(Number(tp) < Number(pcp)) {
+			$('#btcPrice').css('color','#1261c4');
+			$('#priceGapbtc').css('color','#1261c4');
+			$('#updownbtc').css('color','#1261c4');
+			$('#priceGapGapbtc').html(tp-pcp);
+			$('#arrowbtc').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-down"></i>'+'</span>');
+		}else {
+			$('#btcPrice').css('color','#333333');
+			$('#priceGapbtc').css('color','#333333');
+			$('#updownbtc').css('color','#333333');
+			$('#priceGapbtc').html(tp - pcp);
+		};
+
+		var priceRatio = Math.round(tp /pcp) / 100;
+		$('#updownbtc').html(priceRatio + '%');
+		
+		
+	}else if(obj.code == "KRW-XRP"){
+		var tp = obj.trade_price;
+		var pcp = obj.prev_closing_price;
+		
+		$('#xrpPrice').html(tp+ '원');
+		$('#xrpPreprice').html(pcp+ '원');
+		
+		if(Number(tp) > Number(pcp)){
+			$('#xrpPrice').css('color','#c84a31');
+			$('#priceGapxrp').css('color','#c84a31');
+			$('#updownxrp').css('color','#c84a31');
+			$('#priceGapGapxrp').html('+'+tp-pcp);
+			$('#arrowxrp').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-up"></i>'+'</span>');
+		}else if(Number(tp) < Number(pcp)) {
+			$('#xrpPrice').css('color','#1261c4');
+			$('#priceGapxrp').css('color','#1261c4');
+			$('#updownxrp').css('color','#1261c4');
+			$('#priceGapGapxrp').html(tp-pcp);
+			$('#arrowxrp').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-down"></i>'+'</span>');
+		}else {
+			$('#xrpPrice').css('color','#333333');
+			$('#priceGapxrp').css('color','#333333');
+			$('#updownxrp').css('color','#333333');
+			$('#priceGapxrp').html(tp - pcp);
+		};
+
+		var priceRatio = Math.round(tp /pcp) / 100;
+		$('#updownxrp').html(priceRatio + '%');
+		
+	}else if(obj.code == "KRW-ETH"){
+		var tp = obj.trade_price;
+		var pcp = obj.prev_closing_price;
+		
+		$('#ethPrice').html(tp+ '원');
+		$('#ethPreprice').html(pcp+ '원');
+		
+		if(Number(tp) > Number(pcp)){
+			$('#ethPrice').css('color','#c84a31');
+			$('#priceGapeth').css('color','#c84a31');
+			$('#updowneth').css('color','#c84a31');
+			$('#priceGapGapeth').html('+'+tp-pcp);
+			$('#arroweth').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-up"></i>'+'</span>');
+		}else if(Number(tp) < Number(pcp)) {
+			$('#ethPrice').css('color','#1261c4');
+			$('#priceGapeth').css('color','#1261c4');
+			$('#updowneth').css('color','#1261c4');
+			$('#priceGapGapeth').html(tp-pcp);
+			$('#arroweth').html('<span class="arrowup">'+'<i class="fa-solid fa-caret-down"></i>'+'</span>');
+		}else {
+			$('#ethPrice').css('color','#333333');
+			$('#priceGapeth').css('color','#333333');
+			$('#updowneth').css('color','#333333');
+			$('#priceGapeth').html(tp - pcp);
+		};
+
+		var priceRatio = Math.round(tp /pcp) / 100;
+		$('#updowneth').html(priceRatio + '%');
+		
+	}
+	
+//	for(var i = 0; i << )
+	
+	
+//	websocket.close(); 전화 끊는다.
+	
+}
+

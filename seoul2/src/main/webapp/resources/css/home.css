@@ -198,9 +198,87 @@ body
 	width:100%;
 	height:100%;
 	display:flex;
+	justify-content:space-around;
+}
+
+.priceBox{
+	width:400px;
+	height:330px;
+	
+	display:flex;
+	flex-direction:column;
 	justify-content:center;
+}
+
+.priceBoxTop{
+	width:100%;
+	height:70px;
+	display:flex;
+	justify-content:space-between;
+	margin-bottom:20px;
+}
+
+.coinName, .coinPrice {
+	display:flex;
+	flex-direction:column;
+}
+
+.coinSymbol {
+	height:30px;
+	object-fit:cover;
+	margin:0px 5px 5px 0px;
+}
+
+.tradePrice , .coinCode {
+	font-size:30px;
+}
+.coinCode {
+	display:flex;
+	align-items:center;
+}
+.coinCode > span {
+	text-align:center;
+}
+
+.priceDetail {
+	 font-size:16px; 
+	 width: 300px; 
+	 display:flex;
+	 justify-content:flex-end;
+}
+
+
+.updown {
+	margin:0px 5px;
+}
+.arrow {
+	margin-right:3px;
+	padding:3px 0;
+}
+.priceGapGap {
 	
 }
+
+.priceGap {
+	display:flex;
+}
+.priceGapGap {
+	height: 20px;
+    width: 55px;
+}
+
+.coinprice {
+	text-align:right;
+}
+
+.priceBoxBot {
+	width:100%;
+	height:150px;
+	background:#dedede;
+}
+
+
+
 .cointable thead {
 	background:#edeef1;
 	

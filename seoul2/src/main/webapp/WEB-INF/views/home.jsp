@@ -56,7 +56,7 @@
 										Coins
 								</span>
 								</span> <a id="market" class="market linkbox" title="NFT Market 바로가기"
-									style="background: #0062DF;" href="">거래소</a>
+									style="background: #0062DF;" href="./exchange">거래소</a>
 							</div>
 							<div style="width: 1px; height: 42px; background: #7588AA;"></div>
 
@@ -80,25 +80,90 @@
 
 		<section class="home-price">
 			<div class="price-view-wrapper">
-
-				<div id='tmp'></div>
-				<br />
-				<table id="table_ticker" class="table table-hover text-center cointable">
-					<thead>
-						<tr>
-							<!--td>NO</td-->
-							<td>코인</td>
-							<td>현재가</td>
-							<td>전일대비</td>
-							<td>거래대금</td>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-				<br /> <br /> <br />
-				<div id='tmp2'></div>
-
+				<div class="priceBox priceBTC">
+				
+					<div class="priceBoxTop">
+						<div class="coinName">
+							<span class="coinCode">
+								<span><img class="coinSymbol"src="https://static.upbit.com/logos/BTC.png" alt="https://static.upbit.com/logos/BTC.png"></span>
+								<span>BTC</span>
+							</span>
+							<span style="font-size:16px">Bitcoin</span>
+						</div>
+						<div class="coinPrice">
+							<div id="btcPrice" class="tradePrice"></div>
+							<div class="priceDetail">
+								<span>전일대비</span>
+								<div id="updownbtc" class="updown"></div>
+								<div id="priceGapbtc" class="priceGap">
+									<div id="arrowbtc" class="arrow"></div>
+									<div id="priceGapGapbtc" class="priceGapGap"></div>
+								</div>
+								<span id="btcPreprice" style="display:none;"></span>							
+							</div>
+						</div>
+					</div>
+					<div class="priceBoxBot">
+						<div class="priceBoxBotChart"></div>
+					</div>
+					
+				</div>
+				<div class="priceBox priceETH">
+				
+					<div class="priceBoxTop">
+						<div class="coinName">
+							<span class="coinCode">
+							<span><img class="coinSymbol" src="https://static.upbit.com/logos/ETH.png" alt="https://static.upbit.com/logos/ETH.png"></span>
+							<span>ETH</span>
+							</span>
+							<span style="font-size:16px">Ethereum</span>
+						</div>
+						<div class="coinPrice">
+							<div id="ethPrice" class="tradePrice"></div>
+							<div class="priceDetail">
+								<span>전일대비</span>
+								<div id="updowneth" class="updown"></div>
+								<div id="priceGapeth" class="priceGap">
+									<div id="arroweth" class="arrow"></div>
+									<div id="priceGapGapeth" class="priceGapGap"></div>
+								</div>
+								<span id="ethPreprice" style="display:none;"></span>							
+							</div>
+						</div>
+					</div>
+					<div class="priceBoxBot">
+						<div class="priceBoxBotChart"></div>
+					</div>
+					
+				</div>
+				<div class="priceBox priceXRP">
+				
+					<div class="priceBoxTop">
+						<div class="coinName">
+							<span class="coinCode">
+							<span><img class="coinSymbol" src="https://static.upbit.com/logos/XRP.png" alt="https://static.upbit.com/logos/XRP.png"></span>
+							<span>XRP</span>
+							</span>
+							<span style="font-size:16px">Ripple</span>
+						</div>
+						<div class="coinPrice">
+							<div id="xrpPrice" class="tradePrice"></div>
+							<div class="priceDetail">
+								<span>전일대비</span>
+								<div id="updownxrp" class="updown"></div>
+								<div id="priceGapxrp" class="priceGap">
+									<div id="arrowxrp" class="arrow"></div>
+									<div id="priceGapGapxrp" class="priceGapGap"></div>
+								</div>
+								<span id="xrpPreprice" style="display:none;"></span>							
+							</div>
+						</div>
+					</div>
+					<div class="priceBoxBot">
+						<div class="priceBoxBotChart"></div>
+					</div>
+					
+				</div>
 			</div>
 		</section>
 
