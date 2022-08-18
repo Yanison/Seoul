@@ -32,7 +32,7 @@
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous"></script>
 <script src="./resources/js/home.js"></script>
-
+<script src="./resources/js/getPrice.js"></script>
 
 </head>
 <body style="min-width:1600px;">
