@@ -194,7 +194,7 @@ function onMessage(evt){
 		};
 
 		var priceRatio = obj.signed_change_rate
-		$('#updown'+crypto).html(obj.signed_change_rate + '%');
+		$('#updown'+crypto).html((priceRatio.toFixed(4) * 100) + '%');
 
 	}
 	

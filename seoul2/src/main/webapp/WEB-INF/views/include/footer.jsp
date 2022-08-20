@@ -45,7 +45,7 @@
 						<img src="https://static.upbit.com/upbit-pc/main/company04.gif" alt="삼성화재">
 						</p>
 						<p class="company-info-copy" style="13px;">
-						Copyright © 2017 - 2022 Dunamu Inc. All rights reserved.
+						Copyright © 2017 - 2022 BBongnamu Inc. All rights reserved.
 						</p>
 					</div>
 				</div>

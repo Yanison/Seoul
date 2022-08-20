@@ -21,8 +21,9 @@
 						</a>
 				<div class="header-left-contents">
 					<span id="market" class="headee-contents">거래소</span> 
-					<span id="earning" class="headee-contents">who's earning?</span>
-					<span id="helpcenter" class="headee-contents">고객센터(만드는중)</span> 
+					<span id="wob" class="headee-contents">입출금</span>
+					<span id="trasactionHis" class="headee-contents">투자내역</span> 
+					<span id="helpcenter" class="headee-contents">고객센터</span>
 					<span id="raise" class="headee-contents">코인동향</span> 
 					<c:if test="${not empty root}">
 					<span id="rootmenu" class="headee-contents " style="font-weight:900">관리자메뉴</span> 
