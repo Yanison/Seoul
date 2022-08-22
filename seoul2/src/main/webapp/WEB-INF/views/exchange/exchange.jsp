@@ -257,7 +257,7 @@
 											<td></td>
 											<td class="lAlign">soldamount</td>
 											<td class="amountToggle">
-												<a id="amountToggle">
+												<a id="amountToggle01">
 													<b>수량</b>
 													<em>(BTC)<em>
 													<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>
@@ -270,10 +270,60 @@
 								</div>
 						</div>
 						<div id="orderContaineritem2_1">
-						
+							<div class="orderContainerTotal">
+								<table class="total">
+									<colgroup>
+										<col width="*">
+										<col width="95">
+										<col width="92">
+										<col width="95">
+										<col width="43">
+									</colgroup>
+									<tr>
+										<td></td>
+										<td class="amount">
+											<b>수량</b>
+											<em>(BTC)<em>	
+										</td>
+										<td class="oderPrice">
+											<b>금액</b>
+											<em>(KRW)<em>
+										</td>
+										<td class="total">
+											<b>누적금액</b>
+											<em>(KRW)<em>
+										</td>
+										<td class="last"></td>
+									</tr>
+								</table>
+							</div>
 						</div>
 						<div id="orderContaineritem3_1">
-						
+							<div class="orderContainerTotal">
+								<table class="total">
+									<colgroup>
+										<col width="42">
+										<col width="120">
+										<col width="*">
+										<col width="120">
+										<col width="42">
+									</colgroup>
+										<tr>
+											<td></td>
+											<td class="lAlign">soldamount</td>
+											<td class="amountToggle">
+												<a id="amountToggle02">
+													<b>수량</b>
+													<em>(BTC)<em>
+													<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>
+												</a>
+											</td>
+											<td class="rAlign">boughtamount</td>
+											<td class="last"></td>
+										</tr>
+									<tr>
+								</table>
+							</div>
 						</div>
 						
 					</div>

@@ -615,7 +615,7 @@ colgroup {
     border-top: 1px solid #ddd;
     width:100%;
     height:44px;
-    position
+    text-align:center;
 }
 .orderContainerTotal table.total tr td:first-child {
 	padding-left: 0;
@@ -635,17 +635,10 @@ colgroup {
 	margin:0px;
 }
 
-.orderContainerTotal table.total tr td lAlign{
-	
-}
 
 .orderContainerTotal table.total tr td a{
 	color: #333;
 	cursor:pointer;
-}
-
-.orderContainerTotal table.total tr td rAlign{
-	
 }
 
 .orderContainerTotal a {
@@ -765,6 +758,42 @@ colgroup {
 }
 
 /* orderContainerOrderPrice.jsp end */
+
+/* orderContainerOrderNavigation.jsp start */
+
+.orderContainerOrderNavigation table tr.up > td:first-child{
+	background-color: rgba(18,97,196,.0784313725490196);
+	color: #1261c4!important;
+}
+.orderContainerOrderNavigation table tr td.last{
+	background-color: rgba(200,74,49,.0784313725490196)!important;
+}
+.orderContainerOrderNavigation table tr.up td.bar p{
+	position: absolute;
+	left:0;
+	transform: translate(0,-50%);
+	color: #333;
+}
+
+.orderContainerOrderNavigation table tr.down td.bar p{
+	position: absolute;
+	right:0;
+	transform: translate(0,-50%);
+	color: #333;
+}
+
+.orderContainerOrderNavigation .right {
+	text-align:left;
+}
+	
+.orderContainerOrderNavigation table tr.up td.bar, td.upB {
+	background-color: rgba(200,74,49,.0784313725490196)!important;
+}
+.orderContainerOrderNavigation table tr.down td.bar, td.downB{
+	background-color: rgba(18,97,196,.0784313725490196);
+}
+
+/* orderContainerOrderNavigation.jsp end */
 
 
 .Bidbox {

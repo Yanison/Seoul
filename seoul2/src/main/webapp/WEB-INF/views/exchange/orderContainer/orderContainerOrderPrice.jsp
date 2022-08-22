@@ -45,8 +45,10 @@
 					<p>num</p>
 				</td>
 				<td class="bar right">
-					<div style="width: 12.7897%;"></div>
-					<p>111,249,156</p>
+					<a>
+						<div style="width: 12.7897%;"></div>
+						<p>111,249,156</p>
+					</a>	
 				</td>
 				<td class="last"></td>
 			</tr>

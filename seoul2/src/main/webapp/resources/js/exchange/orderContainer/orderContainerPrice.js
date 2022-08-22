@@ -21,30 +21,7 @@ $(document).ready(function(){
 	
 
 	
-	$('#amountToggle').click(function(){
-		var amountToggle = $('#amountToggle').val()
-		console.log(amountToggle)
-		
-		if(amountToggle == '1'){
-			$('#amountToggle').html(
-				'<b>'+'수량'+'</b>' +
-				'<em>'+
-				'(BTC)'+
-				'<em>'+
-				'<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>'
-			)
-			var amountToggle = $('#amountToggle').val('2')
-		}else{
-			$('#amountToggle').html(
-				'<b>'+'총액'+'</b>' +
-				'<em>'+
-				'(KRW)'+
-				'<em>'+
-				'<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>'			
-			)
-			var amountToggle = $('#amountToggle').val('1')
-		}
-	})
+	
 });
 
 

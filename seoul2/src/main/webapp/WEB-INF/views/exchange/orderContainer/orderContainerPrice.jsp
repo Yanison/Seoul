@@ -451,11 +451,9 @@
 																	<td>price</td>
 																	<td class="down">amount</td>
 																<tr>
-																
-																
-															</tbody>
-														</table>
-													</div>
+																</tbody>
+															</table>
+														</div>
 												</td>
 												<td class="downB">
 													<!-- 체결가격 -->
