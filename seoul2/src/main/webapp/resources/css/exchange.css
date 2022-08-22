@@ -27,6 +27,14 @@ main > section {
 	margin:0;
 }
 
+.myBorder {
+	color:#dedede; 
+	text-align:center;
+	padding:7 0;
+	font-size:15px;
+}
+
+
 
 .exWrapper {
 	width:100%;
@@ -96,7 +104,68 @@ main > section {
 
 
 .setting{
-	transform: translate(-104px, 42px) !important;
+	transform: translate(-234px, 42px) !important;
+	width: 270px;
+	height:400px;
+	padding:0px;
+}
+
+.settingHeader {
+	width:100%;
+	height:34px;
+	background:#f9fafc;
+	padding:8px 14px;
+}
+.settingHeader > div {
+	padding-top:8px;
+}
+.settingContents{
+	padding:0 16px;
+}
+
+.darkMod {
+	width:100%;
+	height:67px;
+	display:flex;
+	align-items:center;
+	
+	border-bottom:1px solid #dedede;
+}
+.darkModBtn{
+	height:30px;
+	width:60px;
+	display:flex;
+	margin-right:10px;
+	
+	border:1px solid #dedede;
+}
+
+.darkModBtn1, .darkModBtn2{
+	width:30px;
+	height:30px;
+	padding:8px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	cursor:pointer;
+
+}
+.darkModBtn>span:hover {
+	background:#dedede;
+}
+
+.bidpriceChkBox{
+	font-size:13px;
+	color:#666666;
+	padding-top:16px;
+	width:100%;
+	height:53px;
+}
+.chartSetting{
+	height:34;
+	width:100%;
+	background:#f9fafc;
+	padding-top:8px;
 }
 
 .btcLogo {
@@ -262,11 +331,446 @@ main > section {
 	display:flex;
 	padding:10px 0px;
 }
-.dibPriceBox {
+
+.bidPriceBox {
 	width:490px;
 	height:100%;
 
 	margin-right:10px;
+}
+
+.bidPriceBoxNav {
+	width:100%;
+	height:45px;
+	border-bottom: 1px solid #dedede;
+	padding:5px;
+	
+	display:flex;
+	justify-content: space-between;
+}
+
+.bidPriceBoxNav > div {
+	display:flex;
+}
+.nav-link {
+	width:110px;
+	height:45px;
+	color:#333333;
+	font-size:16px;
+	text-align:center;
+	cursor:pointer;
+	
+}
+
+.active {
+   height: 39px;
+    border-bottom: 3px solid #0062df;
+    color: #0062df;
+    font-weight: 700;
+}
+.orderContainer {
+	width:490px;
+	height: calc(100% - 90px);
+	overflow:scroll;
+}
+
+colgroup {
+	display:table-column-group;
+}
+
+.orderContainerWrap {
+	width:100%;
+	position: relative;
+}
+
+.orderContainerWrap a{
+	display:flex;
+	justify-content:flex-end;
+	text-decoration:none;
+}
+
+.up {
+	color: #c84a31!important;
+}
+.down{
+	color: #1261c4!important;
+}
+.down .upB{
+	padding:0 8px;
+	background:rgba(18,97,196,.0784313725490196);
+}
+.up .downB {
+	padding: 0 8px;
+    background-color: rgba(200,74,49,.0784313725490196);
+}
+
+.orderContainerPrice .down .bar{
+	padding-left:8px;
+	text-align:right;
+	background:rgba(18,97,196,.0784313725490196);
+}
+
+.orderContainerPrice .up .bar {
+	padding-left:8px;
+	text-align:right;
+	background:rgba(200,74,49,.0784313725490196);
+	vertical-align: middle;
+}
+
+.positionR {
+	position:relative;
+	/* 호가창에서 현제 시세를 마크업 해주는 html 요소임. */
+}
+
+.ty02{
+	width: 50px;
+    margin-left: 14px;
+    line-height: 36px;
+    text-align: right;
+    font-size:12px;
+}
+.ty03 {
+	line-height: 36px;
+    text-align: right;
+    font-size:13px;
+	
+}
+.orderContainerWrap table{
+	width:100%;
+	table-layout:fixed;
+	border-spacing:0;
+}
+
+.orderContainerWrap tr {
+	display:table-row;
+}
+.orderContainerWrap table tr td {
+	height:44px;
+	border-top:1px solid #fff;
+	border-right:1px solid #fff;
+	text-align:right;
+}
+.orderContainerWrap table tr td em {
+	display: block;
+    color: #999!important;
+    font-size: 11px;
+}
+
+.orderContainerWrap table tr td dl {
+	margin: 0 8px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+}
+
+.orderContainerWrap table tr.down td.bar div{
+	background-color: rgba(18,97,196,.14901960784313725);
+    color: #333;
+    vertical-align: middle;
+    overflow: hidden;
+    text-indent: 999em;
+    position:absolute;
+    right:0;
+    transform: translate(0,-50%);
+}
+
+.orderContainerWrap table tr.up td.bar div{
+	background-color: rgba(200,74,49,.14901960784313725);
+    color: #333;
+    vertical-align: middle;
+    overflow: hidden;
+    text-indent: 999em;
+    position:absolute;
+    left:0;
+    transform: translate(0,-50%);
+
+}
+
+.orderContainerWrap table tr td.bar div{
+	display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: middle;
+}
+
+.orderContainerWrap table tr td dl:first-child {
+	border-top:none;
+}
+
+
+
+.orderContainerWrap table tr.down td:first-child{
+	padding-left: 0;
+    border-left: 0;
+    text-align: center;
+    background-color: rgba(18,97,196,.0784313725490196);
+}
+
+.orderContainerWrap table tr.up td.last{
+	background-color: rgba(200,74,49,.0784313725490196)!important;
+}
+
+
+.orderContainerWrap table tr .bar {
+	position:relative;
+	width:7px;
+	height:27px;
+	margin:0 auto;
+	overflow:hidden;
+	font-size:12px;	
+}
+
+.orderContainerPrice table tr.down .bar a p{
+	color:#333 !important;
+	text-align:right;
+	position:absolute;
+	right:5;
+	transform: translate(0,-50%);
+}
+
+.orderContainerPrice table tr.up .bar a p{
+	color:#333 !important;
+	text-align:left;
+	position:absolute;
+	left:5;
+	transform: translate(0,-50%);
+}
+
+.orderContainerWrap dl dt {
+	float:left;
+	width:40%;
+	margin-top:6px;
+	color:#666;
+	line-height:16px;
+	font-size:11px;
+	text-align:left;
+	display:block;
+}
+.orderContainerWrap dl dd {
+	float:left;
+	width:60%;
+	margin-top:6px;
+	line-height:16px;
+	color:#333;
+	font-size:11px;
+	text-align:right;
+}
+
+.orderContainerWrap table thead th{
+	height: 30px;
+    background-color: #f9fafc;
+    color: #666;
+    font-size: 11px;
+}
+.orderContainerWrap .inner01 {
+	width: 162px;
+	height:675px;
+    border-right: 0;
+    vertical-align: bottom;
+    position: relative;
+}
+
+.orderContainerWrap .inner02 {
+	width: 162px;
+	height:675px;
+    padding: 0;
+    vertical-align: top;
+}
+
+.orderContainerWrap .inner02 table tr th{
+	height: 30px;
+    background: #f9fafc url(https://cdn.upbit.com/upbit-web/images/ico_th.c9efe72.png) 0 no-repeat;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+
+
+.inner02 dd{
+	text-align:right;
+}
+.inner02 th {
+	text-align:center;
+}
+
+.inner02 table tr td {
+	cocolor: #666;
+    font-size: 11px;
+    text-align:right;
+    height:16px;
+}
+
+.inner02 .bar {
+	cocolor: #666;
+}
+
+.overflow {
+	height: 419px;
+    overflow: hidden;
+}
+
+
+.orderContainerTotal table.total{
+	background-color: #f9fafc;
+    border-top: 1px solid #ddd;
+    width:100%;
+    height:44px;
+    position
+}
+.orderContainerTotal table.total tr td:first-child {
+	padding-left: 0;
+    border-left: 0;
+}
+
+.orderContainerTotal table.total tr td {
+	height: 43px;
+    font-size: 12px;
+    text-align: center;
+    border-left: 1px solid #eee;
+    line-height: 18px;
+    color: #333;
+}
+.orderContainerTotal table.total tr td em {
+	font-size: 11px;
+	margin:0px;
+}
+
+.orderContainerTotal table.total tr td lAlign{
+	
+}
+
+.orderContainerTotal table.total tr td a{
+	color: #333;
+	cursor:pointer;
+}
+
+.orderContainerTotal table.total tr td rAlign{
+	
+}
+
+.orderContainerTotal a {
+	text-decoration: none;
+}
+
+
+
+/* orderContainerOrderPrice.jsp start */
+
+.orderContainerOrderPrice .down .bar{
+	padding-left:8px;
+	text-align:right;
+	background:rgba(18,97,196,.0784313725490196);
+}
+.orderContainerOrderPrice .DefualutHover, .orderContainerOrderPrice .bar{
+	text-align:left;
+	font-size:12px;
+	color:#333;
+}
+.orderContainerOrderPrice .up .DefualutHover{
+	background-color: rgba(200,74,49,.0784313725490196);
+	
+}
+
+.orderContainerOrderPrice .down .DefualutHover{
+	background-color: rgba(18,97,196,.0784313725490196);
+}
+
+.orderContainerOrderPrice .up .bar {
+	padding-left:8px;
+	text-align:right;
+	background:rgba(200,74,49,.0784313725490196);
+}
+
+
+
+.orderContainerOrderPrice table tr.up td:first-child{
+	padding-left: 0;
+    border-left: 0;
+    text-align: center;
+    background-color: rgba(200,74,49,.0784313725490196);
+}
+
+/* .orderContainerOrderPrice table tr td.bar.right {
+	text-align: left;
+    padding-left: 0;
+    padding-right: 8px;
+}
+
+.orderContainerOrderPrice table tr td.bar.left {
+	text-align: right;
+    padding-left: 0;
+    padding-right: 8px;
+
+} */
+
+.orderContainerOrderPrice table tr td {
+	vertical-align: middle;
+	padding:5px;
+}
+
+.orderContainerOrderPrice table tr.up td.last{
+	background-color: rgba(200,74,49,.0784313725490196);
+}
+.orderContainerOrderPrice table tr.down td.last{
+	background-color: rgba(18,97,196,.0784313725490196);
+}
+
+.orderContainerOrderPrice table tr .bar p {
+	color: #333 !important;
+	vertical-align: middle;
+	position: absolute;
+	left:5;
+	transform: translate(0,-50%);
+}
+
+
+.orderContainerOrderPrice table tr.up td.DefaultHover{
+	padding: 0 8px;
+    text-align: left;
+    background-color: rgba(200,74,49,.0784313725490196)!important;
+}
+.orderContainerOrderPrice table tr.down td.DefaultHover{
+	padding: 0 8px;
+    text-align: left;
+    background-color: rgba(18,97,196,.0784313725490196)!important;
+}
+
+
+.orderContainerOrderPrice table tr.down td.bar div{
+	background-color: rgba(18,97,196,.14901960784313725);
+    color: #333;
+    overflow: hidden;
+    text-indent: 999em;
+    position:absolute;
+	left:0;
+	top: 22px;
+}
+
+.orderContainerOrderPrice table tr.up td.bar div{
+	background-color: rgba(200,74,49,.14901960784313725);
+    color: #333;
+    overflow: hidden;
+    text-indent: 999em;
+    position:absolute;
+	left:0;
+	top: 22px;
+    
+}
+
+.orderContainerOrderPrice table tr td.bar div{
+	display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    
+}
+
+/* orderContainerOrderPrice.jsp end */
+
+
+.Bidbox {
+	background:grey;
+	width:100%;
+	height:680px;
 }
 
 .BoS {

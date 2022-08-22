@@ -22,9 +22,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<script src="./resources/js/exchange.js"></script>
-<script src="./resources/js/getPrice.js"></script>
-
+<!-- <script src="./resources/js/exchange/exchange.js"></script> -->
+<script src="./resources/js/getPrice1.js"></script>
+<script src="./resources/js/exchange/exchange.js"></script>
 
 
 </head>
@@ -60,14 +60,62 @@
 								</a>
 							</div>							
 						</div>
-						<div class="dropdown-center">
-						  <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown">
+						<div class="dropdown-center" style="padding-top:5px;">
+						  <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" style="margin-top:2px; width:30px; height:30px; padding:5px 8px;">
 						    <i class="fa-solid fa-gear" style="color:#999999;"></i>
 						  </button>
-						  <ul class="dropdown-menu setting" style="transform: translate(-104px, 42px) !important;">
-						    <li><a class="dropdown-item" href="#">Action</a></li>
-						    <li><a class="dropdown-item" href="#">Action two</a></li>
-						    <li><a class="dropdown-item" href="#">Action three</a></li>
+						  <ul class="dropdown-menu setting" style="transform: translate3d(-234.5px, 42px, 0px);;">
+						    <li class="settingHeader settingContents">
+							    <div>화면 설정</div>						
+						    </li>
+						    <li class="settingContents">
+						    	<div class="darkMod">
+						    		<div class="darkModBtn">
+							    		<span class="darkModBtn1" style="border-right:1px solid #dedede;"><i class="fa-solid fa-sun"></i></span>
+							    		<span class="darkModBtn2"><i class="fa-solid fa-moon"></i></span>
+							    	</div>
+							    	<div class="darkModText">
+							    		<div style="font-size:13px; color:#666666;">화면 테마 설정</div>
+							    		<div style="font-size:12px; color:#999999;">데이(일반)모드</div>
+							    	</div>	
+						    	</div>							   						    							    	
+						    </li>
+						    <li class="settingContents">						    	
+					    		<div class="form-check bidpriceChkBox">
+								  <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+								  <label class="form-check-label" for="flexCheckIndeterminate" style="padding-top:1px;">
+								    일반 호가에 평균가/누적량/누적액 노출
+								  </label>
+								</div>					    	
+						    </li>
+						    <li class="settingContents chartSetting">
+						    	<div>차트 설정</div>
+						    </li>
+						    <li class="settingContents chartSettingHigh">
+						    	<div class="darkMod">
+						    		<div class="darkModBtn">
+							    		<span class="darkModBtn1" style="border-right:1px solid #dedede;"><i class="fa-solid fa-plus" style=""></i></span>
+							    		<span class="darkModBtn2"><i class="fa-solid fa-minus"></i></span>
+							    	</div>
+							    	<div class="darkModText">
+							    		<div style="font-size:13px; color:#666666;">차트 높이 설정</div>
+							    		<div style="font-size:12px; color:#c84a31;">가장 작은 높이의 차트입니다.</div>
+							    	</div>	
+						    	</div>
+						    </li>
+						    <li class="settingContents" >
+						    	<div class="form-check bidpriceChkBox" style="border-bottom:1px solid #dedede;">
+								  <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+								  <label class="form-check-label" for="flexCheckIndeterminate" style="padding-top:1px;">
+								    차트에 매수평균가 기준선 노출
+								  </label>
+								</div>
+						    </li>
+						    <li class="settingContents" >
+						    	<p style="font-size:12px; color:#666666; margin-top:18px;">
+						    	차트설정 옵션은 회원님의 투자 편의를 제공하는 것으로, 업비트는 제공된 정보에 의한 투자 결과에 대해 책임을 지지 않습니다.
+						    	</p>
+						    </li>
 						  </ul>
 						</div>						
 					</div>
@@ -148,7 +196,86 @@
 				
 				
 				<div class="tradingBox">
-					<div class="dibPriceBox boxes">
+					<div class="bidPriceBox boxes">
+						<div class="bidPriceBoxNav nav">
+							<div class="tabList">
+								<a id="orderContainerPrice" class="nav-link navItem" aria-current="page" href="#1">일반호가</a>
+								<a id="orderContainerOrderPrice" class="nav-link navItem" href="#2">누적호가</a>
+								<a id="orderContainerOrderNavigation" class="nav-link navItem" href="#3">호가주문</a>
+								<a class="myBorder">|</span>
+							</div>
+							<div>
+								<div class="dropdown">
+								  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#333333; width:80px; height: 30px; margin-top:3px">
+								    모아보기
+								   <!--  모아보기는 옵션 단위로 축약해서 호가창을 볼 수 있는 기능임 -->
+								  </button>
+								  <ul class="dropdown-menu" style="transform: translate3d(-60px, 35px, 0px)">
+								    <li><a class="dropdown-item" href="#">기본값</a></li>
+								    <li><a class="dropdown-item" href="#">10,000</a></li>
+								    <li><a class="dropdown-item" href="#">100,000</a></li>
+								    <li><a class="dropdown-item" href="#">1,000,000</a></li>
+								    <li><a class="dropdown-item" href="#">10,000,000</a></li>
+								  </ul>
+								</div>
+							</div>
+						</div>
+						
+						
+						<!-- include -->
+						<div id= "orderContainer" class="orderContainer">
+							
+								<!-- orderContainerPrice.jsp -->
+								
+								<div id="orderContaineritem1">
+									
+										<%@include file="orderContainer/orderContainerPrice.jsp" %>
+									
+								</div>
+								<div id="orderContaineritem2">
+									
+										<%@include file="orderContainer/orderContainerOrderPrice.jsp" %>
+									
+								</div>
+								<div id="orderContaineritem3">
+									
+										<%@include file="orderContainer/orderContainerOrderNavigation.jsp" %>
+									
+								</div>
+						</div>
+						<div id="orderContaineritem1_1">
+								<div class="orderContainerTotal">
+									<table class="total">
+										<colgroup>
+											<col width="42">
+											<col width="120">
+											<col width="*">
+											<col width="120">
+											<col width="42">
+										</colgroup>
+										<tr>
+											<td></td>
+											<td class="lAlign">soldamount</td>
+											<td class="amountToggle">
+												<a id="amountToggle">
+													<b>수량</b>
+													<em>(BTC)<em>
+													<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>
+												</a>
+											</td>
+											<td class="rAlign">boughtamount</td>
+											<td class="last"></td>
+										</tr>									
+									</table>									
+								</div>
+						</div>
+						<div id="orderContaineritem2_1">
+						
+						</div>
+						<div id="orderContaineritem3_1">
+						
+						</div>
+						
 					</div>
 					<div class="BoS boxes">
 					</div>

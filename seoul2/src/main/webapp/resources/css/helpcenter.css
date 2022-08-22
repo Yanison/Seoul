@@ -41,6 +41,7 @@ html, body {
 .header {
 	height:80px;
 	width:100%;
+	min-width:1200px;
 	background:#093687;
 	display:flex;
 	justify-content:space-between;
@@ -182,7 +183,7 @@ menu-bar span{
 	background:#f5f6fa;
 }
 
-table {
+.info-table {
 	font-size: 100%;
 	width:100%;
 	height:100%;
@@ -190,16 +191,16 @@ table {
 	text-align:center;
 	border-top: 2px solid #9b9fa8;
 }
-thead > tr {
+.info-table thead > tr {
 	border-top:none;
 	height:47px;
 }
-tr {
+.info-table tr {
 	border-top: 1px solid #9b9fa8;
 	height:51px;
 }
 
-thead{
+.info-table thead{
 	width:100%;
     font-weight: 500;
 }

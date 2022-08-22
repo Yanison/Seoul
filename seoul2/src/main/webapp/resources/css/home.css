@@ -78,6 +78,7 @@ body
 }
 .header-left-contents {
 	margin: 0 0 0 10px;
+	min-width:470px;
 }
 
 .headee-contents {
