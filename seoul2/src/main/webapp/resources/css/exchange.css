@@ -14,6 +14,17 @@ ul{
 	list-style:none;
 }
 
+a, a:active, a:visited {
+    text-decoration: none;
+}
+
+a {
+    color: #333;
+}
+
+li, ol, ul {
+    list-style: none;
+}
 
 html, body {
 padding:0;
@@ -805,8 +816,63 @@ colgroup {
 .BoS {
 	width:490px;
 	height:100%;
-	background:#fff;
+}
+.orderBox{
+	width: 100%;
+	background-color: #fff;
+}
 
+.orderBoxTab{
+	width: 100%;
+	height: 45px;
+	display:block;
+}
+.orderBoxTab ul {
+	display: table;
+    width: 100%;
+    table-layout: fixed;
+} 
+
+.orderBoxTab ul li {
+	display: table-cell;
+    width: auto;
+    float: none;
+	font-size: 16px;
+}
+
+.orderBoxTab ul li a {
+	display: block;
+    width: 100%;
+    height: 44px;
+    border-bottom: 1px solid #d4d6dc;
+    line-height: 42px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 900;
+    text-align: center;
+    padding: 3px 0 0 0;
+}
+
+.orderBoxBody div{
+	position: relative;
+}
+.orderBoxBody dl{
+	
+}
+
+.orderBoxBody dl dt {
+	height:53px;
+	width: 134px;
+	text-align:center;
+	padding-top:10px;
+	background:#dedede;
+	float:left;
+}
+.orderBoxBody dl dd {
+}
+
+.orderBoxBody dl dd .orderTpye{
+	display:flex;
 }
 
 
