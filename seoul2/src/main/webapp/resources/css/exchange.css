@@ -374,10 +374,16 @@ main > section {
 }
 
 .active {
-   height: 39px;
-    border-bottom: 3px solid #0062df;
-    color: #0062df;
-    font-weight: 700;
+   	height: 39px !important;
+    border-bottom: 3px solid #0062df !important;
+    color: #0062df !important;
+    font-weight: 700 !important;
+}
+.active2 {
+   	height: 44px !important;
+    border-bottom: 3px solid #0062df !important;
+    color: #0062df !important;
+    font-weight: 700 !important;
 }
 .orderContainer {
 	width:490px;
@@ -815,10 +821,11 @@ colgroup {
 
 .BoS {
 	width:490px;
-	height:100%;
+	height:477px;
 }
 .orderBox{
 	width: 100%;
+	height:100%;
 	background-color: #fff;
 }
 
@@ -856,23 +863,105 @@ colgroup {
 .orderBoxBody div{
 	position: relative;
 }
-.orderBoxBody dl{
-	
+
+.fa-regular {
+	cursor:pointer;
+}
+.fa-regular:hover{
+	color:#grey;
+}
+.orderBoxBody dl {
+	margin-top:10px;
 }
 
 .orderBoxBody dl dt {
 	height:53px;
 	width: 134px;
-	text-align:center;
-	padding-top:10px;
-	background:#dedede;
+	padding:10 0 0 15px;
+	clear:left;
 	float:left;
+	color: #666;
+    font-size: 13px;
+    font-weight: 500;
+}
+.orderBoxBody dl em {
+	font-size: 11px;
 }
 .orderBoxBody dl dd {
+	height:53px;
+	width: auto;
+	float:right;
+	padding:10px 10px 0 0;
+
+}
+.orderBoxBody dl dd strong{
+	font-size: 18px;
+}
+.orderBoxBody dl dd em{
+	font-size: 11px;
+}
+.orderBoxBody dl dd .mb-3{
+	width:330px;
 }
 
-.orderBoxBody dl dd .orderTpye{
+.orderBoxBody .input-group>.form-control{
+	text-align:right;
+}
+
+.orderBoxBody dl dd div.orderTpye{
 	display:flex;
+	width:100%;
+	height:100%;
+}
+.orderBoxBody dl dd div.orderTpye >div {
+	margin-right:10px;
+}
+.orderBoxBody .last {
+	width:100%;
+	display:flex;
+	margin-top:25px;
+	padding:0 14px;
+	justify-content:space-between;
+}
+.orderNotice > span{
+	font-size:11px;
+	margin-left: 10px;
+}
+
+.toggleMenueBody{
+	display:none;
+}
+
+.orderNotice span .fa-solid{
+	margin-right:5px;
+	font-size:3px;
+}
+.orderBoxBody .last >span {
+	text-align:center;
+	line-height:45px;
+}
+
+.orderBoxBody .orderBtn1{
+	display:block;
+	width:108;
+	height:44px;
+	background:#94949d
+}
+
+.orderBoxBody .orderBtn2{
+	display:block;
+	width:344px;
+	height:44px;
+	background:#94949d;
+}
+
+
+
+.miniChart{
+	width:100%;
+	height:293px;
+	background:#fff;
+	margin-top:10px;
 }
 
 

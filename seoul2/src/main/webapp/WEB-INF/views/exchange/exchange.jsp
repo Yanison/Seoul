@@ -332,92 +332,41 @@
 							<span class="orderBoxTab">
 								<ul>
 									<li class="tabBuy">
-										<a href="#" class="tabB__button" title="매수">매수</a>
+										<a href="#1" class="navItem2 navItem2_1" title="매수">매수</a>
 									</li>
 									<li class="tabSell">
-										<a href="#" class="tabB__button" title="매도">매도</a>
+										<a href="#2" class="navItem2 navItem2_2" title="매도">매도</a>
 									</li>
 									<li class="easyorder">
-										<a href="#" class="tabB__button" title="간편주문">간편주문</a>
+										<a href="#3" class="navItem2 navItem2_3" title="간편주문">간편주문</a>
 									</li>
 									<li class="transactionHis">
-										<a href="#" class="tabB__button" title="거래내역">거래내역</a>
+										<a href="#4" class="navItem2 navItem2_4" title="거래내역">거래내역</a>
 									</li>
 								</ul>
 							</span>
-							<span class="orderBoxBody">
-								<dl>
-									<dt>
-										<strong>주문구분 <i class="fa-regular fa-circle-question"></i></strong>
-									</dt>
-									<dd>
-										<span class="orderTpye">
-											<div class="form-check">
-											  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-											  <label class="form-check-label" for="flexRadioDefault1">
-											    시장가
-											  </label>
-											</div>
-											<div class="form-check">
-											  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-											  <label class="form-check-label" for="flexRadioDefault2">
-											    지정가
-											  </label>
-											</div>
-											<div class="form-check">
-											  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-											  <label class="form-check-label" for="flexRadioDefault2">
-											    예약-지정가
-											  </label>
-											</div>
-										</span>
-									</dd>
-									<dt>
-									<strong>주문가능</strong>
-									</dt>
-									<dd>
-										<storng>num</storng><em>KRW</em>
-									</dd>
-										<dt>
-										<strong>매수가격</strong>
-										</dt>
-									<dd>
-										<div class="input-group mb-3">
-										  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-										  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-										  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
-										  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
-										</div>
-									</dd>
-									<dt>
-										<strong>주문수량</strong>
-									</dt>
-									<dd>
-										<div class="input-group mb-3">
-										  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-										  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
-										</div>
-										<div class="input-group mb-3">
-										  <span class="input-group-text" id="inputGroup-sizing-default">10%</span>
-										  <span class="input-group-text" id="inputGroup-sizing-default">25%</span>
-										  <span class="input-group-text" id="inputGroup-sizing-default">50%</span>
-										  <span class="input-group-text" id="inputGroup-sizing-default">100%</span>									  										 
-										</div>
-									</dd>
-									<dt>
-										<strong>주문총액</strong>
-									</dt>
-									<dd>
-										
-									</dd>
-									
-								</dl>
-	
-							</span>
+							<div id="orderBoxBody1" class="orderBoxBody toggleMenueBody">									
+									<%@ include file="bosBox/buy.jsp" %>
+							</div>
+							
+							<div id="orderBoxBody2" class="orderBoxBody toggleMenueBody">
+									<%@ include file="bosBox/sell.jsp" %>	
+							</div>
+							
+							<div id="orderBoxBody3" class="orderBoxBody toggleMenueBody">
+									<%@ include file="bosBox/easyOrder.jsp" %>	
+							</div>
+							
+							<div id="orderBoxBody4" class="orderBoxBody toggleMenueBody">
+									<%@ include file="bosBox/transactionHis.jsp" %>	
+							</div>
+							
 						</article>
-						<article class="">
-						</article>
+						<article class="miniChart">
+						
+						</article>						
 					</div>
+					
 				</div>
 			</section>
 			<section class="cryptoList">

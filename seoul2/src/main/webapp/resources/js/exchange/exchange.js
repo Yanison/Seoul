@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 	
-	//네비게이션 focus
+	//orderContainer
 	var navItem = $('.navItem')
 	
 	navItem.click(function(){
@@ -9,7 +9,6 @@ $(document).ready(function(){
 		navItem.not($(this)).removeClass('active');
 	})
 
-	
 	//네비게이션 페이지네이션
 	$('#oderContainer').scrollTop(350);
 	$('#orderContaineritem2').hide()
@@ -47,6 +46,25 @@ $(document).ready(function(){
 		$('#orderContaineritem3').show();
 		$('#orderContaineritem3_1').show();
 	})
+	
+	//bosBox
+	var navItem2 = $('.navItem2')
+	
+	navItem2.click(function(){
+		$(this).addClass('active2');
+		navItem2.not($(this)).removeClass('active2');
+	})
+//	for(i = 1 ; i <=4 ; i++){
+//		$('.navItem'+i).click(function(){
+//			$('#orderBoxBody'+i).toggle()
+//			$('#orderBoxBody'+i+1).toggle()
+//			$('#orderBoxBody'+i+2).toggle()
+//			$('#orderBoxBody'+i+3).toggle()
+//		})
+//	}
+	
+	
+	
 	
 	//수량가격 체인지
 	$('#amountToggle01').click(function(){
@@ -97,7 +115,6 @@ $(document).ready(function(){
 			var amountToggle = $('#amountToggle02').val('1')
 		}
 	})
-	
 	
 	
 		
