@@ -48,21 +48,80 @@ $(document).ready(function(){
 	})
 	
 	//bosBox
-	var navItem2 = $('.navItem2')
 	
-	navItem2.click(function(){
-		$(this).addClass('active2');
-		navItem2.not($(this)).removeClass('active2');
+	$('.nav2_1').click(function(){
+		$('.nav2_1').addClass('active2Buy');
+		$('.nav2_2').removeClass('active2Sell');
+		$('.nav2_3').removeClass('active2');
+		$('.nav2_4').removeClass('active2');
+		
+		$('#orderBoxBody1').show();		
+		$('#orderBoxBody2').hide();
+		$('#orderBoxBody3').hide();
+		$('#orderBoxBody4').hide();
 	})
-//	for(i = 1 ; i <=4 ; i++){
-//		$('.navItem'+i).click(function(){
-//			$('#orderBoxBody'+i).toggle()
-//			$('#orderBoxBody'+i+1).toggle()
-//			$('#orderBoxBody'+i+2).toggle()
-//			$('#orderBoxBody'+i+3).toggle()
-//		})
-//	}
 	
+	$('.nav2_2').click(function(){
+		$('.nav2_1').removeClass('active2Buy');
+		$('.nav2_2').addClass('active2Sell');
+		$('.nav2_3').removeClass('active2');
+		$('.nav2_4').removeClass('active2');
+		
+		$('#orderBoxBody1').hide();		
+		$('#orderBoxBody2').show();
+		$('#orderBoxBody3').hide();
+		$('#orderBoxBody4').hide();
+	})
+	
+	$('.nav2_3').click(function(){
+		$('.nav2_1').removeClass('active2Buy');
+		$('.nav2_2').removeClass('active2Sell');
+		$('.nav2_3').addClass('active2');
+		$('.nav2_4').removeClass('active2');
+		
+		$('#orderBoxBody1').hide();		
+		$('#orderBoxBody2').hide();
+		$('#orderBoxBody3').show();
+		$('#orderBoxBody4').hide();
+	})
+	
+	$('.nav2_4').click(function(){
+		$('.nav2_1').removeClass('active2Buy');
+		$('.nav2_2').removeClass('active2Sell');
+		$('.nav2_3').removeClass('active2');
+		$('.nav2_4').addClass('active2');
+		
+		$('#orderBoxBody1').hide();		
+		$('#orderBoxBody2').hide();
+		$('#orderBoxBody3').hide();
+		$('#orderBoxBody4').show();
+	})
+	
+	
+	
+	
+//	navItem2.click(function(){
+//		$(this).addClass('active2');
+//		navItem2.not($(this)).removeClass('active2','active2Sell','active2Buy');
+//	})
+//	
+//	navItem3.click(function(){
+//		$(this).addClass('active2Sell');
+//		navItem3.not($(this)).removeClass('active2','active2Sell','active2Buy');
+//	})
+//	navItem4.click(function(){
+//		$(this).addClass('active2Buy');
+//		navItem4.not($(this)).removeClass('active2','active2Sell','active2Buy');
+//	})
+	
+		
+	
+
+
+	
+	
+
+
 	
 	
 	

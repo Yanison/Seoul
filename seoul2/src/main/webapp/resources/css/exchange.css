@@ -381,8 +381,22 @@ main > section {
 }
 .active2 {
    	height: 44px !important;
-    border-bottom: 3px solid #0062df !important;
-    color: #0062df !important;
+    border-bottom: 3px solid #333 !important;
+    color: #333 !important;
+    font-weight: 700 !important;
+}
+
+.active2Buy {
+   	height: 44px !important;
+    border-bottom: 3px solid #c84a31 !important;
+    color: #c84a31 !important;
+    font-weight: 700 !important;
+}
+
+.active2Sell {
+   	height: 44px !important;
+    border-bottom: 3px solid #1261c4 !important;
+    color: #1261c4 !important;
     font-weight: 700 !important;
 }
 .orderContainer {
@@ -916,6 +930,8 @@ colgroup {
 .orderBoxBody dl dd div.orderTpye >div {
 	margin-right:10px;
 }
+
+
 .orderBoxBody .last {
 	width:100%;
 	display:flex;
@@ -939,6 +955,9 @@ colgroup {
 .orderBoxBody .last >span {
 	text-align:center;
 	line-height:45px;
+	font-size: 14px;
+    font-weight: 700;
+    color:#fff;
 }
 
 .orderBoxBody .orderBtn1{
@@ -955,6 +974,54 @@ colgroup {
 	background:#94949d;
 }
 
+.easyOrderSetting{
+	width:100%;
+	height:50px;
+	display:flex;
+	justify-content:space-between;
+	padding:0 15px;
+	
+	
+}
+.easyOrderSetting div{
+
+line-hieght:10px;
+}
+
+.easyOrderSetting div span {
+	color:#666;
+	line-height: 3.5;
+	font-size:14px;
+}
+.fa-regular{
+	font-size:15px;
+	cursor:pointer;
+}
+.fa-regular:hover{
+	background:#0062df;
+	border-radius:7px;
+	color:#fff;
+}
+
+.easyOrderSetting div:last-child span{
+	margin-left:10px;
+}
+
+.availableOrder{
+	width:100%;
+	height:62px;
+	display:flex;
+	justify-content:space-between;
+	padding:0px 15px;
+	box-sizing: border-box;
+}
+
+.availableOrder_1{
+	width:235px;
+	height:35px;
+	display:flex;
+	padding
+}
 
 
 .miniChart{

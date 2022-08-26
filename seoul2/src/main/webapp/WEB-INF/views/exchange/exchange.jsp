@@ -332,32 +332,32 @@
 							<span class="orderBoxTab">
 								<ul>
 									<li class="tabBuy">
-										<a href="#1" class="navItem2 navItem2_1" title="매수">매수</a>
+										<a href="#1" class="navItem2 nav2_1 active2Buy" title="매수">매수</a>
 									</li>
 									<li class="tabSell">
-										<a href="#2" class="navItem2 navItem2_2" title="매도">매도</a>
+										<a href="#2" class="navItem2 nav2_2" title="매도">매도</a>
 									</li>
 									<li class="easyorder">
-										<a href="#3" class="navItem2 navItem2_3" title="간편주문">간편주문</a>
+										<a href="#3" class="navItem2 nav2_3" title="간편주문">간편주문</a>
 									</li>
 									<li class="transactionHis">
-										<a href="#4" class="navItem2 navItem2_4" title="거래내역">거래내역</a>
+										<a href="#4" class="navItem2 nav2_4" title="거래내역">거래내역</a>
 									</li>
 								</ul>
 							</span>
-							<div id="orderBoxBody1" class="orderBoxBody toggleMenueBody">									
+							<div id="orderBoxBody1" class="orderBoxBody toggleMenueBody navItem2_1">									
 									<%@ include file="bosBox/buy.jsp" %>
 							</div>
 							
-							<div id="orderBoxBody2" class="orderBoxBody toggleMenueBody">
+							<div id="orderBoxBody2" class="orderBoxBody toggleMenueBody navItem2_2">
 									<%@ include file="bosBox/sell.jsp" %>	
 							</div>
 							
-							<div id="orderBoxBody3" class="orderBoxBody toggleMenueBody">
+							<div id="orderBoxBody3" class="orderBoxBody toggleMenueBody navItem2_3" style="display:block">
 									<%@ include file="bosBox/easyOrder.jsp" %>	
 							</div>
 							
-							<div id="orderBoxBody4" class="orderBoxBody toggleMenueBody">
+							<div id="orderBoxBody4" class="orderBoxBody toggleMenueBody navItem2_4">
 									<%@ include file="bosBox/transactionHis.jsp" %>	
 							</div>
 							
