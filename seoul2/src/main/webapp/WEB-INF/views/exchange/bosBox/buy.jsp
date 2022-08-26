@@ -9,6 +9,8 @@
 
 <!-- css,js _ (입력)에서 상속받음. --> 
 <!-- <link type="text/css" rel="stylesheet" href="./resources/css/입력.css">
+#c84a31; red
+#0062df; blue
 <script src="./resources/js/입력.js"></script> -->
 
 

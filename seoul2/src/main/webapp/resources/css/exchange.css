@@ -976,7 +976,7 @@ colgroup {
 
 .easyOrderSetting{
 	width:100%;
-	height:50px;
+	height:51px;
 	display:flex;
 	justify-content:space-between;
 	padding:0 15px;
@@ -1011,6 +1011,7 @@ line-hieght:10px;
 	width:100%;
 	height:62px;
 	display:flex;
+	flex-direction: row;
 	justify-content:space-between;
 	padding:0px 15px;
 	box-sizing: border-box;
@@ -1020,9 +1021,20 @@ line-hieght:10px;
 	width:235px;
 	height:35px;
 	display:flex;
-	padding
+	justify-content: space-between;
 }
 
+.availableSell{
+	padding-left:30px;
+}
+.availableBuy{
+	padding-right:30px;
+}
+
+.easyOrderOptions{
+	overflow:scroll;
+	width:100%;
+}
 
 .miniChart{
 	width:100%;

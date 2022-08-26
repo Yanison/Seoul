@@ -8,7 +8,10 @@
 <%@ page session="false" %>
 
 <!-- css,js _ (입력)에서 상속받음. --> 
-<!-- <script src="./resources/js/.js"></script> -->
+<!-- <script src="./resources/js/.js"></script>
+#c84a31; red
+#0062df; blue
+ -->
 
 
 <dl>

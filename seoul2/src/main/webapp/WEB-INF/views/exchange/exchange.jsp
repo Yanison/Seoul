@@ -26,6 +26,10 @@
 <script src="./resources/js/getPrice1.js"></script>
 <script src="./resources/js/exchange/exchange.js"></script>
 
+<!-- #c84a31; red
+#0062df; blue 
+-->
+
 
 </head>
 <body>
