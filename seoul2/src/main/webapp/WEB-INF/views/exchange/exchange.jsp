@@ -357,11 +357,11 @@
 									<%@ include file="bosBox/sell.jsp" %>	
 							</div>
 							
-							<div id="orderBoxBody3" class="orderBoxBody toggleMenueBody navItem2_3" style="display:block">
+							<div id="orderBoxBody3" class="orderBoxBody toggleMenueBody navItem2_3" >
 									<%@ include file="bosBox/easyOrder.jsp" %>	
 							</div>
 							
-							<div id="orderBoxBody4" class="orderBoxBody toggleMenueBody navItem2_4">
+							<div id="orderBoxBody4" class="orderBoxBody toggleMenueBody navItem2_4" style="display:block">
 									<%@ include file="bosBox/transactionHis.jsp" %>	
 							</div>
 							

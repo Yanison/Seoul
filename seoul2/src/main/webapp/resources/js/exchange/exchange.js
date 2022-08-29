@@ -116,15 +116,6 @@ $(document).ready(function(){
 	
 		
 	
-
-
-	
-	
-
-
-	
-	
-	
 	//수량가격 체인지
 	$('#amountToggle01').click(function(){
 		var amountToggle = $('#amountToggle01').val()
@@ -174,6 +165,8 @@ $(document).ready(function(){
 			var amountToggle = $('#amountToggle02').val('1')
 		}
 	})
+	
+	//거래내역
 	
 	
 		

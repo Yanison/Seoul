@@ -29,28 +29,79 @@
 
 <ul class="availableOrder">
 	<li class="availableOrder_1 availableBuy">
-		<div style="color:#c84a31">매수가능</div>
+		<div style="color:#c84a31">매수 가능</div>
 		<div>0 <strong>KRW</strong>
 		</div>
 	</li>
 	<li class="availableOrder_1 availableSell">
-		<div style="color:#0062df">매도가능</div>
-		<div>0 <strong>KRW</strong>
+		<div style="color:#0062df">매도 가능</div>
+		<div>
+			<div>0 <strong>KRW</strong></div>
+			<div style="color:#999; font-size:10px;">≈ 0 <i>KRW</i></div>
 		</div>
 	</li>
 </ul>
-
-<div class="easyOrderOptions">
-	<div class="orderOptions">
-	</div>
-	<div class="orderOptions">
-	</div>
-	<div class="orderOptions">
-	</div>
-	<div class="orderOptions">
-	</div>
-	<div class="orderOptions">
-	</div>
-	<div class="orderOptions">
-	</div>
+<div class="easyOrderOptionsWrapper">
+	<ul class="easyOrderOptions">
+		<li class="orderOptions _a">
+			<div>
+				<div> 시장가 전액 매수</div>
+				<div>가격:시장가, 총액: 가능 100%</div>
+			</div>
+			<div>
+				<div>Option(⌥)+1</div>
+				<span class="orderBtn_ orderBtn_a">매수</span>
+			</div>
+		</li>
+		<li class="orderOptions _b">
+			<div>
+				<div> 시장가 전액 매도</div>
+				<div>가격:시장가, 수량: 가능 100%</div>
+			</div>
+			<div>
+				<div>Option(⌥)+2</div>
+				<span class="orderBtn_ orderBtn_b">매도</span>
+			</div>		
+		</li>
+		<li class="orderOptions _a">
+			<div>
+				<div> 지정가 전액 매수</div>
+				<div>가격: <span name="orderOptionsPrice">num</span> KRW, 수량: 가능 100%</div>
+			</div>
+			<div>
+				<div>Option(⌥)+3</div>
+				<span class="orderBtn_ orderBtn_a">매수</span>
+			</div>
+		</li>
+		<li class="orderOptions _b">
+			<div>
+				<div> 지정가 전액 매도</div>
+				<div>가격: <span name="orderOptionsPrice">num</span> KRW, 수량: 가능 100%</div>
+			</div>
+			<div>
+				<div>Option(⌥)+4</div>
+				<span class="orderBtn_ orderBtn_b">매도</span>
+			</div>
+		</li>
+		<li class="orderOptions _a">
+			<div>
+				<div>일반 주문 취소</div>
+				<div>대상:일반 미체결 주문 최근 1건</div>
+			</div>
+			<div>
+				<div>Option(⌥)+5</div>
+				<span class="orderBtn_ orderBtn_c">취소</span>
+			</div>
+		</li>
+		<li class="orderOptions _b">
+			<div>
+				<div>평단가 도달시 전액 매도</div>
+				<div>감시가: 평단가, 가격: 평단가, 수량: 가능 100%</div>
+			</div>
+			<div>
+				<div>Option(⌥)+6</div>
+				<span class="orderBtn_ orderBtn_b">예약매도</span>
+			</div>
+		</li>
+	</ul>
 </div>
