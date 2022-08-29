@@ -127,9 +127,45 @@ body {
 	margin-right:10px;
 }
 
-.search-bar-title {
-	font-size: 25px;
+.searchBar1 ,.searchBar2 {
+ display:flex;
+ align-items:center;
 }
+.formcontents{
+	font-size:11px;
+	color:#666;
+	margin:0px;
+	padding:0px;
+	width:130px;
+	height:25px;
+}
+
+.cgTableWrapper{
+	width:100%;
+	height:800px;
+	overflow:scroll;
+	padding:0 20px;
+}
+
+.cgTable {
+	width:100%;
+	
+}
+.cgTable thead tr th {
+	border:1px solid #666;
+	text-align:center;
+	font-size:13px;
+	background:#eee;
+	height:20px;
+}
+
+.cgTable tbody tr td {
+	border:1px solid #666;
+	text-align:center;
+	height:30px;
+}
+
+
 
 .head-box {
 	width:100%;

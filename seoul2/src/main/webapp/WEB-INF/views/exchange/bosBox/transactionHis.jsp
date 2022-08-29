@@ -14,17 +14,17 @@
 <div class="THWrapper">
 	<div class="viewOption">
 		<div class="radioOption">
-			<div class="form-check">
-			  <input id="settleOrderN" class="form-check-input " value="1" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-			  <label class="form-check-label" for="flexRadioDefault1">
-			    미체결
-			  </label>
+			<div class="radioCheck">
+				<label>
+					<input type="radio" name="settleOrder" class="settleOrder" value="1" checked></input><span>미체결</span>
+				</label>			 
 			</div>
-			<div class="form-check">
-			  <input id="settleOrderY" class="form-check-input" value="2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
-			  <label class="form-check-label" for="flexRadioDefault2">
-			    체결
-			  </label>
+			<div class="radioCheck">	
+				<div class="form-check">
+				<label>
+					<input type="radio" name="settleOrder" class="settleOrder"  value="2"><span>체결</span>
+				</label>			 
+			</div>		
 			</div>
 		</div>
 		<div class="dropOption">
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div class="settleOrderWrapper">
-		<div class="settleOrder _N">
+		<div class="settleOrderNY _N">
 			<table class="settleOrderTable">
 				<colgroup>
 					<col width="82px">
@@ -81,12 +81,15 @@
 						<td>
 							<div class="exHis_Amount">num</div>							
 						</td>
+						<td>
+							<button>취소</button>						
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		
-		<div class="settleOder _Y" style="display:none">
+		<div class="settleOrderNY _Y" style="display:none">
 			<table class="settleOrderTable">
 				<colgroup>
 					<col width="94px">
@@ -96,16 +99,14 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th rowspan="2">주문시간</th>
+						<th rowspan="2">체결시간</th>
 						<th>마켓명</th>
-						<th>감시가격</th>
-						<th>주문가격</th>
-						<th rowspan="2">취소</th>
+						<th>체결가격</th>
+						<th rowspan="2">체결수량</th>
 					</tr>
 					<tr>
 						<th>구분</th>
-						<th>주문가격</th>
-						<th>미체결량</th>											
+						<th>체결금액</th>											
 					</tr>
 				</thead>
 				<tbody>
