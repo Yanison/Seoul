@@ -14,8 +14,7 @@
 
 				<section class="right">
 					<%@ include file="./right_include/layout_right_header.jsp" %>
-					<div class="search-bar">
-				
+					<div class="search-bar">				
 						<div class="searchBar">
 							<div class="searchBar1">
 								<form>								
@@ -31,8 +30,8 @@
 										<option value="">Y</option>
 										<option value="">Y</option>
 									</select>
-									<input class="formcontents formTypeDate dateStart" type="date">
-									<input class="formcontents formTypeDate dateEnd" type="date" placeholder="종료일">
+									<input class="formcontents formTypeDate dateStart" type="date" data-placeholder="날짜 선택">
+									<input class="formcontents formTypeDate dateEnd" type="date" data-placeholder="날짜 선택">
 								</form>	
 							</div>
 							<div class="searchBar2">
@@ -46,13 +45,15 @@
 									<input class="formcontents formTypeSearch " type="search">
 								</form>	
 							</div>
-							
-							
-						</div>	
+						</div>
+						<div class="UMbox">
+							<button type="button" class="btn btn-info">등록</button>
+							<button type="button" class="btn btn-info">수정</button>	
+						</div>						
 					</div>
 					<div class="cgTableWrapper">
 						<table class="cgTable">
-							<colspan>
+							<colgroup>
 								<col width="20px">
 								<col width="30px">
 								<col width="200px">
@@ -61,7 +62,7 @@
 								<col width="100px">
 								<col width="150px"">
 								<col width="150px">
-							</colspan>
+							</colgroup>
 							<thead>
 								<tr>
 									<th>

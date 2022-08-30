@@ -38,7 +38,7 @@ html, body {
 	position:relative;
 }
 
-.header {
+.header2 {
 	height:80px;
 	width:100%;
 	min-width:1200px;
@@ -58,7 +58,7 @@ html, body {
 	left:0px;
 }
 
-.header-left, .header-right {
+.header2 .header-left,.header2 .header-right {
 	display:flex;
 	align-items:center;
 }

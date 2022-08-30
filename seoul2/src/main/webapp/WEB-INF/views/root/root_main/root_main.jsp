@@ -40,10 +40,6 @@
 			
 			<div class="right-wrapper">  
 				
-			
-			
-			
-			
 			<%-- <c:if test="${now_menu eq userinfo}"> --%>
 				<%@ include file="../root_right_section/right_section_main.jsp" %>
 			<%-- </c:if> --%>

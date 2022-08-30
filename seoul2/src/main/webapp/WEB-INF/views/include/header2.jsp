@@ -12,7 +12,7 @@
 <!-- <script src="./resources/js/helpcenter.js"></script> -->
 	
 	
-	<header class="header">
+	<header class="header2">
 		<div class="header-left">
 				<a title="황비트" class="logo-link" href="http://127.0.0.1:8080/seoul2/">
 						</a>

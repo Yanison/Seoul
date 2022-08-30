@@ -1208,11 +1208,37 @@ input[type=radio]{
 	color:#666;
 }
 
+.settleOrderNY._N .exHis td:first-child{
+	text-align:left;	
+}
+
+.settleOrderNY._N .exHis td{
+	text-align:center;	
+}
+
+.settleOrderNY._Y .exHis td:first-child{
+	text-align:left;	
+}
+
+.settleOrderNY._Y .exHis td{
+	text-align:center;	
+}
+
+.settleOrderNY._Y .exHis td:last-child{
+	text-align:right;	
+}
+
 .miniChart{
 	width:100%;
 	height:293px;
 	background:#fff;
 	margin-top:10px;
+}
+
+.trasactedHistory{
+	height:436px;
+	width:100%px;
+	background:#eee;
 }
 
 

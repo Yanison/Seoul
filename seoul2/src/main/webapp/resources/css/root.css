@@ -131,6 +131,8 @@ body {
  display:flex;
  align-items:center;
 }
+
+
 .formcontents{
 	font-size:11px;
 	color:#666;
@@ -164,7 +166,12 @@ body {
 	text-align:center;
 	height:30px;
 }
-
+.UMbox{
+	vertical-align:
+}
+.UMbox button:first-child{
+	margin-right:10px;
+}
 
 
 .head-box {

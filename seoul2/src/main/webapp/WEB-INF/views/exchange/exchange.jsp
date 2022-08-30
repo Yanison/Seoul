@@ -367,20 +367,26 @@
 							
 						</article>
 						<article class="miniChart">
-						
-						</article>						
+							<section class></section>
+						</article>					
 					</div>
 					
+				</div>
+			
+				<div class="trasactedHistory">
+				
 				</div>
 			</section>
 			<section class="cryptoList">
 				<div class="cryptoListIn">
 				</div>
 			</section>
-		
-		</div>
-	</div>
 
+		</div>
+		
+		
+	</div>
+<%@ include file="../include/footer.jsp" %>
 
 
 </body>

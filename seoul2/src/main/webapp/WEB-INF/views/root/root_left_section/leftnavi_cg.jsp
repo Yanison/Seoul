@@ -44,8 +44,8 @@
 	    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
 	      <div class="accordion-body">
 	        	<div class="accordion-body-menue">코드그룹 메뉴</div>
-	        	<div class="accordion-body-menue">코드그룹 메뉴</div>
-	        	<div class="accordion-body-menue">코드그룹 메뉴</div>
+	        	<div class="accordion-body-menue">코드그룹 관리</div>
+	        	<div class="accordion-body-menue">코드관리</div>
 	        	
 	      </div>
 	    </div>
