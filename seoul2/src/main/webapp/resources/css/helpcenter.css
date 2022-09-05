@@ -39,7 +39,7 @@ html, body {
 }
 
 .header2 {
-	height:80px;
+	height:60px;
 	width:100%;
 	min-width:1200px;
 	background:#093687;
@@ -51,7 +51,7 @@ html, body {
 	padding:10 20 10 20px;
 	font-family: 'Noto Sans KR', sans-serif;
 	font-weight:400;
-	margin: 0 0 15px 0;
+	margin: 0 0 0px 0;
 	padding:0 122px;
 	position:absolute;
 	top:0px;
@@ -66,11 +66,11 @@ html, body {
 	margin:0 10 0 10;
 	cursor:pointer;
 }
-.logo-link {
+.logo-link2 {
 	display: inline-block;
 	width: 77px;
     height: 17px;
-    background:transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit_sub.4d84cc7.svg) no-repeat 0 0;
+  	background: transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit_sub.f7f9753.svg) no-repeat 0 0;
 }
 
 .main{

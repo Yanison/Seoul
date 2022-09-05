@@ -16,13 +16,13 @@
 		<div class="radioOption">
 			<div class="radioCheck">
 				<label>
-					<input type="radio" name="settleOrder" class="settleOrder" value="1" checked></input><span>미체결</span>
+					<input type="radio" name="settleOrder" class="settleOrder" value="1" checked></input><span class="viewOptionText1">미체결</span>
 				</label>			 
 			</div>
 			<div class="radioCheck">	
 				<div class="form-check">
 				<label>
-					<input type="radio" name="settleOrder" class="settleOrder"  value="2"><span>체결</span>
+					<input type="radio" name="settleOrder" class="settleOrder"  value="2"><span class="viewOptionText2" style="color:#666;">체결</span>
 				</label>			 
 			</div>		
 			</div>

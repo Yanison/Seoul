@@ -88,7 +88,7 @@
 		  <input type="text" class="form-control" value="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
 		</div>
 	</dd>
-	<dd class="orderNotice" style="margin-top:10px; height:15px;">
+	<dd class="orderNotice">
 	<span><i class="fa-solid fa-circle-dot"></i>최소주문금액 1,000 KRW</span><span><i class="fa-solid fa-circle-dot"></i>수수료(부가세 포함):0.05%</span>									
 	</dd>
 	

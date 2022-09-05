@@ -37,7 +37,18 @@
 		<%@ include file="../include/header2.jsp" %>
 		
 		<div class="ex_main"> 
+			
 			<section class="trading">
+				<article class="exnotice">
+					<div class="exnoticeL">
+						<span><i class="fa-solid fa-exclamation"></i></span>
+						<span style="display:block">공지</span>
+					</div>
+					<div class="exnoticeR">
+						<div>특정금융정보법에 따른 미신고 가상자산사업자와의 입출금 제한 및 유의사항</div>
+						<div><i class="fa-thin fa-x"></i></div>
+					</div>
+				</article>
 				<div class="chartBox boxes">
 				
 					<div class="chartBoxHeader">					
@@ -366,21 +377,22 @@
 							</div>
 							
 						</article>
-						<article class="miniChart">
-							<section class></section>
-						</article>					
+						<div class="miniChartDiv">
+							<%@ include file="minichart/minichart.jsp" %>		
+						</div>
+											
 					</div>
 					
 				</div>
 			
-				<div class="trasactedHistory">
-				
+				<div class="trasactedHistoryDiv">
+					<%@ include file="transacationHistory/transacationHistory.jsp" %>
 				</div>
 			</section>
-			<section class="cryptoList">
-				<div class="cryptoListIn">
-				</div>
-			</section>
+			<div class="cryptoListDiv">
+				<%@ include file="cryptoList/cryptoList.jsp" %>
+			</div>
+			
 
 		</div>
 		

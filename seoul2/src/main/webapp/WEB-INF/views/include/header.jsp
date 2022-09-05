@@ -14,7 +14,7 @@
 
 
 
-	<div class="wrapper" style="height: 80px;">
+	<div class="wrapper" style="height: 82px;">
 		<header class="header1">
 			<div class="header-left">
 				<a title="황비트" class="logo-link" href="http://127.0.0.1:8080/seoul2/">

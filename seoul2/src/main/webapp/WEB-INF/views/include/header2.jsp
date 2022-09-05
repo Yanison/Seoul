@@ -14,7 +14,7 @@
 	
 	<header class="header2">
 		<div class="header-left">
-				<a title="황비트" class="logo-link" href="http://127.0.0.1:8080/seoul2/">
+				<a title="황비트" class="logo-link2" href="http://127.0.0.1:8080/seoul2/">
 						</a>
 				<div class="header-left-contents">
 					<span id="market" class="headee-contents">거래소</span> 

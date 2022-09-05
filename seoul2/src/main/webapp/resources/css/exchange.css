@@ -58,11 +58,43 @@ main > section {
 	width:100%;
 	min-width: 1200px;
     max-width: 1400px;
-	padding:95px 0 0 0;
+	padding:70px 0 0 0;
 	display:flex;
 	margin: 0 auto;
 }
 
+.exnotice{
+	width:100%;
+	height:42px;
+	margin-bottom:10px;
+	background:#fff;
+	padding:10px;
+	display:flex;
+	align-items:center;
+}
+
+.exnotice .exnoticeL{
+	display:flex;
+	width:58px;
+	height:100%;
+	align-items:center;
+}
+.exnotice .exnoticeL span:first-child{
+    margin-right:5px;
+}
+
+
+.exnotice .exnoticeR{
+	width:calc(100% - 58px);
+	height:100%;
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+}
+.exnotice .exnoticeR div:last-child{
+	width:22px;
+	height:22px;
+}
 .trading {
 	width:990px;
 	height:100%;
@@ -78,7 +110,7 @@ main > section {
 	width:100%;
 	height:45px;
 	border-bottom:1px solid #ddd;
-	padding:0 14px;
+	padding:0 0 0 14px;
 	display:flex;
 	
 
@@ -180,7 +212,7 @@ main > section {
 }
 
 .btcLogo {
-	heigth:26px; 
+	height:26px; 
 	width:26px;
 	margin:0 10 0 0;
 }
@@ -215,6 +247,7 @@ main > section {
 	text-decoration:none;
 	cursor:pointer;
 	padding:12px 58px;
+	line-height:35px;
 }
 .chartBoxHeaderContents:hover {
 	color:#333333;
@@ -223,7 +256,9 @@ main > section {
 
 .dropdown-center {
 	height:44px;
-	widht:44px;
+	width:44px;
+	border-left:1px solid #eee;
+	padding-left: 6px;
 }
 
 .dropdown-center:hover{
@@ -233,10 +268,9 @@ main > section {
 .livePriceBox {
 	width:100%;
 	height: calc(100% - 44px);
-	heig
 }
 
-.livePrice{
+.livePrice {
 	width:100%;
 	height:87px;
 	padding: 18px 20px 14px;
@@ -274,7 +308,7 @@ main > section {
 .hightAndLow > div {
 	display:flex;
 	justify-content:space-between;
-	aligh-items:center;
+	align-items:center;
 }
 
 .cap {
@@ -625,14 +659,14 @@ colgroup {
 }
 
 .inner02 table tr td {
-	cocolor: #666;
+	color: #666;
     font-size: 11px;
     text-align:right;
     height:16px;
 }
 
 .inner02 .bar {
-	cocolor: #666;
+	color: #666;
 }
 
 .overflow {
@@ -882,14 +916,14 @@ colgroup {
 	cursor:pointer;
 }
 .fa-regular:hover{
-	color:#grey;
+	color:grey;
 }
 .orderBoxBody dl {
 	margin-top:10px;
 }
 
 .orderBoxBody dl dt {
-	height:53px;
+	height:47px;
 	width: 134px;
 	padding:10 0 0 15px;
 	clear:left;
@@ -902,7 +936,7 @@ colgroup {
 	font-size: 11px;
 }
 .orderBoxBody dl dd {
-	height:53px;
+	height:0px;
 	width: auto;
 	float:right;
 	padding:10px 10px 0 0;
@@ -931,11 +965,15 @@ colgroup {
 	margin-right:10px;
 }
 
+.orderNotice{
+	margin:23px 0px;
+	height:25px;
+}
+
 
 .orderBoxBody .last {
-	width:100%;
+ 	width:100%;
 	display:flex;
-	margin-top:25px;
 	padding:0 14px;
 	justify-content:space-between;
 }
@@ -986,7 +1024,7 @@ colgroup {
 }
 .easyOrderSetting div{
 
-line-hieght:10px;
+line-height:10px;
 }
 
 .easyOrderSetting div span {
@@ -1235,23 +1273,104 @@ input[type=radio]{
 	margin-top:10px;
 }
 
-.trasactedHistory{
+.miniChartMenuTab{
+	height:45px;
+	width:100%;
+	display:flex;
+}
+
+.miniChartMenuTab div{
+	height:100%;
+	width:245px;
+	text-align:center;
+	line-height:45px;
+	border-bottom:1px solid #d4d6dc;
+	font-size:16px;
+	color:#333;
+	font-weight:900px;
+}
+
+.miniChartView{
+	width:100%;
+	height:calc(100% - 45px);
+	background:#333;
+}
+
+.transactedHistory{
 	height:436px;
-	width:100%px;
-	background:#eee;
+	width:100%;
+	background:#fff;
+}
+.transactedHistoryMenuTab{
+	height:45px;
+	width:100%;
+	display:flex;
+}
+.transactedHistoryMenuTab div{
+	height:100%;
+	width:50%;
+	text-align:center;
+	line-height:45px;
+	border-bottom:1px solid #d4d6dc;
+	font-size:16px;
+	color:#333;
+	font-weight:900px;
+}
+.TsTabMenu{
+	cursor:pointer;
+}
+
+.transactedHistoryBody,.transactionHistoryByDayBody{
+	width:100%;
+	height:calc(100%-45px);
+	overflow:scroll;
+}
+.transactedHistory table{
+	font-size:11px;
+	width:100%;
+}
+.transactedHistory thead{
+	border-bottom:1px solid #f1f1f4;
+	background:#f9fafc;
 }
 
 
-.cryptoList {
+.transactedHistory thead td{
+	height:30px;
+	color:#333;
+}
+.transactedHistory tbody tr{
+	border-bottom:1px solid #f7f8fa;
+}
+.transactedHistory tbody tr td{
+ height:30px;	
+}
+
+.transactedHistory tr td{
+  text-align:right;
+  padding-right:10px;
+}
+
+.transactedHistory td.first{
+	text-align:center;
+}
+
+.cryptoListDiv {
 	width:400px;
-	height:1400px;
-	padding:0 0 0 10px;
+	height:1390px;
+	margin:0 0 0 10px;
+	
 }
 
-.cryptoListIn {
+.cryptoListBox {
+	background:#fff;
 	width:100%;
 	height:100%;
-	background:#9fbfc8;
+}
+
+.cryptoListHeader{
+	height:87px;
+	width:100%;
 }
 
 
