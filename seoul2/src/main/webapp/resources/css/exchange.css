@@ -79,8 +79,10 @@ main > section {
 	height:100%;
 	align-items:center;
 }
-.exnotice .exnoticeL span:first-child{
-    margin-right:5px;
+.exnotice .exnoticeL span{
+	font-size:15px;
+    color:#0062df;
+     margin-right:5px;
 }
 
 
@@ -90,6 +92,12 @@ main > section {
 	display:flex;
 	align-items:center;
 	justify-content:space-between;
+
+}
+.exnotice .exnoticeR div:first-child{
+	font-size:15px;
+	color:#333;
+	font-weight:800;
 }
 .exnotice .exnoticeR div:last-child{
 	width:22px;
@@ -1297,7 +1305,7 @@ input[type=radio]{
 }
 
 .transactedHistory{
-	height:436px;
+	height:415px;
 	width:100%;
 	background:#fff;
 }
@@ -1366,6 +1374,20 @@ input[type=radio]{
 	background:#fff;
 	width:100%;
 	height:100%;
+}
+
+.searchCrypto{
+	height:42px;
+	width:100%;
+	padding:10px;
+}
+.showCryptoOption{
+	display:block;
+	widht:42px;
+	height:42px;
+}
+.cryptoSearchBar{
+	width:100%;
 }
 
 .cryptoListHeader{

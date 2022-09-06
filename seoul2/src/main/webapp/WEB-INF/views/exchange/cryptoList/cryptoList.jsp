@@ -9,7 +9,11 @@
 <article class="cryptoListBox">
 	<section class="cryptoListHeader">
 		<div class="searchCrypto">
-			
+			<div class="cryptoSearchBar">
+				<input type="search" id="CryptoVo" name="CryptoVo" class="CryptoVo" placeholder="코인명/심볼검색"/>
+				<span><i class="fa-solid fa-magnifying-glass"></i></span>
+			</div>
+			<div class="showCryptoOption"></div>
 		</div>
 		<div class="cryptoNavi">
 			<ul>
