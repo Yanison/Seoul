@@ -1383,11 +1383,29 @@ input[type=radio]{
 }
 .showCryptoOption{
 	display:block;
-	widht:42px;
+	width:42px;
 	height:42px;
 }
 .cryptoSearchBar{
 	width:100%;
+}
+.cryptoNavi{
+	width:100%;
+	height:45px;
+}
+
+.cryptoNavi ul{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	width:100%;
+	height:100%;
+}
+
+.cryptoNavi ul li {
+	width:auto;
+	height:100%;
+	background:grey;
 }
 
 .cryptoListHeader{

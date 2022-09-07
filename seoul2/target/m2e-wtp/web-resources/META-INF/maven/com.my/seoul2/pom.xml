@@ -21,6 +21,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -213,7 +214,7 @@
 		
 		
 	
-		  
+
 	</dependencies>
     <build>
         <plugins>
