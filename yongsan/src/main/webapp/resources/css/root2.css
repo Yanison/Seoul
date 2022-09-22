@@ -1,0 +1,294 @@
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url(../font/notosans/NotoSansKR-Medium.otf) format('opentype');
+}
+*{
+	box-sizing:border-box;
+	/* padding 으로 사이즈 늘어남 방지 */
+}
+ul{
+	list-style:none;
+}
+html, body{
+	padding:10px;
+	margin:0;
+	font-size:14px;
+	background:#fff;
+	font-family:nt;
+}
+
+body {
+	min-width:1600px;
+}
+.body-wrapper{
+	width:100%;
+	height:100%;
+	min-height:1060px;
+	display:flex;
+	background:#eaebf0;
+	border-radius:8px;
+	box-shadow: 6px 6px 12px -5px rgb(88 88 88);
+}
+.left-wrapper {
+	width: 400px;
+	height:100%;
+	padding:10px;
+	
+}
+
+.left {
+  width:300px;
+  height:100%;
+  background:#fff;
+  border-radius:8px;
+}
+
+.left-navi {
+	padding: 0px 10px 0 15;
+}
+
+.left-navi-header {
+	height:150px;
+	width:100%;
+}
+
+.header-nav {
+	display:flex;
+	align-items:center;
+	margin-top:10px;
+}
+
+.logo {
+	font-size: 25px;
+    background: #173482;
+    width: 100%;
+    height: 100px;
+    border-radius: 8px 8px 0 0;
+    margin: 0 0 10px 0;
+    padding: 30;
+    color:#fff;
+    box-shadow: 2px 6px 12px -5px rgb(88 88 88);
+    cursor:pointer;
+}
+
+.btw-border {
+	color:#999999;
+}
+
+.right-wrapper {
+	width:100%;
+	height:100%;
+	padding:10px;
+
+}
+
+
+
+.accordion-item {
+	border:none
+}
+
+.accordion-body-menue {
+	margin:4px 0;
+	cursor:pointer;
+}
+
+
+
+.accordion-body-menue:hover {
+	background:#eaeaef;
+}
+
+.right {
+  width:100%;
+  height:100%;
+  background:#fff;
+  border-radius:8px;
+}
+
+.search-bar {
+	width:100%;
+	height:100px;
+	padding:0 20px;
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-contents {
+	margin-right:10px;
+}
+
+.searchBar1 ,.searchBar2 {
+ display:flex;
+ align-items:center;
+}
+
+
+.formcontents{
+	font-size:11px;
+	color:#666;
+	margin:0px;
+	padding:0px;
+	width:130px;
+	height:25px;
+}
+
+.cgTableWrapper{
+	width:100%;
+	height:800px;
+	overflow:scroll;
+	padding:0 20px;
+}
+
+.cgTable {
+	width:100%;
+	
+}
+.cgTable thead tr th {
+	border:1px solid #666;
+	text-align:center;
+	font-size:13px;
+	background:#eee;
+	height:20px;
+}
+
+.cgTable tbody tr td {
+	border:1px solid #666;
+	text-align:center;
+	height:30px;
+}
+.UMbox{
+	vertical-align:
+}
+.UMbox button:first-child{
+	margin-right:10px;
+}
+
+
+.head-box {
+	width:100%;
+	height:131px;
+}
+
+.logo-box {
+	/* background:#173482; */
+	width:100%;
+	height:100px;
+	border-radius:8px 8px 0 0 ;
+	background: rgb(23,52,130);
+background: linear-gradient(90deg, rgba(23,52,130,1) 48%, rgba(2,0,36,1) 100%);
+box-shadow: 2px 6px 12px -5px rgb(88 88 88);
+}
+
+.form-wrapper {
+	border-top: 1px solid #cbcacc;
+}
+
+.form-control {
+	width:150px;
+	margin:0 10px 0 0 ;
+}
+.form-select {
+	width:150px;
+}
+
+.form-box {
+	display:flex;
+	justify-content:right;
+	margin:5px;
+	align-items:center;
+}
+
+.delete {
+	display:flex;
+	align-items:center;
+}
+
+.form_section {
+	margin-top:10px;
+	padding: 0 10px;
+	width:100%;
+	height:600px;
+	
+}
+
+.paging{
+	width: 100%;
+	height:35px;
+	display:flex;
+	justify-content:center;
+}
+
+
+/* root_main_mod_userinfo.jsp */
+.user_form {
+	display:flex;
+	width:1000px;
+	height:570px;
+	justify-content:space-around;
+	margin: 0 auto;
+}
+
+.user_form > div {
+	height:700px;
+}
+
+.title {
+	margin:20 0 40 0;
+	text-align:center;
+}
+
+.user_form .form-control {
+	width:400px;
+}
+
+.job_select {
+	display:flex;
+}
+
+.form-contents {
+	margin:0 0 10 0px;
+}
+
+.button_div {
+	width:600px;
+	display:flex;
+	justify-content:space-around;
+	margin: 0px 0 0px 555px;
+}
+
+
+
+
+.form-check {
+	margin-top:10px;
+	display:flex;
+	align-items:center;
+}
+
+.form-check > .form-contents {
+	margin-right:10px;
+}
+
+.dbContainer {
+	cursor:pointer;
+}
+
+.dbContainer:hover{
+	background:grey;
+	
+}
+
+
+.btn {
+	height:25px;
+	width:40px;
+	font-size:5px;
+	padding:0px;
+}
+
+.table {
+	font-size:12px;
+}

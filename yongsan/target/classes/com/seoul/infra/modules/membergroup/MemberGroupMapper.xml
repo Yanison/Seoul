@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.seoul.infra.modules.membergroup.MemberGroupMapper">
+									
+    <resultMap id="resultMapObj" type="com.seoul.infra.modules.membergroup.MemberGroup"></resultMap>
+	<resultMap id="resultMapObjCg" type="com.seoul.infra.modules.codegroup.CodeGroup"></resultMap>
+	<!-- <sql id="shValue">
+	
+	</sql>
+	 -->
+	<select id="selectMlist" resultMap="resultMapObj">
+		select * from member
+		where 1=1
+		<choose>
+			<when test="shOption == 1">and regDateAt = #{shValueDate} </when>
+			<when test="shOption == 2">and memberSeq = #{shValue} </when>
+			<when test="shOption == 3">and name like concat ('%',#{shValue},'%')</when>
+			<when test="shOption == 4">and activeNy = #{shValue}</when>
+		</choose>
+		order by memberSeq
+		limit #{rowNumToShow} offset #{startRnumForMysql}
+	</select>
+	
+	<select id="selectOneCnt" resultType="Integer">
+		select count(*) from member
+	</select>
+	
+	<insert id="addUser">
+		insert member (
+			id
+			,pw
+			,name
+			,nickname
+			,gender
+			,addrType1
+     		,addrType2
+			,addrDetail
+			,tel
+			,email
+			,postCode
+			,addrLoca
+		)
+		values(
+			#{id}
+			,#{pw}
+			,#{name}
+			,#{nickname}
+			,#{gender}
+			,#{addrType1}
+			,#{addrType2}
+			,#{addrDetail}
+			,#{tel}
+			,#{email}
+			,#{postCode}
+			,#{addrLoca}
+		)
+	</insert>
+	
+</mapper>

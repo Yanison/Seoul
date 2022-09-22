@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.seoul.infra.modules.codegroup.CodeGroupMapper">
+									
+    <resultMap id="resultMapObj" type="com.seoul.infra.modules.codegroup.CodeGroup"></resultMap>
+    <resultMap id="resultMapObjcc" type="com.seoul.infra.modules.codegroup.CommonCodeGroup"></resultMap>
+	
+	<select id="selectCList" resultMap="resultMapObjcc">
+		select * from cg
+		where 1=1
+		<choose>
+			<when test="shOption == 1">and infrCgUseNy = #{shValue}</when>
+		</choose>
+		order by infrCgSeq
+		limit #{rowNumToShow} offset #{startRnumForMysql}
+	</select>
+	
+	<select id="selectOneCnt" resultType="Integer">
+		select count(*) from cg
+	</select>
+	
+	
+	
+	<select id="selectListCachedCodeArrayList" resultMap="resultMapObjcc">
+		SELECT
+			infrCgSeq
+			, infrCcgSeq
+			, infrCcgName
+			, infrCcgNameEng
+			, infrCgSeqFk
+		FROM
+			ccg a left join cg b
+		on a.infrCgSeqFk = b.infrCgSeq
+		WHERE 1=1
+			AND infrccgDelNy = 1
+		    AND infrccgUseNy = 1
+    </select>
+
+</mapper>

@@ -1,0 +1,24 @@
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url(../font/notosans/NotoSansKR-Medium.otf) format('opentype');
+}
+
+
+*{
+	box-sizing:border-box;
+	/* padding 으로 사이즈 늘어남 방지 */
+}
+
+ul{
+	list-style:none;
+}
+
+
+html, body{
+	padding:0;
+	margin:0;
+	font-size:14px;
+	background:#fff;
+	font-family:nt;
+}
