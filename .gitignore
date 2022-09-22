@@ -1,5 +1,9 @@
+
+# custom
 .settings/
-
-.git/
-
+bin/
+target/
+.classpath
+.factorypath
 .project
+.springBeans
