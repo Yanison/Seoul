@@ -38,31 +38,42 @@
 				<th>코인명</th>
 				<th>보유비중</th>
 				<th>보유수량(평가금액)</th>
-				<th></th>
+				<th>상태</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td class="coinInfo">
-					<div>
-						<em class="coinLogo">
-							로고
-						</em>
-						<div>
-							<strong>원화</strong><br>
-							<i>KRW</i>
-						</div>
-					</div>								
-				</td>
-				<td class="holding">0.00%</td>
-				<td class="balance">
-					<strong>9</strong>
-					<i>KRW</i>
-				</td>
-				<td class="wobActve">
-					<i>입출금</i>
-				</td>
-			</tr>					
+			<c:choose>
+				<c:when test="${fn:length(selectBal) eq 0}">
+					<tr>
+						<td colspan="4"> no data!!</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${selectBal}" var="selectBal" varStatus="status">
+						<tr>
+							<td class="coinInfo">
+								<div>
+									<em class="coinLogo">
+										<i class="fa-brands fa-btc"></i>
+									</em>
+									<div>
+										<strong><c:out value="${selectBal.cryptoSym}"/></strong><br>
+										<i><c:out value="${selectBal.cryptoSym}"/></i>
+									</div>
+								</div>								
+							</td>
+							<td class="holding">0.00%</td>
+							<td class="balance">
+								<strong><c:out value="${selectBal.amount}"/></strong>
+								<i><c:out value="${selectBal.cryptoSym}"/></i>
+							</td>
+							<td class="wobActve">
+								<i>${selectBal.wodAvailable}</i>
+							</td>
+						</tr>	
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</tbody>
 	</table>
 </div>

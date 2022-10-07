@@ -1,89 +1,80 @@
 package com.seoul.infra.modules.membergroup;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class MemberGroup extends MemberGroupVO {
 	
 	private Integer memberSeq;
-	private String id;
-	private String pw;
-	private String name;
-	private String nickname;
-	private Integer gender;
-	private String addrType1;
-	private String addrType2;
+	private String memberId;
+	private String memberPw;
+	private String memberName;
+	private String memberNickname;
+	private Integer memberGender;
+	private String memberAddrLoad;
+	private String memberAddrJibun;
 	private String addrDetail;
-	private String tel;
-	private String email;
+	private String postCode;
+	private String addrLat;
+	private String addrLong;
+	private String memberTel;
+	private String memberEmail;
 	private Date regDateAt;
 	private String regDateBy;
-	private Date ModDateAt;
-	private String ModDateBy;
+	private Date modDateAt;
+	private String modDateBy;
+	private Integer activeNy;
+	private Integer autoLoginNy;
+	private Integer joinThrou;
+	private String idTokenKko;
 	
-	private String postCode;
-	private String addrLoca;
 	
-	public String getPostCode() {
-		return postCode;
-	}
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-	public String getAddrLoca() {
-		return addrLoca;
-	}
-	public void setAddrLoca(String addrLoca) {
-		this.addrLoca = addrLoca;
-	}
-	public Integer getGender() {
-		return gender;
-	}
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
 	public Integer getMemberSeq() {
 		return memberSeq;
 	}
 	public void setMemberSeq(Integer memberSeq) {
 		this.memberSeq = memberSeq;
 	}
-	public String getId() {
-		return id;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getPw() {
-		return pw;
+	public String getMemberPw() {
+		return memberPw;
 	}
-	public void setPw(String pw) {
-		this.pw = pw;
+	public void setMemberPw(String memberPw) {
+		this.memberPw = memberPw;
 	}
-	
-	public String getName() {
-		return name;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
-	public String getNickname() {
-		return nickname;
+	public String getMemberNickname() {
+		return memberNickname;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
 	}
-	public String getAddrType1() {
-		return addrType1;
+	public Integer getMemberGender() {
+		return memberGender;
 	}
-	public void setAddrType1(String addrType1) {
-		this.addrType1 = addrType1;
+	public void setMemberGender(Integer memberGender) {
+		this.memberGender = memberGender;
 	}
-	public String getAddrType2() {
-		return addrType2;
+	public String getMemberAddrLoad() {
+		return memberAddrLoad;
 	}
-	public void setAddrType2(String addrType2) {
-		this.addrType2 = addrType2;
+	public void setMemberAddrLoad(String memberAddrLoad) {
+		this.memberAddrLoad = memberAddrLoad;
+	}
+	public String getMemberAddrJibun() {
+		return memberAddrJibun;
+	}
+	public void setMemberAddrJibun(String memberAddrJibun) {
+		this.memberAddrJibun = memberAddrJibun;
 	}
 	public String getAddrDetail() {
 		return addrDetail;
@@ -91,17 +82,35 @@ public class MemberGroup extends MemberGroupVO {
 	public void setAddrDetail(String addrDetail) {
 		this.addrDetail = addrDetail;
 	}
-	public String getTel() {
-		return tel;
+	public String getPostCode() {
+		return postCode;
 	}
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
 	}
-	public String getEmail() {
-		return email;
+	public String getAddrLat() {
+		return addrLat;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAddrLat(String addrLat) {
+		this.addrLat = addrLat;
+	}
+	public String getAddrLong() {
+		return addrLong;
+	}
+	public void setAddrLong(String addrLong) {
+		this.addrLong = addrLong;
+	}
+	public String getMemberTel() {
+		return memberTel;
+	}
+	public void setMemberTel(String memberTel) {
+		this.memberTel = memberTel;
+	}
+	public String getMemberEmail() {
+		return memberEmail;
+	}
+	public void setMemberEmail(String memberEmail) {
+		this.memberEmail = memberEmail;
 	}
 	public Date getRegDateAt() {
 		return regDateAt;
@@ -116,15 +125,65 @@ public class MemberGroup extends MemberGroupVO {
 		this.regDateBy = regDateBy;
 	}
 	public Date getModDateAt() {
-		return ModDateAt;
+		return modDateAt;
 	}
 	public void setModDateAt(Date modDateAt) {
-		ModDateAt = modDateAt;
+		this.modDateAt = modDateAt;
 	}
 	public String getModDateBy() {
-		return ModDateBy;
+		return modDateBy;
 	}
 	public void setModDateBy(String modDateBy) {
-		ModDateBy = modDateBy;
+		this.modDateBy = modDateBy;
 	}
+	public Integer getActiveNy() {
+		return activeNy;
+	}
+	public void setActiveNy(Integer activeNy) {
+		this.activeNy = activeNy;
+	}
+	public Integer getAutoLoginNy() {
+		return autoLoginNy;
+	}
+	public void setAutoLoginNy(Integer autoLoginNy) {
+		this.autoLoginNy = autoLoginNy;
+	}
+	public Integer getJoinThrou() {
+		return joinThrou;
+	}
+	public void setJoinThrou(Integer joinThrou) {
+		this.joinThrou = joinThrou;
+	}
+	
+	public String getIdTokenKko() {
+		return idTokenKko;
+	}
+	public void setIdTokenKko(String idTokenKko) {
+		this.idTokenKko = idTokenKko;
+	}
+
+
+
+	private String memberEmailId;
+	private String EmailDM;
+
+
+	public String getMemberEmailId() {
+		return memberEmailId;
+	}
+	public void setMemberEmailId(String memberEmailId) {
+		this.memberEmailId = memberEmailId;
+	}
+	public String getEmailDM() {
+		return EmailDM;
+	}
+	public void setEmailDM(String emailDM) {
+		EmailDM = emailDM;
+	}
+	
+	
+	
+	
+	
+	
 }

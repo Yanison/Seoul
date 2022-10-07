@@ -1,45 +1,23 @@
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
-<%@ page session="false"%>
-
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+
 <html>
 <head>
 <title>CoinHwang</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<%@ include file="../rscs/basicRscs.jsp"%>
 <!-- CSS only -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-	crossorigin="anonymous">
-
 <link type="text/css" rel="stylesheet" href="./resources/css/home.css">
-<link rel="stylesheet" href="./resources/css/all.min.css">
 
-
-<!-- JavaScript Bundle with Popper -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-	crossorigin="anonymous"></script>
-
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script>
-<script src="./resources/js/home.js"></script>
-<script src="./resources/js/getPrice.js"></script>
+<script src="../resources/js/homeComponent/home.js"></script>
+<script src="./resources/js/getPrice1.js"></script>
 
 </head>
-<body style="min-width:1600px;">
+<body style="min-width: 1600px;">
 
 	<div class="wrapper">
 
-		<%@ include file="../include/header.jsp" %>
+		<%@ include file="../include/header.jsp"%>
 
 
 		<section class="home-main">
@@ -62,10 +40,11 @@
 
 							<div class="right-app-box-content">
 								<span class="user-num contents-num">
-									<p>주간수익률</p> <span> <i class="fa-solid fa-users"></i> User
+									<p>주간수익률</p> <span> <i class="fa-solid fa-users"></i>
+										User
 								</span>
 								</span> <a id="earning" class="user linkbox" title="Who's Earning?"
-									style="background: #093687;" href="" >Who's Earning?</a>
+									style="background: #093687;" href="">Who's Earning?</a>
 							</div>
 						</div>
 					</div>
@@ -81,17 +60,16 @@
 		<section class="home-price">
 			<div class="price-view-wrapper">
 				<div class="priceBox priceBTC">
-				
+
 					<div class="priceBoxTop">
 						<div class="coinName">
-							<span class="coinCode">
-								<span><img class="coinSymbol"src="https://static.upbit.com/logos/BTC.png" alt="https://static.upbit.com/logos/BTC.png"></span>
-								<span>BTC</span>
-							</span>
-							<span style="font-size:16px">Bitcoin</span>
+							<span class="coinCode"> <span><img
+									class="coinSymbol" src="https://static.upbit.com/logos/BTC.png"
+									alt="https://static.upbit.com/logos/BTC.png"></span> <span>BTC</span>
+							</span> <span style="font-size: 16px">Bitcoin</span>
 						</div>
 						<div class="coinPrice">
-							<div id="btcPrice" class="tradePrice"></div>
+							<div id="btcPrice" class="tradePrice money">123123213231231</div>
 							<div class="priceDetail">
 								<span>전일대비</span>
 								<div id="updownbtc" class="updown"></div>
@@ -99,27 +77,26 @@
 									<div id="arrowbtc" class="arrow"></div>
 									<div id="priceGapGapbtc" class="priceGapGap"></div>
 								</div>
-								<span id="btcPreprice" style="display:none;"></span>							
+								<span id="btcPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
 					<div class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
-					
+
 				</div>
 				<div class="priceBox priceETH">
-				
+
 					<div class="priceBoxTop">
 						<div class="coinName">
-							<span class="coinCode">
-							<span><img class="coinSymbol" src="https://static.upbit.com/logos/ETH.png" alt="https://static.upbit.com/logos/ETH.png"></span>
-							<span>ETH</span>
-							</span>
-							<span style="font-size:16px">Ethereum</span>
+							<span class="coinCode"> <span><img
+									class="coinSymbol" src="https://static.upbit.com/logos/ETH.png"
+									alt="https://static.upbit.com/logos/ETH.png"></span> <span>ETH</span>
+							</span> <span style="font-size: 16px">Ethereum</span>
 						</div>
 						<div class="coinPrice">
-							<div id="ethPrice" class="tradePrice"></div>
+							<div id="ethPrice" class="tradePrice money"></div>
 							<div class="priceDetail">
 								<span>전일대비</span>
 								<div id="updowneth" class="updown"></div>
@@ -127,24 +104,23 @@
 									<div id="arroweth" class="arrow"></div>
 									<div id="priceGapGapeth" class="priceGapGap"></div>
 								</div>
-								<span id="ethPreprice" style="display:none;"></span>							
+								<span id="ethPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
 					<div class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
-					
+
 				</div>
 				<div class="priceBox priceXRP">
-				
+
 					<div class="priceBoxTop">
 						<div class="coinName">
-							<span class="coinCode">
-							<span><img class="coinSymbol" src="https://static.upbit.com/logos/XRP.png" alt="https://static.upbit.com/logos/XRP.png"></span>
-							<span>XRP</span>
-							</span>
-							<span style="font-size:16px">Ripple</span>
+							<span class="coinCode"> <span><img
+									class="coinSymbol" src="https://static.upbit.com/logos/XRP.png"
+									alt="https://static.upbit.com/logos/XRP.png"></span> <span>XRP</span>
+							</span> <span style="font-size: 16px">Ripple</span>
 						</div>
 						<div class="coinPrice">
 							<div id="xrpPrice" class="tradePrice"></div>
@@ -155,14 +131,14 @@
 									<div id="arrowxrp" class="arrow"></div>
 									<div id="priceGapGapxrp" class="priceGapGap"></div>
 								</div>
-								<span id="xrpPreprice" style="display:none;"></span>							
+								<span id="xrpPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
 					<div class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
-					
+
 				</div>
 			</div>
 		</section>
@@ -233,7 +209,7 @@
 							<span class="visually-hidden">Next</span>
 						</button>
 					</div>
-				
+
 
 
 
@@ -357,31 +333,28 @@
 					<h3 class="home-service-box-contents">
 						<i class="app__ico02--1oplF appico"></i>황비트 라운지
 					</h3>
-					<p class="home-service-box-contents" style="color:#999999; font-size:16px; margin: 0 0 10px 0;">
-						방문 상담은 황비트 라운지를 이용해주십시오.<br>
-						라운지는 회원님을 위한 상담과 교류의 공간입니다.
+					<p class="home-service-box-contents"
+						style="color: #999999; font-size: 16px; margin: 0 0 10px 0;">
+						방문 상담은 황비트 라운지를 이용해주십시오.<br> 라운지는 회원님을 위한 상담과 교류의 공간입니다.
 					</p>
-					<ul  style="color:#999999; font-size:16px; ">
+					<ul style="color: #999999; font-size: 16px;">
 						<li>운영시간 평일 09:00 ~ 18:00</li>
 						<li>서울특별시 강남구 테헤란로4길 14, 미림타워 2층</li>
 					</ul>
 				</div>
 				<div class="home-service-box">
 					<h3 class="home-service-box-contents">
-						<i class="app__ico03--1DO14 appico"></i>
-						황비트 앱
+						<i class="app__ico03--1DO14 appico"></i> 황비트 앱
 					</h3>
 					<div class="app-down-box">
-						<div class="app-qr" >
-							<img class="qrcode" src="./resources/image/qrcode.png"/>
+						<div class="app-qr">
+							<img class="qrcode" src="./resources/image/qrcode.png" />
 						</div>
 						<div class="app-down-link">
 							<a class="app-down-link-link" title="Google play"
-							href="https://play.google.com/store/apps/details?id=com.dunamu.exchange">
-							<i class="fa-brands fa-google-play"></i> &nbsp; 안드로이드
-							</a> 
-							
-							<a class="app-down-link-link" title="App Store"
+								href="https://play.google.com/store/apps/details?id=com.dunamu.exchange">
+								<i class="fa-brands fa-google-play"></i> &nbsp; 안드로이드
+							</a> <a class="app-down-link-link" title="App Store"
 								href="https://apps.apple.com/kr/app/%EC%97%85%EB%B9%84%ED%8A%B8-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD-%EC%B5%9C%EB%8B%A4-%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B1%B0%EB%9E%98%EC%86%8C/id1256371195">
 								<i class="fa-brands fa-apple"></i> &nbsp; 아이폰앱
 							</a>
@@ -392,7 +365,7 @@
 		</section>
 
 		<!-- footer -->
-		<%@ include file="../include/footer.jsp" %>
+		<%@ include file="../include/footer.jsp"%>
 
 
 

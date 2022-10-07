@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.exchange.mapper.ExchMapper">
+
+	<resultMap id="exchDto" type="com.seoul.infra.modules.exchange.dto.ExchDTO"></resultMap>
+	<resultMap id="obDto" type="com.seoul.infra.modules.exchange.dto.OderBookDto"></resultMap>
+	<resultMap id="trscDto" type="com.seoul.infra.modules.exchange.dto.TransactionHisDto"></resultMap>
+	
+	<select id="userBalance" resultMap="exchDto">
+		select
+			m.memberSeq
+			,e.cryptoSeq
+			,m.idTokenKko
+			,e.amount 
+		from exchangeBalance e left join member m  
+			on e.memberSeq = m.memberSeq
+		where 1=1 
+		and idTokenKko = #{idTokenKko}
+		and cryptoSeq = 1
+	</select>
+	
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ submit orders  start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	
+	<insert id="submitBids">
+		insert into orderBook(
+			price
+			,obAmount
+			,submittedBy
+			,submittedCrypto
+			,orderType
+			,timestamp
+			
+		)
+		values(
+			#{price}
+			,#{obAmount}
+			,#{memberSeq}
+			,#{cryptoSeq}
+			,0
+			,now()
+		)
+	</insert>
+	
+	<insert id="submitAsks">
+		insert into orderBook(
+			price
+			,obAmount
+			,submittedBy
+			,submittedCrypto
+			,orderType
+			,timestamp
+			
+		)
+		values(
+			#{price}
+			,#{obAmount}
+			,#{memberSeq}
+			,#{cryptoSeq}
+			,1
+			,now()
+		)
+	</insert>
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ submit orders  end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	<select id="selectBOB" resultMap="exchDto">
+		select obAmount,price from orderBook where orderType = 0 order by orderSeq desc;
+	</select>
+	
+	<select id="selectSOB" resultMap="exchDto">
+		select obAmount,price from orderBook where orderType = 1 order by orderSeq
+	</select>
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+</mapper>

@@ -1,0 +1,255 @@
+.cryptoListDiv {
+	width:100%;
+	height:600px;
+	margin:0 0 0 10px;
+	
+}
+
+.cryptoListBox {
+	background:#fff;
+	width:100%;
+	height:100%;
+}
+
+.searchCrypto{
+	display:flex;
+	height:42px;
+	width:100%;
+}
+
+.searchCrypto > div{
+	border-bottom:1px solid #d5d6dc;
+	padding:5 10px;
+}
+
+.cryptoSearchBar{
+	display:flex;
+	justify-content:space-between;
+	width:100%;
+}
+.cryptoSearchBarI{
+	display:flex;
+	
+	width:100%;
+}
+.addAndRemove{
+	display:flex;
+	justify-content:space-between;
+	width:220px;
+}
+.addAndRemove button:hover{
+	background:#dedede;
+}
+
+.addAndRemove button{
+	border: 1px solid #999;
+	background:#eee;
+	color:#333;
+	border-radius:2px;
+}
+.addAndRemoveBtn{
+	height:25px;
+	font-size:12px;
+	background:#4c72de;
+}
+
+.showCryptoOption{
+	position:relative;
+	width:44px;
+	padding-top:3px;
+}
+.fa-magnifying-glass{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+}
+
+.fa-gear{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+}
+
+.CryptoVo{
+	width:300px;
+	border:none;
+	font-size:12px;
+}
+.CryptoVo:hover{
+	border:2px 
+}
+.cryptoNavi{
+	width:100%;
+	height:45px;
+}
+
+.cryptoNavi .cryptoNaviTab{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	width:100%;
+	height:100%;
+}
+
+.cryptoNavi .cryptoNaviTab li {
+	display:block;
+	width:100%;
+	height:100%;
+	text-align:center;
+	line-height:45px;
+	font-size:14px;
+	border-bottom:1px solid #999;
+	color: #333 !important;
+    font-weight: 700 !important;
+}
+
+.TabActive {
+    border-bottom: 3px solid #0062df !important;
+    color: #0062df !important;
+    font-weight: 700 !important;
+}
+
+.cryptoListR{
+	width:100%;
+	height:100%;
+}
+.cryptoListR table{
+	width:100%;
+	color:#333;
+	font-size:11px;
+}
+.cryptoListR table thead{
+	width:100%;
+	height:30px;
+	background:#f9fafc;
+}
+
+.cryptoListR table tr{
+	border-bottom:1px solid #f9fafc;
+}
+.cryptoListR table tbody tr td{
+	height:45px;
+	padding:0 2px;
+}
+
+.cryptoListR table tr td:first-child{
+	padding-left:10px;
+	height:30px;
+}
+
+.cryptoListR table tr td:last-child{
+	padding-right:10px;
+	height:30px;
+}
+.cryptoListR table thead tr th{
+	text-align:center;
+}
+
+.cryptoListR table tbody tr td{
+	text-align:right;
+}
+.fa-regular:hover{
+	background:#eee;
+	color:#0062df;
+}
+.cryptoRow:hover{
+	background:#eee;
+}
+.cryptoRow{
+	cursor:pointer;
+}
+
+
+.cryptoListHeader{
+	height:87px;
+	width:100%;
+}
+/*#################################
+########### @InputCryptoInfo start#####
+#################################*/
+
+.InfoHeader{
+	width:100%;
+	height:60px;
+	padding-bottom:20px;
+	border-bottom:1px solid #999;
+}
+.InputCryptoInfo{
+	margin-top:20px;
+}
+
+.infoInputGroup{
+	height:50px;
+	width:600px;
+	
+}
+
+.infoInputGroup .inputGroup{
+	height:30px;
+	width:100%;
+	border:1px solid #999;
+	border-radius:3px;
+	background:#fff;
+}
+
+
+/*#################################
+########### @InputCryptoInfo end#####
+#################################*/
+
+
+
+
+/*#################################
+########### @uploadFileDiv start#####
+#################################*/
+
+.labelUploadImg{
+	margin-bottom:10px;
+	border:1px solid #999;
+	padding:2px;
+	background:#fff;
+}
+
+.uploadFileDiv{
+	display:flex;
+	width:100%;
+}
+
+.insert {
+    padding: 20px 30px;
+    display: block;
+    width: 600px;
+    height: 31vh;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.insert .file-list {
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #989898;
+    padding: 10px;
+    background:#fff;
+}
+.insert .file-list .filebox p {
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.insert .file-list .filebox .delete i{
+    color: #ff5353;
+    margin-left: 5px;
+}
+
+
+.ulFlie2{
+	
+}
+
+
+/*#################################
+########### @cryptoModal end##@@###
+#################################*/

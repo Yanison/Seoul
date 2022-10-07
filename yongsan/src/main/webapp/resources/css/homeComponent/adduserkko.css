@@ -1,0 +1,198 @@
+@font-face{
+   font-family:"nt";
+   font-style:normal;
+   src:url(../font/notosans/NotoSansKR-Medium.otf) format('opentype');
+}
+
+
+*{
+	box-sizing:border-box;
+	/* padding 으로 사이즈 늘어남 방지 */
+}
+
+ul{
+	list-style:none;
+}
+
+
+html, body{
+	padding:0;
+	margin:0;
+	font-size:14px;
+	background:#fff;
+	font-family:nt;
+	color:#333;
+}
+body {
+	min-height:1064px;
+}
+
+.login-wrapper {
+	width:100%;
+	height:100%;
+}
+
+.login-box {
+	width:100%;
+	height:100%;
+	display:flex;
+	align-items:center;
+	 background-image: url(https://s3.ap-northeast-2.amazonaws.com/portal-cdn.korbit.co.kr/web/img_login_common.png);
+    background-size: 1440px;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.center-body {
+	height:100%;
+	width:50%;
+	min-width:480px;
+	background: #fff;
+	display:flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.center-body .title {
+	font-size:28px;
+}
+
+.app-inp {
+	margin:6px 0;
+	border:1px solid rgb(230, 230, 230);
+	width:480px;
+	height:35px;
+	border-radius:10px;
+	box-shadow: 3px 3px 12px -5px #d8d7d9;
+	padding:0 15px;
+	
+}
+
+.gender-box-wrapper {
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	width:300px;
+	height:50px;
+	margin:0px 0 5px;
+}
+
+.gender-box {
+	background: #093687;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border-radius:10px;
+	width:200px;
+	height:40px;
+	margin:0 10px;
+	box-shadow: 3px 3px 12px -5px #d8d7d9;
+}
+
+.gender-box label {
+
+	color:#fff;
+	text-align:center;
+	vertical-aling:center;
+	padding: 6;
+	
+}
+
+.app-long-btn {
+	border:none;
+	border-radius:10px;
+	width:280px;
+	height:40px;
+	box-shadow: 3px 3px 12px -5px #d8d7d9;
+}
+
+
+.gender-alert-wrapper {
+	width:480px;
+  height: 10px;
+  text-align:center;
+  margin:0 0 25px;
+}
+
+.alert-box {
+  width:480px;
+  height: 10px;
+  color:red;
+  font-size:12px;
+  text-align:left;
+  padding:0 10px;
+  margin:0 0 5px;
+}
+
+.alert-box-ok {
+  width:480px;
+  height: 10px;
+  font-size:12px;
+  text-align:left;
+  padding:0px 15px;
+  margin:0 0 5px;
+  color:#fff;
+}
+
+.addrBox{
+	width:480px;
+	padding:10 0px;
+	border-bottom:1px solid #eee;
+	border-top:1px solid #eee;
+}
+.srchAddr{
+display:flex;
+width:480px;
+ justify-content: space-between;
+}
+
+.srchAddr > input{
+	width:45%;
+}
+.eamilBox {
+	display:flex;
+	width:480px;
+	justify-content: space-between;
+}
+.eamilBox .app-inp{
+	width:45%;
+}
+
+.testbtn{
+	border:1px solid black;
+	cursor:pointer;
+}
+.testbtn:hover{
+	background:grey;
+}
+.pBox{
+	width:480px;
+}
+.h1{
+font-size:35px;
+margin-bottom:20px;
+}
+.p1{
+ font-size:18px;
+ margin-bottom:10px;
+}
+.p2{
+font-size:12px;
+margin-bottom:20px;
+}
+
+.p3{
+	font-size:14px;
+	display:inline;
+	color:#999;
+}
+
+.p3 .fa-circle {
+	font-size:4px;
+}
+
+a.p3{
+	border-bottom:1px solid #999;
+}

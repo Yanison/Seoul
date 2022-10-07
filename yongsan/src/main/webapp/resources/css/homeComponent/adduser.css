@@ -45,8 +45,8 @@ body {
 .center-body {
 	height:100%;
 	width:50%;
-	mid-widht:360px;
-	background:#fff;
+	min-width:360px;
+	background: #fff;
 	display:flex;
 	flex-direction: column;
     justify-content: center;
@@ -75,7 +75,7 @@ body {
 	justify-content:space-between;
 	width:300px;
 	height:50px;
-	margin:20px 0 5px;
+	margin:0px 0 5px;
 }
 
 .gender-box {
@@ -94,7 +94,7 @@ body {
 
 	color:#fff;
 	text-align:center;
-	vertical-aling:center;
+	vertical-alingn:center;
 	padding: 6;
 	
 }
@@ -119,6 +119,16 @@ body {
   width:480px;
   height: 10px;
   color:red;
+  font-size:12px;
+  text-align:left;
+  padding:0 10px;
+  margin:0 0 5px;
+}
+
+.alert-box-available {
+  width:480px;
+  height: 10px;
+  color:#4eb230;
   font-size:12px;
   text-align:left;
   padding:0 10px;
@@ -157,4 +167,12 @@ width:480px;
 }
 .eamilBox .app-inp{
 	width:45%;
+}
+
+.testbtn{
+	border:1px solid black;
+	cursor:pointer;
+}
+.testbtn:hover{
+	background:grey;
 }

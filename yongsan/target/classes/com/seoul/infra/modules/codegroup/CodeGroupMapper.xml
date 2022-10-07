@@ -11,8 +11,8 @@
     <resultMap id="resultMapObj" type="com.seoul.infra.modules.codegroup.CodeGroup"></resultMap>
     <resultMap id="resultMapObjcc" type="com.seoul.infra.modules.codegroup.CommonCodeGroup"></resultMap>
 	
-	<select id="selectCList" resultMap="resultMapObjcc">
-		select * from cg
+	<select id="selectCList" resultMap="resultMapObj">
+		select * from infrCg
 		where 1=1
 		<choose>
 			<when test="shOption == 1">and infrCgUseNy = #{shValue}</when>
@@ -22,20 +22,21 @@
 	</select>
 	
 	<select id="selectOneCnt" resultType="Integer">
-		select count(*) from cg
+		select count(*) from infrCg
 	</select>
 	
 	
 	
-	<select id="selectListCachedCodeArrayList" resultMap="resultMapObjcc">
+	<select id="selectListCachedCodeArrayList" resultMap="resultMapObj">
 		SELECT
 			infrCgSeq
 			, infrCcgSeq
 			, infrCcgName
 			, infrCcgNameEng
 			, infrCgSeqFk
+			, infrCcgTypeNum
 		FROM
-			ccg a left join cg b
+			infrCcg a left join infrCg b
 		on a.infrCgSeqFk = b.infrCgSeq
 		WHERE 1=1
 			AND infrccgDelNy = 1

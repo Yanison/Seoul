@@ -1,17 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
 
 
-<%-- <%% %> 쓰는 대신 제이쿼리 cdn처럼 당겨올 수 있음 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ page session="false" %>
-
-<!-- css,js _ (입력)에서 상속받음. --> 
-<!-- <link type="text/css" rel="stylesheet" href="./resources/css/입력.css">
-#c84a31; red
-#0062df; blue
-<script src="./resources/js/입력.js"></script> -->
+<script src="../resources/js/exchange/BoS/tabBuy.js"></script>
 
 
 <dl>
@@ -45,7 +35,8 @@
 	<strong>주문가능</strong>
 	</dt>
 	<dd>
-		<strong>num</strong><em>KRW</em>
+		
+		<strong id="userCashBal" class="moneyfmt userCashBal"></strong><em>KRW</em>
 	</dd>
 	
 	<dt>
@@ -54,7 +45,7 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+		  <input id="bidsPrice" name="price" type="text" class="form-control bidsPrice moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
@@ -66,7 +57,7 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input type="text" id="bidsAmount" name="obAmount" class="form-control bidsAmount moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
 		</div>
 		
 	</dd>
@@ -85,7 +76,7 @@
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <input type="text" class="form-control" value="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input id="bidSum" type="text" class="form-control bidSum moneyFmt" value="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
 		</div>
 	</dd>
 	<dd class="orderNotice">
@@ -94,7 +85,7 @@
 	
 	<dd class="last">
 		<span class="orderBtn1"> 초기화 </span>
-		<span class="orderBtn2" style="background:#c84a31"> 매수 </span>
+		<span id="submitBids" class="orderBtn2 orderType" value="0" style="background:#c84a31"> 매수 </span>
 	</dd>
 
 </dl>

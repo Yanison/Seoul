@@ -1,10 +1,6 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ page session="false" %>
-
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
 
+<script src="../resources/js/exchange/cryptoList/cryptoList.js"></script>
 
 <article class="cryptoListBox">
 	<section class="cryptoListHeader">
@@ -50,26 +46,32 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>star</td>
-					<td>candle</td>
-					<td class="CryptoName" style="text-align:left;">
-						<div>
-							CryptoName
-						</div>
-						<div>
-							CryptoSymbol
-						</div>
-					</td>
-					<td class="CryptoPricePresent">num</td>
-					<td class="24Hvari">
-						<div>%</div>
-						<div>₩</div>
-					</td>
-					<td class="CryptoCap">
-						<div><span>num</span><i>백만</i></div>
-					</td>
-				</tr>
+				<!-- fa-duotone  > fa- solid -->
+				<c:choose>
+					<c:when test="${fn:length(cryptoList) eq 0}">
+						<tr><td colspan="6"> no crypto data</td></tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${cryptoList}" var="cryptoList" varStatus="status">
+							<tr id="${cryptoList.cryptoName}" class="cryptoRow thisCoin" value="${cryptoList.cryptoName}">
+								<td class="likeThis"><i class="fa-regular fa-star"></i></i></td>
+								<td class="smallCandle">-</td>
+								<td class="CryptoName" style="text-align:left;">
+									<div class="getCryptoNm">${cryptoList.cryptoName}</div>
+									<div class="getCryptoSym">${cryptoList.cryptoSym}</div>
+								</td>
+								<td class="CryptoPricePresent">num</td>
+								<td class="24Hvari">
+									<div>%</div>
+									<div>₩</div>
+								</td>
+								<td class="CryptoCap">
+									<div><span>num</span><i>백만</i></div>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</tbody>
 		</table>
 	</section>

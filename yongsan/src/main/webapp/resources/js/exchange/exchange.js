@@ -1,6 +1,38 @@
 
 $(document).ready(function(){
 	
+	var idTokenKko = $('#idTokenKko').val();
+	//userBalance
+	if(idTokenKko != ""){
+		console.log("idTokenKko session :: " +idTokenKko);
+		$.ajax({
+			async:true
+			,cache:false
+			,type:"post"
+			,url:"/exchange/userBalance"
+			,data:{"idTokenKko" : idTokenKko}
+			,success: function(userBalance){
+				console.log(userBalance)
+				if(userBalance.amount == null || userBalance.amount == 0){
+					$('.userCashBal').text("잔고 없음")
+				}else{
+					$('.userCashBal').val(userBalance.amount)
+					$('.userCashBal').text(userBalance.amount)
+					$('#memberSeq').val(userBalance.memberSeq)
+					$('#cryptoSeq').val(userBalance.cryptoSeq)
+				}
+				
+				
+			}
+			,error : function(err){
+				alert("노노")
+			}
+			
+		})
+	}else{
+		console.log("no idTokenKko session :: " +idTokenKko);
+	}
+	
 	//orderContainer
 	var navItem = $('.navItem')
 	
@@ -166,24 +198,6 @@ $(document).ready(function(){
 		}
 	})
 	
-	//거래내역
 	
-	
-		
-		
-		
-		
-//		console.log('asd')
-//		
-//		xhttp.onreadystatechange = function() {
-//			if(this.readyState == 4 && this.status == 200){
-//				$('#orderContainerWrap').outerHTML = this.requestText;
-//			}else{
-//				console.log('asd')
-//			}
-//		};
-//		var xhttp = new XMLHttpRequest();
-//		xhttp.open('GET','orderContainer/orderContainerOrderPrice.jsp',true)
-//		xhttp.send();
 	
 });

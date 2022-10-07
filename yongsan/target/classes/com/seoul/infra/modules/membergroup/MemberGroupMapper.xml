@@ -9,7 +9,7 @@
 <mapper namespace="com.seoul.infra.modules.membergroup.MemberGroupMapper">
 									
     <resultMap id="resultMapObj" type="com.seoul.infra.modules.membergroup.MemberGroup"></resultMap>
-	<resultMap id="resultMapObjCg" type="com.seoul.infra.modules.codegroup.CodeGroup"></resultMap>
+    <resultMap id="resultMapObjKko" type="com.seoul.infra.modules.membergroup.MemberGroupByKko"></resultMap>
 	<!-- <sql id="shValue">
 	
 	</sql>
@@ -20,10 +20,10 @@
 		<choose>
 			<when test="shOption == 1">and regDateAt = #{shValueDate} </when>
 			<when test="shOption == 2">and memberSeq = #{shValue} </when>
-			<when test="shOption == 3">and name like concat ('%',#{shValue},'%')</when>
+			<when test="shOption == 3">and memberName like concat ('%',#{shValue},'%')</when>
 			<when test="shOption == 4">and activeNy = #{shValue}</when>
 		</choose>
-		order by memberSeq
+		order by memberSeq desc
 		limit #{rowNumToShow} offset #{startRnumForMysql}
 	</select>
 	
@@ -31,34 +31,88 @@
 		select count(*) from member
 	</select>
 	
+	<select id="isDupleId" resultType="Integer">
+		select count(*) from member where 1=1 and memberId = #{memberId}
+	</select>
+	
+	<select id = "selectOneLogin" resultMap="resultMapObj">
+		select memberid,pw from member where memberId = #{memberId} and memberPw = #{memberPw}
+	</select>
+	
+	<select id = "selectOneId" resultMap="resultMapObj">
+		select memberid from member where memberId = #{memberId}
+	</select>
+	
+	<select id="findUserId" resultMap="resultMapObj">
+		select
+		
+		<choose>
+			<when test="shOption == 1">memberId</when>
+			<when test="shOption == 2">memberEmail</when>
+			<when test="shOption == 3">memberTel</when>
+		</choose>
+		
+		from member
+	</select>
+	
 	<insert id="addUser">
 		insert member (
-			id
-			,pw
-			,name
-			,nickname
-			,gender
-			,addrType1
-     		,addrType2
+			memberId
+			,memberPw
+			,memberName
+			,memberNickname
+			,memberGender
+			,memberAddrLoad
+     		,memberAddrJibun
 			,addrDetail
-			,tel
-			,email
 			,postCode
-			,addrLoca
+			,addrLat
+			,addrLong
+			,memberTel
+			,memberEmail
+			,memberDob
 		)
 		values(
-			#{id}
-			,#{pw}
-			,#{name}
-			,#{nickname}
-			,#{gender}
-			,#{addrType1}
-			,#{addrType2}
+			#{memberId}
+			,#{memberPw}
+			,#{memberName}
+			,#{memberNickname}
+			,#{memberGender}
+			,#{memberAddrLoad}
+     		,#{memberAddrJibun}
 			,#{addrDetail}
-			,#{tel}
-			,#{email}
 			,#{postCode}
-			,#{addrLoca}
+			,#{addrLat}
+			,#{addrLong}
+			,#{memberTel}
+			,#{memberEmailId} + #{EmailDM}
+			,#{memberDob}
+		)
+	</insert>
+	
+	<select id="findKkoMember" resultMap="resultMapObj">
+		select idTokenKko,memberName,memberSeq from member where 1 = 1 and idTokenKko = #{idTokenKko}
+	</select>
+	
+	<insert id = "kkoLogin">
+		insert into member(
+			memberName
+			,memberGender
+			,memberDob
+			,idTokenKko
+			,regDateAt
+			,modDateAt
+		)
+		values(
+			#{memberName}
+			,<choose>
+				<when test="#{memberGender} == male">0</when>
+				<otherwise>1</otherwise>
+			</choose>
+			,#{memberDob}
+			,#{idTokenKko}
+			,now()
+			,now()
 		)
 	</insert>
 	

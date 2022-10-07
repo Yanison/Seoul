@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	var moneyfmt = $('.moneyfmt').text();
+	var moneyfmt2 = moneyfmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	$('.moneyfmt').text(moneyfmt2)
+	console.log("moneyfmt")
+	console.log($('.moneyfmt').text())
+	
 	$('#login-btn').on('click',function(){
 		event.preventDefault();
 		location.href='./login';
@@ -11,6 +17,8 @@ $(document).ready(function(){
 		location.href='../';
 		
 	});
+	
+	
 	
 	$('#adduser').on('click',function(){
 		event.preventDefault();
@@ -31,9 +39,9 @@ $(document).ready(function(){
 		
 	});
 	
-	$('#wob').on('click',function(){
+	$('#wod').on('click',function(){
 		event.preventDefault();
-		location.href='../wob/wob';
+		location.href='../wod/wod';
 	});
 	
 	$('#raise').on('click',function(){
@@ -50,21 +58,19 @@ $(document).ready(function(){
 			//
 			$.ajax({
 				
-				url:'./ajax_logout',
-				type:'get',
+				url:'./kakaoLogout',
+				type:'post',
 				data:{
-					
-					
 				},
 				success:function(res){
-					if(res == "ok"){
+					if(res.rt == "success"){
 						alert("로그아웃 됨");
 						location.replace('./');
 					}
 					
 				},
 				error:function(err){
-					
+					location.replace('./');
 					alert("로그아웃이 왜 안돼 스프링 ㄱ ");
 				}
 				
@@ -82,11 +88,15 @@ $(document).ready(function(){
 	//logout	
 	});
 	
-	$('#rootmenu').on('click',function(){
+	$('#adminPage').on('click',function(){
 		event.preventDefault();
-		location.href='./root_main';
+		location.href='http://127.0.0.1:8082/yongsancode/roothome';
 		
 	});
+	
+	
+	
+
 
 	
 });

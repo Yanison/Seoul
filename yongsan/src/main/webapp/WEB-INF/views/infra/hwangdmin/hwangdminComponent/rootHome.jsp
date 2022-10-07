@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Root</title>
-<%@ include file="rsrcHwangdmin.jsp" %>
+<%@ include file="../rsrcHwangdmin.jsp" %>
 </head>
 <body>
 	<div class="wrapper">
@@ -14,7 +14,9 @@
 				<%@ include file="rootNaviHeader.jsp" %>	
 			</header>
 			
-			<article></article>
+			<article class="mainArticle">
+				<%@ include file="dashboard.jsp" %>
+			</article>
 		</div>
 	</div>
 </div>

@@ -30,7 +30,7 @@ html, body {
 padding:0;
 margin:0;
 font-size:14px;
-background:#fff;
+background:#eee;
 font-family:nt;
 }
 main > section {
@@ -219,7 +219,7 @@ main > section {
 	padding-top:8px;
 }
 
-.btcLogo {
+.cryptoLogo {
 	height:26px; 
 	width:26px;
 	margin:0 10 0 0;
@@ -1005,12 +1005,15 @@ colgroup {
     font-weight: 700;
     color:#fff;
 }
-
+.myCash{
+	border:none;
+}
 .orderBoxBody .orderBtn1{
 	display:block;
 	width:108;
 	height:44px;
-	background:#94949d
+	background:#94949d;
+	cursor:pointer
 }
 
 .orderBoxBody .orderBtn2{
@@ -1018,6 +1021,7 @@ colgroup {
 	width:344px;
 	height:44px;
 	background:#94949d;
+	cursor:pointer
 }
 
 .easyOrderSetting{
@@ -1363,6 +1367,12 @@ input[type=radio]{
 	text-align:center;
 }
 
+/* 
+ *
+ * cryptoList start
+ *
+ */
+
 .cryptoListDiv {
 	width:400px;
 	height:1390px;
@@ -1488,6 +1498,14 @@ input[type=radio]{
 .cryptoListR table tbody tr td{
 	text-align:right;
 }
+.fa-regular:hover{
+	background:#eee;
+	color:#0062df;
+}
+.cryptoRow:hover{
+	background:#eee;
+}
+
 
 .cryptoListHeader{
 	height:87px;

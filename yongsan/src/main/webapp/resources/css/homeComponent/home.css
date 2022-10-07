@@ -57,44 +57,7 @@ body {
 	overflow: scroll;
 }
 
-.header1 {
-	height:82px;
-	width:100%;
-	background:#f4f5f8;
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	font-size:15px;
-	color:#333333;
-	padding:10 20 10 20px;
-	font-family: 'Noto Sans KR', sans-serif;
-	font-weight:400;
-	position:fixed;
-	top:0px;
-	left:0px;
-	z-index: 1;
-	border-bottom:1px solid white;
-}
 
-.header1 .header-left,.header1 .header-right {
-	display:flex;
-	align-items:center;
-}
-.header1 .header-left-contents {
-	margin: 0 0 0 10px;
-	min-width:470px;
-}
-
-.header1 .headee-contents {
-	text-align:center;
-	min-width:80px;
-	margin:0 10 0 10;
-	cursor:pointer;
-}
-.logo {
-	object-fit:cover;
-	height:20px;
-}
 
 
 .home-main{
@@ -653,7 +616,7 @@ body {
     height: 17px;
     display: inline-block;
     background:transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit.19e2e01.svg) no-repeat 0 0;
-    
+    cursor:pointer;
 }
 
 .company-info {

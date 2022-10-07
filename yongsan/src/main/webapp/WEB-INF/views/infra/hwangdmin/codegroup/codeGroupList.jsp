@@ -7,11 +7,11 @@
 <body>
 	<div class="wrapper">
 		<nav class="navi">
-			<%@ include file="../rootNavi.jsp" %>
+			<%@ include file="../hwangdminComponent/rootNavi.jsp" %>
 		</nav>
 		<div class="mainDiv">
 			<header class="navheader">
-				<%@ include file="../rootNaviHeader.jsp" %>	
+				<%@ include file="../hwangdminComponent/rootNaviHeader.jsp" %>	
 			</header>
 			
 			<article class="adminDiv">

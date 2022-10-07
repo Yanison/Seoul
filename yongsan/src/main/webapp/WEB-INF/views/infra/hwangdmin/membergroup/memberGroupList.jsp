@@ -12,11 +12,11 @@
 <body>
 	<div class="wrapper">
 		<nav class="navi">
-			<%@ include file="../rootNavi.jsp" %>
+			<%@ include file="../hwangdminComponent/rootNavi.jsp" %>
 		</nav>
 		<div class="mainDiv">
 			<header class="navheader">
-				<%@ include file="../rootNaviHeader.jsp" %>	
+				<%@ include file="../hwangdminComponent/rootNaviHeader.jsp" %>	
 			</header>
 			
 			<article class="adminDiv">
@@ -24,7 +24,7 @@
 					<h1>
 						MemberGroupSearch
 					</h1>	
-					<form method=get"" action="memberGroupList">
+					<form method="get" action="memberGroupList">
 						<div class="inputGroup" class="form-control">
 								<div class="input-group mb-3 shValue">
 									<select id="shOption" class="shOption form-control select" name="shOption">

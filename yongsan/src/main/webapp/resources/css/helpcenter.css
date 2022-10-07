@@ -38,42 +38,6 @@ html, body {
 	position:relative;
 }
 
-.header2 {
-	height:60px;
-	width:100%;
-	min-width:1200px;
-	background:#093687;
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	font-size:15px;
-	color:#fff;
-	padding:10 20 10 20px;
-	font-family: 'Noto Sans KR', sans-serif;
-	font-weight:400;
-	margin: 0 0 0px 0;
-	padding:0 122px;
-	position:absolute;
-	top:0px;
-	left:0px;
-}
-
-.header2 .header-left,.header2 .header-right {
-	display:flex;
-	align-items:center;
-}
-.headee-contents {
-	margin:0 10 0 10;
-	cursor:pointer;
-}
-.logo-link2 {
-	display: inline-block;
-	width: 77px;
-    height: 17px;
-  	background: transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit_sub.f7f9753.svg) no-repeat 0 0;
-  	cursor:pointer;
-}
-
 .main{
 	position:relative;
 	display:flex;

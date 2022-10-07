@@ -6,9 +6,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page session="false" %>
-
-<!-- css,js _ (입력)에서 상속받음. --> 
 <script src="../resources/js/exchange/BoS/exHis.js"></script>
+<!-- css,js _ (입력)에서 상속받음. --> 
+
 
 <div class="THWrapper">
 	<div class="viewOption">

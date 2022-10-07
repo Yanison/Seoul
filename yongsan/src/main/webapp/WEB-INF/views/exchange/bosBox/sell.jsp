@@ -45,7 +45,7 @@
 	<strong>주문가능</strong>
 	</dt>
 	<dd>
-		<strong>num</strong><em>KRW</em>
+		<strong class="userCashBal">num</strong><em>KRW</em>
 	</dd>
 	
 	<dt>
@@ -54,7 +54,7 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+		  <input id="asksPrice" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
@@ -66,7 +66,7 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input type="text" id="asksAmount" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
 		</div>
 		
 	</dd>
@@ -94,7 +94,7 @@
 	
 	<dd class="last">
 		<span class="orderBtn1"> 초기화 </span>
-		<span class="orderBtn2" style="background:#1261c4;"> 매도 </span>
+		<span id="submitAsks" class="orderBtn2" style="background:#1261c4;"> 매도 </span>
 	</dd>
 
 </dl>

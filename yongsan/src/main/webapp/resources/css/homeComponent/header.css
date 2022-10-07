@@ -1,0 +1,91 @@
+.header a, #logout-btn{
+	color:#333;
+	font-size:13px;
+}
+
+
+.header1 {
+	height:82px;
+	width:100%;
+	background:#f4f5f8;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	font-size:15px;
+	color:#333333;
+	padding:10 20 10 20px;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:400;
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index: 1;
+	border-bottom:1px solid white;
+	padding:0 150px;
+}
+
+.header1 .header-left,.header1 .header-right {
+	display:flex;
+	align-items:center;
+}
+.header1 .header-left-contents {
+	margin: 0 0 0 10px;
+	min-width:470px;
+}
+
+.header1 .headee-contents {
+	text-align:center;
+	margin:0 20px;
+	cursor:pointer;
+}
+.logo {
+	object-fit:cover;
+	height:20px;
+}
+
+
+
+
+.header2 {
+	height:60px;
+	width:100%;
+	min-width:1200px;
+	background:#093687;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	font-size:15px;
+	color:#fff;
+	padding:10 20 10 20px;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:400;
+	margin: 0 0 0px 0;
+	padding:0 122px;
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+.header2 .header-left,.header2 .header-right {
+	display:flex;
+	align-items:center;
+}
+.header2 .headee-contents {
+	margin:0 20px;
+	cursor:pointer;
+	color:#fff;
+}
+.logo-link2 {
+	display: inline-block;
+	width: 77px;
+    height: 17px;
+  	background: transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit_sub.f7f9753.svg) no-repeat 0 0;
+  	cursor:pointer;
+}
+.header-right .headee-contents{
+	margin:10;
+}
+
+.header-right .headee-contents:hover {
+	font-weight:900;
+}

@@ -8,6 +8,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.seoul.infra.dto.Crypto;
+
+
 @Service
 public class CodeGroupServiceImpl implements CodeGroupService  {
 	
@@ -17,6 +20,10 @@ public class CodeGroupServiceImpl implements CodeGroupService  {
 	@Override
 	public List<CodeGroup> selectCList(CodeGroup vo) throws Exception{
 		return dao.selectCList(vo);
+	}
+	@Override
+	public List<Crypto> selectAllCrypto(Crypto vo2) throws Exception{
+		return dao.selectAllCrypto(vo2);
 	}
 	
 	@PostConstruct

@@ -8,10 +8,8 @@
 
 
 $(document).ready(function(){
-
-	//일반 로그인
-	$('#this-login-btn').click(function(){
-		
+	
+	function loginVali(){
 		var id = $("#id").val();
 		var pw = $("#pw").val();
 		
@@ -48,32 +46,41 @@ $(document).ready(function(){
 					'</div>'		
 			);	
 		}
-		
-		
-		//로그인하기
-		$.ajax({
-			url:'http://127.0.0.1:8080/seoul2/ajax_login',
-			type:'get',
-			data:{
-				'id':id,
-				'pw':pw
-				
-			},
-			success:function(response){
-				if(response=='okuser') {
-					location.href="./"
-						alert('일반유저로그인')
-				}else if(response=='okroot') {
-					location.href="./"
-						alert('로그인')
-				}else {
-						alert('로그인 실패')
+	}
+
+	//일반 로그인
+	$('#this-login-btn').click(function(){
+			alert("before loginVali")
+		if (loginVali != false){
+			alert("after loginVali")
+			alert($("#id").val())
+			alert($("#pw").val())
+			//로그인하기
+			$.ajax({
+				async: true 
+				,cache: false
+				,type: "post"
+				/* ,dataType:"json" */
+				,url: "/login"
+				/* ,data : $("#formLogin").serialize() */
+				,data : { "id" : $("#id").val(), "pw" : $("#pw").val()}
+				,success: function(response) {
+					if(response.rt == "success") {
+						if(response.changePwd == "true") {
+							location.href = URL_CHANGE_PWD_FORM;
+						} else {
+							location.href = URL_INDEX_ADMIN;
+						}
+					} else {
+						alert("회원없음");
+					}
 				}
-				
-			},
-			error:function(err){
-				alert('로그인 노노')
-			}
-		})
+				,error : function(jqXHR, textStatus, errorThrown){
+					alert("ajaxUpdate " + jqXHR.textStatus + " : " + jqXHR.errorThrown);
+				}
+			});
+		}else {
+			alert("loginVali false")
+		}
 	});
 });

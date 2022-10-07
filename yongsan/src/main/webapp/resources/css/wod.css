@@ -56,6 +56,11 @@ body {
 	min-width:1600px;
 }
 
+.headerDiv{
+	width:100%;
+	height:60px;
+}
+
 .WodMain{
 	width:100%;
 	height:100%;
@@ -69,7 +74,8 @@ body {
 	min-height:1050px;
 	margin:0 auto;
 	position:relative;
-	padding-top: 75px;
+	padding-top: 10px;
+	display:flex;
 }
 
 .sectionL{
@@ -206,6 +212,23 @@ body {
 }
 .coinInfo{
 	padding-left:10px;
+}
+
+.myCryptoList tr td {
+	border-left:1px solid #f1f1f4;
+	padding:10px;
+}
+
+.myCryptoList tr td .coinLogo {
+	padding-top:3px;
+}
+.myCryptoList tr td:first-child {
+	border-left: none;
+}
+.myCryptoList tr td:last-child {
+	text-align:center;
+	font-size:11px;
+	color:#038c6d;
 }
 
 .coinInfo div div strong{
@@ -377,4 +400,10 @@ body {
 
 .account table tr:last-child > *{
 	height:44px;
+}
+
+
+.sectionR{
+	width:calc(100% - 990px);
+	padding-left:10px;
 }
