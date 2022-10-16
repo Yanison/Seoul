@@ -49,7 +49,7 @@
 	</dd>
 	
 	<dt>
-	<strong>매수가격</strong><em>(KRW)</em>
+	<strong>매도가격</strong><em>(KRW)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">

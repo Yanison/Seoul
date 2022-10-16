@@ -80,7 +80,6 @@ $(document).ready(function(){
 	})
 	
 	//bosBox
-	
 	$('.nav2_1').click(function(){
 		$('.nav2_1').addClass('active2Buy');
 		$('.nav2_2').removeClass('active2Sell');

@@ -13,7 +13,8 @@
 <link type="text/css" rel="stylesheet"href="../resources/css/exchange.css">
 <!-- <script src="./resources/js/exchange/exchange.js"></script> -->
 <script src="./resources/js/getPrice1.js"></script>
-<script src="./resources/js/exchange/exchange.js"></script>
+<script src="../resources/js/exchange/exchange.js"></script>
+
 
 <!-- #c84a31; red
 #0062df; blue 
@@ -250,7 +251,7 @@
 
 							<div id="orderContaineritem1">
 
-								<%@include file="orderContainer/orderContainerPrice.jsp"%>
+								<%@include file="orderContainer/orderContainerPrice2.jsp"%>
 
 							</div>
 							<div id="orderContaineritem2">
@@ -336,43 +337,39 @@
 						<article class="orderBox">
 							<span class="orderBoxTab">
 								<ul>
-									<li class="tabBuy"><a href="#1"
-										class="navItem2 nav2_1 active2Buy" title="매수">매수</a></li>
-									<li class="tabSell"><a href="#2" class="navItem2 nav2_2"
-										title="매도">매도</a></li>
-									<li class="easyorder"><a href="#3" class="navItem2 nav2_3"
-										title="간편주문">간편주문</a></li>
-									<li class="transactionHis"><a href="#4"
-										class="navItem2 nav2_4" title="거래내역">거래내역</a></li>
+									<li class="tabBuy">
+										<a class="navItem2 nav2_1 active2Buy" title="매수">매수</a>
+									</li>
+									<li class="tabSell">
+										<a  class="navItem2 nav2_2"title="매도">매도</a>
+									</li>
+									<li class="easyorder">
+										<a  class="navItem2 nav2_3"title="간편주문">간편주문</a>
+									</li>
+									<li class="transactionHis">
+										<a  class="navItem2 nav2_4" title="거래내역">거래내역</a>
+									</li>
 								</ul>
 							</span>
 
 							<!-- #BoSform -->
 							<div id="orderBoxBody1"
-								class="orderBoxBody toggleMenueBody navItem2_1">
-								<form id="formSubmitBids" class="submitBids">
+								class="orderBoxBody toggleMenueBody navItem2_1"style="display:block;">
 									<%@ include file="bosBox/buy.jsp"%>
-								</form>
 							</div>
 
 							<div id="orderBoxBody2"
-								class="orderBoxBody toggleMenueBody navItem2_2">
-								<form class="submitAks">
+								class="orderBoxBody toggleMenueBody navItem2_2" style="display:none;">
 									<%@ include file="bosBox/sell.jsp"%>
-								</form>
 							</div>
 
 							<div id="orderBoxBody3"
-								class="orderBoxBody toggleMenueBody navItem2_3">
-								<form class="easyOrder">
+								class="orderBoxBody toggleMenueBody navItem2_3" style="display:none;">
 									<%@ include file="bosBox/easyOrder.jsp"%>
-								</form>
 							</div>
 
 							<div id="orderBoxBody4"
-								class="orderBoxBody toggleMenueBody navItem2_4"
-								style="display: block">
-
+								class="orderBoxBody toggleMenueBody navItem2_4" style="display:none;">
 								<%@ include file="bosBox/transactionHis.jsp"%>
 							</div>
 

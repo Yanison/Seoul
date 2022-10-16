@@ -75,11 +75,21 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
 	<select id="selectBOB" resultMap="exchDto">
-		select obAmount,price from orderBook where orderType = 0 order by orderSeq desc;
+		select 
+			obAmount
+			,price 
+		from orderBook 
+			where orderType = 0 
+			order by orderSeq desc;
 	</select>
 	
 	<select id="selectSOB" resultMap="exchDto">
-		select obAmount,price from orderBook where orderType = 1 order by orderSeq
+		select 
+			obAmount
+			,price 
+		from orderBook 
+			where orderType = 1 
+			order by orderSeq
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

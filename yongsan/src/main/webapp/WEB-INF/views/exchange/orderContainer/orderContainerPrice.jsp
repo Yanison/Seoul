@@ -251,8 +251,8 @@ down 클래스는 갱신된 새 데이터가 하단에서부터 생김
 			<a href="#">
 				<div style="width: 34.4%;"></div>
 				<p>amout</p>
-													</a>
-												</td>
+					</a>
+				</td>
 												<td class="upB">
 													<!--positionR은 호가창에서 현제 시세를 마크업 해주는 html 요소임.
 													가격이 전날 가격보다 상승이면 upclass를, 하락이면 down클래스를 주는듯 -->

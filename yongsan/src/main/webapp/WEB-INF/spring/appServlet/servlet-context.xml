@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+	
+	
+	<!-- if a error happend on <websocket:handlers>, try to add text below
+	
+	* add between xmlms
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	* add in xsi:schemaLocation
+	http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd"
+	 -->
+	 
+	 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -22,6 +34,25 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.seoul.*" />
+	
+	<!-- webSocket handler -->
+	<!-- <beans:bean id="replyEchochoHandler" class="com.seoul.infra.modules.exchange.websocketController.ReplyEchoHandler" />
+	
+	<websocket:handlers>
+	 <websocket:mapping handler="replyEchochoHandler" path="/replyEcho" />
+	 <websocket:handshake-interceptors>
+	      <beans:bean
+	          class="org.springframework.web.socket.server.support.WebSocketConfig"/>
+	 </websocket:handshake-interceptors>
+	</websocket:handlers> -->
+	
+	<!-- <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="sockExample.stompExample.WebSocketConfigure">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic, /queue"/>
+    </websocket:message-broker> -->
+	
 	
 	<!-- session interceptor s 2022.03.13 for logincheck -->
 	<!-- <interceptors>

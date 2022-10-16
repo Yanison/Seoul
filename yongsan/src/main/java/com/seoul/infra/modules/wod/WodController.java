@@ -27,8 +27,8 @@ public class WodController {
 	WodServiceImpl serviceWod;
 	@Autowired
 	HttpSession session;
-	
-	
+		
+	@ResponseBody
 	@RequestMapping(value="wod")
 	public String wod(Model model
 					,@ModelAttribute("voW") WodDTO voW
@@ -50,7 +50,10 @@ public class WodController {
 		model.addAttribute("selectBal", selectBal);
 		
 		
-		
-		return "wod/wod";
+		if(voW.getMemberSeq() != null) {
+			return "wod";
+		}else {
+			return "login";
+		}
 	}
 }

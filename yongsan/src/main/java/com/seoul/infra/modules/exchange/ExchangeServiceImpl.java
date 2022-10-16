@@ -27,6 +27,7 @@ public class ExchangeServiceImpl implements ExchangeService{
 	}
 
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ * 
  * @@@@@@ get OB Bids&Asks
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
@@ -40,7 +41,7 @@ public class ExchangeServiceImpl implements ExchangeService{
 	};
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ submitBids
+ * @@@@@@ submit Bids & Asks
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	@Override
@@ -49,6 +50,6 @@ public class ExchangeServiceImpl implements ExchangeService{
 	}
 	@Override
 	public int submitAsks(ExchDTO dto) throws Exception{
-		return dao.submitBids(dto);
+		return dao.submitAsks(dto);
 	}
 }

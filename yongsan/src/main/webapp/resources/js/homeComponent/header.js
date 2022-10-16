@@ -40,6 +40,27 @@ $(document).ready(function(){
 	});
 	
 	$('#wod').on('click',function(){
+		
+		$.ajax({
+			url:'http://127.0.0.1:8082/wod/wod',
+			type:'post',
+			data:{
+			},
+			success:function(rt){
+				if(rt == "wod"){
+					location.replace('/http://127.0.0.1:8082/wod/wod');
+				}else{
+					location.replace('http://127.0.0.1:8082/userLoginkko');
+				}
+				
+			},
+			error:function(err){
+				location.replace('./');
+				alert(" ");
+			}
+			
+		});	
+		
 		event.preventDefault();
 		location.href='../wod/wod';
 	});

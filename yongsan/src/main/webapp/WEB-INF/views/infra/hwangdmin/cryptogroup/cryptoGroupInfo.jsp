@@ -60,13 +60,16 @@
 						        <div id="uploadImg" class="file-list"></div>
 						    </form>
 						</div> -->
-						<input type="file" onchange="upload('img',1,3,6)" id="img" name="img" multiple="multiple"/>
+					</div>
+					<div class="upldFileDiv">
+						<input type="file" onchange="upload('img',1,3,6)" id="img" class="img" name="img" multiple="multiple"/>
 						<div class="addScroll">
-							<ul id="ulFlie2">
+							<ul id="ulFlie0">
 								
 							</ul>
 						</div>
 					</div>
+					
 				</section>
 			</article>
 		</div>
