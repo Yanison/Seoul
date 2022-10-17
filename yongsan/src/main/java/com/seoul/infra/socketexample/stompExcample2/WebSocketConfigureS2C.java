@@ -11,16 +11,22 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfigureS2C implements WebSocketMessageBrokerConfigurer {
 	
 	@Override
-	  public void configureMessageBroker(MessageBrokerRegistry config) {
-	    config.enableSimpleBroker("/subscribe","/topic");
-	    config.setApplicationDestinationPrefixes("/app");
-	  }
-
-	  @Override
 	  public void registerStompEndpoints(StompEndpointRegistry registry) {
-	    registry.addEndpoint("/S2C").setAllowedOrigins("*").withSockJS()
+		  System.out.println("WebSocketConfigureS2C :: registerStompEndpoints");
+	    registry
+	    .addEndpoint("/S2C")
+	    .setAllowedOrigins("*")
+	    .withSockJS()
 	    .setStreamBytesLimit(512 * 1024)
 	    .setHttpMessageCacheSize(1000)
 	    .setDisconnectDelay(30 * 1000);
 	  }
+	
+	@Override
+	  public void configureMessageBroker(MessageBrokerRegistry config) {
+		System.out.println("WebSocketConfigureS2C ::configureMessageBroker");
+	    config.enableSimpleBroker("/subscribe");
+	    config.setApplicationDestinationPrefixes("/app");
+	  }
+	  
 }

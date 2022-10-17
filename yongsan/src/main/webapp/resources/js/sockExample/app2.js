@@ -11,6 +11,7 @@ function connect(){
 		console.log('connected stomp over sockjs');
 		//subscribe msg
 		stompClient.subscribe('/subscribe/notice',onMessage)
+		console.log('subscribed');
 	})
 }
 
