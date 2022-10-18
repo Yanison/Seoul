@@ -14,7 +14,7 @@
 <!-- <script src="./resources/js/exchange/exchange.js"></script> -->
 <script src="./resources/js/getPrice1.js"></script>
 <script src="../resources/js/exchange/exchange.js"></script>
-
+<script src="../resources/js/exchange/exchWebSock/getOBByWebSock.js"></script>
 
 <!-- #c84a31; red
 #0062df; blue 

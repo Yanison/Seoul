@@ -9,9 +9,6 @@
 <script src="../resources/js/sockExample/app.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
@@ -48,5 +45,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

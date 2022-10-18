@@ -48,5 +48,8 @@ public class ExchangeDao {
 	}
 	public List<ExchDTO> selectSOB(ExchDTO dto){
 		return sqlSession.selectList(namespace + ".selectSOB", dto);
-	}		
+	}
+	public int countOB(ExchDTO dto) {
+		return sqlSession.selectOne(namespace + ".countOB", dto);
+	}
 }

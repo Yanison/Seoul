@@ -80,7 +80,7 @@
 			,price 
 		from orderBook 
 			where orderType = 0 
-			order by orderSeq desc;
+			order by orderSeq desc limit 10;
 	</select>
 	
 	<select id="selectSOB" resultMap="exchDto">
@@ -89,7 +89,11 @@
 			,price 
 		from orderBook 
 			where orderType = 1 
-			order by orderSeq
+			order by orderSeq limit 10;
+	</select>
+	
+	<select id="countOB" resultType="Int">
+		select count(*) from orderBook
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

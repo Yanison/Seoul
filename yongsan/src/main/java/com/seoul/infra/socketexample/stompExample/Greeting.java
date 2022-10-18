@@ -2,8 +2,7 @@ package com.seoul.infra.socketexample.stompExample;
 
 public class Greeting {
 	
-
-	  private String content;
+	 private String content;
 
 	  public Greeting() {
 	  }
@@ -15,4 +14,5 @@ public class Greeting {
 	  public String getContent() {
 	    return content;
 	  }
+
 }

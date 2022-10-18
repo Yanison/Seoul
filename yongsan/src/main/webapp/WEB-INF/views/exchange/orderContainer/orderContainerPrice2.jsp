@@ -4,7 +4,6 @@
 <!-- css,js _ (입력)에서 상속받음. --> 
 <script src="../resources/js/exchange/orderContainer/orderContainerPrice.js"></script>
 <script src="../resources/js/exchange/orderContainer/sockjs.js"></script>
-x
 
 
 <div id="orderContainerWrap" class="orderContainerWrap">
@@ -17,15 +16,15 @@ x
 						<col width="120">
 						<col width="160">
 					</colgroup>
-					<tbody>
+					<tbody id="asksTbody">
 						<c:choose>
-							<c:when test="${fn:length(selectBOB) eq 0}">
+							<c:when test="${fn:length(selectSOB) eq 0}">
 								<tr>
 									<td colspan="3"> no Order Data!</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach items="${selectBOB}" var="selectBOB" varStatus="status">
+								<c:forEach items="${selectSOB}" var="selectSOB" varStatus="status">
 									<tr class="down downtest">
 										<!-- forEach -->
 										<td></td>
@@ -33,7 +32,7 @@ x
 											<!-- 체결수량 -->													
 											<a href="#">
 												<div style="width: 84.4%;"></div>
-												<p><c:out value="${selectBOB.obAmount}"/></p>
+												<p><c:out value="${selectSOB.obAmount}"/></p>
 											</a>
 										</td>
 										<td class="downB">
@@ -42,7 +41,7 @@ x
 											<!-- 체결가격 -->
 											<a href="#">
 												<div class="ty03">
-													<strong><c:out value="${selectBOB.price}"/></strong>
+													<strong><c:out value="${selectSOB.price}"/></strong>
 												</div>
 												<div class="ty02">ratio%</div>
 											</a>
@@ -140,15 +139,15 @@ x
 						<col width="120">
 						<col width="35">
 					</colgroup>
-					<tbody>
+					<tbody id="bidsTbody">
 						<c:choose>
-							<c:when test="${fn:length(selectSOB) eq 0}">
+							<c:when test="${fn:length(selectBOB) eq 0}">
 								<tr>
 									<td colspan="3"> no Order Data!</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach items="${selectSOB}" var="selectSOB" varStatus="status">
+								<c:forEach items="${selectBOB}" var="selectBOB" varStatus="status">
 									<tr class="up downtest">
 										<td class="upB">
 											<!--positionR은 호가창에서 현제 시세를 마크업 해주는 html 요소임.
@@ -156,7 +155,7 @@ x
 											<!-- 체결가격 -->
 											<a href="#">
 												<div class="ty03">
-													<strong><c:out value="${selectSOB.price}"/></strong>
+													<strong><c:out value="${selectBOB.price}"/></strong>
 												</div>
 												<div class="ty02">ratio%</div>
 											</a>
@@ -165,7 +164,7 @@ x
 											<!-- 체결수량 -->													
 											<a href="#">
 												<div style="width: 84.4%;"></div>
-												<p><c:out value="${selectSOB.obAmount}"/></p>
+												<p><c:out value="${selectBOB.obAmount}"/></p>
 											</a>
 										</td>
 										<td class="last"></td>
