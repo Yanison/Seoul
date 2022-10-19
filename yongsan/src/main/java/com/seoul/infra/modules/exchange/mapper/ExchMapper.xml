@@ -83,6 +83,15 @@
 			order by orderSeq desc limit 10;
 	</select>
 	
+	<select id="selectBOBOne" resultMap="exchDto">
+		select 
+			obAmount
+			,price 
+		from orderBook 
+			where orderType = 0 
+			order by orderSeq desc limit 1;
+	</select>
+	
 	<select id="selectSOB" resultMap="exchDto">
 		select 
 			obAmount
@@ -92,8 +101,13 @@
 			order by orderSeq limit 10;
 	</select>
 	
-	<select id="countOB" resultType="Int">
-		select count(*) from orderBook
+	<select id="selectSOBOne" resultMap="exchDto">
+		select 
+			obAmount
+			,price 
+		from orderBook 
+			where orderType = 1 
+			order by orderSeq limit 1;
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

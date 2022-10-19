@@ -9,6 +9,8 @@ public interface ExchangeService {
 	
 	public ExchDTO userBalance(ExchDTO dto) throws Exception;
 	public List<ExchDTO> selectBOB(ExchDTO dto) throws Exception;
+	public ExchDTO selectBOBOne(ExchDTO dto) throws Exception;
+	public ExchDTO selectSOBOne(ExchDTO dto) throws Exception;
 	public List<ExchDTO> selectSOB(ExchDTO dto) throws Exception;
 	public int submitBids(ExchDTO dto) throws Exception;
 	public int submitAsks(ExchDTO dto) throws Exception;

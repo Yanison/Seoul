@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -37,6 +38,8 @@ public class ExchangeController {
 	HttpSession session;
 	@Autowired
 	CryptoGroupServiceImpl service;
+	@Autowired
+	ExchangeDao ExchDao;
 	
 	
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -102,23 +105,71 @@ public class ExchangeController {
  *@@@@@@@@@@@ # Ajax get userBalance end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ *@@@@@@@@@@@ # Ajax get OBList start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+ */
 	
+	@ResponseBody
+	@RequestMapping("/selectBOB")
+	public List<ExchDTO> selectBOB(ExchDTO dto)throws Exception {
+		
+		List<ExchDTO> selectBOB = serviceExch.selectBOB(dto);
+		return selectBOB;
+	}
+	@ResponseBody
+	@RequestMapping("/selectBOBOne")
+	public ExchDTO selectBOBOne(ExchDTO dto)throws Exception {
+		
+		ExchDTO selectBOBOne = serviceExch.selectBOBOne(dto);
+		return selectBOBOne;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/selectSOB")
+	public List<ExchDTO> selectSOB(ExchDTO dto)throws Exception {
+		
+		List<ExchDTO> selectSOB = serviceExch.selectSOB(dto);
+		return selectSOB;
+	}
+	@ResponseBody
+	@RequestMapping("/selectSOBOne")
+	public ExchDTO selectSOBOne(ExchDTO dto)throws Exception {
+		
+		ExchDTO selectSOBOne = serviceExch.selectBOBOne(dto);
+		return selectSOBOne;
+	}
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ *@@@@@@@@@@@ # Ajax get OBList end  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+ */	
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@ # Ajax submitOrder star @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
+	
+	private SimpMessagingTemplate template;
+	
 	@ResponseBody
-	@RequestMapping(value="submitBids")
+	@RequestMapping(path="submitBids", method = RequestMethod.POST)
 	public String submitBids(@ModelAttribute ("vo") ExchDTO dto)throws Exception {
 		
 		int submitBids = serviceExch.submitBids(dto);
 		System.out.println("submitBids :: "+submitBids );
 		
+		
 		return "submitBids";
 	}
 	
+	@RequestMapping
+	public void observeBobOrder(ExchDTO dto) {
+		String bob = new Gson().toJson(ExchDao.selectBOB(dto));
+		System.out.println("bob :: "+ bob);
+		this.template.convertAndSend("/topic/submitBids", bob);
+	}
+	
 	@ResponseBody
-	@RequestMapping(value="submitAsks")
+	@RequestMapping(path="submitAsks", method = RequestMethod.POST)
 	public String submitAsks(@ModelAttribute ("vo") ExchDTO dto)throws Exception {
 		
 		int submitAsks = serviceExch.submitAsks(dto);

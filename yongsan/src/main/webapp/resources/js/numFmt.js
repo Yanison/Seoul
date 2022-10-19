@@ -1,7 +1,4 @@
-$(docment).ready(function(){
-	
-	alert('123123')
-	
+$(document).ready(function(){
 	var moneyFmt = $('.moneyFmt').text();
 	var moneyFmt2 = moneyFmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	$('.moneyFmt').text(moneyFmt2)

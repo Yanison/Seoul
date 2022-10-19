@@ -10,11 +10,12 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/observeSubmittedBOB', function (observeSubmittedBOB) {
+        stompClient.subscribe('/topic/submitBids', function (observeSubmittedBOB) {
+            console.log('from server')
             console.log(JSON.parse(observeSubmittedBOB.body).content);
             forEachBOB()
         });
-        stompClient.subscribe('/topic/observeSubmittedSOB', function (observeSubmittedSOB) {
+        stompClient.subscribe('/topic/submitAsks', function (observeSubmittedSOB) {
             console.log("subscribe test :: "+JSON.parse(observeSubmittedSOB.body).content);
             forEachSOB()
         });
