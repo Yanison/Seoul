@@ -14,6 +14,7 @@ public interface ExchangeService {
 	public List<ExchDTO> selectSOB(ExchDTO dto) throws Exception;
 	public int submitBids(ExchDTO dto) throws Exception;
 	public int submitAsks(ExchDTO dto) throws Exception;
+	public ExchDTO getOnlaodInfo(ExchDTO dto) throws Exception;
 //	public int countOB(ExchDTO dto) throws Exception;
 //	public List<OderBookDto> selectAllOB(OderBookDto dto) throws Exception;
 //	

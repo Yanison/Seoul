@@ -11,6 +11,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,22 +49,18 @@ public class ExchangeController {
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
 	
-	public void interactOrder(@ModelAttribute("dto") ExchDTO dto, Model model) throws Exception{
-		List<ExchDTO> selectBOB = serviceExch.selectBOB(dto);
-		List<ExchDTO> selectSOB = serviceExch.selectSOB(dto);
-		
-		model.addAttribute("selectBOB", selectBOB);
-		model.addAttribute("selectSOB", selectSOB);
-	}
-	
 	
 	public void getBasicList(Model model
 							,@ModelAttribute("vo") Crypto vo
 							,@ModelAttribute("voW") WodDTO voW
+							,@ModelAttribute("voE") ExchDTO dto
 							)throws Exception {
 		//get cryptoList
 		List<Crypto> cryptoList = service.selectAllCrypto(vo);
 		model.addAttribute("cryptoList", cryptoList);
+		
+		ExchDTO getOnlaodInfo = serviceExch.getOnlaodInfo(dto);
+		model.addAttribute("getOnlaodInfo", getOnlaodInfo);
 		//get UserSession
 		Object memberName = session.getAttribute("memberName");
 		Object idTokenKko  = session.getAttribute("idTokenKko");
@@ -71,16 +69,7 @@ public class ExchangeController {
 		model.addAttribute("idTokenKko", idTokenKko);
 		model.addAttribute("memberSeq", memberSeq);
 	}
-	
-	
-	public void getOB(Model model,@ModelAttribute("dto") ExchDTO dto)throws Exception {
-		//get OB
-		List<ExchDTO> selectBOB = serviceExch.selectBOB(dto);
-		model.addAttribute("selectBOB", selectBOB);
-		
-		List<ExchDTO> selectSOB = serviceExch.selectSOB(dto);
-		model.addAttribute("selectSOB", selectSOB);
-	}
+
 	
 	
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -110,19 +99,37 @@ public class ExchangeController {
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
 	
+	private SimpMessagingTemplate template;
+	
+	@Autowired
+	public ExchangeController(SimpMessagingTemplate template) {
+		this.template = template;
+		System.out.println("ExchangeController :: ExchangeController");
+	}
+	
 	@ResponseBody
 	@RequestMapping("/selectBOB")
 	public List<ExchDTO> selectBOB(ExchDTO dto)throws Exception {
 		
 		List<ExchDTO> selectBOB = serviceExch.selectBOB(dto);
+		
 		return selectBOB;
 	}
 	@ResponseBody
 	@RequestMapping("/selectBOBOne")
 	public ExchDTO selectBOBOne(ExchDTO dto)throws Exception {
-		
+		System.out.println("selectBOBOne ::");
 		ExchDTO selectBOBOne = serviceExch.selectBOBOne(dto);
+		observeSubmittedBids("greeting",dto);
 		return selectBOBOne;
+	}
+	
+	@RequestMapping(path="/observeSubmittedBids", method = RequestMethod.POST)
+	public void observeSubmittedBids(String greeting,ExchDTO dto)throws Exception{
+		System.out.println(greeting + "observeSubmittedBids ::");
+		String bob = new Gson().toJson(serviceExch.selectBOBOne(dto));
+		System.out.println("observeSubmittedBids // selectBOBOne ::" + bob);
+	    this.template.convertAndSend("/topic/observeSubmittedBids", bob);
 	}
 	
 	@ResponseBody
@@ -132,13 +139,37 @@ public class ExchangeController {
 		List<ExchDTO> selectSOB = serviceExch.selectSOB(dto);
 		return selectSOB;
 	}
+	// 주문내역 하나 가져옴
 	@ResponseBody
 	@RequestMapping("/selectSOBOne")
 	public ExchDTO selectSOBOne(ExchDTO dto)throws Exception {
-		
+		System.out.println("selectSOBOne ::");
 		ExchDTO selectSOBOne = serviceExch.selectBOBOne(dto);
+		observeSubmittedAsks(dto);
 		return selectSOBOne;
 	}
+	
+	// 주문내역 하나 클라이언트로 전달
+	@RequestMapping(path="/observeSubmittedAsks")
+	public void observeSubmittedAsks(ExchDTO dto)throws Exception{
+		System.out.println("observeSubmittedAsks ::");
+		String sob = new Gson().toJson(serviceExch.selectSOBOne(dto));
+		ExchDTO selectSOBOne = serviceExch.selectBOBOne(dto);
+		System.out.println("observeSubmittedAsks // selectSOBOne ::" + sob);
+	    this.template.convertAndSend("/topic/observeSubmittedAsks", selectSOBOne);
+	}
+	
+	/*
+	 * 주문을 던짐.
+	 * 오더북에 주문DB가 저장이 됨. 
+	 * db에서 감지하면 클라이언트로 보냄
+	 * 
+	 * 어떻게 감지하고 보내?
+	 * 
+	 * 클라이언트에서는 selectOne으로 최근 주문내역을 하나 찍음.
+	 * 
+	 * 주문이 저장되고 나서 메세지를 보내야함. 그럼 메소드를 어디다 위치 시키지?
+	 */
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@ # Ajax get OBList end  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
@@ -147,9 +178,6 @@ public class ExchangeController {
  *@@@@@@@@@@@ # Ajax submitOrder star @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
-	
-	private SimpMessagingTemplate template;
-	
 	@ResponseBody
 	@RequestMapping(path="submitBids", method = RequestMethod.POST)
 	public String submitBids(@ModelAttribute ("vo") ExchDTO dto)throws Exception {
@@ -159,13 +187,6 @@ public class ExchangeController {
 		
 		
 		return "submitBids";
-	}
-	
-	@RequestMapping
-	public void observeBobOrder(ExchDTO dto) {
-		String bob = new Gson().toJson(ExchDao.selectBOB(dto));
-		System.out.println("bob :: "+ bob);
-		this.template.convertAndSend("/topic/submitBids", bob);
 	}
 	
 	@ResponseBody
@@ -193,25 +214,23 @@ public class ExchangeController {
 								,@ModelAttribute("dto") ExchDTO dto
 								,@ModelAttribute("voW") WodDTO voW)throws Exception {
 		
-		getBasicList(model, vo, voW);
-		interactOrder(dto,model);
-		getOB(model, dto);
+		getBasicList(model, vo, voW, dto);
 		
-		return "exchange/exchange";
+		
+		
+		return "exchange/crypto/BTC";
 	}
 	
-	
-	
-	@RequestMapping(value = "EZC")
+	@RequestMapping(value = "/EZC")
 	public String EZC(Model model
 					,@ModelAttribute("vo") Crypto vo
 					,@ModelAttribute("dto") ExchDTO dto
 					,@ModelAttribute("voW") WodDTO voW)throws Exception {
 		
 		
-		getBasicList(model, vo, voW);
-		interactOrder(dto,model);
-		getOB(model, dto);
+		getBasicList(model, vo, voW, dto);
+		
+		
 		
 		
 		return "exchange/crypto/EZC";
@@ -223,9 +242,9 @@ public class ExchangeController {
 					,@ModelAttribute("dto") ExchDTO dto
 					,@ModelAttribute("voW") WodDTO voW)throws Exception{
 		
-		getBasicList(model, vo, voW);
-		interactOrder(dto,model);
-		getOB(model, dto);
+		getBasicList(model, vo, voW, dto);
+		
+		
 		
 		return "exchange/crypto/SYC";
 	}
@@ -236,25 +255,11 @@ public class ExchangeController {
 					,@ModelAttribute("dto") ExchDTO dto
 					,@ModelAttribute("voW") WodDTO voW)throws Exception{
 		
-		getBasicList(model, vo, voW);
-		interactOrder(dto,model);
-		getOB(model, dto);
+		getBasicList(model, vo, voW, dto);
+		
+		
 		
 		return "exchange/crypto/BTC";
-	}
-	
-	@RequestMapping(value="/ETH")
-	public String RTH(Model model
-					,@ModelAttribute("vo") Crypto vo
-					,@ModelAttribute("dto") ExchDTO dto
-					,@ModelAttribute("voW") WodDTO voW
-					)throws Exception{
-		
-		getBasicList(model, vo, voW);
-		interactOrder(dto,model);
-		getOB(model, dto);
-		
-		return "exchange/crypto/ETH";
 	}
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@ # Exch Pages end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -88,7 +88,7 @@
 	
 	<dd class="last">
 		<span class="orderBtn1"> 초기화 </span>
-		<span id="submitBids" class="orderBtn2 orderType" value="0" style="background:#c84a31"> 매수 </span>
+		<button id="submitBids" class="orderBtn2 orderType" onclick='submitBids()' value="0" style="background:#c84a31"> 매수 </button>
 	</dd>
 
 </dl>

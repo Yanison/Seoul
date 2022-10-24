@@ -18,7 +18,9 @@ public class ExchangeServiceImpl implements ExchangeService{
 	@Autowired
 	ExchangeDao dao;
 
-	private SimpMessagingTemplate template;
+	public ExchDTO getOnlaodInfo(ExchDTO dto) throws Exception{
+		return dao.getOnlaodInfo(dto);
+	};
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ get userBalance into submitBidsBox
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -62,23 +64,6 @@ public class ExchangeServiceImpl implements ExchangeService{
 		
 		return dao.submitAsks(dto);
 	}
-	//웹소켓을 구독한 클라이언트에게 주문 내역 전달
-//	@RequestMapping(path="/observeSubmittedOrder", method = RequestMethod.POST)
-//	public void sendBOBListToClient(ExchDTO dto) {
-//		System.out.println("On sendBOBListToClient :: " + dao.selectBOB(dto));
-//		String bob = new Gson().toJson(dao.selectBOB(dto));
-//		System.out.println("bob :: "+ bob);
-//		this.template.convertAndSend("/topic/observeSubmittedBOB", bob);
-//	}
-//	@RequestMapping(path="/observeSubmittedOrder", method = RequestMethod.POST)
-//	public void sendSOBListToClient(ExchDTO dto) {
-//		System.out.println("On sendSOBListToClient :: " + dao.selectSOB(dto));
-//		String sob = new Gson().toJson(dao.selectSOB(dto));
-//		System.out.println("sob :: "+sob);
-//		this.template.convertAndSend("/topic/observeSubmittedSOB", sob);
-//	}
-	
-	// 한 건 들어갈 때마다 웹소켓에 주문 내역을 던진다. 
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ get OBList throu STOMP over SockJS
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

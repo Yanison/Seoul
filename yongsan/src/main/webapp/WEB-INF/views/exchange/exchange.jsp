@@ -19,8 +19,6 @@
 <!-- #c84a31; red
 #0062df; blue 
 -->
-
-
 </head>
 <body>
 	<div class="exWrapper">
@@ -250,7 +248,6 @@
 							<!-- orderContainerPrice.jsp -->
 
 							<div id="orderContaineritem1">
-
 								<%@include file="orderContainer/orderContainerPrice2.jsp"%>
 
 							</div>
@@ -261,8 +258,7 @@
 							</div>
 							<div id="orderContaineritem3">
 
-								<%@include
-									file="orderContainer/orderContainerOrderNavigation.jsp"%>
+								<%@include file="orderContainer/orderContainerOrderNavigation.jsp"%>
 
 							</div>
 						</div>

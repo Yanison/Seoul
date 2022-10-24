@@ -1,37 +1,9 @@
 
 $(document).ready(function(){
-	
 	var idTokenKko = $('#idTokenKko').val();
-	//userBalance
-	if(idTokenKko != ""){
-		console.log("idTokenKko session :: " +idTokenKko);
-		$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/userBalance"
-			,data:{"idTokenKko" : idTokenKko}
-			,success: function(userBalance){
-				console.log(userBalance)
-				if(userBalance.amount == null || userBalance.amount == 0){
-					$('.userCashBal').text("잔고 없음")
-				}else{
-					$('.userCashBal').val(userBalance.amount)
-					$('.userCashBal').text(userBalance.amount)
-					$('#memberSeq').val(userBalance.memberSeq)
-					$('#cryptoSeq').val(userBalance.cryptoSeq)
-				}
-				
-				
-			}
-			,error : function(err){
-				alert("노노")
-			}
-			
-		})
-	}else{
-		console.log("no idTokenKko session :: " +idTokenKko);
-	}
+	
+	getUserBal(idTokenKko);
+	
 	
 	//orderContainer
 	var navItem = $('.navItem')
@@ -196,7 +168,60 @@ $(document).ready(function(){
 			var amountToggle = $('#amountToggle02').val('1')
 		}
 	})
-	
-	
-	
 });
+
+function getUserBal(idTokenKko){
+	var cryptoSeq = $('#cryptoSeq').val()
+	//userBalance
+	if(idTokenKko != ""){
+		console.log("idTokenKko session :: " +idTokenKko);
+		$.ajax({
+			async:true
+			,cache:false
+			,type:"post"
+			,url:"/exchange/userBalance"
+			,data:{
+				"idTokenKko" : idTokenKko
+				,"cryptoSeq" : cryptoSeq
+				}
+			,success: function(userBalance){
+				console.log(userBalance)
+				if(userBalance.amount == null || userBalance.amount == 0){
+					$('.userCashBal').text("잔고 없음")
+				}else{
+					$('.userCashBal').val(userBalance.amount)
+					$('.userCashBal').text(userBalance.amount)
+					$('#memberSeq').val(userBalance.memberSeq)
+					$('#cryptoSeq').val(userBalance.cryptoSeq)
+				}
+				
+				
+			}
+			,error : function(err){
+				alert("노노")
+			}
+			
+		})
+	}else{
+		console.log("no idTokenKko session :: " +idTokenKko);
+	}
+}
+
+
+function getOnLoadInfo(){
+	$.ajax({
+			async:true
+			,cache:false
+			,type:"post"
+			,url:"/exchange/userBalance"
+			,data:{"idTokenKko" : idTokenKko}
+			,success: function(userBalance){
+				console.log(userBalance)
+				$('#cryptoSeq').val(userBalance.cryptoSeq)
+			}
+			,error : function(err){
+				alert("노노")
+			}
+			
+		})
+}

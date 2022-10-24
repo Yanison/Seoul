@@ -38,8 +38,7 @@
 						<span id="logout-btn" class="headee-contents">로그아웃</span>
 						<input type="hidden" id="idTokenKko" name="idTokenKko" value="${idTokenKko}"/>
 						<input type="hidden" id="memberSeq" name="memberSeq" value="${memberSeq}"/>
-						<input type="hidden" id="cryptoSeq" name="cryptoSeq" value="${cryptoSeq}"/>
-						
+						<input type="hidden" id="cryptoSeq" name="cryptoSeq" value="${getOnlaodInfo.cryptoSeq}"/>
 						<c:choose>
 							<c:when test="${idTokenKko eq '2344261226'}">
 								<span id="adminPage" class="headee-contents" style="font-weight:800;color:rgb(18, 97, 196);" >관리자 페이지</span> 

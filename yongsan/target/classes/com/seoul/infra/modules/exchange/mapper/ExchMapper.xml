@@ -19,7 +19,14 @@
 			on e.memberSeq = m.memberSeq
 		where 1=1 
 		and idTokenKko = #{idTokenKko}
-		and cryptoSeq = 1
+		and cryptoSeq = #{cryptoSeq}
+	</select>
+	
+	<select id="getOnlaodInfo"  resultMap="exchDto">
+		select
+			cryptoSeq
+		from crypto
+		where cryptoSym = #{cryptoSym}
 	</select>
 	
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -75,38 +82,46 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
 	<select id="selectBOB" resultMap="exchDto">
-		select 
+		select
 			obAmount
-			,price 
+			,price
+			,timestamp
 		from orderBook 
-			where orderType = 0 
+			where orderType = 0
+			and submittedCrypto = #{cryptoSeq}
 			order by orderSeq desc limit 10;
 	</select>
 	
 	<select id="selectBOBOne" resultMap="exchDto">
 		select 
 			obAmount
-			,price 
+			,price
+			,timestamp 
 		from orderBook 
 			where orderType = 0 
+			and submittedCrypto = #{cryptoSeq}
 			order by orderSeq desc limit 1;
 	</select>
 	
 	<select id="selectSOB" resultMap="exchDto">
-		select 
+		select
 			obAmount
-			,price 
+			,price
+			,timestamp
 		from orderBook 
-			where orderType = 1 
+			where orderType = 1
+			and submittedCrypto = #{cryptoSeq}
 			order by orderSeq limit 10;
 	</select>
 	
 	<select id="selectSOBOne" resultMap="exchDto">
 		select 
 			obAmount
-			,price 
+			,price
+			,timestamp 
 		from orderBook 
-			where orderType = 1 
+			where orderType = 1
+			and submittedCrypto = #{cryptoSeq}
 			order by orderSeq limit 1;
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

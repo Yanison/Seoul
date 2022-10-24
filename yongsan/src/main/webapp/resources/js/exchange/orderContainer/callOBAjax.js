@@ -1,34 +1,10 @@
 $(document).ready(function(){
-	console.log('callOBAjax.js')
-})
-
-var boBtr = null;
-var sobtr = null;
-
-function boBtr(price,amount){
 	
-	boBtr += '<tr class="up downtest">';
-	boBtr += '<td class="upB">';
-	boBtr += '<a href="#">';
-	boBtr += '<div class="ty03">';
-	boBtr += '<strong>'+ price +'</strong>';
-	boBtr += '</div>';
-	boBtr += '<div class="ty02">ratio%</div>';
-	boBtr += '</a>';
-	boBtr += '</td>';
-	boBtr += '<td class="bar">';
-	boBtr += '<a href="#">';
-	boBtr += '<div style="width: 84.4%;"></div>';
-	boBtr += '<p>'+ amount +'</p>';
-	boBtr += '</a>';
-	boBtr += '</td>';
-	boBtr += '<td class="last"></td>';
-	boBtr += '</tr>	';
-}
-
+})
 
 function sobtr(price,amount){
 	
+	var sobtr = null;
 	sobtr += '<tr class="down downtest">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
@@ -46,69 +22,34 @@ function sobtr(price,amount){
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '</tr>';
+	
+	$('#bidsTbody').append(sobtr)
+}
+
+function boBtr(price,amount){
+	
+	var boBtr = null;
+	boBtr += '<tr class="up downtest">';
+	boBtr += '<td class="upB">';
+	boBtr += '<a href="#">';
+	boBtr += '<div class="ty03">';
+	boBtr += '<strong>'+ price +'</strong>';
+	boBtr += '</div>';
+	boBtr += '<div class="ty02">ratio%</div>';
+	boBtr += '</a>';
+	boBtr += '</td>';
+	boBtr += '<td class="bar">';
+	boBtr += '<a href="#">';
+	boBtr += '<div style="width: 84.4%;"></div>';
+	boBtr += '<p>'+ amount +'</p>';
+	boBtr += '</a>';
+	boBtr += '</td>';
+	boBtr += '<td class="last"></td>';
+	boBtr += '</tr>	';
+	
+	$('#bidsTbody').append(boBtr)
 }
 
 
-function selectBOB(){
-	$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/selectBOB"
-			,data:{}
-			,success:function(selectBOB){
-			
-			}
-			,error : function(err){
-				console.log("getList err")
-			}
-		})
-}
 
-function selectBOBOne(){
-	$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/selectBOBOne"
-			,data:{}
-			,success:function(selectBOBOne){
-			
-			}
-			,error : function(err){
-				console.log("getList err")
-			}
-		})
-}
 
-function selectSOB(){
-	$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/selectSOB"
-			,data:{}
-			,success:function(selectSOB){
-			
-			}
-			,error : function(err){
-				console.log("getList err")
-			}
-		})
-}
-
-function selectSOBOne(){
-	$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/selectSOBOne"
-			,data:{}
-			,success:function(selectSOBOne){
-			
-			}
-			,error : function(err){
-				console.log("getList err")
-			}
-		})
-}

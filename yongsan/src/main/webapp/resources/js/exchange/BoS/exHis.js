@@ -18,8 +18,4 @@ $(document).ready(function(){
 			$('.viewOptionText1').css('color','#666');
 		}
 	})
-	
-
-			
-	
 });

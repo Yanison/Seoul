@@ -33,6 +33,15 @@ public class GreetingController {
     return new Greeting(new Date().toString() + "Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
   }
   
+  @RequestMapping(path="/greetings", method = RequestMethod.POST)
+  public void greet(String greeting,ExchDTO dto) {
+	  System.out.println("GreetingController :: greet" + greeting);
+	  
+	  String bob = new Gson().toJson(dao.selectBOB(dto));
+      
+      this.template.convertAndSend("/topic/SimpMessagingTemplate", bob);
+  }
+  
   private SimpMessagingTemplate template;
 
   @Autowired
@@ -46,14 +55,7 @@ public class GreetingController {
   @Autowired
   ExchangeServiceImpl service;
 
-  @RequestMapping(path="/greetings", method = RequestMethod.POST)
-  public void greet(String greeting,ExchDTO dto) {
-	  System.out.println("GreetingController :: greet" + greeting);
-	  
-	  String bob = new Gson().toJson(dao.selectBOB(dto));
-      
-      this.template.convertAndSend("/topic/SimpMessagingTemplate", bob);
-  }
+  
   
   @RequestMapping("/sockExample")
   public String sockExample(Model model, ExchDTO dto)throws Exception {

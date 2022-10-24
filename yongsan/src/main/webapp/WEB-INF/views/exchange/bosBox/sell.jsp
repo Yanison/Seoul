@@ -94,7 +94,7 @@
 	
 	<dd class="last">
 		<span class="orderBtn1"> 초기화 </span>
-		<span id="submitAsks" class="orderBtn2" style="background:#1261c4;"> 매도 </span>
+		<button id="submitAsks" class="orderBtn2" style="background:#1261c4;" onclick="submitAsks()"> 매도 </button>
 	</dd>
 
 </dl>

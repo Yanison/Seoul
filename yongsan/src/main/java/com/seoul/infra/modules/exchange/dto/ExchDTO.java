@@ -48,6 +48,7 @@ public class ExchDTO {
 	 */
 	
 	private Integer cryptoSeq;
+	private String cryptoSym;
 	
 	public Integer getCryptoSeq() {
 		return cryptoSeq;
@@ -55,6 +56,13 @@ public class ExchDTO {
 	public void setCryptoSeq(Integer cryptoSeq) {
 		this.cryptoSeq = cryptoSeq;
 	}
+	public String getCryptoSym() {
+		return cryptoSym;
+	}
+	public void setCryptoSym(String cryptoSym) {
+		this.cryptoSym = cryptoSym;
+	}
+	
 	
 	
 	/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -66,6 +74,8 @@ public class ExchDTO {
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 */
 	
+	
+
 	
 
 	private BigDecimal amount;

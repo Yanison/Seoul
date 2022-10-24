@@ -19,7 +19,11 @@ public class ExchangeDao {
 	private SqlSession sqlSession;
 	
 	public static String namespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
-
+	
+	public ExchDTO getOnlaodInfo(ExchDTO dto) {
+		return sqlSession.selectOne(namespace+".getOnlaodInfo", dto);
+	}
+	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ get userBalance into submitBidsBox
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
