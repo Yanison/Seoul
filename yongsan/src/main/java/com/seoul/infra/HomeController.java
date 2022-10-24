@@ -34,7 +34,7 @@ public class HomeController {
 	public static String getSessionSeqCore(HttpServletRequest httpServletRequest) {
 		HttpSession httpSession =  httpServletRequest.getSession();
 		String rtSeq = (String) httpSession.getAttribute("sessSeq");
-		return rtSeq;
+		return rtSeq; 
 	}
 	
 	
