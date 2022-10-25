@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.seoul.infra.dto.Crypto;
 import com.seoul.infra.modules.cryptogroup.CryptoGroupServiceImpl;
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
 import com.seoul.infra.modules.wod.WodDTO;
 import com.seoul.infra.modules.wod.WodServiceImpl;
 
@@ -109,23 +110,23 @@ public class ExchangeController {
 	
 	@ResponseBody
 	@RequestMapping("/selectBOB")
-	public List<ExchDTO> selectBOB(ExchDTO dto)throws Exception {
+	public List<Order> selectBOB(Order dto)throws Exception {
 		
-		List<ExchDTO> selectBOB = serviceExch.selectBOB(dto);
+		List<Order> selectBOB = serviceExch.selectBOB(dto);
 		
 		return selectBOB;
 	}
 	@ResponseBody
 	@RequestMapping("/selectBOBOne")
-	public ExchDTO selectBOBOne(ExchDTO dto)throws Exception {
+	public Order selectBOBOne(Order dto)throws Exception {
 		System.out.println("selectBOBOne ::");
-		ExchDTO selectBOBOne = serviceExch.selectBOBOne(dto);
-		observeSubmittedBids("greeting",dto);
+		Order selectBOBOne = serviceExch.selectBOBOne(dto);
+		observeSubmittedBids("from Server",dto);
 		return selectBOBOne;
 	}
 	
 	@RequestMapping(path="/observeSubmittedBids", method = RequestMethod.POST)
-	public void observeSubmittedBids(String greeting,ExchDTO dto)throws Exception{
+	public void observeSubmittedBids(String greeting,Order dto)throws Exception{
 		System.out.println(greeting + "observeSubmittedBids ::");
 		String bob = new Gson().toJson(serviceExch.selectBOBOne(dto));
 		System.out.println("observeSubmittedBids // selectBOBOne ::" + bob);
@@ -134,27 +135,27 @@ public class ExchangeController {
 	
 	@ResponseBody
 	@RequestMapping("/selectSOB")
-	public List<ExchDTO> selectSOB(ExchDTO dto)throws Exception {
+	public List<Order> selectSOB(Order dto)throws Exception {
 		
-		List<ExchDTO> selectSOB = serviceExch.selectSOB(dto);
+		List<Order> selectSOB = serviceExch.selectSOB(dto);
 		return selectSOB;
 	}
 	// 주문내역 하나 가져옴
 	@ResponseBody
 	@RequestMapping("/selectSOBOne")
-	public ExchDTO selectSOBOne(ExchDTO dto)throws Exception {
+	public Order selectSOBOne(Order dto)throws Exception {
 		System.out.println("selectSOBOne ::");
-		ExchDTO selectSOBOne = serviceExch.selectBOBOne(dto);
+		Order selectSOBOne = serviceExch.selectBOBOne(dto);
 		observeSubmittedAsks(dto);
 		return selectSOBOne;
 	}
 	
 	// 주문내역 하나 클라이언트로 전달
 	@RequestMapping(path="/observeSubmittedAsks")
-	public void observeSubmittedAsks(ExchDTO dto)throws Exception{
+	public void observeSubmittedAsks(Order dto)throws Exception{
 		System.out.println("observeSubmittedAsks ::");
 		String sob = new Gson().toJson(serviceExch.selectSOBOne(dto));
-		ExchDTO selectSOBOne = serviceExch.selectBOBOne(dto);
+		Order selectSOBOne = serviceExch.selectBOBOne(dto);
 		System.out.println("observeSubmittedAsks // selectSOBOne ::" + sob);
 	    this.template.convertAndSend("/topic/observeSubmittedAsks", selectSOBOne);
 	}

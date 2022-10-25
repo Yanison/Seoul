@@ -1,6 +1,5 @@
 package com.seoul.infra.modules.exchange.dto;
 
-import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -78,26 +77,26 @@ public class ExchDTO {
 
 	
 
-	private BigDecimal amount;
-	private BigDecimal price;
-	private BigDecimal obAmount;
+	private double amount;
+	private double price;
+	private double obAmount;
 
-	public BigDecimal getAmount() {
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
-	public BigDecimal getObAmount() {
+	public double getObAmount() {
 		return obAmount;
 	}
-	public void setObAmount(BigDecimal obAmount) {
+	public void setObAmount(double obAmount) {
 		this.obAmount = obAmount;
 	}
 	

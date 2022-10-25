@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.exchange.mapper.OrderMathigSystemMapper">
+
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order"></resultMap>
+	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
+	
+
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	<select id="selectBOB" resultMap="Order">
+		select
+			obAmount
+			,price
+			,timestamp
+		from orderBook 
+			where 1=1
+			and orderType = 0
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by orderSeq desc limit 10;
+	</select>
+	
+	<select id="selectBOBOne" resultMap="Order">
+		select 
+			obAmount
+			,price
+			,timestamp 
+		from orderBook 
+			where 1=1
+			and orderType = 0
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by orderSeq desc limit 1;
+	</select>
+	
+	<select id="selectSOB" resultMap="Order">
+		select
+			obAmount
+			,price
+			,timestamp
+		from orderBook 
+			where 1=1
+			and orderType = 1
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by orderSeq limit 10;
+	</select>
+	
+	<select id="selectSOBOne" resultMap="Order">
+		select 
+			obAmount
+			,price
+			,timestamp 
+		from orderBook 
+			where 1=1
+			and orderType = 1
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by orderSeq limit 1;
+	</select>
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 
+ 
+ 	<update id="delObseq">
+ 		update orderBook set delNy = 1 
+			where 1=1
+			and obSeq = (
+			  select a.obSeq from 
+			    (select o.obSeq,o.timestamp from orderBook o 
+			    where 1=1
+			    and submittedCrypto = #{crpytoSeq}
+			    and orderType = #{orderType}
+			    order by timestamp desc limit 1) a
+			);
+ 	</update>
+ 	
+ 	<update id="updt">
+ 		update orderBook set 
+ 	</update>
+ 
+ 
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 
+</mapper>

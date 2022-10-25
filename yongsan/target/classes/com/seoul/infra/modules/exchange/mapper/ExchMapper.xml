@@ -9,6 +9,9 @@
 	<resultMap id="obDto" type="com.seoul.infra.modules.exchange.dto.OderBookDto"></resultMap>
 	<resultMap id="trscDto" type="com.seoul.infra.modules.exchange.dto.TransactionHisDto"></resultMap>
 	
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order"></resultMap>
+	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
+	
 	<select id="userBalance" resultMap="exchDto">
 		select
 			m.memberSeq
@@ -75,57 +78,6 @@
 	</insert>
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ submit orders  end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- -->
- <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ select OB orders start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- -->
-	<select id="selectBOB" resultMap="exchDto">
-		select
-			obAmount
-			,price
-			,timestamp
-		from orderBook 
-			where orderType = 0
-			and submittedCrypto = #{cryptoSeq}
-			order by orderSeq desc limit 10;
-	</select>
-	
-	<select id="selectBOBOne" resultMap="exchDto">
-		select 
-			obAmount
-			,price
-			,timestamp 
-		from orderBook 
-			where orderType = 0 
-			and submittedCrypto = #{cryptoSeq}
-			order by orderSeq desc limit 1;
-	</select>
-	
-	<select id="selectSOB" resultMap="exchDto">
-		select
-			obAmount
-			,price
-			,timestamp
-		from orderBook 
-			where orderType = 1
-			and submittedCrypto = #{cryptoSeq}
-			order by orderSeq limit 10;
-	</select>
-	
-	<select id="selectSOBOne" resultMap="exchDto">
-		select 
-			obAmount
-			,price
-			,timestamp 
-		from orderBook 
-			where orderType = 1
-			and submittedCrypto = #{cryptoSeq}
-			order by orderSeq limit 1;
-	</select>
- <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
 </mapper>

@@ -1,6 +1,5 @@
 package com.seoul.infra.modules.exchange.dto;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class OderBookDto {
@@ -9,8 +8,8 @@ public class OderBookDto {
 	private Integer buyOrSell;
 	private Integer sbmittedBy;
 	private Integer sbmittedCrypto;
-	private BigDecimal orderPrice;
-	private BigDecimal orderQuantity;
+	private double orderPrice;
+	private double orderQuantity;
 	private Date timestamp;
 	
 	
@@ -38,16 +37,16 @@ public class OderBookDto {
 	public void setSbmittedCrypto(Integer sbmittedCrypto) {
 		this.sbmittedCrypto = sbmittedCrypto;
 	}
-	public BigDecimal getOrderPrice() {
+	public double getOrderPrice() {
 		return orderPrice;
 	}
-	public void setOrderPrice(BigDecimal orderPrice) {
+	public void setOrderPrice(double orderPrice) {
 		this.orderPrice = orderPrice;
 	}
-	public BigDecimal getOrderQuantity() {
+	public double getOrderQuantity() {
 		return orderQuantity;
 	}
-	public void setOrderQuantity(BigDecimal orderQuantity) {
+	public void setOrderQuantity(double orderQuantity) {
 		this.orderQuantity = orderQuantity;
 	}
 	public Date getTimestamp() {

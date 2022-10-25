@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
 import com.seoul.infra.modules.exchange.dto.OderBookDto;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
 
 @Repository
 public class ExchangeDao {
@@ -19,6 +20,8 @@ public class ExchangeDao {
 	private SqlSession sqlSession;
 	
 	public static String namespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
+	public static String omsNamespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
+	
 	
 	public ExchDTO getOnlaodInfo(ExchDTO dto) {
 		return sqlSession.selectOne(namespace+".getOnlaodInfo", dto);
@@ -47,17 +50,26 @@ public class ExchangeDao {
  * @@@@@@ get table OB Bids&Asks
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
-	public List<ExchDTO> selectBOB(ExchDTO dto){
-		return sqlSession.selectList(namespace + ".selectBOB", dto);
+	public List<Order> selectBOB(Order dto){
+		return sqlSession.selectList(omsNamespace + ".selectBOB", dto);
 	}
-	public ExchDTO selectBOBOne(ExchDTO dto){
-		return sqlSession.selectOne(namespace + ".selectBOBOne", dto);
+	public Order selectBOBOne(Order dto){
+		return sqlSession.selectOne(omsNamespace + ".selectBOBOne", dto);
 	}
 	
-	public List<ExchDTO> selectSOB(ExchDTO dto){
-		return sqlSession.selectList(namespace + ".selectSOB", dto);
+	public List<Order> selectSOB(Order dto){
+		return sqlSession.selectList(omsNamespace + ".selectSOB", dto);
 	}
-	public ExchDTO selectSOBOne(ExchDTO dto){
-		return sqlSession.selectOne(namespace + ".selectSOBOne", dto);
+	public Order selectSOBOne(Order dto){
+		return sqlSession.selectOne(omsNamespace + ".selectSOBOne", dto);
 	}
+	
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ * @@@@@@ delNy obseq
+ * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ */
+	public int delObseq (Order dto) {
+		return sqlSession.update(omsNamespace + ".delObseq", dto);
+	}
+	
 }
