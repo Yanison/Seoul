@@ -17,7 +17,7 @@ import org.springframework.web.util.HtmlUtils;
 import com.google.gson.Gson;
 import com.seoul.infra.modules.exchange.ExchangeDao;
 import com.seoul.infra.modules.exchange.ExchangeServiceImpl;
-import com.seoul.infra.modules.exchange.dto.ExchDTO;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
 
 @Controller
 public class GreetingController {
@@ -25,7 +25,7 @@ public class GreetingController {
 
   @MessageMapping("/hello")
   @SendTo("/topic/greetings")
-  public Greeting greeting(HelloMessage message, ExchDTO dto) throws Exception {
+  public Greeting greeting(HelloMessage message, Order dto) throws Exception {
     Thread.sleep(1000); // simulated delay
     
     greet("oh!", dto);
@@ -34,12 +34,12 @@ public class GreetingController {
   }
   
   @RequestMapping(path="/greetings", method = RequestMethod.POST)
-  public void greet(String greeting,ExchDTO dto) {
+  public void greet(String greeting,Order dto) {
 	  System.out.println("GreetingController :: greet" + greeting);
 	  
-	  String bob = new Gson().toJson(dao.selectBOB(dto));
+//	  String bob = new Gson().toJson(dao.selectBOB(dto));
       
-      this.template.convertAndSend("/topic/SimpMessagingTemplate", bob);
+//      this.template.convertAndSend("/topic/SimpMessagingTemplate", bob);
   }
   
   private SimpMessagingTemplate template;
@@ -58,9 +58,9 @@ public class GreetingController {
   
   
   @RequestMapping("/sockExample")
-  public String sockExample(Model model, ExchDTO dto)throws Exception {
+  public String sockExample(Model model, Order dto)throws Exception {
 	  
-	  List<ExchDTO> selectBOB = service.selectBOB(dto);
+	  List<Order> selectBOB = service.selectBOB(dto);
 	  model.addAttribute("selectBOB", selectBOB);
 	  
 	  return "sockExample/sockExmpl";
@@ -68,9 +68,9 @@ public class GreetingController {
   
   @ResponseBody
   @RequestMapping("/sockAjaxList")
-  public List<ExchDTO> sockAjax(Model model, ExchDTO dto)throws Exception {
+  public List<Order> sockAjax(Model model, Order dto)throws Exception {
 	  
-	  List<ExchDTO> selectBOB = service.selectBOB(dto);
+	  List<Order> selectBOB = service.selectBOB(dto);
 	  model.addAttribute("selectBOB", selectBOB);
 	  
 	  return selectBOB;

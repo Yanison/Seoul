@@ -29,6 +29,9 @@
 			</div>
 			
 			<div class="header-right">
+				<input type="hidden" id="cryptoSeq" name="cryptoSeq" value="${getOnlaodInfo.cryptoSeq}"/>
+				<input type="hidden" id="idTokenKko" name="idTokenKko" value="${idTokenKko}"/>
+				<input type="hidden" id="memberSeq" name="memberSeq" value="${memberSeq}"/>
 				<c:choose>
 					<c:when test="${empty idTokenKko}">
 						<a id="kkoadduser"class="headee-contents" href="http://127.0.0.1:8082/userLoginkko">로그인</a>
@@ -36,9 +39,7 @@
 					</c:when>
 					<c:otherwise>
 						<span id="logout-btn" class="headee-contents">로그아웃</span>
-						<input type="hidden" id="idTokenKko" name="idTokenKko" value="${idTokenKko}"/>
-						<input type="hidden" id="memberSeq" name="memberSeq" value="${memberSeq}"/>
-						<input type="hidden" id="cryptoSeq" name="cryptoSeq" value="${getOnlaodInfo.cryptoSeq}"/>
+						
 						<c:choose>
 							<c:when test="${idTokenKko eq '2344261226'}">
 								<span id="adminPage" class="headee-contents" style="font-weight:800;color:rgb(18, 97, 196);" >관리자 페이지</span> 

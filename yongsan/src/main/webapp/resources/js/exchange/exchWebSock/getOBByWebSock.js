@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var memberSeq = $('#memberSeq').val()
 	selectBOB()
 	selectSOB()
-	console.log('cryptoSeq :: ' + cryptoSeq + 'memberSeq :: ' + memberSeq)
+	console.log('@@@@@@@@@@@@ cryptoSeq :: ' + cryptoSeq + '// memberSeq :: ' + memberSeq)
 	connect();
 })
 
@@ -182,7 +182,7 @@ function selectSOBOne(){
 
 function selectBOB(){
 	var cryptoSeq = $('#cryptoSeq').val()
-	console.log('cryptoSeq :: '+cryptoSeq)
+	console.log('selectBOB cryptoSeq :: '+cryptoSeq)
 	$.ajax({
 			async:true
 			,cache:false
@@ -210,7 +210,7 @@ function selectBOB(){
 
 function selectSOB(){
 	var cryptoSeq = $('#cryptoSeq').val()
-	console.log('cryptoSeq :: '+cryptoSeq)
+	console.log('selectSOB cryptoSeq :: '+cryptoSeq)
 	$.ajax({
 			async:true
 			,cache:false

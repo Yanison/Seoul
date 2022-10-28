@@ -6,7 +6,6 @@
 
 <script src="../resources/js/exchange/BoS/tabBuy.js"></script>
 
-
 <dl>
 	<dt>
 		<strong>주문구분 <i class="fa-regular fa-circle-question"></i></strong>

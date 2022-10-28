@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.gson.Gson;
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMatchingSystemDao;
 import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
 
 @Service
@@ -18,6 +19,8 @@ public class ExchangeServiceImpl implements ExchangeService{
 	
 	@Autowired
 	ExchangeDao dao;
+	@Autowired
+	OrderMatchingSystemDao omsDao;
 
 	public ExchDTO getOnlaodInfo(ExchDTO dto) throws Exception{
 		return dao.getOnlaodInfo(dto);
@@ -37,20 +40,20 @@ public class ExchangeServiceImpl implements ExchangeService{
  */
 	@Override
 	public List<Order> selectBOB(Order dto) throws Exception{
-		return dao.selectBOB(dto);
+		return omsDao.selectBOB(dto);
 	};
 	@Override
 	public Order selectBOBOne(Order dto) throws Exception{
-		return dao.selectBOBOne(dto);
+		return omsDao.selectBOBOne(dto);
 	}
 	
 	@Override
 	public List<Order> selectSOB(Order dto) throws Exception{
-		return dao.selectSOB(dto);
+		return omsDao.selectSOB(dto);
 	};
 	@Override
 	public Order selectSOBOne(Order dto) throws Exception{
-		return dao.selectSOBOne(dto);
+		return omsDao.selectSOBOne(dto);
 	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ submit Bids & Asks

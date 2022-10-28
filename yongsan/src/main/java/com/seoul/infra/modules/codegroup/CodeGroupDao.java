@@ -19,7 +19,7 @@ public class CodeGroupDao {
 	private SqlSession sqlSession;
 	
 	public static String namespace = "com.seoul.infra.modules.codegroup.CodeGroupMapper";
-	public static String cryptoMapper = "com.seoul.infra.modules.codegroup.codegroupmapper.CryptoMapper";
+	public static String cryptoMapper = "com.seoul.infra.modules.cryptogroup.CryptoGroupMapper";
 	
 	public List<CodeGroup> selectCList(CodeGroup vo){
 		return sqlSession.selectList(namespace + ".selectCList", vo);

@@ -74,6 +74,8 @@
 									<th>infrCgNameEng</th>
 									<th>infrCgUseNy</th>
 									<th>infrCgDelNy</th>
+									<th>regDateat <br>regDateBy </th>
+									<th>modDateat <br>modDateBy </th
 								</tr>
 							</thead>
 							<tbody>

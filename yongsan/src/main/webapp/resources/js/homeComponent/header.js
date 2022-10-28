@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 	$('#exchange').on('click',function(){
 		event.preventDefault();
-		location.href='../exchange/Exchange';
+		location.href='../exchange/BTC?cryptoSym=BTC';
 		
 		
 	});
@@ -79,19 +79,19 @@ $(document).ready(function(){
 			//
 			$.ajax({
 				
-				url:'./kakaoLogout',
+				url:'http://127.0.0.1:8082/kakaoLogout',
 				type:'post',
 				data:{
 				},
 				success:function(res){
 					if(res.rt == "success"){
 						alert("로그아웃 됨");
-						location.replace('./');
+						location.replace('http://127.0.0.1:8082/');
 					}
 					
 				},
 				error:function(err){
-					location.replace('./');
+					location.replace('http://127.0.0.1:8082/');
 					alert("로그아웃이 왜 안돼 스프링 ㄱ ");
 				}
 				

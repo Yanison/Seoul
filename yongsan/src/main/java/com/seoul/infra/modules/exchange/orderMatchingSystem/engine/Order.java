@@ -1,9 +1,12 @@
 package com.seoul.infra.modules.exchange.orderMatchingSystem.engine;
 
 import java.util.Date;
-import java.util.Optional;
 
 public class Order implements Comparable<Order> {
+	
+	public Order() {
+		
+	}
 	
 	/*
 	 * 주문자 정보
@@ -182,10 +185,10 @@ public class Order implements Comparable<Order> {
 	public void setPrice(final double price) {
 		this.price = price;
 	}
-	public Integer getobSeq() {
+	public Integer getObSeq() {
 		return obSeq;
 	}
-	public void setobSeq(final Integer obSeq) {
+	public void setObSeq(final Integer obSeq) {
 		this.obSeq = obSeq;
 	}
 	public Integer getOrderType() {
@@ -218,3 +221,4 @@ public class Order implements Comparable<Order> {
 	
 
 }
+

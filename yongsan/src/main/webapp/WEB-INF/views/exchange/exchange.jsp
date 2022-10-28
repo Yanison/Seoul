@@ -331,6 +331,7 @@
 					</div>
 					<div class="BoS boxes">
 						<article class="orderBox">
+						
 							<span class="orderBoxTab">
 								<ul>
 									<li class="tabBuy">
@@ -374,6 +375,7 @@
 							<%@ include file="minichart/minichart.jsp"%>
 						</div>
 
+						
 					</div>
 
 				</div>

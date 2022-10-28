@@ -20,7 +20,7 @@ public class ExchangeDao {
 	private SqlSession sqlSession;
 	
 	public static String namespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
-	public static String omsNamespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
+	public static String omsNamespace = "com.seoul.infra.modules.exchange.mapper.OrderMathigSystemMapper";
 	
 	
 	public ExchDTO getOnlaodInfo(ExchDTO dto) {
@@ -45,31 +45,4 @@ public class ExchangeDao {
 	public int submitAsks(ExchDTO dto) {
 		return sqlSession.insert(namespace +".submitAsks", dto);
 	}
-	
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ get table OB Bids&Asks
- * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- */
-	public List<Order> selectBOB(Order dto){
-		return sqlSession.selectList(omsNamespace + ".selectBOB", dto);
-	}
-	public Order selectBOBOne(Order dto){
-		return sqlSession.selectOne(omsNamespace + ".selectBOBOne", dto);
-	}
-	
-	public List<Order> selectSOB(Order dto){
-		return sqlSession.selectList(omsNamespace + ".selectSOB", dto);
-	}
-	public Order selectSOBOne(Order dto){
-		return sqlSession.selectOne(omsNamespace + ".selectSOBOne", dto);
-	}
-	
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ delNy obseq
- * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- */
-	public int delObseq (Order dto) {
-		return sqlSession.update(omsNamespace + ".delObseq", dto);
-	}
-	
 }

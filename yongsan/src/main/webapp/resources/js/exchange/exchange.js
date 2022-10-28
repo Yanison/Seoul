@@ -1,8 +1,7 @@
 
 $(document).ready(function(){
-	var idTokenKko = $('#idTokenKko').val();
-	
 	getUserBal(idTokenKko);
+	
 	
 	
 	//orderContainer
@@ -103,20 +102,6 @@ $(document).ready(function(){
 	
 	
 	
-//	navItem2.click(function(){
-//		$(this).addClass('active2');
-//		navItem2.not($(this)).removeClass('active2','active2Sell','active2Buy');
-//	})
-//	
-//	navItem3.click(function(){
-//		$(this).addClass('active2Sell');
-//		navItem3.not($(this)).removeClass('active2','active2Sell','active2Buy');
-//	})
-//	navItem4.click(function(){
-//		$(this).addClass('active2Buy');
-//		navItem4.not($(this)).removeClass('active2','active2Sell','active2Buy');
-//	})
-	
 		
 	
 	//수량가격 체인지
@@ -171,7 +156,20 @@ $(document).ready(function(){
 });
 
 function getUserBal(idTokenKko){
+	var idTokenKko = $('#idTokenKko').val()
 	var cryptoSeq = $('#cryptoSeq').val()
+	
+	var html ="";
+	html += '<div class="pleaseLogin">'
+	html += '<a id="kkoadduser" class="pleaseLoginBtn" href="http://127.0.0.1:8082/userLoginkko">로그인</a>'
+	html += '</div>'
+	
+	
+	if(idTokenKko == ""){
+		$('.orderBoxBody').html(html)
+	}else{
+		html = null;
+	}
 	//userBalance
 	if(idTokenKko != ""){
 		console.log("idTokenKko session :: " +idTokenKko);

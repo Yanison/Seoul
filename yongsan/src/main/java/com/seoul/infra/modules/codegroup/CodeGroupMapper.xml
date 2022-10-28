@@ -21,6 +21,48 @@
 		limit #{rowNumToShow} offset #{startRnumForMysql}
 	</select>
 	
+	<select id="selectCgList">
+		select 
+		  infrCgSeq
+		  ,infrCgName
+		  ,infrCgNameEng
+		  ,infrCgUseNy
+		  ,infrCgDelNy
+		  ,(select count(*) infrCcgs from (select b.infrCcgSeq from infrCcg b where b.infrCgSeqFk = infrCgSeq)a)
+		  ,cg.regDateAt
+		  ,cg.regDateBy
+		  ,cg.modDateAt
+		  ,cg.modDateBy
+		from infrcg cg left join infrCcg ccg 
+		  on cg.infrCgSeq = ccg.infrCgSeqFk;
+		  where 1=1
+		<choose>
+			<when test="shOption == 1">and infrCgUseNy = #{shValue}</when>
+		</choose>
+		order by infrCgSeq
+		limit #{rowNumToShow} offset #{startRnumForMysql}
+	</select>
+	
+	
+	<select id="selectCcgList">
+	select 
+	  infrCcgSeq
+	  ,infrCcgTypeNum
+	  ,infrCcgName
+	  ,infrCcgNameEng
+	  ,infrCgSeq
+	  ,infrCgName
+	  ,infrCgNameEng
+	  ,ccg.infrCcgUseNy
+	  ,ccg.infrCcgDelNy
+	  ,ccg.regDateAt
+	  ,ccg.regDateBy
+	  ,ccg.modDateAt
+	  ,ccg.modDateBy
+	from infrcg cg left join infrCcg ccg 
+	  on cg.infrCgSeq = ccg.infrCgSeqFk;
+	</select>
+	
 	<select id="selectOneCnt" resultType="Integer">
 		select count(*) from infrCg
 	</select>

@@ -120,10 +120,10 @@
 												${list.memberSeq}
 												<input name="thisMember" type="hidden" >
 												</td>
-												<td>${list.id}</td>
-												<td>${list.pw}</td>
-												<td>${list.name}</td>
-												<td>${list.nickname}</td>
+												<td>${list.memberId}</td>
+												<td>${list.memberPw}</td>
+												<td>${list.memberName}</td>
+												<td>${list.memberNickname}</td>
 												<td>						
 														
 													<%-- <c:forEach items="${ccgGender}" var="ccgGender" varStatus="statusGender">													
@@ -135,14 +135,13 @@
 													var = "ccgGender"
 													--%>
 													<c:forEach items="${ccgGender}" var="ccgGender2" varStatus="statusGender">
-														<c:if test="${list.gender eq ccgGender2.infrCcgSeq}"><c:out value="${ccgGender2.infrCcgName }"/></c:if>
+														<c:if test="${list.memberGender eq ccgGender2.infrCcgSeq}"><c:out value="${ccgGender2.infrCcgName }"/></c:if>
 													</c:forEach>
-													
 												</td>
-												<td>${list.addrType1}</td>
+												<td>${list.memberAddrLoad}</td>
 												<td>${list.addrDetail}</td>
-												<td>${list.tel}</td>
-												<td>${list.email}</td>
+												<td>${list.memberTel}</td>
+												<td>${list.memberEmail}</td>
 												<td>${list.regDateAt} / ${list.regDateBy}</td>
 												<td>${list.modDateAt} / ${list.modDateBy}</td>
 												<td>${list.activeNy}</td>
@@ -154,7 +153,7 @@
 						</table>	
 					</div>
 					<div class="pageDiv">
-						<%@ include file="../pagination.jsp"%>					
+						<%@ include file="/WEB-INF/views/infra/hwangdmin/hwangdminComponent/pagination.jsp"%>					
 					</div>
 				</section>
 			</article>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMathigSystemMapper">
+
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order"></resultMap>
+	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
+	
+
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	<select id="selectBOB" resultMap="Order">
+		select
+			obAmount
+			,price
+			,timestamp
+		from orderBook 
+			where 1=1
+			and orderType = 0
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by obSeq desc limit 10;
+	</select>
+	
+	<select id="selectBOBOne" resultMap="Order">
+		select 
+			obAmount
+			,price
+			,timestamp 
+		from orderBook 
+			where 1=1
+			and orderType = 0
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by obSeq desc limit 1;
+	</select>
+	
+	<select id="selectSOB" resultMap="Order">
+		select
+			obAmount
+			,price
+			,timestamp
+		from orderBook 
+			where 1=1
+			and orderType = 1
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by obSeq limit 10;
+	</select>
+	
+	<select id="selectSOBOne" resultMap="Order">
+		select
+			,obSeq
+			,memberSeq 
+			,obAmount
+			,price
+			,timestamp
+			,orderType
+		from orderBook 
+			where 1=1
+			and orderType = 1
+			and delNy = 1
+			and submittedCrypto = #{cryptoSeq}
+			order by obSeq limit 1;
+	</select>
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 
+ 
+ 	<update id="delObseq">
+ 		update orderBook set delNy = 0
+			where 1=1
+			and obSeq = #{obSeq}
+ 	</update>
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ --> 	
+ 	<update id="updtObAmount">
+ 		update orderBook set obAmount = #{obAmount} 
+			where 1=1
+		 	and obSeq = #{obSeq}
+ 	</update>
+ 
+ 
+
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ insert Transacted Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 	<insert id="insertTransactions">
+ 		insert into transaction(
+ 			memberBuy
+			,memberSell
+ 			,obSeqBuy
+ 			,obSeqSell
+ 			,timestamp
+ 			,price
+ 			,tAmount
+ 			,transactedType
+ 		)
+ 		values(
+ 			#{BuyMemberSeq}
+ 			,#{SellMemberSeq}
+ 			,#{obSeqBuy}
+ 			,#{obSeqSell}
+ 			,now()
+ 			,#{price}
+ 			,#{obAmount}
+ 			,0
+ 		)
+ 	</insert>
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ insert Transacted Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ 
+</mapper>

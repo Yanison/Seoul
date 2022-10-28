@@ -2,11 +2,13 @@ package com.seoul.infra.modules.exchange.orderMatchingSystem.engine;
 
 public class Trade {
 	
-	private Integer takerMemberSeq;
-	private Integer makerMemberSeq;
+	private Integer buyMemberSeq;
+	private Integer sellMemberSeq;
 	private double obAmount;
 	private double price;
 	private Integer obSeq;
+	private Integer obSeqSell;
+	private Integer obSeqBuy;
 	private Integer crpytoSeq;
 	
 	/**
@@ -18,34 +20,48 @@ public class Trade {
 	 */
 	
 	public Trade(
-			final Integer takerMemberSeq,
-			final Integer makerMemberSeq,
+			final Integer buyMemberSeq,
+			final Integer sellMemberSeq,
+			final Integer obSeqBuy,
+			final Integer obSeqSell,
 			final double obAmount,
 			final double price
 			) {
 		super();
 		
-		this.takerMemberSeq = takerMemberSeq;
-		this.makerMemberSeq = makerMemberSeq;
+		this.buyMemberSeq = buyMemberSeq;
+		this.sellMemberSeq = sellMemberSeq;
 		this.obAmount = obAmount;
 		this.price = price;
+		this.obSeqBuy = obSeqBuy;
+		this.obSeqSell = obSeqSell;
 	}
 	
-	public Integer getTakerMemberSeq() {
-		return takerMemberSeq;
+	
+
+	public Integer getBuyMemberSeq() {
+		return buyMemberSeq;
 	}
 
-	public void setTakerMemberSeq(final Integer takerMemberSeq) {
-		this.takerMemberSeq = takerMemberSeq;
+
+
+	public void setBuyMemberSeq(Integer buyMemberSeq) {
+		this.buyMemberSeq = buyMemberSeq;
 	}
 
-	public Integer getMakerMemberSeq() {
-		return makerMemberSeq;
+
+
+	public Integer getSellMemberSeq() {
+		return sellMemberSeq;
 	}
 
-	public void setMakerMemberSeq(final Integer makerMemberSeq) {
-		this.makerMemberSeq = makerMemberSeq;
+
+
+	public void setSellMemberSeq(Integer sellMemberSeq) {
+		this.sellMemberSeq = sellMemberSeq;
 	}
+
+
 
 	public double getObAmount() {
 		return obAmount;
@@ -71,6 +87,22 @@ public class Trade {
 		this.obSeq = obSeq;
 	}
 
+	public Integer getObSeqSell() {
+		return obSeqSell;
+	}
+
+	public void setObSeqSell(Integer obSeqSell) {
+		this.obSeqSell = obSeqSell;
+	}
+
+	public Integer getObSeqBuy() {
+		return obSeqBuy;
+	}
+
+	public void setObSeqBuy(Integer obSeqBuy) {
+		this.obSeqBuy = obSeqBuy;
+	}
+
 	public Integer getCrpytoSeq() {
 		return crpytoSeq;
 	}
@@ -78,5 +110,4 @@ public class Trade {
 	public void setCrpytoSeq(Integer crpytoSeq) {
 		this.crpytoSeq = crpytoSeq;
 	}
-	
 }

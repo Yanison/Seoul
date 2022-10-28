@@ -62,6 +62,7 @@ public class ExchangeController {
 		
 		ExchDTO getOnlaodInfo = serviceExch.getOnlaodInfo(dto);
 		model.addAttribute("getOnlaodInfo", getOnlaodInfo);
+		
 		//get UserSession
 		Object memberName = session.getAttribute("memberName");
 		Object idTokenKko  = session.getAttribute("idTokenKko");
@@ -209,19 +210,6 @@ public class ExchangeController {
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
 	
-	@RequestMapping(value = "Exchange")
-	public String codeGroupHome(Model model
-								,@ModelAttribute("vo") Crypto vo
-								,@ModelAttribute("dto") ExchDTO dto
-								,@ModelAttribute("voW") WodDTO voW)throws Exception {
-		
-		getBasicList(model, vo, voW, dto);
-		
-		
-		
-		return "exchange/crypto/BTC";
-	}
-	
 	@RequestMapping(value = "/EZC")
 	public String EZC(Model model
 					,@ModelAttribute("vo") Crypto vo
@@ -256,6 +244,7 @@ public class ExchangeController {
 					,@ModelAttribute("dto") ExchDTO dto
 					,@ModelAttribute("voW") WodDTO voW)throws Exception{
 		
+		
 		getBasicList(model, vo, voW, dto);
 		
 		
@@ -266,5 +255,7 @@ public class ExchangeController {
  *@@@@@@@@@@@ # Exch Pages end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
  */
+	
+	
 
 }
