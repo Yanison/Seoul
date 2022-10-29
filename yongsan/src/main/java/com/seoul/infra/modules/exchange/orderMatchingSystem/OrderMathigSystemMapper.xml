@@ -75,10 +75,14 @@
 @@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
- 
- 
  	<update id="delObseq">
  		update orderBook set delNy = 0
+			where 1=1
+			and obSeq = #{obSeq}
+ 	</update>
+ 	
+ 	<update id="completeOrder">
+ 		update orderBook set orderStatus = 3
 			where 1=1
 			and obSeq = #{obSeq}
  	</update>

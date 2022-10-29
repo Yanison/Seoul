@@ -41,11 +41,15 @@ public class OrderMatchingSystemDao {
 	}
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ delNy obseq
+ * @@@@@@ change OrderStatus
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	public int delObseq (Order dto) {
 		return sqlSession.update(omsNamespace + ".delObseq", dto);
+	}
+	
+	public int completeOrder (Order dto) {
+		return sqlSession.update(omsNamespace + ".completeOrder", dto);
 	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ updt Amount
