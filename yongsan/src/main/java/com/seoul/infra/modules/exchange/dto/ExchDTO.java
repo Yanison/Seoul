@@ -80,6 +80,8 @@ public class ExchDTO {
 	private double amount;
 	private double price;
 	private double obAmount;
+	private int orderType;
+	private int bos;
 
 	public double getAmount() {
 		return amount;
@@ -98,6 +100,18 @@ public class ExchDTO {
 	}
 	public void setObAmount(double obAmount) {
 		this.obAmount = obAmount;
+	}
+	public int getOrderType() {
+		return orderType;
+	}
+	public void setOrderType(int orderType) {
+		this.orderType = orderType;
+	}
+	public int getBos() {
+		return bos;
+	}
+	public void setBos(int bos) {
+		this.bos = bos;
 	}
 	
 	/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

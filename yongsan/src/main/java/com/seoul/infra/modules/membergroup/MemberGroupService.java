@@ -14,5 +14,7 @@ public interface MemberGroupService {
 	public int isDupleId (MemberGroup vo) throws Exception;
 
 	public int addUser(MemberGroup dto) throws Exception;
+	
+	public MemberGroup selectMOne (MemberGroup dto) throws Exception;
 
 }

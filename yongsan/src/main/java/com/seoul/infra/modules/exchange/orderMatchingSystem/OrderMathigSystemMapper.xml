@@ -15,57 +15,70 @@
  -->
 	<select id="selectBOB" resultMap="Order">
 		select
-			obAmount
+			obSeq
+			,submittedBy
+			,obAmount
 			,price
+			,orderType
+			,bos
 			,timestamp
 		from orderBook 
 			where 1=1
-			and orderType = 0
-			and delNy = 1
+			and bos = 0
+			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
 			order by obSeq desc limit 10;
 	</select>
 	
 	<select id="selectBOBOne" resultMap="Order">
 		select 
-			obAmount
+			obSeq
+			,submittedBy 
+			,obAmount
 			,price
-			,timestamp 
+			,orderType
+			,bos
+			,timestamp
 		from orderBook 
 			where 1=1
-			and orderType = 0
-			and delNy = 1
+			and bos = 0
+			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
 			order by obSeq desc limit 1;
 	</select>
 	
 	<select id="selectSOB" resultMap="Order">
 		select
-			obAmount
+			obSeq
+			,submittedBy
+			,obAmount
 			,price
+			,orderType
+			,bos
 			,timestamp
 		from orderBook 
 			where 1=1
-			and orderType = 1
-			and delNy = 1
+			and bos = 1
+			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
 			order by obSeq limit 10;
 	</select>
 	
 	<select id="selectSOBOne" resultMap="Order">
 		select
-			,obSeq
-			,memberSeq 
+			obSeq
+			,submittedBy 
 			,obAmount
 			,price
-			,timestamp
 			,orderType
+			,bos
+			,timestamp
 		from orderBook 
 			where 1=1
-			and orderType = 1
-			and delNy = 1
+			and bos = 1
+			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq limit 1;
+			order by obSeq desc limit 1;
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

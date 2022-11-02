@@ -12,7 +12,7 @@
 #c84a31; red
 #0062df; blue
  -->
-
+<script src="../resources/js/exchange/BoS/orderBosDiv.js"></script>
 
 <dl>
 	<dt>
@@ -21,23 +21,24 @@
 	<dd style="width:340px;">
 		<div class="orderTpye">
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" checked="checked">
-			  <label class="form-check-label" for="flexRadioDefault1">
+			  <label class="otLabel" id="limit" onClick="otVal()">
+			    <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType1" value="2" checked="checked">
 			    지정가
 			  </label>
 			</div>
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" >
-			  <label class="form-check-label" for="flexRadioDefault2">
+			  <label class="otLabel" id="market" onClick="otVal()">
+			  <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType2" value="3" >
 			    시장가
 			  </label>
 			</div>
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="3" >
-			  <label class="form-check-label" for="flexRadioDefault2">
+			  <label class="otLabel" id="reserve" onClick="otVal()">
+			  <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType3" value="20">
 			    예약-지정가
 			  </label>
 			</div>
+			<input type="hidden" id="orderType"/>
 		</div>
 	</dd>
 	

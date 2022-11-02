@@ -40,29 +40,33 @@ $(document).ready(function(){
 	});
 	
 	$('#wod').on('click',function(){
-		
-		$.ajax({
-			url:'http://127.0.0.1:8082/wod/wod',
-			type:'post',
-			data:{
-			},
-			success:function(rt){
-				if(rt == "wod"){
-					location.replace('/http://127.0.0.1:8082/wod/wod');
-				}else{
-					location.replace('http://127.0.0.1:8082/userLoginkko');
-				}
-				
-			},
-			error:function(err){
-				location.replace('./');
-				alert(" ");
-			}
-			
-		});	
-		
-		event.preventDefault();
-		location.href='../wod/wod';
+		var idTokenKko = $('#idTokenKko').val()
+		if(idTokenKko == ""){
+			alert("로그인 노노")
+			location.replace('http://127.0.0.1:8082/userLoginkko')
+		}else(
+			location.replace('http://127.0.0.1:8082/wod/wod')
+//			$.ajax({
+//				url:'http://127.0.0.1:8082/wod/wod',
+//				type:'post',
+//				data:{
+//				},
+//				success:function(rt){
+//					if(rt == "wod"){
+//						location.replace('/http://127.0.0.1:8082/wod/wod');
+//					}else{
+//						location.replace('http://127.0.0.1:8082/userLoginkko');
+//					}
+//				},
+//				error:function(err){
+//					location.replace('./');
+//					alert(" ");
+//				}
+//				
+//			})	
+		)
+//		event.preventDefault();
+//		location.href='../wod/wod';
 	});
 	
 	$('#raise').on('click',function(){
@@ -114,10 +118,4 @@ $(document).ready(function(){
 		location.href='http://127.0.0.1:8082/yongsancode/roothome';
 		
 	});
-	
-	
-	
-
-
-	
 });

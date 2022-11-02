@@ -4,7 +4,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
 
 
-<script src="../resources/js/exchange/BoS/tabBuy.js"></script>
+<script src="../resources/js/exchange/BoS/buy.js"></script>
 
 <dl>
 	<dt>
@@ -13,23 +13,24 @@
 	<dd style="width:340px;">
 		<div class="orderTpye">
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1" value="1" checked="checked">
-			  <label class="form-check-label" for="flexRadioDefault1">
+			  <label class="otLabel" id="limit" onClick="otVal()">
+			    <input class="orderTypeLabel" type="radio" name="orderTypeBuy" id="orderType1" value="1" checked="checked">
 			    지정가
 			  </label>
 			</div>
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2" value="2" >
-			  <label class="form-check-label" for="flexRadioDefault2">
+			  <label class="otLabel" id="market" onClick="otVal()">
+			  <input class="orderTypeLabel" type="radio" name="orderTypeBuy" id="orderType2" value="2" >
 			    시장가
 			  </label>
 			</div>
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2" value="3">
-			  <label class="form-check-label" for="flexRadioDefault2">
+			  <label class="otLabel" id="reserve" onClick="otVal()">
+			  <input class="orderTypeLabel" type="radio" name="orderTypeBuy" id="orderType3" value="10">
 			    예약-지정가
 			  </label>
 			</div>
+			<input type="hidden" id="orderType"/>
 		</div>
 	</dd>
 	

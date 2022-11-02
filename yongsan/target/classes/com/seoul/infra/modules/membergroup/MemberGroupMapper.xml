@@ -43,6 +43,10 @@
 		select memberid from member where memberId = #{memberId}
 	</select>
 	
+	<select id ="selectMOne" resultMap="resultMapObj">
+		select * from member where memberSeq = #{memberSeq}
+	</select>
+	
 	<select id="findUserId" resultMap="resultMapObj">
 		select
 		

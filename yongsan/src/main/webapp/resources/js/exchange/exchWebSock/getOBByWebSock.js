@@ -25,14 +25,14 @@ function connect() {
         console.log('Connected: ' + frame);
         
         stompClient.subscribe('/topic/observeSubmittedBids', function (observeSubmittedBids) {
-        console.log('subscribeed observeSubmittedBids ::from server //' 
-        			+ 'price :: '+JSON.parse(observeSubmittedBids.body).price
-        			+ 'obamount ::' + JSON.parse(observeSubmittedBids.body).obAmount)
-        var price = JSON.parse(observeSubmittedBids.body).price;
-        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount
-       
-		boBtrOne(price,obAmount)
-		limitMaxTrAppend(maxAppendB,maxAppendS)
+	        console.log('subscribeed observeSubmittedBids ::from server //' 
+	        			+ 'price :: '+JSON.parse(observeSubmittedBids.body).price
+	        			+ 'obamount ::' + JSON.parse(observeSubmittedBids.body).obAmount)
+	        var price = JSON.parse(observeSubmittedBids.body).price;
+	        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount
+	       
+			boBtrOne(price,obAmount)
+			limitMaxTrAppend(maxAppendB,maxAppendS)
 	
    		});
 	    stompClient.subscribe('/topic/observeSubmittedAsks', function (observeSubmittedAsks) {
@@ -64,11 +64,13 @@ function submitBids(){
 	var bidsAmount = $('#bidsAmount').val();
 	var memberSeq = $('#memberSeq').val();
 	var cryptoSeq = $('#cryptoSeq').val();
+	var orderType = $('label.otLabel input[type=radio]:checked').val()
 
 	console.log("bidsPrice :: " + bidsPrice)
 	console.log("bidsAmount :: " + bidsAmount)
 	console.log("memberSeq :: " + memberSeq)
 	console.log("cryptoSeq :: " + cryptoSeq)
+	console.log("orderType :: " + orderType)
 	if(bidsPrice == "" || bidsAmount == "" || memberSeq == undefined){
 		alert("주문가격 또는 수량을 입력해주세요")
 	}else(
@@ -82,6 +84,7 @@ function submitBids(){
 				,"obAmount" : bidsAmount
 				,"memberSeq" : memberSeq
 				,"cryptoSeq" : cryptoSeq
+				,"orderType" : orderType
 			}
 			,success:function(rt){
 				if(rt == submitBids){
@@ -102,11 +105,13 @@ function submitAsks(){
 	var asksAmount = $('#asksAmount').val();
 	var memberSeq = $('#memberSeq').val();
 	var cryptoSeq = $('#cryptoSeq').val();
+	var orderType = $('label.otLabel input[type=radio]:checked').val()
 
 	console.log("asksPrice :: " + asksPrice)
 	console.log("asksAmount :: " + asksAmount)
 	console.log("memberSeq :: " + memberSeq)
 	console.log("cryptoSeq :: " + cryptoSeq)
+	console.log("orderType :: " + orderType)
 	if(asksPrice == "" || asksAmount == "" || memberSeq == undefined){
 		alert("주문가격 또는 수량을 입력해주세요")
 	}else(
@@ -120,6 +125,7 @@ function submitAsks(){
 				,"obAmount" : asksAmount
 				,"memberSeq" : memberSeq
 				,"cryptoSeq" : cryptoSeq
+				,"orderType" : orderType
 			}
 			,success:function(rt){
 				if(rt == submitAsks){

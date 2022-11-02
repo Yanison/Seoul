@@ -9,7 +9,7 @@
  
  	<resultMap id="WodDTO" type="com.seoul.infra.modules.wod.WodDTO" ></resultMap>
  	
- 	<!-- <select id="selectBal" resultMap="WodDTO">
+ 	<select id="selectBal" resultMap="WodDTO">
  		select 
  			idTokenKko
  			,m.memberSeq
@@ -17,19 +17,10 @@
  			,cryptoSym
  			,amount
  			,wodAvailable 
- 		from 
- 			exchangeBalance e 
-	 			left join crypto c
-	 				on e.cryptoSeq = c.cryptoSeq
-			 	left join member m 
-			 		on m.memberSeq = e.memberSeq 
- 	</select> -->
- 	
- 	
- 	<select id="selectBal" resultMap="WodDTO">
- 		select idTokenKko,m.memberSeq,cryptoName,cryptoSym,amount,wodAvailable 
  		from exchangeBalance e left join crypto c on e.cryptoSeq = c.cryptoSeq
-		 left join member m on m.memberSeq = e.memberSeq
-		 where idTokenKko =  #{idTokenKko}
+		 	left join member m on m.memberSeq = e.memberSeq
+		where idTokenKko =  #{idTokenKko}
  	</select>
+ 	
+ 	
  </mapper>

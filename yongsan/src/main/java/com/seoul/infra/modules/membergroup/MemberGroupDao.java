@@ -75,6 +75,10 @@ public class MemberGroupDao {
 		return sqlSession.selectList(namespace+".findUserId", dto);
 	}
 
+	public MemberGroup selectMOne (MemberGroup dto) {
+		return sqlSession.selectOne(namespace + ".selectMOne", dto);
+	}
+	
 	
 
 		

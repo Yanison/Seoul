@@ -44,6 +44,7 @@
 			,submittedBy
 			,submittedCrypto
 			,orderType
+			,bos
 			,timestamp
 			
 		)
@@ -52,6 +53,7 @@
 			,#{obAmount}
 			,#{memberSeq}
 			,#{cryptoSeq}
+			,#{orderType}
 			,0
 			,now()
 		)
@@ -64,6 +66,7 @@
 			,submittedBy
 			,submittedCrypto
 			,orderType
+			,bos
 			,timestamp
 			
 		)
@@ -72,6 +75,7 @@
 			,#{obAmount}
 			,#{memberSeq}
 			,#{cryptoSeq}
+			,#{orderType}
 			,1
 			,now()
 		)

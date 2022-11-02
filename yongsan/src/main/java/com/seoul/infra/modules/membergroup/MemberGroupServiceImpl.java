@@ -38,6 +38,10 @@ public class MemberGroupServiceImpl implements  MemberGroupService{
 	public int selectOneCnt (MemberGroup vo) throws Exception{
 		return dao.selectOneCnt(vo);
 	}
+	@Override
+	public MemberGroup selectMOne (MemberGroup dto) throws Exception{
+		return dao.selectMOne(dto);
+	}
 	
 	
 	

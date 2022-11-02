@@ -156,7 +156,7 @@ public class ExchangeController {
 	public void observeSubmittedAsks(Order dto)throws Exception{
 		System.out.println("observeSubmittedAsks ::");
 		String sob = new Gson().toJson(serviceExch.selectSOBOne(dto));
-		Order selectSOBOne = serviceExch.selectBOBOne(dto);
+		Order selectSOBOne = serviceExch.selectSOBOne(dto);
 		System.out.println("observeSubmittedAsks // selectSOBOne ::" + sob);
 	    this.template.convertAndSend("/topic/observeSubmittedAsks", selectSOBOne);
 	}
