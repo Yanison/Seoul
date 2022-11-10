@@ -1,5 +1,7 @@
 package com.seoul.infra.modules.exchange.orderMatchingSystem.engine;
 
+import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMatchingSystemDao;
+
 public class Trade {
 	
 	private Integer buyMemberSeq;
@@ -27,7 +29,15 @@ public class Trade {
 			final double obAmount,
 			final double price
 			) {
-		super();
+		System.out.print(
+				"Trade.Trade() info" +"\n"
+				+"final Integer buyMemberSeq :: "+buyMemberSeq+"\n"
+				+"final Integer sellMemberSeq :: "+sellMemberSeq+"\n"
+				+"final Integer obSeqBuy :: "+obSeqBuy+"\n"
+				+"final Integer obSeqSell :: "+obSeqSell+"\n"
+				+"final double obAmount :: "+obAmount+"\n"
+				+"final double price :: "+price+"\n"
+				);
 		
 		this.buyMemberSeq = buyMemberSeq;
 		this.sellMemberSeq = sellMemberSeq;
@@ -35,34 +45,30 @@ public class Trade {
 		this.price = price;
 		this.obSeqBuy = obSeqBuy;
 		this.obSeqSell = obSeqSell;
+		
+		System.out.print(
+				"Trade.Trade() info_ this.feild" +"\n"
+				+"this.buyMemberSeq :: "+this.buyMemberSeq+"\n"
+				+"this.sellMemberSeq :: "+this.sellMemberSeq+"\n"
+				+"this.obAmount :: "+this.obAmount+"\n"
+				+"this.price :: "+this.price+"\n"
+				+"this.obSeqBuy :: "+this.obSeqBuy+"\n"
+				+"this.obSeqSell :: "+this.obSeqSell+"\n"
+				);
 	}
 	
-	
-
 	public Integer getBuyMemberSeq() {
 		return buyMemberSeq;
 	}
-
-
-
 	public void setBuyMemberSeq(Integer buyMemberSeq) {
 		this.buyMemberSeq = buyMemberSeq;
 	}
-
-
-
 	public Integer getSellMemberSeq() {
 		return sellMemberSeq;
 	}
-
-
-
 	public void setSellMemberSeq(Integer sellMemberSeq) {
 		this.sellMemberSeq = sellMemberSeq;
 	}
-
-
-
 	public double getObAmount() {
 		return obAmount;
 	}

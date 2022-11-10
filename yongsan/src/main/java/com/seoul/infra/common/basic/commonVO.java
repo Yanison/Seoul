@@ -1,6 +1,6 @@
 package com.seoul.infra.common.basic;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class commonVO extends PaginationVO   {
 	private String shValue;

@@ -1,9 +1,5 @@
 package com.seoul.infra;
 
-import java.security.MessageDigest;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +33,6 @@ public class HomeController {
 		return rtSeq; 
 	}
 	
-	
-
-
 	@RequestMapping(value="/")
 	public String home(Model model) {
 		

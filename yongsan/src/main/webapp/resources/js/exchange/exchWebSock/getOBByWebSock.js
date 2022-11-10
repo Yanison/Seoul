@@ -29,9 +29,10 @@ function connect() {
 	        			+ 'price :: '+JSON.parse(observeSubmittedBids.body).price
 	        			+ 'obamount ::' + JSON.parse(observeSubmittedBids.body).obAmount)
 	        var price = JSON.parse(observeSubmittedBids.body).price;
-	        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount
-	       
-			boBtrOne(price,obAmount)
+	        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount;
+	        var obSeq = JSON.parse(observeSubmittedBids.body).obSeq;
+	        var orderType = JSON.parse(observeSubmittedBids.body).orderType;
+			boBtrOne(price,obAmount,obSeq,orderType)
 			limitMaxTrAppend(maxAppendB,maxAppendS)
 	
    		});
@@ -40,10 +41,20 @@ function connect() {
 	        			+ 'price :: '+JSON.parse(observeSubmittedAsks.body).price
 	        			+ 'obamount ::' + JSON.parse(observeSubmittedAsks.body).obAmount)
 	        var price = JSON.parse(observeSubmittedAsks.body).price;
-	        var obAmount = JSON.parse(observeSubmittedAsks.body).obAmount
+	        var obAmount = JSON.parse(observeSubmittedAsks.body).obAmount;
+	        var obSeq = JSON.parse(observeSubmittedAsks.body).obSeq;
+	        var orderType = JSON.parse(observeSubmittedAsks.body).orderType;
 	        
-			soBtrOne(price,obAmount)
+			soBtrOne(price,obAmount,obSeq,orderType)
 			limitMaxTrAppend(maxAppendB,maxAppendS)
+	    });
+	    
+	    stompClient.subscribe('/topic/deleteCompleteOrderDivFromOB', function (deleteCompleteOrderDivFromOB) {
+	        console.log('subscribeed deleteCompleteOrderDivFromOB 완료된 주문내역을 삭제합니다. ::from server //' 
+	        			+ 'obSeq :: '+JSON.parse(deleteCompleteOrderDivFromOB.body).price)
+	        var obSeq = JSON.parse(deleteCompleteOrderDivFromOB.body).obSeq;
+	        
+			deleteObTr(obSeq)
 	    });
     });
 }
@@ -64,8 +75,8 @@ function submitBids(){
 	var bidsAmount = $('#bidsAmount').val();
 	var memberSeq = $('#memberSeq').val();
 	var cryptoSeq = $('#cryptoSeq').val();
-	var orderType = $('label.otLabel input[type=radio]:checked').val()
-
+	var orderType = $('label.otLabel input[name="orderTypeBuy"]:checked').val()
+	console.log("매수주문 신청 내역입니다.")
 	console.log("bidsPrice :: " + bidsPrice)
 	console.log("bidsAmount :: " + bidsAmount)
 	console.log("memberSeq :: " + memberSeq)
@@ -105,8 +116,8 @@ function submitAsks(){
 	var asksAmount = $('#asksAmount').val();
 	var memberSeq = $('#memberSeq').val();
 	var cryptoSeq = $('#cryptoSeq').val();
-	var orderType = $('label.otLabel input[type=radio]:checked').val()
-
+	var orderType = $('label.otLabel input[name="orderTypeSell"]:checked').val()
+	console.log("매도주문 신청 내역입니다.")
 	console.log("asksPrice :: " + asksPrice)
 	console.log("asksAmount :: " + asksAmount)
 	console.log("memberSeq :: " + memberSeq)
@@ -266,7 +277,8 @@ function limitMaxTrAppend(maxAppendB,maxAppendS){
 	}
 }
 // # add BOB <tr> append
-function boBtr(price,amount){
+function boBtr(price,obAmount,obSeq,orderType){
+	//value="'+price+'"
 	var boBtr = null;
 	boBtr += '<tr class="up downtest boBtr">';
 	boBtr += '<td class="upB">';
@@ -280,17 +292,23 @@ function boBtr(price,amount){
 	boBtr += '<td class="bar">';
 	boBtr += '<a href="#">';
 	boBtr += '<div style="width: 84.4%;"></div>';
-	boBtr += '<p>'+ amount +'</p>';
+	boBtr += '<p>'+ obAmount +'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="last"></td>';
+	boBtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
+	boBtr +='<input type="hidden" name="orderType_'+orderType+'" value="'+orderType+'">'
+	boBtr +='<input type="hidden" name="bos" value="0">'
+	boBtr +='<input type="hidden" name="price" value="'+price+'">'
+	boBtr +='<input type="hidden" name="obAmount" value="'+obAmount+'">'
 	boBtr += '</tr>	';
+	
 	
 	$('#bidsTbody').append(boBtr)
 	maxAppendB += 1;
 }
 // # add BOB <tr> prepend
-function boBtrOne(price,amount){
+function boBtrOne(price,obAmount,obSeq,orderType){
 	var boBtr = null;
 	boBtr += '<tr class="up downtest boBtr">';
 	boBtr += '<td class="upB">';
@@ -304,25 +322,32 @@ function boBtrOne(price,amount){
 	boBtr += '<td class="bar">';
 	boBtr += '<a href="#">';
 	boBtr += '<div style="width: 84.4%;"></div>';
-	boBtr += '<p>'+ amount +'</p>';
+	boBtr += '<p>'+ obAmount +'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="last"></td>';
+	boBtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
+	boBtr +='<input type="hidden" name="orderType_'+orderType+'" value="'+orderType+'">'
+	boBtr +='<input type="hidden" name="bos" value="0">'
+	boBtr +='<input type="hidden" name="price" value="'+price+'">'
+	boBtr +='<input type="hidden" name="obAmount" value="'+obAmount+'">'
 	boBtr += '</tr>	';
+	
+	
 	
 	$('#bidsTbody').prepend(boBtr)
 	maxAppendB += 1;
 }
 
 // # add SOB <tr>
-function soBtr(price,amount){
+function soBtr(price,obAmount,obSeq,orderType){
 	var sobtr = null;
 	sobtr += '<tr class="down downtest soBtr">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
 	sobtr += '<a href="#">';
 	sobtr += '<div style="width: 84.4%;"></div>';
-	sobtr += '<p>'+amount+'</p>';
+	sobtr += '<p>'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
@@ -333,19 +358,24 @@ function soBtr(price,amount){
 	sobtr += '<div class="ty02">ratio%</div>';
 	sobtr += '</a>';
 	sobtr += '</td>';
+	sobtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
+	sobtr +='<input type="hidden" name="orderType_'+orderType+'" value="'+orderType+'">'
+	sobtr +='<input type="hidden" name="bos" value="1">'
+	sobtr +='<input type="hidden" name="price" value="'+price+'">'
+	sobtr +='<input type="hidden" name="obAmount" value="'+obAmount+'">'
 	sobtr += '</tr>';
 	
 	$('#asksTbody').append(sobtr)
 }
 
-function soBtrOne(price,amount){
+function soBtrOne(price,obAmount,obSeq,orderType){
 	var sobtr = null;
 	sobtr += '<tr class="down downtest soBtr">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
 	sobtr += '<a href="#">';
 	sobtr += '<div style="width: 84.4%;"></div>';
-	sobtr += '<p>'+amount+'</p>';
+	sobtr += '<p>'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
@@ -356,10 +386,24 @@ function soBtrOne(price,amount){
 	sobtr += '<div class="ty02">ratio%</div>';
 	sobtr += '</a>';
 	sobtr += '</td>';
+	sobtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
+	sobtr +='<input type="hidden" name="orderType_'+orderType+'" value="'+orderType+'">'
+	sobtr +='<input type="hidden" name="bos" value="1">'
+	sobtr +='<input type="hidden" name="price" value="'+price+'">'
+	sobtr +='<input type="hidden" name="obAmount" value="'+obAmount+'">'
 	sobtr += '</tr>';
 	
 	$('#asksTbody').append(sobtr)
 	maxAppendS += 1;
+}
+
+function deleteObTr(obSeq){
+	console.log("deleteObTr")
+	var inputHiddenObSeq = $('input[name="obSeq'+obSeq+'"]').val()
+	console.log(
+		"deleteObTr() ::tr obSeq value값은 :: "+ inputHiddenObSeq + " 입니다. \n"
+		+"해당 요소를 삭제합니다.")
+	
 }
 
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -57,7 +57,8 @@
 							<div class="input-group mb-3 submit">
 							  <input type="submit"  value="submit" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">				  	
 							</div>
-							<a class="refresh" href="http://127.0.0.1:8082/yongsancode/memberGroupList"><i class="fa-solid fa-arrows-rotate"></i></a>									
+							<a class="refresh" href="http://127.0.0.1:8082/yongsancode/memberGroupList"><i class="fa-solid fa-arrows-rotate"></i></a>
+							<button id="btnExel" type="button">엑셀</button>								
 						</div>
 					</form>
 						

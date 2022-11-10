@@ -20,24 +20,24 @@
 	</dt>
 	<dd style="width:340px;">
 		<div class="orderTpye">
-			<div class="form-check">
-			  <label class="otLabel" id="limit" onClick="otVal()">
-			    <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType1" value="2" checked="checked">
+			<div class="orderTpyeRadioDiv">
+			  <label class="otLabel" id="limit" onClick="otVal2()">
+			    <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType1" value="0" checked="checked">
 			    지정가
 			  </label>
 			</div>
-			<div class="form-check">
-			  <label class="otLabel" id="market" onClick="otVal()">
-			  <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType2" value="3" >
+			<div class="orderTpyeRadioDiv">
+			  <label class="otLabel" id="market" onClick="otVal2()">
+			  <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType2" value="1" >
 			    시장가
 			  </label>
 			</div>
-			<div class="form-check">
-			  <label class="otLabel" id="reserve" onClick="otVal()">
+			<!-- <div class="orderTpyeRadioDiv">
+			  <label class="otLabel" id="reserve" onClick="otVal2()">
 			  <input class="orderTypeLabel" type="radio" name="orderTypeSell" id="orderType3" value="20">
 			    예약-지정가
 			  </label>
-			</div>
+			</div> -->
 			<input type="hidden" id="orderType"/>
 		</div>
 	</dd>

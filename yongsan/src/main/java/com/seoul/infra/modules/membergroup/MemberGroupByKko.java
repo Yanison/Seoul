@@ -1,6 +1,6 @@
 package com.seoul.infra.modules.membergroup;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class MemberGroupByKko {
 	

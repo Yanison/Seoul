@@ -5,7 +5,10 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMathigSystemMapper">
 
-	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order"></resultMap>
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order">
+		<result property ="memberSeq" column="submittedBy"></result>
+		<result property ="cryptoSeq" column="submittedCrypto"></result>
+	</resultMap>
 	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
 	
 
@@ -17,10 +20,12 @@
 		select
 			obSeq
 			,submittedBy
+			,submittedCrypto
 			,obAmount
 			,price
 			,orderType
 			,bos
+			,orderStatus
 			,timestamp
 		from orderBook 
 			where 1=1
@@ -34,10 +39,12 @@
 		select 
 			obSeq
 			,submittedBy 
+			,submittedCrypto
 			,obAmount
 			,price
 			,orderType
 			,bos
+			,orderStatus
 			,timestamp
 		from orderBook 
 			where 1=1
@@ -51,10 +58,12 @@
 		select
 			obSeq
 			,submittedBy
+			,submittedCrypto
 			,obAmount
 			,price
 			,orderType
 			,bos
+			,orderStatus
 			,timestamp
 		from orderBook 
 			where 1=1
@@ -67,11 +76,13 @@
 	<select id="selectSOBOne" resultMap="Order">
 		select
 			obSeq
-			,submittedBy 
+			,submittedBy
+			,submittedCrypto
 			,obAmount
 			,price
 			,orderType
 			,bos
+			,orderStatus
 			,timestamp
 		from orderBook 
 			where 1=1
@@ -130,16 +141,18 @@
 			,memberSell
  			,obSeqBuy
  			,obSeqSell
+ 			,cryptoSeq
  			,timestamp
  			,price
  			,tAmount
  			,transactedType
  		)
  		values(
- 			#{BuyMemberSeq}
- 			,#{SellMemberSeq}
+ 			#{buyMemberSeq}
+ 			,#{sellMemberSeq}
  			,#{obSeqBuy}
  			,#{obSeqSell}
+ 			,#{cryptoSeq}
  			,now()
  			,#{price}
  			,#{obAmount}

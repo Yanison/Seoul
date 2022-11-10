@@ -55,4 +55,17 @@ $(document).ready(function(){
 		console.log(td.eq(3).text());
 	})
 	
+	$("#btnExel").click(function() {
+		console.log("btnExcel")
+		$.ajax({
+			url:'./excelDownload'
+			,success:function(rp){
+				console.log("sccss")
+			}
+			,err:function(){
+				alert("err")
+			}
+		})
+	});
+	
 });

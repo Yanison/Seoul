@@ -32,7 +32,6 @@ import com.seoul.infra.modules.wod.WodServiceImpl;
 @Controller
 @RequestMapping(value = "/exchange/")
 public class ExchangeController {
-	
 	@Autowired
 	WodServiceImpl serviceWod;
 	@Autowired
@@ -111,54 +110,64 @@ public class ExchangeController {
 	
 	@ResponseBody
 	@RequestMapping("/selectBOB")
-	public List<Order> selectBOB(Order dto)throws Exception {
-		
-		List<Order> selectBOB = serviceExch.selectBOB(dto);
-		
+	public List<Order> selectBOB(Order order)throws Exception {
+		System.out.println("ExchangeController.selectBOB() :: 매수주문의 모든 내역을 select합니다. \n" + "");
+		List<Order> selectBOB = serviceExch.selectBOB(order);
 		return selectBOB;
 	}
 	@ResponseBody
 	@RequestMapping("/selectBOBOne")
-	public Order selectBOBOne(Order dto)throws Exception {
-		System.out.println("selectBOBOne ::");
-		Order selectBOBOne = serviceExch.selectBOBOne(dto);
-		observeSubmittedBids("from Server",dto);
+	public Order selectBOBOne(Order order)throws Exception {
+		System.out.println("ExchangeController.selectBOBOne() :: 매수주문내역 하나를 select합니다. "+"\n" + "");
+		Order selectBOBOne = serviceExch.selectBOBOne(order);
+		
+		System.out.println("ExchangeController.selectBOBOne().observeSubmittedBids(selectBOBOne) :: 연결된 웹소켓으로 불러온 매수주문 하나를 보냅니다. "+"\n" + "");
+		observeSubmittedBids(selectBOBOne);
+		
+		List<Order> selectSOB = serviceExch.selectSOB(order);
+		System.out.println("ExchangeController.selectBOBOne().orderMatchingBuy(selectBOBOne,selectSOB) :: 매수주문의 주문매칭을 시작합니다. "+"\n" + "");
+		serviceExch.orderMatchingBuy(selectBOBOne, selectSOB);
 		return selectBOBOne;
 	}
-	
+	//주문내역 하나 클라이언트로 전달
 	@RequestMapping(path="/observeSubmittedBids", method = RequestMethod.POST)
-	public void observeSubmittedBids(String greeting,Order dto)throws Exception{
-		System.out.println(greeting + "observeSubmittedBids ::");
-		String bob = new Gson().toJson(serviceExch.selectBOBOne(dto));
-		System.out.println("observeSubmittedBids // selectBOBOne ::" + bob);
-	    this.template.convertAndSend("/topic/observeSubmittedBids", bob);
+	public void observeSubmittedBids(Order order)throws Exception{
+		System.out.println("ExchangeController.observeSubmittedAsks() :: 연결된 웹소켓에 메세지를 전달합니다.");
+		Order bobOne = serviceExch.selectBOBOne(order);
+	    this.template.convertAndSend("/topic/observeSubmittedBids", bobOne);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/selectSOB")
-	public List<Order> selectSOB(Order dto)throws Exception {
+	public List<Order> selectSOB(Order order)throws Exception {
+		System.out.println("ExchangeController.selectSOB() :: 매도주문의 모든 내역을 select합니다. \n" + "");
+		List<Order> selectSOB = serviceExch.selectSOB(order);
 		
-		List<Order> selectSOB = serviceExch.selectSOB(dto);
 		return selectSOB;
 	}
 	// 주문내역 하나 가져옴
 	@ResponseBody
 	@RequestMapping("/selectSOBOne")
-	public Order selectSOBOne(Order dto)throws Exception {
-		System.out.println("selectSOBOne ::");
-		Order selectSOBOne = serviceExch.selectBOBOne(dto);
-		observeSubmittedAsks(dto);
+	public Order selectSOBOne(Order order)throws Exception {
+		System.out.println("ExchangeController.selectSOBOne() :: 매도주문내역 하나를 select합니다. "+"\n" + "");
+		Order selectSOBOne = serviceExch.selectBOBOne(order);
+		
+		System.out.println("ExchangeController.selectBOBOne().observeSubmittedBids(selectSOBOne) :: 연결된 웹소켓으로 불러온 매도주문 하나를 보냅니다. "+"\n" + "");
+		observeSubmittedAsks(selectSOBOne);
+		
+		List<Order> selectBOB = serviceExch.selectBOB(order);
+		System.out.println("ExchangeController.selectBOBOne().orderMatchingBuy(selectSOBOne,selectBOB) :: 매도주문의 주문매칭을 시작합니다. "+"\n" + "");
+		serviceExch.orderMatchingBuy(selectSOBOne, selectBOB);
+		
 		return selectSOBOne;
 	}
 	
 	// 주문내역 하나 클라이언트로 전달
 	@RequestMapping(path="/observeSubmittedAsks")
-	public void observeSubmittedAsks(Order dto)throws Exception{
-		System.out.println("observeSubmittedAsks ::");
-		String sob = new Gson().toJson(serviceExch.selectSOBOne(dto));
-		Order selectSOBOne = serviceExch.selectSOBOne(dto);
-		System.out.println("observeSubmittedAsks // selectSOBOne ::" + sob);
-	    this.template.convertAndSend("/topic/observeSubmittedAsks", selectSOBOne);
+	public void observeSubmittedAsks(Order order)throws Exception{
+		Order sobOne = serviceExch.selectSOBOne(order);
+		System.out.println("ExchangeController.observeSubmittedAsks() :: 연결된 웹소켓에 메세지를 전달합니다.");
+	    this.template.convertAndSend("/topic/observeSubmittedAsks", sobOne);
 	}
 	
 	/*
@@ -172,6 +181,17 @@ public class ExchangeController {
 	 * 
 	 * 주문이 저장되고 나서 메세지를 보내야함. 그럼 메소드를 어디다 위치 시키지?
 	 */
+	
+	@RequestMapping(path="deleteCompleteOrderDivFromOB")
+	public void deleteCompleteOrderDivFromOB(Order order) {
+		System.out.println(
+				"ExchangeController.deleteCompleteOrderDivFromOB :: 거래가 완료된 주문을 삭제합니다."+"\n"
+				+ "주문번호는, dto.getObSeq() :: "+order.getObSeq()+"\n"
+				+ "매수/매도는, dto.getObSeq() :: "+order.getObSeq()+"\n"
+				+ "주문 상태는, dto.getOrderStatus() :: "+order.getOrderStatus()+"\n"
+				+ "주문유형은 "+order.getOrderType() + " 입니다."+"\n" + "");
+		this.template.convertAndSend("/topic/deleteCompleteOrderDivFromOB", order.getObSeq());
+	}
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@ # Ajax get OBList end  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
@@ -183,18 +203,18 @@ public class ExchangeController {
 	@ResponseBody
 	@RequestMapping(path="submitBids", method = RequestMethod.POST)
 	public String submitBids(@ModelAttribute ("vo") ExchDTO dto)throws Exception {
+		System.out.println("ExchangeController.submitBids :: 매수주문을 신청합니다."+"\n" + "");
 		
 		int submitBids = serviceExch.submitBids(dto);
 		System.out.println("submitBids :: "+submitBids );
 		
-		
 		return "submitBids";
 	}
-	
 	@ResponseBody
 	@RequestMapping(path="submitAsks", method = RequestMethod.POST)
 	public String submitAsks(@ModelAttribute ("vo") ExchDTO dto)throws Exception {
 		
+		System.out.println("ExchangeController.submitAsks :: 매도주문을 신청합니다."+"\n" + "");
 		int submitAsks = serviceExch.submitAsks(dto);
 		System.out.println("submitAsks :: "+submitAsks );
 		

@@ -48,18 +48,47 @@ public class OrderMatchingSystemDao {
 		return sqlSession.update(omsNamespace + ".delObseq", dto);
 	}
 	
-	public int completeOrder (Order dto) {
-		return sqlSession.update(omsNamespace + ".completeOrder", dto);
+	public int completeOrder (Order order) {
+		System.out.print("OrderMatchingSystemDao.completeOrder(Order order)" + "\n"
+				+ "주문이 완전히 소화가 될 경우 업데이트 정보입니다." + "\n"
+				+"order.getMemberSeq() 주문자번호 :: " + order.getMemberSeq() + "\n"
+				+"order.getObSeq() 주문번호:: " + order.getObSeq() + "\n"
+				+"order.getOrderType() 주문유형(지정/시장):: " + order.getOrderType() + "\n"
+				+"order.getBos() 주문유형(매수/매도):: " + order.getBos() + "\n"
+				+"order.getObAmount() 주문수량:: " + order.getObAmount() + "\n"
+				+"order.getPrice() 주문가격:: " + order.getPrice() + "\n"
+				);
+		return sqlSession.update(omsNamespace + ".completeOrder", order);
 	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ updt Amount
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */	
-	public int updtObAmount (Order dto) {
-		return sqlSession.update(omsNamespace + ".updtObAmount", dto);
+	public int updtObAmount (Order order) {
+		System.out.print(
+				"OrderMatchingSystemDao.updtObAmount(Order order)" + "\n"
+				+"마저 소화되지 못한 주문의 업데이트 정보입니다." + "\n"
+				+"order.getMemberSeq() 주문자번호 :: " + order.getMemberSeq() + "\n"
+				+"order.getObSeq() 주문번호:: " + order.getObSeq() + "\n"
+				+"order.getOrderType() 주문유형(지정/시장):: " + order.getOrderType() + "\n"
+				+"order.getBos() 주문유형(매수/매도):: " + order.getBos() + "\n"
+				+"order.getObAmount() 주문수량:: " + order.getObAmount() + "\n"
+				+"order.getPrice() 주문가격:: " + order.getPrice() + "\n"
+				);
+		return sqlSession.update(omsNamespace + ".updtObAmount", order);
 	}
 	
-	public int insertTransactions(Trade trade) {
+	public int insertTransactions(Order trade) {
+		System.out.print(
+				"OrderMatchingSystemDao.insertTransactions(Order trade)" + "\n"
+				+"거래가 성사되어 거래내역에 저장될 정보 입니다" + "\n"
+				+"trade.getBuyMemberSeq() 매수주문자 번호:: " + trade.getBuyMemberSeq() + "\n" // 매수자
+				+"trade.getSellMemberSeq() 매도주문자 번호:: " + trade.getSellMemberSeq() + "\n" // 매도자 
+				+"Sell trade.getObSeq() 매수주문 번호:: " + trade.getObSeqBuy() + "\n" //매수 OB
+				+"Buy trade.getObSeq() 매도주문 번호:: " + trade.getObSeqSell() + "\n" // 매도 OB
+				+"trade.getObAmount() 주문수량:: " + trade.getObAmount() + "\n" // 수량
+				+"trade.getPrice() 주문가격:: " + trade.getPrice() + "\n" //가격
+				);
 		return sqlSession.insert(omsNamespace + ".insertTransactions", trade);
 	}
 	
