@@ -55,8 +55,8 @@
 										<span class="Arrow">Arrow</span>
 									</button>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#"><strong>비트코인</strong>(BTC/KRW)</a></li>
-										<li><a class="dropdown-item" href="#"><strong>비트코인</strong>(BTC/USDT)</a></li>
+										<li><a class="dropdown-item" href="#"><strong>비뚜코인</strong>(BTC/KRW)</a></li>
+										<li><a class="dropdown-item" href="#"><strong>비뚜코인</strong>(BTC/USDT)</a></li>
 									</ul>
 								</div>
 							</div>

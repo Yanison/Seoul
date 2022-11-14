@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
 import com.seoul.infra.modules.exchange.dto.OderBookDto;
-import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.Order;
 
 @Repository
 public class ExchangeDao {

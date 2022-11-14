@@ -6,11 +6,6 @@
 <mapper namespace="com.seoul.infra.modules.exchange.mapper.ExchMapper">
 
 	<resultMap id="exchDto" type="com.seoul.infra.modules.exchange.dto.ExchDTO"></resultMap>
-	<resultMap id="obDto" type="com.seoul.infra.modules.exchange.dto.OderBookDto"></resultMap>
-	<resultMap id="trscDto" type="com.seoul.infra.modules.exchange.dto.TransactionHisDto"></resultMap>
-	
-	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order"></resultMap>
-	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
 	
 	<select id="userBalance" resultMap="exchDto">
 		select

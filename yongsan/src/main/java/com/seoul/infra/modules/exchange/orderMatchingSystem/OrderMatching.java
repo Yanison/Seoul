@@ -1,14 +1,11 @@
-package com.seoul.infra.modules.exchange.orderMatchingSystem.engine;
+package com.seoul.infra.modules.exchange.orderMatchingSystem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
-import com.seoul.infra.modules.exchange.ExchangeController;
-import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMatchingSystemDao;
+import com.seoul.infra.modules.exchange.controller.ExchangeWSController;
 
 @Service
 public class OrderMatching {
@@ -16,7 +13,7 @@ public class OrderMatching {
 	@Autowired 
 	OrderMatchingSystemDao omsDao;
 	@Autowired
-	ExchangeController exchangeController;
+	ExchangeWSController exchangeController;
 	
 	public void machingProcessByAmount(Order paramOrder, Order index0Order,List<Order> orders) {
 		System.out.println("OrderMatching.machingProcessByAmount() 주문 수량에 따른 매칭을 시도합니다.");
@@ -152,17 +149,17 @@ public class OrderMatching {
 				 * 매개변수로 들어온 주문이 매수일 경우 저장되는 주문
 				 * 매수주문은 paramOrder
 				 */
-				paramOrder.setBuyMemberSeq(paramOrder.getMemberSeq()); //매수자
-				paramOrder.setSellMemberSeq(index0Order.getMemberSeq());// 매도자
+				paramOrder.setMemberSeqBuy(paramOrder.getMemberSeq()); //매수자
+				paramOrder.setMemberSeqSell(index0Order.getMemberSeq());// 매도자
 				paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 				paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 				paramOrder.setObAmount(paramOrder.getObAmount()); // 소화될 수량
 				paramOrder.setPrice(paramOrder.getPrice()); // 가격
 				
 				System.out.println(
-			 			"거래내역에 저장될 주문 정보입니다." + "\n"
-			 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
-	 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+index0Order.getSellMemberSeq() + "\n"
+			 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
+			 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+	 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+index0Order.getMemberSeqSell() + "\n"
 			 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 			 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 			 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -178,8 +175,8 @@ public class OrderMatching {
 				 * 매개변수로 들어온 주문이 매도일 경우 저장되는 주문
 				 * 매수주문은 index0Order
 				 */
-				paramOrder.setBuyMemberSeq(index0Order.getMemberSeq()); //매수자
-				paramOrder.setSellMemberSeq(paramOrder.getMemberSeq());// 매도자
+				paramOrder.setMemberSeqBuy(index0Order.getMemberSeq()); //매수자
+				paramOrder.setMemberSeqSell(paramOrder.getMemberSeq());// 매도자
 				paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 				paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 				paramOrder.setObAmount(paramOrder.getObAmount()); // 소화될 수량
@@ -187,9 +184,9 @@ public class OrderMatching {
 				
 				
 				System.out.println(
-			 			"거래내역에 저장될 주문 정보입니다." + "\n"
-			 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+index0Order.getBuyMemberSeq() + "\n"
-	 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+paramOrder.getSellMemberSeq() + "\n"
+			 			"OrderMatching.ProcessListMinusPram() :: 거래내역에 저장될 주문 정보입니다." + "\n"
+			 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+index0Order.getMemberSeqBuy() + "\n"
+	 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+paramOrder.getMemberSeqSell() + "\n"
 			 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 			 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 			 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -281,17 +278,17 @@ public class OrderMatching {
 			 * 매개변수로 들어온 주문이 매수일 경우
 			 * 매수주문은 :: paramOrder
 			 */
-			paramOrder.setBuyMemberSeq(paramOrder.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(index0Order.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(paramOrder.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(index0Order.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(paramOrder.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(paramOrder.getPrice()); // 가격
 			
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+paramOrder.getSellMemberSeq() + "\n"
+		 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+paramOrder.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -307,17 +304,17 @@ public class OrderMatching {
 			 * 매개변수로 들어온 주문이 매도주문일 경우
 			 * 매수주문은 :: index0Order
 			 */
-			paramOrder.setBuyMemberSeq(paramOrder.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(index0Order.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(paramOrder.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(index0Order.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(index0Order.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(index0Order.getPrice()); // 가격
 			
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+paramOrder.getSellMemberSeq() + "\n"
+		 			"OrderMatching.ProcessPramMinusList() :: 거래내역에 저장될 주문 정보입니다." + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+paramOrder.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -389,16 +386,16 @@ public class OrderMatching {
 			 *  paramOrder 가 매수주문일 경우
 			 *  index0Order는 매도주문 
 			 */
-			paramOrder.setBuyMemberSeq(paramOrder.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(index0Order.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(paramOrder.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(index0Order.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(paramOrder.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(paramOrder.getPrice()); // 가격
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+index0Order.getSellMemberSeq() + "\n"
+		 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+index0Order.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -416,16 +413,16 @@ public class OrderMatching {
 			 * 이후 웹소켓으로 오더북 div 삭제하고
 			 * 주문자 잔고 깎아버리자 
 			 */
-			paramOrder.setBuyMemberSeq(paramOrder.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(index0Order.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(paramOrder.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(index0Order.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(index0Order.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(index0Order.getPrice()); // 가격
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+index0Order.getSellMemberSeq() + "\n"
+		 			"OrderMatching.processPramEqualList :: 거래내역에 저장될 주문 정보입니다." + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+index0Order.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+index0Order.getPrice() + "\n"
@@ -452,18 +449,18 @@ public class OrderMatching {
 			 *  paramOrder 가 매도주문일 경우
 			 *  index0Order가 매수주문 
 			 */
-			paramOrder.setBuyMemberSeq(index0Order.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(paramOrder.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(index0Order.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(paramOrder.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(paramOrder.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(paramOrder.getPrice()); // 가격
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
+		 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
  					+"paramOrder.getCryptoSeq() 거래된 코인 종류:: "+paramOrder.getCryptoSeq() + "\n"
 					+"index0Order.getCryptoSeq() 거래된 코인 종류:: "+index0Order.getCryptoSeq() + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+index0Order.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+paramOrder.getSellMemberSeq() + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+index0Order.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+paramOrder.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+paramOrder.getPrice() + "\n"
@@ -482,18 +479,18 @@ public class OrderMatching {
 			 * 이후 웹소켓으로 오더북 div 삭제하고
 			 * 주문자 잔고 깎아버리자 
 			 */
-			paramOrder.setBuyMemberSeq(index0Order.getMemberSeq()); //매수자
-			paramOrder.setSellMemberSeq(paramOrder.getMemberSeq());// 매도자
+			paramOrder.setMemberSeqBuy(index0Order.getMemberSeq()); //매수자
+			paramOrder.setMemberSeqSell(paramOrder.getMemberSeq());// 매도자
 			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
 			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
 			paramOrder.setObAmount(index0Order.getObAmount()); // 소화될 수량
 			paramOrder.setPrice(index0Order.getPrice()); // 가격
 			System.out.println(
-		 			"거래내역에 저장될 주문 정보입니다." + "\n"
+		 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
  					+"paramOrder.getCryptoSeq() 거래된 코인 종류:: "+paramOrder.getCryptoSeq() + "\n"
 					+"index0Order.getCryptoSeq() 거래된 코인 종류:: "+index0Order.getCryptoSeq() + "\n"
-		 			+"paramOrder.setBuyMemberSeq() 매수자 번호 :: "+paramOrder.getBuyMemberSeq() + "\n"
- 					+"paramOrder.setSellMemberSeq() 매도자 번호::"+index0Order.getSellMemberSeq() + "\n"
+		 			+"paramOrder.setMemberSeqBuy() 매수자 번호 :: "+paramOrder.getMemberSeqBuy() + "\n"
+ 					+"paramOrder.setMemberSeqSell() 매도자 번호::"+index0Order.getMemberSeqSell() + "\n"
 		 			+"paramOrder.setObSeqBuy() 매수 번호::"+paramOrder.getObSeq() + "\n"
 		 			+"paramOrder.setObSeqSell() 매도 번호::"+index0Order.getObSeq() + "\n"
 		 			+"paramOrder.setObAmount() 거래 가격:: "+index0Order.getPrice() + "\n"

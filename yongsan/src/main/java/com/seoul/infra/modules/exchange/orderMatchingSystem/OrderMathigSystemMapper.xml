@@ -5,11 +5,11 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMathigSystemMapper">
 
-	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order">
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Order">
 		<result property ="memberSeq" column="submittedBy"></result>
 		<result property ="cryptoSeq" column="submittedCrypto"></result>
 	</resultMap>
-	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Trade"></resultMap>
+	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Trade"></resultMap>
 	
 
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -51,6 +51,7 @@
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
+			<!-- and submittedBy = #{memberSeq} -->
 			order by obSeq desc limit 1;
 	</select>
 	
@@ -89,10 +90,76 @@
 			and bos = 1
 			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
+			<!-- and submittedBy = #{memberSeq} -->
 			order by obSeq desc limit 1;
+	</select>
+	
+	
+	<select id="selectTransacton" resultMap="Order">
+		select * from transaction
+		where 1=1
+		and cryptoSeq = #{cryptoSeq}
+		<if test ="allOrOne == 0">
+		order by transactionSeq desc limit 10;
+		</if>
+		<if test="allOrOne == 1">
+		order by transactionSeq desc limit 1;
+		</if>
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+ <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ submit orders  start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	
+	<insert id="submitBids">
+		insert into orderBook(
+			price
+			,obAmount
+			,submittedBy
+			,submittedCrypto
+			,orderType
+			,bos
+			,timestamp
+			
+		)
+		values(
+			#{price}
+			,#{obAmount}
+			,#{memberSeq}
+			,#{cryptoSeq}
+			,#{orderType}
+			,0
+			,now()
+		)
+	</insert>
+	
+	<insert id="submitAsks">
+		insert into orderBook(
+			price
+			,obAmount
+			,submittedBy
+			,submittedCrypto
+			,orderType
+			,bos
+			,timestamp
+			
+		)
+		values(
+			#{price}
+			,#{obAmount}
+			,#{memberSeq}
+			,#{cryptoSeq}
+			,#{orderType}
+			,1
+			,now()
+		)
+	</insert>
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ submit orders  end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -163,5 +230,8 @@
 @@@@@@@@@@@@@@@@@@@@@ insert Transacted Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
+ 
+ 
+ 
  
 </mapper>

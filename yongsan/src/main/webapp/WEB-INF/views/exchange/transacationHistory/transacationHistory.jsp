@@ -12,6 +12,7 @@
 		<div class="TsTabMenu TsTabMenu_1">체결</div>
 		<div class="TsTabMenu TsTabMenu_2">일별</div>
 	</section>
+	
 	<section class="transactedHistoryBody" style="display:block">
 		<table class="transactedHistoryTable">
 			<colgroup>
@@ -29,7 +30,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<!-- <tr>
 					<td class="first">
 						<p>
 							<i>00.00</i>
@@ -39,10 +40,11 @@
 					<td>27,437,000</td>
 					<td>0.4560020</td>
 					<td class="last">378,032</td>
-				</tr>
+				</tr> -->
 			</tbody>
 		</table>
 	</section>
+	
 	<section class="transactionHistoryByDayBody" style="display:none">
 		<table class="transactionHistoryByDayTable">
 			<colgroup>

@@ -1,4 +1,4 @@
-package com.seoul.infra.modules.exchange.orderMatchingSystem.engine;
+package com.seoul.infra.modules.exchange.orderMatchingSystem;
 
 import java.sql.Date;
 
@@ -12,6 +12,7 @@ public class Order  {
 	 * 거래된 코인 정보
 	 */
 	private Integer cryptoSeq;
+	
 	/*
 	 * 주문 수량
 	 */
@@ -92,29 +93,33 @@ public class Order  {
 	/*
 	 * 거래내역 정보 요소들
 	 */
-	private Integer buyMemberSeq;
-	private Integer sellMemberSeq;
+	private Integer transactionseq;
+	private Integer memberSeqSell;
+	private Integer memberSeqBuy;
 	private Integer obSeqSell;
 	private Integer obSeqBuy;
 	private Integer orderStatus;
+	private Integer transactedType;
+	private double amount;
 	
-	
-	public Integer getBuyMemberSeq() {
-		return buyMemberSeq;
+	public Integer getTransactionseq() {
+		return transactionseq;
 	}
-
-	public void setBuyMemberSeq(Integer buyMemberSeq) {
-		this.buyMemberSeq = buyMemberSeq;
+	public void setTransactionseq(Integer transactionseq) {
+		this.transactionseq = transactionseq;
 	}
-
-	public Integer getSellMemberSeq() {
-		return sellMemberSeq;
+	public Integer getMemberSeqSell() {
+		return memberSeqSell;
 	}
-
-	public void setSellMemberSeq(Integer sellMemberSeq) {
-		this.sellMemberSeq = sellMemberSeq;
+	public void setMemberSeqSell(Integer memberSeqSell) {
+		this.memberSeqSell = memberSeqSell;
 	}
-
+	public Integer getMemberSeqBuy() {
+		return memberSeqBuy;
+	}
+	public void setMemberSeqBuy(Integer memberSeqBuy) {
+		this.memberSeqBuy = memberSeqBuy;
+	}
 	public Integer getObSeqSell() {
 		return obSeqSell;
 	}
@@ -136,6 +141,32 @@ public class Order  {
 	public void setOrderStatus(Integer orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	public Integer getTransactedType() {
+		return transactedType;
+	}
+	public void setTransactedType(Integer transactedType) {
+		this.transactedType = transactedType;
+	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+
+
+	private Integer allOrOne;
+
+
+	public Integer getAllOrOne() {
+		return allOrOne;
+	}
+	public void setAllOrOne(Integer allOrOne) {
+		this.allOrOne = allOrOne;
+	}
+	
+	
 
 }
 

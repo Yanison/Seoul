@@ -3,17 +3,18 @@ $(document).ready(function(){
 	var memberSeq = $('#memberSeq').val()
 	selectBOB()
 	selectSOB()
+	selectTransacton()
 	console.log('@@@@@@@@@@@@ cryptoSeq :: ' + cryptoSeq + '// memberSeq :: ' + memberSeq)
 	connect();
 })
 
 var maxAppendB = 0;
 var maxAppendS = 0;
-
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ # WebSock connect start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-*/ 
+ 
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ # WebSock connect start 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+*/
 
 var stompClient = null;
 
@@ -26,20 +27,28 @@ function connect() {
         
         stompClient.subscribe('/topic/observeSubmittedBids', function (observeSubmittedBids) {
 	        console.log('subscribeed observeSubmittedBids ::from server //' 
-	        			+ 'price :: '+JSON.parse(observeSubmittedBids.body).price
-	        			+ 'obamount ::' + JSON.parse(observeSubmittedBids.body).obAmount)
+	        			+ 'price :: '+ JSON.parse(observeSubmittedBids.body).price
+	        			+ 'obamount ::' + JSON.parse(observeSubmittedBids.body).obAmount
+	        			+ 'obSeq ::' + JSON.parse(observeSubmittedBids.body).obSeq
+	        			+ 'orderType ::' + JSON.parse(observeSubmittedBids.body).orderType
+	        			)
 	        var price = JSON.parse(observeSubmittedBids.body).price;
 	        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount;
 	        var obSeq = JSON.parse(observeSubmittedBids.body).obSeq;
 	        var orderType = JSON.parse(observeSubmittedBids.body).orderType;
 			boBtrOne(price,obAmount,obSeq,orderType)
 			limitMaxTrAppend(maxAppendB,maxAppendS)
-	
+			
+			
+			stompClient.send("/app/requestOrderMatching", {}, observeSubmittedBids.body);
    		});
 	    stompClient.subscribe('/topic/observeSubmittedAsks', function (observeSubmittedAsks) {
-	        console.log('subscribeed observeSubmittedBids ::from server //' 
-	        			+ 'price :: '+JSON.parse(observeSubmittedAsks.body).price
-	        			+ 'obamount ::' + JSON.parse(observeSubmittedAsks.body).obAmount)
+	        console.log('subscribeed observeSubmittedAsks ::from server //' 
+	        			+ 'price :: '+ JSON.parse(observeSubmittedAsks.body).price
+	        			+ 'obamount ::' + JSON.parse(observeSubmittedAsks.body).obAmount
+	        			+ 'obSeq ::' + JSON.parse(observeSubmittedAsks.body).obSeq
+	        			+ 'orderType ::' + JSON.parse(observeSubmittedAsks.body).orderType
+	        			)
 	        var price = JSON.parse(observeSubmittedAsks.body).price;
 	        var obAmount = JSON.parse(observeSubmittedAsks.body).obAmount;
 	        var obSeq = JSON.parse(observeSubmittedAsks.body).obSeq;
@@ -47,112 +56,126 @@ function connect() {
 	        
 			soBtrOne(price,obAmount,obSeq,orderType)
 			limitMaxTrAppend(maxAppendB,maxAppendS)
+			
+			stompClient.send("/app/requestOrderMatching", {}, observeSubmittedAsks.body);
 	    });
 	    
 	    stompClient.subscribe('/topic/deleteCompleteOrderDivFromOB', function (deleteCompleteOrderDivFromOB) {
-	        console.log('subscribeed deleteCompleteOrderDivFromOB 완료된 주문내역을 삭제합니다. ::from server //' 
-	        			+ 'obSeq :: '+JSON.parse(deleteCompleteOrderDivFromOB.body).price)
-	        var obSeq = JSON.parse(deleteCompleteOrderDivFromOB.body).obSeq;
+	        console.log('subscribeed deleteCompleteOrderDivFromOB ::from server //' 
+	        			+ 'price :: '+ JSON.parse(deleteCompleteOrderDivFromOB.body).price
+	        			+ 'obamount ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obAmount
+	        			+ 'obSeq ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeq
+	        			+ 'orderType ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).orderType
+	        			)
+	        var order = JSON.parse(deleteCompleteOrderDivFromOB.body)
 	        
-			deleteObTr(obSeq)
+			deleteObTr(order)
+	    });
+	     stompClient.subscribe('/topic/updateIncompleteOrderDivFromOB', function (updateIncompleteOrderDivFromOB) {
+	        console.log('subscribeed updateIncompleteOrderDivFromOB ::from server //' 
+	        			+ 'price :: '+ JSON.parse(updateIncompleteOrderDivFromOB.body).price
+	        			+ 'obamount ::' + JSON.parse(updateIncompleteOrderDivFromOB.body).obAmount
+	        			+ 'obSeq ::' + JSON.parse(updateIncompleteOrderDivFromOB.body).obSeq
+	        			+ 'orderType ::' + JSON.parse(updateIncompleteOrderDivFromOB.body).orderType
+	        			)
+	        var order = JSON.parse(updateIncompleteOrderDivFromOB.body)		
+	        
+			upDateObTr(order)
+	    });
+	    
+	    stompClient.subscribe('/topic/selectTransactonOne', function (selectTransactonOne) {
+	        console.log('subscribeed selectTransactonOne ::from server //' 
+	        			+ 'price :: '+ JSON.parse(selectTransactonOne.body).price
+	        			+ 'amount ::' + JSON.parse(selectTransactonOne.body).amount
+	        			+ 'transactionSeq ::' + JSON.parse(selectTransactonOne.body).transactionSeq
+	        			)
+	        var transaction = JSON.parse(selectTransactonOne.body)		
+	        
+			appendSelectTransactonTr(transaction);
 	    });
     });
 }
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ # WebSock connect end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-*/ 
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ #Ajax request start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-*/ 
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ # WebSock connect end
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+*/
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ #Ajax request start
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+*/
 
 
 //submit order request throu Ajax start
 //submit Bids
-function submitBids(){
-	var bidsPrice = $('#bidsPrice').val();
-	var bidsAmount = $('#bidsAmount').val();
-	var memberSeq = $('#memberSeq').val();
-	var cryptoSeq = $('#cryptoSeq').val();
-	var orderType = $('label.otLabel input[name="orderTypeBuy"]:checked').val()
-	console.log("매수주문 신청 내역입니다.")
-	console.log("bidsPrice :: " + bidsPrice)
-	console.log("bidsAmount :: " + bidsAmount)
-	console.log("memberSeq :: " + memberSeq)
-	console.log("cryptoSeq :: " + cryptoSeq)
-	console.log("orderType :: " + orderType)
-	if(bidsPrice == "" || bidsAmount == "" || memberSeq == undefined){
+function sendOrder(order) {
+	if(order.price == "" || order.obAmount == "" || order.memberSeq == undefined){
 		alert("주문가격 또는 수량을 입력해주세요")
-	}else(
-		$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/submitBids"
-			,data:{
-				"price" : bidsPrice
-				,"obAmount" : bidsAmount
-				,"memberSeq" : memberSeq
-				,"cryptoSeq" : cryptoSeq
-				,"orderType" : orderType
-			}
-			,success:function(rt){
-				if(rt == submitBids){
-					console.log("submitBids ok")
-				}
-			}
-			,error : function(err){
-				console.log("submitBids err")
-			}
-		})
-	)
-	selectBOBOne()
-	console.log("getOneObFromBroker")
+		return false;
+	}else{
+		if(order.orderType == 0){
+			stompClient.send("/app/submitBids", {}, JSON.stringify(order));
+			return true
+		}else{
+			stompClient.send("/app/submitAsks", {}, JSON.stringify(order));
+			return true
+		}
+		
+	}
+}
+
+function submitBids(){
+	confirm("매수하시겠습니까?")
+	var order = 
+	    {
+	        "price" : $('#bidsPrice').val()
+	        ,"obAmount" : $('#bidsAmount').val()
+	        ,"memberSeq" : $('#memberSeq').val()
+	        ,"cryptoSeq" : $('#cryptoSeq').val()
+	        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
+	    }
+	
+	console.log(
+		"매수주문 신청 내역입니다."+"\n"+
+		"bidsPrice :: " + order.price+"\n"+
+		"bidsAmount :: " + order.obAmount+"\n"+
+		"memberSeq :: " + order.memberSeq+"\n"+
+		"cryptoSeq :: " + order.cryptoSeq+"\n"+
+		"orderType :: " + order.orderType
+		)
+	
+	if(sendOrder(order)){
+		console.log("매수주문을 접수했습니다.")
+	}
 }
 //submit Asks
 function submitAsks(){
-	var asksPrice = $('#asksPrice').val();
-	var asksAmount = $('#asksAmount').val();
-	var memberSeq = $('#memberSeq').val();
-	var cryptoSeq = $('#cryptoSeq').val();
-	var orderType = $('label.otLabel input[name="orderTypeSell"]:checked').val()
-	console.log("매도주문 신청 내역입니다.")
-	console.log("asksPrice :: " + asksPrice)
-	console.log("asksAmount :: " + asksAmount)
-	console.log("memberSeq :: " + memberSeq)
-	console.log("cryptoSeq :: " + cryptoSeq)
-	console.log("orderType :: " + orderType)
-	if(asksPrice == "" || asksAmount == "" || memberSeq == undefined){
-		alert("주문가격 또는 수량을 입력해주세요")
-	}else(
-		$.ajax({
-			async:true
-			,cache:false
-			,type:"post"
-			,url:"/exchange/submitAsks"
-			,data:{
-				"price" : asksPrice
-				,"obAmount" : asksAmount
-				,"memberSeq" : memberSeq
-				,"cryptoSeq" : cryptoSeq
-				,"orderType" : orderType
-			}
-			,success:function(rt){
-				if(rt == submitAsks){
-					console.log("submitAsks ok")
-				}
-				
-			}
-			,error : function(err){
-				console.log("submitAsks err")
-			}
-		})
-	)
-	selectSOBOne()
-	console.log("getOneObFromBroker")
+	
+	confirm("매도하시겠습니까?")
+	var order = 
+	    {
+	        "price" : $('#asksPrice').val()
+	        ,"obAmount" : $('#asksAmount').val()
+	        ,"memberSeq" : $('#memberSeq').val()
+	        ,"cryptoSeq" : $('#cryptoSeq').val()
+	        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
+	    }
+	
+	console.log(
+		"매수주문 신청 내역입니다."+"\n"+
+		"asksPrice :: " + order.price+"\n"+
+		"asksAmount :: " + order.obAmount+"\n"+
+		"memberSeq :: " + order.memberSeq+"\n"+
+		"cryptoSeq :: " + order.cryptoSeq+"\n"+
+		"orderType :: " + order.orderType
+		)
+	
+	if(sendOrder(order)){
+		console.log("매도주문을 접수했습니다.")
+		}
 }
 //submit order request throu Ajax end
+
 
 
 
@@ -164,15 +187,25 @@ function selectBOBOne(){
 			async:true
 			,cache:false
 			,type:"post"
-			,url:"/exchange/selectBOBOne"
+			,url:"/exchange/observeSubmittedBids"
 			,data:{
 				"cryptoSeq" : cryptoSeq
 			}
-			,success:function(selectBOBOne){
-				console.log("selectBOBOne :: " + selectBOBOne)
+			,success:function(response){
+				if(response =="observeSubmittedBids"){
+					console.log(
+						"selectBOBOne :: 매수 주문내역 하나를 찾아옵니" + 
+						"주문번호 :: "+selectBOBOne.obSeq + 
+						"주문한 유저번호 :: "+selectBOBOne.memberSeq + 
+						"주문한 코인 :: "+selectBOBOne.cryptoSeq 
+						)
+					return true;	
+				}
+				
 			}
 			,error : function(err){
 				console.log("getList err")
+				return false;
 			}
 		})
 }
@@ -184,18 +217,30 @@ function selectSOBOne(){
 			async:true
 			,cache:false
 			,type:"post"
-			,url:"/exchange/selectSOBOne"
+			,url:"/exchange/observeSubmittedAsks"
 			,data:{
 				"cryptoSeq" : cryptoSeq
 			}
-			,success:function(selectSOBOne){
-				console.log("selectSOBOne :: "+ selectSOBOne)
+			,success:function(response){
+				if(response =="observeSubmittedAsks"){
+					console.log(
+					"selectBOBOne :: 매도 주문내역 하나를 찾아옵니" + 
+					"주문번호 :: "+selectSOBOne.obSeq + 
+					"주문한 유저번호 :: "+selectSOBOne.memberSeq + 
+					"주문한 코인 :: "+selectSOBOne.cryptoSeq 
+					)
+					return true;
+				}
+				
 			}
 			,error : function(err){
 				console.log("getList err")
+				return false;
 			}
 		})
 }
+
+
 
 function selectBOB(){
 	var cryptoSeq = $('#cryptoSeq').val()
@@ -212,11 +257,11 @@ function selectBOB(){
 				for(i = 0; i < selectBOB.length; i ++){
 					var getPrice = selectBOB[i].price
 					var obAmount = selectBOB[i].obAmount
-					
-					console.log("selectBOB :: "+ getPrice +" // "+ obAmount)
+					var obSeq = selectBOB[i].obSeq
+					var orderType = selectBOB[i].orderType
 					maxAppendB += 1;
 					
-					boBtr(getPrice,obAmount)
+					boBtr(getPrice,obAmount,obSeq,orderType)
 				}
 			}
 			,error : function(err){
@@ -237,15 +282,14 @@ function selectSOB(){
 				"cryptoSeq" : cryptoSeq
 			}
 			,success:function(selectSOB){
-				console.log("selectSOB ::" + selectSOB)
 				for(i = 0; i < selectSOB.length; i ++){
 					
 					var getPrice = selectSOB[i].price
 					var obAmount = selectSOB[i].obAmount
-					
-					console.log("selectSOB :: "+ getPrice +" // "+ obAmount)
+					var obSeq = selectSOB[i].obSeq
+					var orderType = selectSOB[i].orderType
 					maxAppendS += 1;
-					soBtr(getPrice,obAmount)
+					soBtr(getPrice,obAmount,obSeq,orderType)
 				}
 			}
 			,error : function(err){
@@ -255,13 +299,62 @@ function selectSOB(){
 }
 //request select OBList throu Ajax end
 
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ #Ajax request end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//request select Transaction throu Ajax start
+
+function selectTransacton(){
+	var cryptoSeq = $('#cryptoSeq').val() 
+	console.log('selectTransacton :: selectTransacton')
+	$.ajax({
+		async:true
+		,cache:false
+		,type:"post"
+		,url:"/exchange/selectTransacton"
+		,data:{
+			'allOrOne' : 0
+			,'cryptoSeq' : cryptoSeq
+			}
+		,success:function(selectTransacton){
+			for(i = 0; i < selectTransacton.length; i ++ ){
+				appendSelectTransactonTr(selectTransacton[i])
+			}
+		}
+		,error:function(err){
+			alert("selectTransacton err")
+		}
+	})
+}
+
+function appendSelectTransactonTr(list){
+	console.log("appendSelectTransactonTr :: " + list)
+	var date = new Date(list.timestamp)
+	
+	var html = "";
+	
+	html += '<tr>'
+	html += 	'<td class="first">'
+	html +=			'<p>'
+	html +=				'<i>'+(date.getMonth()+1)+ "." +date.getDate()+'</i>'
+	html +=				'<i style="margin-left:10px;">'+date.getHours()+ ":" +date.getMinutes()+'</i>'
+	html +=			'</p>'
+	html +=		'</td>'
+	html +=		'<td>'+list.price+'</td>'
+	html +=		'<td>'+list.amount+'</td>'
+	html +=		'<td class="last">'+(list.price * list.amount)+'</td>'
+	html +='</tr>'
+	
+	$('table.transactedHistoryTable tbody').append(html);
+	$('#btcPrice').html(list.price)
+	
+}
+//request select Transaction throu Ajax end
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ #Ajax request end 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ #util Functions start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ #util Functions start 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 */ 
 
 function limitMaxTrAppend(maxAppendB,maxAppendS){
@@ -280,7 +373,7 @@ function limitMaxTrAppend(maxAppendB,maxAppendS){
 function boBtr(price,obAmount,obSeq,orderType){
 	//value="'+price+'"
 	var boBtr = null;
-	boBtr += '<tr class="up downtest boBtr">';
+	boBtr += '<tr class="up downtest boBtr" id="obSeq'+obSeq+'">';
 	boBtr += '<td class="upB">';
 	boBtr += '<a href="#">';
 	boBtr += '<div class="ty03">';
@@ -292,7 +385,7 @@ function boBtr(price,obAmount,obSeq,orderType){
 	boBtr += '<td class="bar">';
 	boBtr += '<a href="#">';
 	boBtr += '<div style="width: 84.4%;"></div>';
-	boBtr += '<p>'+ obAmount +'</p>';
+	boBtr += '<p class="obAmount">'+obAmount+'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="last"></td>';
@@ -310,7 +403,7 @@ function boBtr(price,obAmount,obSeq,orderType){
 // # add BOB <tr> prepend
 function boBtrOne(price,obAmount,obSeq,orderType){
 	var boBtr = null;
-	boBtr += '<tr class="up downtest boBtr">';
+	boBtr += '<tr class="up downtest boBtr" id="obSeq'+obSeq+'">';
 	boBtr += '<td class="upB">';
 	boBtr += '<a href="#">';
 	boBtr += '<div class="ty03">';
@@ -322,7 +415,7 @@ function boBtrOne(price,obAmount,obSeq,orderType){
 	boBtr += '<td class="bar">';
 	boBtr += '<a href="#">';
 	boBtr += '<div style="width: 84.4%;"></div>';
-	boBtr += '<p>'+ obAmount +'</p>';
+	boBtr += '<p class="obAmount">'+obAmount+'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="last"></td>';
@@ -342,12 +435,12 @@ function boBtrOne(price,obAmount,obSeq,orderType){
 // # add SOB <tr>
 function soBtr(price,obAmount,obSeq,orderType){
 	var sobtr = null;
-	sobtr += '<tr class="down downtest soBtr">';
+	sobtr += '<tr class="down downtest soBtr" id="obSeq'+obSeq+'">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
 	sobtr += '<a href="#">';
 	sobtr += '<div style="width: 84.4%;"></div>';
-	sobtr += '<p>'+obAmount+'</p>';
+	sobtr += '<p class="obAmount">'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
@@ -370,12 +463,12 @@ function soBtr(price,obAmount,obSeq,orderType){
 
 function soBtrOne(price,obAmount,obSeq,orderType){
 	var sobtr = null;
-	sobtr += '<tr class="down downtest soBtr">';
+	sobtr += '<tr class="down downtest soBtr" id="obSeq'+obSeq+'">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
 	sobtr += '<a href="#">';
 	sobtr += '<div style="width: 84.4%;"></div>';
-	sobtr += '<p>'+obAmount+'</p>';
+	sobtr += '<p class="obAmount">'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
@@ -397,16 +490,21 @@ function soBtrOne(price,obAmount,obSeq,orderType){
 	maxAppendS += 1;
 }
 
-function deleteObTr(obSeq){
-	console.log("deleteObTr")
-	var inputHiddenObSeq = $('input[name="obSeq'+obSeq+'"]').val()
+function deleteObTr(order){
+	console.log("deleteObTr :: 거래가 성사된 주문을 삭제합니다.")
+	//var inputHiddenObSeq = $('input[name="obSeq'+obSeq+'"]').val()
+	$("#obSeq"+order.obseq).remove();
 	console.log(
-		"deleteObTr() ::tr obSeq value값은 :: "+ inputHiddenObSeq + " 입니다. \n"
+		"deleteObTr() ::해당 주문의 tr id는 :: "+ order.obseq + " 입니다. \n"
 		+"해당 요소를 삭제합니다.")
 	
 }
 
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ #util Functions end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+function updateOrderAmount(order){
+	$("#obSeq"+order.obseq).find('p.obAmount').html(order.amount)
+}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@ #util Functions end
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 */ 

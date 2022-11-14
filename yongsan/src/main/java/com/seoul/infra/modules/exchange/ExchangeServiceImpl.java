@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.Order;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderBook;
 import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMatchingSystemDao;
-import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.Order;
-import com.seoul.infra.modules.exchange.orderMatchingSystem.engine.OrderBook;
 
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
@@ -26,6 +26,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 	public ExchDTO getOnlaodInfo(ExchDTO dto) throws Exception{
 		return dao.getOnlaodInfo(dto);
 	};
+	
+	
+	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ get userBalance into submitBidsBox
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -35,8 +38,10 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return dao.userBalance(dto);
 	}
 
+	
+	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ get OB Bids&Asks
+ * @@@@@@ select OB Bids&Asks
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	@Override
@@ -61,27 +66,44 @@ public class ExchangeServiceImpl implements ExchangeService {
 		System.out.println("ExchangeServiceImpl.selectSOBOne :: 최근 하나의 매도주문을 가져오는 메소드입니다.");
 		return omsDao.selectSOBOne(dto);
 	}
+	
+	
+	
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ * @@@@@@ selectTransacton
+ * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ */
+	@Override
+	public List<Order> selectTransacton(Order order)throws Exception{
+		System.out.println("ExchangeServiceImpl.selectTransacton :: 최근 거래내역을 가져옵니다.");
+		return omsDao.selectTransacton(order);
+	}
+	
+	
+	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ submit Bids & Asks
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	@Override
-	public int submitBids(ExchDTO dto) throws Exception{
+	public int submitBids(Order dto) throws Exception{
 		System.out.println("ExchangeServiceImpl.submitBids :: 매수주문을 신청합니다.");
-		return dao.submitBids(dto);
+		return omsDao.submitBids(dto);
 	}
 	@Override
-	public int submitAsks(ExchDTO dto) throws Exception{
+	public int submitAsks(Order dto) throws Exception{
 		System.out.println("ExchangeServiceImpl.submitAsks :: 매도주문을 신청합니다.");
-		return dao.submitAsks(dto);
+		return omsDao.submitAsks(dto);
 	}
+	
+	
+	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
- * @@@@@@ get OBList throu STOMP over SockJS
+ * @@@@@@ order Matching Logic start
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
-	
-	
-	public void orderMatchingBuy(Order bobOne,List<Order> sellOrders) {
+	@Override
+	public void orderMatchingBuy(Order bobOne,List<Order> sellOrders)throws Exception {
 		
 		System.out.println(
 				"ExchangeServiceImpl.selectBOBOne :: 최근 매수주문 내역 하나를 불러옵니다."
@@ -109,7 +131,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 			orderbook.processMarketBuy(bobOne,sellOrders);
 		}
 	}
-	public void orderMatchingSell(Order sobOne,List<Order> buyOrders) {
+	
+	@Override
+	public void orderMatchingSell(Order sobOne,List<Order> buyOrders)throws Exception {
 		
 		System.out.println(
 				"ExchangeServiceImpl.selectSOBOne :: 최근 매도주문 내역 하나를 불러옵니다."
