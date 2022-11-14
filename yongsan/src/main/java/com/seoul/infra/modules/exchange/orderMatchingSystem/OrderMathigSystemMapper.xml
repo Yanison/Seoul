@@ -204,19 +204,19 @@
  -->
  	<insert id="insertTransactions">
  		insert into transaction(
- 			memberBuy
-			,memberSell
+ 			memberSeqBuy
+			,memberSeqSell
  			,obSeqBuy
  			,obSeqSell
  			,cryptoSeq
  			,timestamp
  			,price
- 			,tAmount
+ 			,amount
  			,transactedType
  		)
  		values(
- 			#{buyMemberSeq}
- 			,#{sellMemberSeq}
+ 			#{memberSeqBuy}
+ 			,#{memberSeqSell}
  			,#{obSeqBuy}
  			,#{obSeqSell}
  			,#{cryptoSeq}

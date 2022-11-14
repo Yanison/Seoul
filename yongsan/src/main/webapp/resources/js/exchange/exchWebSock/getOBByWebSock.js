@@ -80,7 +80,7 @@ function connect() {
 	        			)
 	        var order = JSON.parse(updateIncompleteOrderDivFromOB.body)		
 	        
-			upDateObTr(order)
+			updateOrderAmount(order)
 	    });
 	    
 	    stompClient.subscribe('/topic/selectTransactonOne', function (selectTransactonOne) {
@@ -501,7 +501,7 @@ function deleteObTr(order){
 }
 
 function updateOrderAmount(order){
-	$("#obSeq"+order.obseq).find('p.obAmount').html(order.amount)
+	$("#obSeq"+order.obseq).find('p.obAmount').html(order.obAmount)
 }
 
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
