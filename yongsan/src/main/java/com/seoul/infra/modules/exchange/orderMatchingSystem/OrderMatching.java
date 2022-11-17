@@ -15,7 +15,12 @@ public class OrderMatching {
 	@Autowired
 	ExchangeWSController exchangeController;
 	
-	public void machingProcessByAmount(Order paramOrder, Order index0Order,List<Order> orders) {
+	
+	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	 * @@@@@@ get userBalance into submitBidsBox
+	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	 */
+	public void matchingProcessByAmount(Order paramOrder, Order index0Order,List<Order> orders) {
 		System.out.println("OrderMatching.machingProcessByAmount() 주문 수량에 따른 매칭을 시도합니다.");
 		if(paramOrder.getObAmount() < index0Order.getObAmount()) {
 			System.out.println(
@@ -36,6 +41,15 @@ public class OrderMatching {
 					);
 			System.out.println("ProcessListMinusPram() :: 매개변수로 들어온 주문보다 매칭될 주문의 수량이 큰 경우의 매칭 알고리즘을 시작합니다."+ "\n"+"");
 			ProcessListMinusPram(paramOrder,index0Order,orders);
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}else if(paramOrder.getObAmount() > index0Order.getObAmount()) {
 			System.out.println(
 					"paramOrder.getObAmount() > index0Order.getObAmount()"
@@ -55,6 +69,15 @@ public class OrderMatching {
 					);
 			System.out.println("ProcessPramMinusList() :: 매개변수로 들어온 주문보다 매칭될 주문의 수량이 작은 경우의 매칭 알고리즘을 시작합니다."+ "\n"+"");		
 			ProcessPramMinusList(paramOrder,index0Order,orders);
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}else {
 			System.out.println(
 					"paramOrder.getObAmount() = index0Order.getObAmount()"
@@ -74,6 +97,15 @@ public class OrderMatching {
 					);
 			System.out.println("processPramEqualList() :: 주문수량이 서로 같을 경우의 매칭 알고리즘을 시작합니다."+ "\n"+"");
 			processPramEqualList(paramOrder,index0Order,orders);
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}
 	}
 
@@ -82,7 +114,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private void ProcessListMinusPram(Order paramOrder, Order index0Order,List<Order> orders) {
+	private boolean ProcessListMinusPram(Order paramOrder, Order index0Order,List<Order> orders) {
 		
 		/*
 		 * 매개변수로 들어온 주문보다 리스트로 들어온 주문[0]의 수량이 큰 경우
@@ -207,6 +239,7 @@ public class OrderMatching {
 			 */
 			
 			System.out.println("OrderMatching.ProcessListMinusPram() 을 종료합니다."+ "\n"+"");
+			return false;
 	}
 	
 	/*
@@ -214,7 +247,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private void ProcessPramMinusList(Order paramOrder, Order index0Order, List<Order> orders) {
+	private boolean ProcessPramMinusList(Order paramOrder, Order index0Order, List<Order> orders) {
 		/*
 		 * paramOrder > inde0ORder
 		 * 매개변수로 들어온 주문보다 리스트로 들어온 주문[0]의 수량이 작은경우
@@ -337,6 +370,8 @@ public class OrderMatching {
 		 * 주문자 잔고 깎아버리자 
 		 */
 		System.out.println("OrderMatching.ProcessPramMinusList() 을 종료합니다."+ "\n"+"");
+		
+		return false;
 	}
 	
 	/*
@@ -344,7 +379,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private void processPramEqualList(Order paramOrder, Order index0Order, List<Order> orders) {
+	private boolean processPramEqualList(Order paramOrder, Order index0Order, List<Order> orders) {
 		System.out.println(
 				"processPramEqualList() :: 매개변수로 들어온 주문과 매칭될 주문의 수량이 같은 경우 입니다.");
 		
@@ -505,6 +540,7 @@ public class OrderMatching {
 			
 			System.out.println("컨트롤러에 거래가 완료된 거래내역이 지워지도록 신호를 보냅니다. 매개변수 :: index0Order"+ "\n"+"");
 			exchangeController.deleteCompleteOrderDivFromOB(index0Order);
+			
 		}
 		
 		
@@ -513,6 +549,8 @@ public class OrderMatching {
 		 * 주문자 잔고 깎아버리자 
 		 */
 		System.out.println("OrderMatching.processPramEqualList() 을 종료합니다."+ "\n"+"");
+		
+		return false;
 	}
 	
 	/*

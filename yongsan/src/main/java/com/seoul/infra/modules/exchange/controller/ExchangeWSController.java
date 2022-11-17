@@ -118,11 +118,11 @@ public class ExchangeWSController {
 		@MessageMapping("requestOrderMatching")
 		public void requestOrderMatching(Order order)throws Exception {
 			
-			if(order.getOrderType() == 0) {
-				System.out.println("ExchangeWSController.requestOrderMatching() orderType :: "+order.getOrderType()+" 매수주문매칭 요청");
+			if(order.getBos() == 0) {
+				System.out.println("ExchangeWSController.requestOrderMatching() BOS :: "+order.getBos()+" 매수주문매칭 요청");
 				serviceExch.orderMatchingBuy(order, serviceExch.selectSOB(order));
 			}else {
-				System.out.println("ExchangeWSController.requestOrderMatching() orderType :: "+order.getOrderType()+" 매도주문매칭 요청");
+				System.out.println("ExchangeWSController.requestOrderMatching() BOS :: "+order.getBos()+" 매도주문매칭 요청");
 				serviceExch.orderMatchingSell(order, serviceExch.selectBOB(order));
 			}
 		}

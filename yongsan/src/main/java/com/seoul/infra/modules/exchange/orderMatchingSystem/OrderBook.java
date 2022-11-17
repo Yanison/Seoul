@@ -7,12 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 @Service
-public class OrderBook extends OrderMatching{
+public class OrderBook extends OrderMatching2 implements OrderBookService{
 	@Autowired
 	OrderMatchingSystemDao omsDao;
+	@Autowired
+	OrderMatching2 om;
+	
 
 	//spread값 구하기.
+	@Override
 	public double getSpread(Order order){
 		final double buyOrderPrice = omsDao.selectBOB(order).get(0).getPrice();
 		final double sellOrderPrice = omsDao.selectSOB(order).get(0).getPrice();
@@ -42,6 +47,7 @@ public class OrderBook extends OrderMatching{
 	 */
 
 	//지정매수
+	@Override
 	public synchronized void processLimitBuy(Order order, List<Order> sellOrders){
 		System.out.println(
 				"OrderBook 클래스의 processLimitBuy() 메소드 입니다. \n 매개변수는 다음과 같습니다." + "\n" + 
@@ -74,10 +80,14 @@ public class OrderBook extends OrderMatching{
 					System.out.println(
 							"order.getPrice() == index0SO.getPrice()"+ "\n"
 							+ "지정매수주문의 주문가격과 매칭된 매도주문 가격과 같은 경우입니다. "+ "\n"
-							+ "machingProcessByAmount(order(지정매수주문),index0SO(매칭된 매도주문),sellOrders(전체매도주문 리스트))"+ "\n"
+							+ "matchingProcessByAmount(order(지정매수주문),index0SO(매칭된 매도주문),sellOrders(전체매도주문 리스트))"+ "\n"
 							+ "주문수량에 따른 주문매칭 메소드를 실행합니다." + "\n"+""
 							);
-					machingProcessByAmount(order,index0SO,sellOrders);
+					
+					
+					if(om.matchingProcessByAmount(order,index0SO,sellOrders) == false) {
+						break;
+					}
 				}else {
 					System.out.println( 
 							"지정매수주문의 주문가격과 매칭된 매도주문 가격과 같지않은 경우입니다. "+ "\n"
@@ -93,6 +103,7 @@ public class OrderBook extends OrderMatching{
 	/*
 	 * 시장매수
 	 */
+	@Override
 	public synchronized void processMarketBuy(Order order, List<Order> sellOrders) {
 		System.out.println(
 				"OrderBook 클래스의 processMarketBuy() 메소드 입니다.  \n 매개변수는 다음과 같습니다." + "\n" + 
@@ -125,10 +136,13 @@ public class OrderBook extends OrderMatching{
 					System.out.println(
 							"order.getPrice() >= index0SO.getPrice()"+ "\n"
 							+ "시장매수주문의 주문가격이 매칭된 매도주문 가격과 같거나 큰 경우입니다. "+ "\n"
-							+ "machingProcessByAmount(order(시장매수주문),index0SO(매칭된 매도주문),sellOrders(전체매도주문 리스트))"+ "\n"
+							+ "matchingProcessByAmount(order(시장매수주문),index0SO(매칭된 매도주문),sellOrders(전체매도주문 리스트))"+ "\n"
 							+ "주문수량에 따른 주문매칭 메소드를 실행합니다." + "\n"+""
 							);
-					machingProcessByAmount(order,index0SO,sellOrders);
+					if(om.matchingProcessByAmount(order,index0SO,sellOrders) == false) {
+						break;
+					}
+					
 				}else {
 					System.out.println( 
 							"지정매수주문의 주문가격과 매칭된 매도주문 가격과 같지않은 경우입니다. "+ "\n"
@@ -144,6 +158,7 @@ public class OrderBook extends OrderMatching{
 	/*
 	 * 지정매도
 	 */
+	@Override
 	public synchronized void processLimitSell(Order order,List<Order> buyOrders) {
 		System.out.println(
 				"OrderBook 클래스의 processLimitSell() 메소드 입니다.  \n 매개변수는 다음과 같습니다." + "\n" + 
@@ -174,10 +189,13 @@ public class OrderBook extends OrderMatching{
 					System.out.println(
 							"order.getPrice() >= index0BO.getPrice()"+ "\n"
 							+ "지정매도주문의 주문가격이 매칭된 매수주문 가격과 같거나 큰 경우입니다. "+ "\n"
-							+ "machingProcessByAmount(order(지정매도주문),index0SO(매칭된 매수주문),sellOrders(전체매도주문 리스트))"+ "\n"
+							+ "matchingProcessByAmount(order(지정매도주문),index0SO(매칭된 매수주문),sellOrders(전체매도주문 리스트))"+ "\n"
 							+ "주문수량에 따른 주문매칭 메소드를 실행합니다." + "\n"+""
 							);
-					machingProcessByAmount(order,index0BO,buyOrders);
+					if(om.matchingProcessByAmount(order,index0BO,buyOrders) == false) {
+						break;
+					}
+					
 				}else {
 					System.out.println( 
 							"지정매도주문의 주문가격과 매칭된 매수주문 가격과 같지않은 경우입니다. "+ "\n"
@@ -192,6 +210,7 @@ public class OrderBook extends OrderMatching{
 	/*
 	 * 시장매도
 	 */
+	@Override
 	public synchronized void processMarketSell(Order order,List<Order> buyOrders) {
 		System.out.println(
 				"OrderBook 클래스의 processMarketSell() 메소드 입니다.  \n 매개변수는 다음과 같습니다." + "\n" + 
@@ -223,10 +242,13 @@ public class OrderBook extends OrderMatching{
 					System.out.println(
 							"order.getPrice() <= index0BO.getPrice()"+ "\n"
 							+ "시장매도주문의 주문가격이 매칭된 매수주문 가격과 같거나 큰 경우입니다. "+ "\n"
-							+ "machingProcessByAmount(order(지정매도주문),index0SO(매칭된 매수주문),sellOrders(전체매도주문 리스트))"+ "\n"
+							+ "matchingProcessByAmount(order(지정매도주문),index0SO(매칭된 매수주문),sellOrders(전체매도주문 리스트))"+ "\n"
 							+ "주문수량에 따른 주문매칭 메소드를 실행합니다." + "\n"+""
 							);
-					machingProcessByAmount(order,index0BO,buyOrders);
+					if(om.matchingProcessByAmount(order,index0BO,buyOrders) == false) {
+						break;
+					}
+					
 				}else {
 					System.out.println( 
 							"시장매도주문의 주문가격과 매칭된 매수주문 가격과 같지않은 경우입니다. "+ "\n"

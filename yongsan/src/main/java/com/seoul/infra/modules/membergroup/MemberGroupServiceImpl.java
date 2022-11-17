@@ -227,6 +227,11 @@ public class MemberGroupServiceImpl implements  MemberGroupService{
 //		
 //		return access_Token;
 //	}
+	
+	public String naverLogin(String url) {
+		
+		return url;
+	}
 
 
 }

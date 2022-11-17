@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 $(document).ready(function(){
 	
 	function loginVali(){
@@ -84,3 +75,7 @@ $(document).ready(function(){
 		}
 	});
 });
+
+
+
+

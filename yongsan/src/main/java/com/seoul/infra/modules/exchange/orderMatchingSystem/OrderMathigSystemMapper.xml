@@ -51,7 +51,6 @@
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			<!-- and submittedBy = #{memberSeq} -->
 			order by obSeq desc limit 1;
 	</select>
 	
@@ -100,11 +99,60 @@
 		where 1=1
 		and cryptoSeq = #{cryptoSeq}
 		<if test ="allOrOne == 0">
-		order by transactionSeq desc limit 10;
+		order by timestamp desc limit 11;
 		</if>
 		<if test="allOrOne == 1">
-		order by transactionSeq desc limit 1;
+		order by timestamp desc limit 1;
 		</if>
+	</select>
+	
+	<select id="marketTable" resultMap="Order">
+		Select
+		  cryptoSeq,
+		  (
+		  select #{price} from transaction where 1=1 
+		   and day(#{timestamp}) = day(now())
+		   and cryptoSeq = #{cryptoSeq} 
+		  order by #{timestamp} desc limit 1
+		  )as closingPrice
+		  ,(
+		  select #{price} from transaction where 1=1 
+		   and day(#{timestamp}) = day(now())
+		   and cryptoSeq = #{cryptoSeq}  
+		  order by #{price} desc limit 1
+		  )
+		  as high
+		  ,(
+		  select #{price} from transaction where 1=1 
+		   and day(#{timestamp}) = day(now())
+		   and cryptoSeq = #{cryptoSeq}  
+		  order by #{price} limit 1
+		  )
+		  as low
+		  ,(
+		  select sum(#{amount}) from transaction  where 1=1
+		   and day(#{timestamp}) = day(now())
+		   and cryptoSeq = #{cryptoSeq}  
+		  group by day(#{timestamp}) order by day(#{timestamp}) desc
+		  )
+		  as volume
+		  ,(
+		  select sum(#{price})from transaction  where 1=1
+		   and day(#{timestamp}) = day(now())
+		   and cryptoSeq = #{cryptoSeq}  
+		  group by day(#{timestamp}) order by day(#{timestamp}) desc
+		  )
+		  as marketcap
+		from transaction limit 1;
+	</select>
+	
+	<select id = "selectClosingPrice">
+		select 
+			transactionSeq
+			,price
+			,amount
+			,timestamp 
+		from transaction order by sysdate() limit 1;
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

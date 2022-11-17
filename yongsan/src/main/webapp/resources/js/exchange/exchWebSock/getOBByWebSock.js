@@ -113,7 +113,7 @@ function sendOrder(order) {
 		alert("주문가격 또는 수량을 입력해주세요")
 		return false;
 	}else{
-		if(order.orderType == 0){
+		if(order.bos == 0){
 			stompClient.send("/app/submitBids", {}, JSON.stringify(order));
 			return true
 		}else{
@@ -133,6 +133,7 @@ function submitBids(){
 	        ,"memberSeq" : $('#memberSeq').val()
 	        ,"cryptoSeq" : $('#cryptoSeq').val()
 	        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
+	        ,'bos': 0
 	    }
 	
 	console.log(
@@ -159,6 +160,7 @@ function submitAsks(){
 	        ,"memberSeq" : $('#memberSeq').val()
 	        ,"cryptoSeq" : $('#cryptoSeq').val()
 	        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
+	         ,'bos': 1
 	    }
 	
 	console.log(

@@ -2,6 +2,8 @@ package com.seoul.infra.modules.exchange.orderMatchingSystem;
 
 import java.sql.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Order  {
 	
 	/*
@@ -157,8 +159,7 @@ public class Order  {
 
 
 	private Integer allOrOne;
-
-
+	
 	public Integer getAllOrOne() {
 		return allOrOne;
 	}
@@ -166,7 +167,65 @@ public class Order  {
 		this.allOrOne = allOrOne;
 	}
 	
+	/*
+	 * market table
+	 */
+	private double gapPrice;
+	private double gapPer;
 	
+	private double closingPrice;
+	private double high;
+	private double low;
+	private double volume;
+	private double marketcap;
+	
+	private double spread;
 
+
+	public double getGapPrice() {
+		return gapPrice;
+	}
+	public void setGapPrice(double gapPrice) {
+		this.gapPrice = gapPrice;
+	}
+	public double getGapPer() {
+		return gapPer;
+	}
+	public void setGapPer(double gapPer) {
+		this.gapPer = gapPer;
+	}
+	public double getClosingPrice() {
+		return closingPrice;
+	}
+	public void setClosingPrice(double closingPrice) {
+		this.closingPrice = closingPrice;
+	}
+	public double getHigh() {
+		return high;
+	}
+	public void setHigh(double high) {
+		this.high = high;
+	}
+	public double getLow() {
+		return low;
+	}
+	public void setLow(double low) {
+		this.low = low;
+	}
+	public double getVolume() {
+		return volume;
+	}
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+	public double getMarketcap() {
+		return marketcap;
+	}
+	public void setMarketcap(double marketcap) {
+		this.marketcap = marketcap;
+	}
+	public double getSpread() {
+		return spread;
+	}
 }
 

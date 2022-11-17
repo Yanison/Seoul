@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.seoul.infra.common.basic.Constants;
 import com.seoul.infra.modules.membergroup.MemberGroup;
-import com.seoul.infra.modules.membergroup.MemberGroupByKko;
 import com.seoul.infra.modules.membergroup.MemberGroupServiceImpl;
+import com.seoul.infra.modules.membergroup.NaverLoginService;
 
 @Controller
 public class HomeController {
 	
 	@Autowired
 	MemberGroupServiceImpl service;
+	@Autowired
+	NaverLoginService naverLoginService;
 	@Autowired
 	private HttpSession session;
 	
@@ -34,7 +35,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/")
-	public String home(Model model) {
+	public String home(
+			Model model) {
+		
+		
+//		
 		
 		Object memberName = session.getAttribute("memberName");
 		Object idTokenKko  = session.getAttribute("idTokenKko");
@@ -52,7 +57,25 @@ public class HomeController {
 		
 		return "home/home";
 	}
-
+	
+	@RequestMapping(value="/naverLogin")
+	public String naverLogin (
+			@RequestParam String code,
+			@RequestParam String state,
+			Model model)throws Exception {
+		
+		System.out.println("HomeController.naverLogin() getAuthCode :: " +  code);
+		String access_token = naverLoginService.getAuthCode(code,state);
+		System.out.println("HomeController.naverLogin() access_token :: " +  access_token);
+		String getInfoUser = naverLoginService.getUserInfo(access_token);
+		System.out.println("HomeController.naverLogin() access_token :: " +  getInfoUser);
+		
+		/*
+		 * 이후 세션처리. 
+		 */
+		
+		return "redirect:/";
+	}
 	
 	 @RequestMapping("/kakaologin")
 	    public String adduserkko(@RequestParam(value = "code", required = false) String code) throws Exception{

@@ -21,7 +21,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<script src="../resources/js/homeComponent/login.js"></script>
+<script src="/../resources/js/homeComponent/login.js"></script>
+<script src="/../resources/js/homeComponent/naverLogin.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 
 
 
@@ -55,14 +57,10 @@
 				<i class="fa-solid fa-comment fontaws" style="margin-right:10px;"></i>카카오 로그인
 			</a>
 			<a class="login_sns google"><i class="fa-brands fa-google fontaws"></i>구글 로그인</a>
-			<a class="login_sns naver"><i class="fa-solid fa-n fontaws"></i>네이버 로그인</a>
+			<button class="login_sns naver" id="naverLogin" onclick="naverLogin()"><i class="fa-solid fa-n fontaws"></i>네이버 로그인</button>
 			<a class="login_sns google" href="http://127.0.0.1:8082/adduser">회원가입</a>
 		</div>
-
-
-
 </section>
-
 
 
 
