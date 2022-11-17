@@ -21,7 +21,7 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,obAmount
+			,format(obAmount,3)
 			,price
 			,orderType
 			,bos
@@ -40,7 +40,7 @@
 			obSeq
 			,submittedBy 
 			,submittedCrypto
-			,obAmount
+			,format(obAmount,3)
 			,price
 			,orderType
 			,bos
@@ -59,7 +59,7 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,obAmount
+			,format(obAmount,3)
 			,price
 			,orderType
 			,bos
@@ -78,7 +78,7 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,obAmount
+			,format(obAmount,3)
 			,price
 			,orderType
 			,bos
@@ -106,53 +106,64 @@
 		</if>
 	</select>
 	
-	<select id="marketTable" resultMap="Order">
-		Select
-		  cryptoSeq,
-		  (
-		  select #{price} from transaction where 1=1 
-		   and day(#{timestamp}) = day(now())
-		   and cryptoSeq = #{cryptoSeq} 
-		  order by #{timestamp} desc limit 1
-		  )as closingPrice
-		  ,(
-		  select #{price} from transaction where 1=1 
-		   and day(#{timestamp}) = day(now())
-		   and cryptoSeq = #{cryptoSeq}  
-		  order by #{price} desc limit 1
-		  )
-		  as high
-		  ,(
-		  select #{price} from transaction where 1=1 
-		   and day(#{timestamp}) = day(now())
-		   and cryptoSeq = #{cryptoSeq}  
-		  order by #{price} limit 1
-		  )
-		  as low
-		  ,(
-		  select sum(#{amount}) from transaction  where 1=1
-		   and day(#{timestamp}) = day(now())
-		   and cryptoSeq = #{cryptoSeq}  
-		  group by day(#{timestamp}) order by day(#{timestamp}) desc
-		  )
-		  as volume
-		  ,(
-		  select sum(#{price})from transaction  where 1=1
-		   and day(#{timestamp}) = day(now())
-		   and cryptoSeq = #{cryptoSeq}  
-		  group by day(#{timestamp}) order by day(#{timestamp}) desc
-		  )
-		  as marketcap
-		from transaction limit 1;
-	</select>
+	<select id="marketTable rusultMap" resultMap="Order">
 	
-	<select id = "selectClosingPrice">
-		select 
-			transactionSeq
-			,price
-			,amount
-			,timestamp 
-		from transaction order by sysdate() limit 1;
+		<!-- market table -->   
+		select
+		
+			<!-- column-->  cryptoSeq,
+			
+			<!--  24시간 고가  -->   
+			(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)
+			
+			<!-- column--> as high24,
+			
+			<!--  24시간 저가    -->
+			(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)
+			
+			<!-- column--> as low24,
+			
+			<!--  일별 거래량    -->
+			(select sum(amount) from transaction  where 1=1
+			and timestamp >= date_add(now(), interval -24 hour)
+			and cryptoSeq = #{cryptoSeq})
+			
+			<!-- column--> as volume24,
+			
+			<!--  일별 거래대금    -->
+			(select sum(price) from transaction  where 1=1
+			and timestamp >= date_add(now(), interval -24 hour)
+			and cryptoSeq = #{cryptoSeq})
+			
+			<!-- column--> as cap24,
+			
+			<!--  최근 가격   --> 
+			(select price from transaction where 1=1 order by timestamp desc limit 1)
+			
+			<!-- column--> as recentPrice,
+			
+			<!--  전일 종가    -->
+			(select price from transaction where 1=1 
+			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
+			order by timestamp desc limit 1)
+			
+			<!-- column--> as closingPrice,
+			
+			<!--  상승 & 하락 비율    -->
+			format((
+			((select price from transaction where 1=1 
+			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
+			order by timestamp desc limit 1)-(select price from transaction where 1=1 order by timestamp desc limit 1)) 
+			/ 
+			(select price from transaction where 1=1 
+			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
+			order by timestamp desc limit 1))*100,2)
+			
+			<!-- column--> as ratio
+			
+		from transaction 
+		where cryptoSeq = #{cryptoSeq} limit 1;
+	
 	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -166,7 +177,7 @@
 	<insert id="submitBids">
 		insert into orderBook(
 			price
-			,obAmount
+			,format(obAmount,5)
 			,submittedBy
 			,submittedCrypto
 			,orderType
@@ -188,7 +199,7 @@
 	<insert id="submitAsks">
 		insert into orderBook(
 			price
-			,obAmount
+			,format(obAmount,5)
 			,submittedBy
 			,submittedCrypto
 			,orderType
@@ -259,7 +270,7 @@
  			,cryptoSeq
  			,timestamp
  			,price
- 			,amount
+ 			,,format(amount,3)
  			,transactedType
  		)
  		values(

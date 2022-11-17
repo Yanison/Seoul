@@ -104,6 +104,7 @@ public class Order  {
 	private Integer transactedType;
 	private double amount;
 	
+	
 	public Integer getTransactionseq() {
 		return transactionseq;
 	}
@@ -170,62 +171,14 @@ public class Order  {
 	/*
 	 * market table
 	 */
-	private double gapPrice;
-	private double gapPer;
-	
+	private double high24;
+	private double low24;
+	private double volume24;
+	private double cap24;
+	private double recentPrice;
 	private double closingPrice;
-	private double high;
-	private double low;
-	private double volume;
-	private double marketcap;
+	private double ratio;
 	
 	private double spread;
-
-
-	public double getGapPrice() {
-		return gapPrice;
-	}
-	public void setGapPrice(double gapPrice) {
-		this.gapPrice = gapPrice;
-	}
-	public double getGapPer() {
-		return gapPer;
-	}
-	public void setGapPer(double gapPer) {
-		this.gapPer = gapPer;
-	}
-	public double getClosingPrice() {
-		return closingPrice;
-	}
-	public void setClosingPrice(double closingPrice) {
-		this.closingPrice = closingPrice;
-	}
-	public double getHigh() {
-		return high;
-	}
-	public void setHigh(double high) {
-		this.high = high;
-	}
-	public double getLow() {
-		return low;
-	}
-	public void setLow(double low) {
-		this.low = low;
-	}
-	public double getVolume() {
-		return volume;
-	}
-	public void setVolume(double volume) {
-		this.volume = volume;
-	}
-	public double getMarketcap() {
-		return marketcap;
-	}
-	public void setMarketcap(double marketcap) {
-		this.marketcap = marketcap;
-	}
-	public double getSpread() {
-		return spread;
-	}
 }
 
