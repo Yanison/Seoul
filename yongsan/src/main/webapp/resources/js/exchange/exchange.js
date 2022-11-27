@@ -1,5 +1,5 @@
-
 $(document).ready(function(){
+	
 	getUserBal(idTokenKko);
 	
 	
@@ -184,11 +184,11 @@ function getUserBal(idTokenKko){
 				}
 			,success: function(userBalance){
 				console.log(userBalance)
-				if(userBalance.amount == null || userBalance.amount == 0){
+				if(userBalance.balance == null || userBalance.balance == 0){
 					$('.userCashBal').text("잔고 없음")
 				}else{
-					$('.userCashBal').val(userBalance.amount)
-					$('.userCashBal').text(userBalance.amount)
+					$('.userCashBal').val(userBalance.balance)
+					$('.userCashBal').text(userBalance.balance)
 					$('#memberSeq').val(userBalance.memberSeq)
 					$('#cryptoSeq').val(userBalance.cryptoSeq)
 				}
@@ -218,8 +218,10 @@ function getOnLoadInfo(){
 				$('#cryptoSeq').val(userBalance.cryptoSeq)
 			}
 			,error : function(err){
-				alert("노노")
+				alert("getOnLoadInfo userBalance :: err")
 			}
 			
 		})
+	
+	
 }

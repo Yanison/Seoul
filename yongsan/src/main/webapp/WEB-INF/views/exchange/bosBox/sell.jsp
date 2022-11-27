@@ -1,18 +1,11 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
 
 
-<%-- <%% %> 쓰는 대신 제이쿼리 cdn처럼 당겨올 수 있음 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ page session="false" %>
-
 <!-- css,js _ (입력)에서 상속받음. --> 
 <!-- <script src="./resources/js/.js"></script>
 #c84a31; red
 #0062df; blue
  -->
-<script src="../resources/js/exchange/BoS/orderBosDiv.js"></script>
 
 <dl>
 	<dt>
@@ -48,26 +41,32 @@
 	<dd>
 		<strong class="userCashBal">num</strong><em>KRW</em>
 	</dd>
-	
+	<script>
+		function calcOrderA(price,amount){
+			var p = $(price).val()
+			var a = $(amount).val()
+			$('#asksSum').val(p * a)
+		}
+	</script>
 	<dt>
 	<strong>매도가격</strong><em>(KRW)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input id="asksPrice" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+		  <input id="asksPrice" type="number" class="form-control recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderA('#asksPrice','#asksAmount')">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
 	</dd>
 	
 	<dt>
-		<strong>주문수량</strong><em>(BTC)</em>
+		<strong>주문수량</strong><em>(<c:out value="${selectCrpytoOne.cryptoSym}"/>)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" id="asksAmount" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input type="number" id="asksAmount" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderA('#asksPrice','#asksAmount')">										 
 		</div>
 		
 	</dd>
@@ -86,7 +85,7 @@
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <input type="text" class="form-control" value="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input id="asksSum" type="number" class="form-control" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >										 
 		</div>
 	</dd>
 	<dd class="orderNotice">

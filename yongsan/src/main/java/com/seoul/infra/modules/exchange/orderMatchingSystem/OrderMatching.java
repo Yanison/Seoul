@@ -20,7 +20,7 @@ public class OrderMatching {
 	 * @@@@@@ get userBalance into submitBidsBox
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 */
-	public void matchingProcessByAmount(Order paramOrder, Order index0Order,List<Order> orders) {
+	public void matchingProcessByAmount(Order paramOrder, Order index0Order,List<Order> orders)throws Exception {
 		System.out.println("OrderMatching.machingProcessByAmount() 주문 수량에 따른 매칭을 시도합니다.");
 		if(paramOrder.getObAmount() < index0Order.getObAmount()) {
 			System.out.println(
@@ -114,7 +114,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private boolean ProcessListMinusPram(Order paramOrder, Order index0Order,List<Order> orders) {
+	private boolean ProcessListMinusPram(Order paramOrder, Order index0Order,List<Order> orders)throws Exception {
 		
 		/*
 		 * 매개변수로 들어온 주문보다 리스트로 들어온 주문[0]의 수량이 큰 경우
@@ -247,7 +247,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private boolean ProcessPramMinusList(Order paramOrder, Order index0Order, List<Order> orders) {
+	private boolean ProcessPramMinusList(Order paramOrder, Order index0Order, List<Order> orders)throws Exception {
 		/*
 		 * paramOrder > inde0ORder
 		 * 매개변수로 들어온 주문보다 리스트로 들어온 주문[0]의 수량이 작은경우
@@ -379,7 +379,7 @@ public class OrderMatching {
 	 * @List<Order> orders :: select orders
 	 * @Order index0Order ::orders의 0번째 인덱스
 	 */
-	private boolean processPramEqualList(Order paramOrder, Order index0Order, List<Order> orders) {
+	private boolean processPramEqualList(Order paramOrder, Order index0Order, List<Order> orders)throws Exception {
 		System.out.println(
 				"processPramEqualList() :: 매개변수로 들어온 주문과 매칭될 주문의 수량이 같은 경우 입니다.");
 		
@@ -464,9 +464,9 @@ public class OrderMatching {
 		 			+"paramOrder.setPrice() 거래 수량:: "+index0Order.getObAmount()+ "\n"+""
 		 			);
 			System.out.println("거래내역에 주문을 저장합니다."+ "\n"+"");
-			omsDao.insertTransactions(paramOrder);
+			omsDao.insertTransactions(index0Order);
 			System.out.println("거래내역에 저장된 주문을 OrderBook 목록에서 삭제합니다. 삭제 대상인 주문은 매개변수로 들어온 주문입니다. :: index0Order"+ "\n"+"");
-			index0Order.setObSeq(paramOrder.getObSeqSell());
+			index0Order.setObSeq(index0Order.getObSeqSell());
 			omsDao.completeOrder(index0Order);
 			
 
@@ -514,12 +514,13 @@ public class OrderMatching {
 			 * 이후 웹소켓으로 오더북 div 삭제하고
 			 * 주문자 잔고 깎아버리자 
 			 */
-			paramOrder.setMemberSeqBuy(index0Order.getMemberSeq()); //매수자
-			paramOrder.setMemberSeqSell(paramOrder.getMemberSeq());// 매도자
-			paramOrder.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
-			paramOrder.setObSeqSell(index0Order.getObSeq()); // 매도 OB
-			paramOrder.setObAmount(index0Order.getObAmount()); // 소화될 수량
-			paramOrder.setPrice(index0Order.getPrice()); // 가격
+			
+			index0Order.setMemberSeqBuy(index0Order.getMemberSeq()); //매수자
+			index0Order.setMemberSeqSell(paramOrder.getMemberSeq());// 매도자
+			index0Order.setObSeqBuy(paramOrder.getObSeq());// 매수 OB
+			index0Order.setObSeqSell(index0Order.getObSeq()); // 매도 OB
+			index0Order.setObAmount(index0Order.getObAmount()); // 소화될 수량
+			index0Order.setPrice(index0Order.getPrice()); // 가격
 			System.out.println(
 		 			"OrderMatching :: 거래내역에 저장될 주문 정보입니다." + "\n"
  					+"paramOrder.getCryptoSeq() 거래된 코인 종류:: "+paramOrder.getCryptoSeq() + "\n"
@@ -532,10 +533,10 @@ public class OrderMatching {
 		 			+"paramOrder.setPrice() 거래 수량:: "+index0Order.getObAmount()+ "\n"+""
 		 			);
 			System.out.println("거래내역에 주문을 저장합니다.");
-			omsDao.insertTransactions(paramOrder);
+			omsDao.insertTransactions(index0Order);
 			
 			System.out.println("거래내역에 저장된 주문을 OrderBook 목록에서 삭제합니다. 삭제 대상인 주문은 매개변수로 들어온 주문입니다. :: index0Order"+ "\n"+"");
-			index0Order.setObSeq(paramOrder.getObSeqSell());
+			index0Order.setObSeq(index0Order.getObSeqSell());
 			omsDao.completeOrder(index0Order);
 			
 			System.out.println("컨트롤러에 거래가 완료된 거래내역이 지워지도록 신호를 보냅니다. 매개변수 :: index0Order"+ "\n"+"");

@@ -1,11 +1,4 @@
-
-
-
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
-
-
-<script src="../resources/js/exchange/BoS/buy.js"></script>
-
 <dl>
 	<dt>
 		<strong>주문구분 <i class="fa-regular fa-circle-question"></i></strong>
@@ -33,7 +26,13 @@
 			<input type="hidden" id="orderType"/>
 		</div>
 	</dd>
-	
+	<script>
+		function calcOrderB(price,amount){
+			var p = $(price).val()
+			var a = $(amount).val()
+			$('#bidsSum').val(p * a)
+		}
+	</script>
 	<dt>
 	<strong>주문가능</strong>
 	</dt>
@@ -48,29 +47,29 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input id="bidsPrice" name="price" type="text" class="form-control bidsPrice moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+		  <input id="bidsPrice" name="price" type="number" class="form-control bidsPrice moneyFmt recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderB('#bidsPrice','#bidsAmount')">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
 	</dd>
 	
 	<dt>
-		<strong>주문수량</strong><em>(BTC)</em>
+		<strong>주문수량</strong><em>(<c:out value="${selectCrpytoOne.cryptoSym}"/>)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="text" id="bidsAmount" name="obAmount" class="form-control bidsAmount moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input type="number" id="bidsAmount" name="obAmount" class="form-control bidsAmount moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderB('#bidsPrice','#bidsAmount')">										 
 		</div>
 		
 	</dd>
 	<dt></dt>
 	<dd>
-		<div class="input-group mb-3">
-		  <span class="input-group-text" id="inputGroup-sizing-default">10%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">25%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">50%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">100%</span>									  										 
+		<div id="QuantityPer" class="input-group mb-3">
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">10%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">25%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">50%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">100%</span>									  										 
 		</div>
 	</dd>
 	
@@ -79,7 +78,7 @@
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <input id="bidSum" type="text" class="form-control bidSum moneyFmt" value="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
+		  <input id="bidsSum" type="number" class="form-control bidSum moneyFmt" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrder('#bidsPrice','#bidsAmount')">										 
 		</div>
 	</dd>
 	<dd class="orderNotice">

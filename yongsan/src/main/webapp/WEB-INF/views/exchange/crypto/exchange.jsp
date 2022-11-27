@@ -6,17 +6,24 @@
 
 <%@ include file="../../rscs/basicRscs.jsp"%>
 
-<link type="text/css" rel="stylesheet" href="../resources/css/exchange.css">
+<link type="text/css" rel="stylesheet" href="/../resources/css/exchange.css">
 <script src="./resources/js/getPrice1.js"></script>
-<script src="../resources/js/exchange/exchange.js"></script>
+<script src="/../resources/js/exchange/exchange.js"></script>
 <script src="../resources/js/exchange/exchWebSock/getOBByWebSock.js"></script>
-
+<script src="/../resources/js/exchange/BoS/orderBosDiv.js"></script>
 <!-- #c84a31; red
 #0062df; blue 
 -->
 
 
 </head>
+<input type="hidden" name="recentPrice">
+<input type="hidden" name="ratioPre">
+<input type="hidden" name="high24">
+<input type="hidden" name="low24">
+<input type="hidden" name="todayHigh24">
+<input type="hidden" name="todayLow24">
+
 <body>
 	<div class="exWrapper">
 		<%@ include file="/WEB-INF/views/include/header2.jsp" %>
@@ -40,12 +47,12 @@
 								<div class="dropdown">
 								  <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" style="background:none; border:none; color: #666666">
 								    <img class="cryptoLogo" src="https://static.upbit.com/logos/BTC.png" alt="https://static.upbit.com/logos/BTC.png" >			    
-								    <strong class="cryptoName"  style="font-size:20px; color:#333333; padding:5 5 5 0px;">비트코인</strong>
+								    <strong class="cryptoNameKor" style="font-size:20px; color:#333333; padding:5 5 5 0px;"><c:out value="${selectCrpytoOne.cryptoNameKor}"/></strong>
 								    <span class="Arrow">Arrow</span>						    
 								  </button>
 								  <ul class="dropdown-menu">
-								    <li><a class="dropdown-item" href="#"><strong>비트코인</strong>(BTC/KRW)</a></li>
-								    <li><a class="dropdown-item" href="#"><strong>비트코인</strong>(BTC/USDT)</a></li>
+								    <li><a class="dropdown-item" href="#"><strong class="cryptoNameKor">코인이름</strong>(<c:out value="${selectCrpytoOne.cryptoSym}"/>/KRW)</a></li>
+								    <li><a class="dropdown-item" href="#"><strong class="cryptoNameKor">코인이름</strong>(<c:out value="${selectCrpytoOne.cryptoSym}"/>/USDT)</a></li>
 								  </ul>
 								</div>
 							</div>
@@ -73,7 +80,7 @@
 							    		<span class="darkModBtn2"><i class="fa-solid fa-moon"></i></span>
 							    	</div>
 							    	<div class="darkModText">
-							    		<div style="font-size:13px; color:#666666;">화면 떼마 설정</div>
+							    		<div style="font-size:13px; color:#666666;">화면 테마 설정</div>
 							    		<div style="font-size:12px; color:#999999;">데이(일반)모드</div>
 							    	</div>	
 						    	</div>							   						    							    	
@@ -123,39 +130,54 @@
 					<div class="livePriceBox">
 					
 						<div class="livePrice">
-							<div class="livePriceContents price">
-								<span style="font-size:32px; height:38px;"> 
-									<span id="btcPrice">num</span> 
-									<span style="font-size:14px;">KRW</span> 
+							<div class="livePriceContents">
+								<span style="font-size: 32px; height: 38px;">
+									<strong id="recentPrice" class="recentPrice ">num</strong> 
+									<span style="font-size: 14px;">KRW</span>
 								</span>
-								<div style="height:19px;">
-									<span style="font-size:11px; margin-right:4px;">전일대비</span>
-									<span id="updownbtc" style="font-size:16px; margin-right:4px;">num%</span>
-									<span id="priceGapGapbtc" style="font-size:16px;">num</span>
+								<div style="height: 19px;display: flex; align-items:center;">
+									<span style="font-size: 11px; margin-right: 4px;">전일대비</span> 
+									<strong id="ratioPre" class="ratioPre " style="font-size: 16px; margin-right: 2px;">num</strong >
+									<strong style="font-size: 16px; margin-right: 10px;">%</strong>
+									<i id="caret" style="font-size: 16px;margin-right: 5px;"></i>
+									<strong id="priceGap"  class="priceGap " style="font-size: 16px;">num</strong>
 								</div>
 							</div>
-							
+
 							<div class="priceAndCap">
 								<div class="livePriceContents hightAndLow">
-									<div style="border-bottom:1px solid #dedede; margin-bottom:5px;">
-										<span style="font-size:12px;">고가</span>
-										<span style="font-size:14px;"> <strong id="highPricebtc"> num </strong> </span>
-									</div >
+									<div
+										style="border-bottom: 1px solid #dedede; margin-bottom: 5px;">
+										<span style="font-size: 12px;">고가</span> 
+										<spanstyle="font-size: 14px;"> 
+											<strong id="high24" class="high24 " >num </strong>
+										</span>
+									</div>
 									<div>
-										<span style="font-size:12px;">저가</span>
-										<span style="font-size:14px;"> <strong id="lowPricebtc"> num </strong> </span>
+										<span style="font-size: 12px;">저가</span> 
+										<span style="font-size: 14px;"> 
+											<strong id="low24"  class="low24 " >num </strong>
+										</span>
 									</div>
 								</div>
 								<div class="livePriceContents cap">
-									<div style="border-bottom:1px solid #dedede; margin-bottom:5px;">
-										<span style="font-size:12px;">거래량(24H)</span>
-										<span style="font-size:14px;"> <strong id="acc_trade_volume_24hbtc"> num </strong> <span style="font-size:11px;">BTC</span></span>
+									<div style="border-bottom: 1px solid #dedede; margin-bottom: 5px;">
+										<span style="font-size: 12px;">거래량(24H)</span> 
+										<span style="font-size: 14px;"> 
+											<strong id="volume24" class="volume24 " > num </strong> 
+											<span style="font-size: 11px;" class="cryptoSym">
+												<c:out value="${selectCrpytoOne.cryptoSym}"/>
+											</span>
+										</span>
 									</div>
 									<div>
-										<span style="font-size:12px;">거래량대금(24H)</span>
-										<span style="font-size:14px;"> <strong id="acc_trade_price_24hbtc"> num </strong> <span style="font-size:11px;">KRW</span></span>
+										<span style="font-size: 12px;">거래량대금(24H)</span>
+										<span style="font-size: 14px;"> 
+										<strong id="cap24" class="cap24 omparedWithClosingPrice" > num </strong> 
+											<span style="font-size: 11px;">KRW</span>
+										</span>
 									</div>
-								
+
 								</div>
 							</div>
 						</div>
@@ -251,7 +273,7 @@
 											<td class="amountToggle">
 												<a id="amountToggle01">
 													<b>수량</b>
-													<em>(BTC)<em>
+													<em class="cryptoSym">(<c:out value="${selectCrpytoOne.cryptoSym}"/>)<em>
 													<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>
 												</a>
 											</td>
@@ -275,7 +297,7 @@
 										<td></td>
 										<td class="amount">
 											<b>수량</b>
-											<em>(BTC)<em>	
+											<em class="cryptoSym">(<c:out value="${selectCrpytoOne.cryptoSym}"/>)<em>	
 										</td>
 										<td class="orderPrice">
 											<b>금액</b>
@@ -306,7 +328,7 @@
 											<td class="amountToggle">
 												<a id="amountToggle02">
 													<b>수량</b>
-													<em>(BTC)<em>
+													<em class="cryptoSym">(<c:out value="${selectCrpytoOne.cryptoSym}"/>)<em>
 													<i class="fa-solid fa-right-left" style="margin-left:5px; color:#333;"></i>
 												</a>
 											</td>
@@ -337,6 +359,7 @@
 									</li>
 								</ul>
 							</span>
+							
 							<div id="orderBoxBody1" class="orderBoxBody toggleMenueBody navItem2_1" style="display:block">									
 									<%@ include file="/WEB-INF/views/exchange/bosBox/buy.jsp" %>
 							</div>

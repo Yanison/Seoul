@@ -21,8 +21,7 @@ public class OrderMatchingSystemDao {
 	private SqlSession sqlSession;
 	public static String omsNamespace = "com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMathigSystemMapper";
 	
-	@Autowired
-	ExchangeWSController exchangeWSController;
+	
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ get table OB Bids&Asks
@@ -41,12 +40,28 @@ public class OrderMatchingSystemDao {
 	public Order selectSOBOne(Order dto){
 		return sqlSession.selectOne(omsNamespace + ".selectSOBOne", dto);
 	}
+	
+	public Integer selectOrderStatus(Order order) {
+		return sqlSession.selectOne(omsNamespace + ".selectOrderStatus", order);
+	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ selectTransacton
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	public List<Order> selectTransacton(Order order){
 		return sqlSession.selectList(omsNamespace + ".selectTransacton", order);
+	}
+	
+	public Order transactionTable(Order order) {
+		return sqlSession.selectOne(omsNamespace + ".transactionTable", order);
+	}
+	
+	public Order marketTable(Order order) {
+		return sqlSession.selectOne(omsNamespace + ".marketTable",order);
+	}
+	
+	public List<Order> spread(Order order) {
+		return sqlSession.selectList(omsNamespace + ".spread",order);
 	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ submit bids & asks
@@ -77,10 +92,7 @@ public class OrderMatchingSystemDao {
 				+"order.getObAmount() 주문수량:: " + order.getObAmount() + "\n"
 				+"order.getPrice() 주문가격:: " + order.getPrice() + "\n"
 				);
-		System.out.println("OrderMatchingSystemDao.completeOrder() :: 소화된 주문의 Div를 삭제합니다.");
-		exchangeWSController.deleteCompleteOrderDivFromOB(order);
-		System.out.println("OrderMatchingSystemDao.completeOrder() :: 소화된 주문의 Div를 거래내역 Div에 추가합니다.");
-		exchangeWSController.selectTransactonOne(order);
+		
 		return sqlSession.update(omsNamespace + ".completeOrder", order);
 	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -98,7 +110,7 @@ public class OrderMatchingSystemDao {
 				+"order.getObAmount() 잔여수량:: " + order.getObAmount() + "\n"
 				+"order.getPrice() 주문가격:: " + order.getPrice() + "\n"
 				);
-		//exchangeWSController.updateIncompleteOrderDivFromOB(order);
+		
 		return sqlSession.update(omsNamespace + ".updtObAmount", order);
 	}
 	
@@ -113,7 +125,6 @@ public class OrderMatchingSystemDao {
 				+"trade.getObAmount() 거래수량:: " + trade.getObAmount() + "\n" // 수량
 				+"trade.getPrice() 거래가격:: " + trade.getPrice() + "\n" //가격
 				);
-		
 		return sqlSession.insert(omsNamespace + ".insertTransactions", trade);
 	}
 	

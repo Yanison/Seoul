@@ -48,6 +48,8 @@ public class ExchDTO {
 	
 	private Integer cryptoSeq;
 	private String cryptoSym;
+	private String cryptoName;
+	private String cryptoNameKor;
 	
 	public Integer getCryptoSeq() {
 		return cryptoSeq;
@@ -61,8 +63,18 @@ public class ExchDTO {
 	public void setCryptoSym(String cryptoSym) {
 		this.cryptoSym = cryptoSym;
 	}
-	
-	
+	public String getCryptoName() {
+		return cryptoName;
+	}
+	public void setCryptoName(String cryptoName) {
+		this.cryptoName = cryptoName;
+	}
+	public String getCryptoNameKor() {
+		return cryptoNameKor;
+	}
+	public void setCryptoNameKor(String cryptoNameKor) {
+		this.cryptoNameKor = cryptoNameKor;
+	}
 	
 	/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@ #cryptoInfo end
@@ -77,17 +89,20 @@ public class ExchDTO {
 
 	
 
-	private double amount;
+	
+
+	private int balance;
 	private double price;
 	private double obAmount;
 	private int orderType;
 	private int bos;
-
-	public double getAmount() {
-		return amount;
+	
+	
+	public int getBalance() {
+		return balance;
 	}
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setBalance(int balance) {
+		this.balance = balance;
 	}
 	public double getPrice() {
 		return price;

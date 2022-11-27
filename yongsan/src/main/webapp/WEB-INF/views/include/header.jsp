@@ -55,4 +55,11 @@
 				<span class="headee-contents"><i class="fa-solid fa-bars"></i></span>
 			</div>
 		</header>
+		
+		<div class="hiddenGroup" style="display:none">
+			<input type="hidden" id="header_cryptoSeq"/>
+			<input type="hidden" id="header_cryptoSym" value="<c:out value="${selectCrpytoOne.cryptoSym}"/>"/>
+			<input type="hidden" id="header_memberSeq"/>
+			<input type="hidden" id="header_memberName"/>
+		</div>
 	</div>

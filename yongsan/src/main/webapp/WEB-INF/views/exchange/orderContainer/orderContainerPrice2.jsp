@@ -25,12 +25,13 @@
 				<table>
 					<tr>
 						<th>거래량</th>
-						<td>num <i>btc</i></td>
+						<td class="_volume24">num <i><c:out value="${selectCrpytoOne.cryptoSym}"/></i></td>
 					</tr>
 					<tr>
 						<th>거래대금</th>
-						<td>
-							num <i>백만원</i> 
+						<td >
+							<span class="_cap24">num</span> 
+							<i>백만원</i> 
 							<em>(최근24시간)</em>
 						</td>
 					</tr>
@@ -58,19 +59,19 @@
 				<table>
 					<tr>
 						<th>전일 종가</th>
-						<td>
+						<td id="closingPrice">
 							num
 						</td>
 					</tr>
 					<tr>
 						<th>당일 고가</th>
-						<td class="up">
+						<td id="todayHigh24" class="up">
 						num
 						</td>
 					</tr>
 					<tr>
 						<th>당일 저가</th>
-						<td class="down">
+						<td id="todayLow24" class="down">
 						num
 						</td>
 					</tr>
@@ -92,8 +93,8 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>price</td>
-							<td>amount</td>
+							<td>priceNum</td>
+							<td>amountNum</td>
 						</tr>
 					</tbody>
 					

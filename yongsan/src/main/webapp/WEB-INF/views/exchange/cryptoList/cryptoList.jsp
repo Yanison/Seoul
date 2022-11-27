@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %> 
 
-<script src="../resources/js/exchange/cryptoList/cryptoList.js"></script>
+<script src="/../resources/js/exchange/cryptoList/cryptoList.js"></script>
 
 <article class="cryptoListBox">
 	<section class="cryptoListHeader">

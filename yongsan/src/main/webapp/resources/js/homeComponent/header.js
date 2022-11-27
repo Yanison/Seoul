@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var moneyfmt = $('.moneyfmt').text();
 	var moneyfmt2 = moneyfmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	
 	$('.moneyfmt').text(moneyfmt2)
 	console.log("moneyfmt")
 	console.log($('.moneyfmt').text())
@@ -34,7 +35,7 @@ $(document).ready(function(){
 
 	$('#exchange').on('click',function(){
 		event.preventDefault();
-		location.href='../exchange/BTC?cryptoSym=BTC';
+		location.href='../exchange/BTC';
 		
 		
 	});

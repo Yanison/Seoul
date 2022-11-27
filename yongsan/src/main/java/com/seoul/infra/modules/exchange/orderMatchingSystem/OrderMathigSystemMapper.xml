@@ -9,6 +9,8 @@
 		<result property ="memberSeq" column="submittedBy"></result>
 		<result property ="cryptoSeq" column="submittedCrypto"></result>
 	</resultMap>
+	<resultMap id="Order2" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Order">
+	</resultMap>
 	<resultMap id="Trade" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Trade"></resultMap>
 	
 
@@ -21,18 +23,18 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)
+			,format(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
-		from orderBook 
+		from orderBook
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq desc limit 10;
+			order by obSeq desc
 	</select>
 	
 	<select id="selectBOBOne" resultMap="Order">
@@ -40,13 +42,13 @@
 			obSeq
 			,submittedBy 
 			,submittedCrypto
-			,format(obAmount,3)
+			,format(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
-		from orderBook 
+		from orderBook
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
@@ -59,18 +61,18 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)
+			,format(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
-		from orderBook 
+		from orderBook
 			where 1=1
 			and bos = 1
 			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq limit 10;
+			order by obSeq
 	</select>
 	
 	<select id="selectSOBOne" resultMap="Order">
@@ -78,7 +80,7 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)
+			,format(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
@@ -93,20 +95,86 @@
 			order by obSeq desc limit 1;
 	</select>
 	
-	
-	<select id="selectTransacton" resultMap="Order">
-		select * from transaction
-		where 1=1
-		and cryptoSeq = #{cryptoSeq}
-		<if test ="allOrOne == 0">
-		order by timestamp desc limit 11;
-		</if>
-		<if test="allOrOne == 1">
-		order by timestamp desc limit 1;
-		</if>
+	<select id="selectOrderStatus" resultType="Integer">
+		select orderStatus from OrderBook where 1=1
+		and submittedCrypto = #{cryptoSeq}
+		and obSeq = #{obSeq}
 	</select>
 	
-	<select id="marketTable rusultMap" resultMap="Order">
+	<select id="selectTransacton" resultMap="Order2">
+		select 
+			transactionSeq,
+			cryptoSeq,
+			memberSeqSell,
+			memberSeqBuy,
+			obSeqSell,
+			obSeqBuy,
+			transactedType,
+			amount,
+			price,
+			date_format(timestamp,"%m/%d") as timestampMD,
+            date_format(timestamp,"%T") as timestampR
+		from transaction
+		where 1=1
+		and cryptoSeq = #{cryptoSeq}
+		order by transactionSeq desc limit 11;
+	</select>
+	
+	<select id="transactionTable" resultMap="Order2">
+		<!-- transaction 테이블 -->
+		<![CDATA[
+		select
+			transactionSeq,
+			cryptoSeq,
+			memberSeqSell,
+			memberSeqBuy,
+			obSeqSell,
+			obSeqBuy,
+			transactedType,
+			date_format(timestamp,"%m/%d") as timestampMD,
+            date_format(timestamp,"%T") as timestampR,
+			price,
+			format(amount,3) as amount,
+			ROUND((price * amount))
+			as tradePrice,
+			
+			
+			
+			Round(
+			(((select price from transaction
+			where 1=1
+			and cryptoSeq = #{cryptoSeq}
+			and transactionSeq < (select transactionSeq from transaction order by transactionSeq desc limit 1)
+			order by transactionSeq desc limit 1) - (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq}
+			order by transactionSeq desc limit 1)) 
+							/
+			(select price from transaction where 1=1
+			and cryptoSeq = #{cryptoSeq}
+			and transactionSeq < (select transactionSeq from transaction order by transactionSeq desc limit 1)
+			order by transactionSeq desc limit 1))*100,2)
+			as ratioRe,
+			
+			ABS(
+			Round((
+			((select price from transaction where 1=1 
+			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
+			order by transactionSeq desc limit 1)-(select price from transaction where 1=1 order by transactionSeq desc limit 1)) 
+								/ 
+			(select price from transaction where 1=1 
+			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
+			order by timestamp desc limit 1))*100,2)
+			)
+			as ratioPre
+			
+			
+		from transaction
+		where 1=1
+		and cryptoSeq = #{cryptoSeq}
+		order by transactionSeq desc limit 1;
+		]]>
+	</select>
+	
+	<select id="marketTable" resultMap="Order2">
 	
 		<!-- market table -->   
 		select
@@ -114,59 +182,106 @@
 			<!-- column-->  cryptoSeq,
 			
 			<!--  24시간 고가  -->   
-			(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)
+			<![CDATA[(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)]]>
 			
 			<!-- column--> as high24,
 			
 			<!--  24시간 저가    -->
-			(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)
+			<![CDATA[(select price from transaction where 1=1 and date(timestamp) = curdate() order by timestamp limit 1)]]>
+			
+			<!-- column--> as todayLow24,
+			
+			<!--  24시간 고가  -->   
+			<![CDATA[(select price from transaction where 1=1 and date(timestamp) = curdate() order by timestamp desc limit 1)]]>
+			
+			<!-- column--> as todayHigh24,
+			
+			<!--  24시간 저가    -->
+			<![CDATA[(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)]]>
 			
 			<!-- column--> as low24,
 			
 			<!--  일별 거래량    -->
-			(select sum(amount) from transaction  where 1=1
-			and timestamp >= date_add(now(), interval -24 hour)
-			and cryptoSeq = #{cryptoSeq})
+			<![CDATA[
+			(select sum(amount) from transaction  where 1=1 and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = #{cryptoSeq})
+			]]>
 			
 			<!-- column--> as volume24,
 			
 			<!--  일별 거래대금    -->
-			(select sum(price) from transaction  where 1=1
-			and timestamp >= date_add(now(), interval -24 hour)
-			and cryptoSeq = #{cryptoSeq})
+			<![CDATA[
+			(select sum(price) from transaction  where 1=1 and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = #{cryptoSeq})]]>
 			
 			<!-- column--> as cap24,
 			
 			<!--  최근 가격   --> 
-			(select price from transaction where 1=1 order by timestamp desc limit 1)
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1)]]>
 			
 			<!-- column--> as recentPrice,
 			
 			<!--  전일 종가    -->
-			(select price from transaction where 1=1 
-			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
-			order by timestamp desc limit 1)
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)]]>
 			
 			<!-- column--> as closingPrice,
 			
 			<!--  상승 & 하락 비율    -->
-			format((
-			((select price from transaction where 1=1 
-			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
-			order by timestamp desc limit 1)-(select price from transaction where 1=1 order by timestamp desc limit 1)) 
-			/ 
-			(select price from transaction where 1=1 
-			and  day(timestamp) = ((select day(timestamp) from transaction where 1=1 order by  day(timestamp) desc limit 1)-1) 
-			order by timestamp desc limit 1))*100,2)
+			<![CDATA[ABS(Round((
+			((select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
+			-
+			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
+			/
+			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate()-1 order by transactionSeq desc limit 1)
+			)*100,2))]]>
 			
-			<!-- column--> as ratio
+			<!-- column--> as ratioPre,
+			<![CDATA[
+			ABS(
+			((select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
+			-
+			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
+			)
+			]]> as priceGap
+			
 			
 		from transaction 
 		where cryptoSeq = #{cryptoSeq} limit 1;
 	
 	</select>
+	
+	<select id="spread" resultMap="Order2">
+	<![CDATA[
+	select
+		b.obSeqBuy, 
+		s.obSeqSell,
+		b.memberSeqBuy,
+		s.memberSeqSell,
+		b.bPrice, 
+		s.sPrice,
+		format(b.bAmount,3) as bAmount,
+ 		format(s.sAmount,3) as sAmount,
+		(b.bPrice - s.sPrice)
+		as spread 
+	from
+		(select @b_n := @b_n + 1 bseq,
+			submittedBy as memberSeqBuy,
+			obSeq as obSeqBuy,
+			price as bPrice,
+			obAmount as bAmount 
+			from orderBook,(select @b_n := 0) b_n 
+			where orderStatus = 0 and bos = 0 and submittedCrypto = #{cryptoSeq} order by obSeq) b
+		inner join
+		(select @s_n := @s_n + 1 sseq,
+			submittedBy as memberSeqSell,
+			obSeq as obSeqSell,
+			price as sPrice,
+			obAmount as sAmount
+			from orderBook,(select @s_n := 0) s_n
+			where orderStatus = 0 and bos = 1 and submittedCrypto = #{cryptoSeq} order by obSeq) s
+	on b.bseq = s.sseq
+	]]>
+	</select>
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ select OB orders end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ select OB orders end 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -177,7 +292,7 @@
 	<insert id="submitBids">
 		insert into orderBook(
 			price
-			,format(obAmount,5)
+			,obAmount
 			,submittedBy
 			,submittedCrypto
 			,orderType
@@ -199,13 +314,12 @@
 	<insert id="submitAsks">
 		insert into orderBook(
 			price
-			,format(obAmount,5)
+			,obAmount
 			,submittedBy
 			,submittedCrypto
 			,orderType
 			,bos
 			,timestamp
-			
 		)
 		values(
 			#{price}
@@ -218,11 +332,11 @@
 		)
 	</insert>
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ submit orders  end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ submit orders  end\
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
-  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
  	<update id="delObseq">
@@ -234,31 +348,31 @@
  	<update id="completeOrder">
  		update orderBook set orderStatus = 3
 			where 1=1
+			and orderStatus = 3
 			and obSeq = #{obSeq}
  	</update>
-  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order end 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
-   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading start
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  --> 	
  	<update id="updtObAmount">
  		update orderBook set obAmount = #{obAmount} 
 			where 1=1
+			and orderStatus = 0
 		 	and obSeq = #{obSeq}
  	</update>
- 
- 
-
-   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 	
+   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@ update order Amount by trading end 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
  
-   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ insert Transacted Order start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@ insert Transacted Order start
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
  	<insert id="insertTransactions">
@@ -270,7 +384,7 @@
  			,cryptoSeq
  			,timestamp
  			,price
- 			,,format(amount,3)
+ 			,amount
  			,transactedType
  		)
  		values(
@@ -285,12 +399,8 @@
  			,0
  		)
  	</insert>
-   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@ insert Transacted Order end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@ insert Transacted Order end 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
- 
- 
- 
- 
 </mapper>

@@ -70,7 +70,7 @@
 							<div class="exHis_time">10:49:33</div>
 						</td>
 						<td>
-							<div class="exHis_Pairs">BTC/KRW</div>
+							<div class="exHis_Pairs"><c:out value="${selectCrpytoOne.cryptoSym}"/>/KRW</div>
 							<div class="exHis_TradeType">매수</div>
 						</td>
 						<td>
@@ -115,7 +115,7 @@
 							<div class="exHis_time">10:49:33</div>
 						</td>
 						<td>
-							<div class="exHis_Pairs">BTC/KRW</div>
+							<div class="exHis_Pairs"><c:out value="${selectCrpytoOne.cryptoSym}"/>/KRW</div>
 							<div class="exHis_TradeType">매수</div>
 						</td>
 						<td>

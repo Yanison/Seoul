@@ -6,8 +6,8 @@ public interface OrderBookService {
 	
 	
 	public double getSpread(Order order);
-	public void processLimitBuy(Order order, List<Order> sellOrders);
-	public void processMarketBuy(Order order, List<Order> sellOrders);
-	public void processLimitSell(Order order,List<Order> buyOrders);
-	public void processMarketSell(Order order,List<Order> buyOrders);
+	public boolean processLimitBuy(Order order, List<Order> sellOrders)throws Exception;
+	public boolean processMarketBuy(Order order, List<Order> sellOrders)throws Exception;
+	public boolean processLimitSell(Order order,List<Order> buyOrders)throws Exception;
+	public boolean processMarketSell(Order order,List<Order> buyOrders)throws Exception;
 }

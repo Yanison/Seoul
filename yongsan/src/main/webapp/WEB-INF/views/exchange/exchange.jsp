@@ -140,11 +140,11 @@
 						<div class="livePrice">
 							<div class="livePriceContents price">
 								<span style="font-size: 32px; height: 38px;"> <span
-									id="btcPrice">num</span> <span style="font-size: 14px;">KRW</span>
+									id="recentPrice">num</span> <span style="font-size: 14px;">KRW</span>
 								</span>
 								<div style="height: 19px;">
-									<span style="font-size: 11px; margin-right: 4px;">전일대비</span> <span
-										id="updownbtc" style="font-size: 16px; margin-right: 4px;">num%</span>
+									<span style="font-size: 11px; margin-right: 4px;">전일대비</span> 
+									<span id="updownbtc" style="font-size: 16px; margin-right: 4px;">num%</span>
 									<span id="priceGapGapbtc" style="font-size: 16px;">num</span>
 								</div>
 							</div>
@@ -153,14 +153,14 @@
 								<div class="livePriceContents hightAndLow">
 									<div
 										style="border-bottom: 1px solid #dedede; margin-bottom: 5px;">
-										<span style="font-size: 12px;">고가</span> <span
-											style="font-size: 14px;"> <strong id="highPricebtc">
-												num </strong>
+										<span style="font-size: 12px;">고가</span> 
+										<spanstyle="font-size: 14px;"> 
+											<strong id="high24">num </strong>
 										</span>
 									</div>
 									<div>
 										<span style="font-size: 12px;">저가</span> <span
-											style="font-size: 14px;"> <strong id="lowPricebtc">
+											style="font-size: 14px;"> <strong id="low24">
 												num </strong>
 										</span>
 									</div>
@@ -170,13 +170,13 @@
 										style="border-bottom: 1px solid #dedede; margin-bottom: 5px;">
 										<span style="font-size: 12px;">거래량(24H)</span> <span
 											style="font-size: 14px;"> <strong
-											id="acc_trade_volume_24hbtc"> num </strong> <span
+											id="volume24"> num </strong> <span
 											style="font-size: 11px;">BTC</span></span>
 									</div>
 									<div>
 										<span style="font-size: 12px;">거래량대금(24H)</span> <span
 											style="font-size: 14px;"> <strong
-											id="acc_trade_price_24hbtc"> num </strong> <span
+											id="cap24"> num </strong> <span
 											style="font-size: 11px;">KRW</span></span>
 									</div>
 

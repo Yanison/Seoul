@@ -88,6 +88,22 @@ public class ExchangeRestController {
 			return selectTransacton;
 		}
 		
+		@ResponseBody
+		@RequestMapping("/transactionTable")
+		public Order transactionTable(Order order)throws Exception{
+			
+			Order transactionTable = serviceExch.transactionTable(order);
+			return transactionTable;
+		}
+		
+		@ResponseBody
+		@RequestMapping("/marketTable")
+		public Order marketTable(Order order)throws Exception{
+			
+			Order marketTable = serviceExch.marketTable(order);
+			return marketTable;
+		}
+		
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@@@ # Ajax get OBList end
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

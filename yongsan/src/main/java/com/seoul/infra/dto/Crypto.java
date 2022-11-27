@@ -7,6 +7,7 @@ public class Crypto {
 	private Integer cryptoSeq;
 	private String cryptoSym;
 	private String cryptoName;
+	private String cryptoNameKor;
 	private Integer activeNy;
 	private Date regDateAt;
 	private String regDateBy;
@@ -68,7 +69,12 @@ public class Crypto {
 	public void setWodAvailable(Integer wodAvailable) {
 		this.wodAvailable = wodAvailable;
 	}
-	
+	public String getCryptoNameKor() {
+		return cryptoNameKor;
+	}
+	public void setCryptoNameKor(String cryptoNameKor) {
+		this.cryptoNameKor = cryptoNameKor;
+	}
 	
 	
 }

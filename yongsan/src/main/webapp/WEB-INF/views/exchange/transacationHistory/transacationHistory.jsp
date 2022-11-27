@@ -25,7 +25,7 @@
 				<tr>
 					<td class="frist" style="text-align:center;">체결시간</td>
 					<td>체결가격(KRW)</td>
-					<td>체결량(BTC)</td>
+					<td>체결량(<c:out value="${selectCrpytoOne.cryptoSym}"/>)</td>
 					<td class="last">체결금액(KRW)</td>
 				</tr>
 			</thead>
@@ -60,7 +60,7 @@
 					<td>종가(KRW)</td>
 					<td></td>
 					<td>전일대비</td>
-					<td class="last">거래량(BTC)</td>
+					<td class="last">거래량(<c:out value="${selectCrpytoOne.cryptoSym}"/>)</td>
 				</tr>
 			</thead>
 			<tbody>

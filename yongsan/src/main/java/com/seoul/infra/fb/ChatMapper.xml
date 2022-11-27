@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.seoul.infra.fb.ChatMapper">
+
+	<resultMap id="resultMapObj" type="com.seoul.infra.fb.Chat" ></resultMap>
+
+	<select id="selectChatListFromOne" parameterType="Integer" resultMap="resultMapObj">
+		SELECT
+			cu.cuChatSeq as chatSeq
+		FROM chatUser cu
+		JOIN chat ct
+		ON ct.chatSeq = cu.cuChatSeq
+		AND ct.chatDelNy = 0
+		WHERE 1=1
+		AND cu.cuMember = #{seq}
+	</select>
+
+	<select id="selectChatWithoutLoginUser" resultMap="resultMapObj">
+		SELECT 
+			cu.cuChatSeq as chatSeq 
+			,cu.cuMember 
+			,mm.memberSeq          <!-- 채팅상대의 시퀀스 -->
+			,mm.memberNickname     <!-- 채팅상대의 이름 or 닉네임 -->
+		FROM chatUser cu 
+		JOIN member mm 
+		ON cu.cuMember  = mm.memberSeq
+		WHERE 1=1 
+		AND cu.cuMember != #{cuMember} <!-- cuMember[로그인 USER 시퀀스가 담겨있음] -->
+		AND cu.cuChatSeq = #{chatSeq}  <!-- 내가 찾으려는 채팅방 번호 -->
+		<!-- 마지막 WHERE 두가지를 통해 로그인한 USER가 참여한 채팅방의 상대방 정보를 추출 -->
+	</select>
+
+	<select id="selectOneChat" resultMap="resultMapObj">
+		SELECT
+			cu.cuChatSeq as chatSeq 
+			,cu.cuMember 
+			,mm.memberSeq          <!-- 채팅상대의 시퀀스 -->
+			,mm.memberNickname     <!-- 채팅상대의 이름 or 닉네임 -->
+			FROM chatUser cu 
+		JOIN member mm 
+		ON cu.cuMember  = mm.memberSeq      
+		WHERE 1=1 
+		AND cu.cuMember = #{cuMember} <!-- 신규 채팅방 상대유저 정보를 위한 seq -->
+	</select>
+	 
+	<insert id="insertChat">
+		INSERT INTO chat
+		(
+			chatDelNy
+		)
+		VALUES
+		(
+			0
+		)
+		<selectKey resultType="Integer" keyProperty="chatSeq" order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertChatUser">
+		INSERT INTO chatUser
+		(
+			cuChatSeq
+			,cuMember
+		)
+		VALUES
+		(
+			#{chatSeq}
+			,#{cuMember}
+		)
+	</insert>
+
+</mapper>
