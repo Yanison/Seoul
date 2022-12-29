@@ -39,6 +39,9 @@ public class MemberGroupDao {
 	public int addUser(MemberGroup dto) {
 		return sqlSession.update(namespace + ".addUser", dto);
 	}
+	public int addBalance(MemberGroup dto) {
+		return sqlSession.update(namespace + ".addBalance", dto);
+	}
 	
 	//카카오로그인
 	public int kkoLogin(HashMap<String, Object> userInfo) {
@@ -67,8 +70,8 @@ public class MemberGroupDao {
 		return sqlSession.selectOne(namespace + ".selectOneId", dto);
 	}
 	
-	public int isDupleId (MemberGroup vo) {
-		return sqlSession.selectOne(namespace +".isDupleId",vo);
+	public int isDuple (MemberGroup vo) {
+		return sqlSession.selectOne(namespace +".isDuple",vo);
 	}
 	
 	public List<MemberGroup> findUserId (MemberGroup dto){

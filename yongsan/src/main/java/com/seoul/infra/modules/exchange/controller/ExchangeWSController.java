@@ -1,19 +1,20 @@
 package com.seoul.infra.modules.exchange.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.seoul.infra.dto.Crypto;
 import com.seoul.infra.modules.exchange.ExchangeServiceImpl;
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
 import com.seoul.infra.modules.exchange.orderMatchingSystem.Order;
@@ -38,11 +39,13 @@ public class ExchangeWSController {
 	 * @@@@@@ # User
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 */
-	@RequestMapping(path="/updateUserBalanceDiv")
-	public void updateUserBalanceDiv(int UserBalance) {
+	@MessageMapping(value="/updateUserBalanceDiv")
+	public boolean updateUserBalanceDiv(double UserBalance) {
+
+		
+		System.out.println("updateUserBalanceDiv UserBalance :: "  +  UserBalance);
 		this.template.convertAndSend("/topic/updateUserBalanceDiv", UserBalance);
-		
-		
+		return true;
 	}
 	
 	
@@ -77,53 +80,58 @@ public class ExchangeWSController {
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 */
 	
-	public void transactionTable(Order trade)throws Exception {
+	public boolean transactionTable(Order trade)throws Exception {
 		System.out.println("ExchangeWSController.transactionTable() :: 최근 거래내역 주문 하나를 불러옵니다.");
 		Order transactionTable = serviceExch.transactionTable(trade);
-//		System.out.println("OrderMatchingSystemDao.completeOrder :: transactionTable() 정보를 갱신합니다."+ "\n" +
-//				"거래번호 :: "+ trade.getTransactionSeq()+ "\n" +
-//				"거래 통화 :: " + trade.getCryptoSeq()+ "\n" +
-//				"매수자 :: " +trade.getMemberSeqSell()+ "\n" +
-//				"매수번호 :: " + trade.getObSeqBuy()+ "\n" +
-//				"매도번호 :: " + trade.getObSeqSell()+ "\n" +
-//				"매도자 :: " +trade.getMemberSeqBuy()+ "\n" +
-//				"거래타입 :: "+ trade.getTransactedType()+ "\n" +
-//				"거래수량 :: " + trade.getAmount()+ "\n" +
-//				"거래가격 :: " + trade.getbPrice()+ "\n" +
-//				"거래 시간 :: " + trade.getTimestamp()+ "\n" +
-//				"상승&하락비율 :: " + trade.getRatio()
-//				);
-		this.template.convertAndSend("/topic/transactionTable", transactionTable);
-		
+		if(transactionTable != null) {
+			this.template.convertAndSend("/topic/transactionTable", transactionTable);
+		}
+		return true;
 	}
-	public void marketTable(Order trade)throws Exception {
+	
+	public boolean marketTable(Order trade)throws Exception {
 		System.out.println("ExchangeWSController.marketTable() :: 시장 시세정보를 가져옵니다.ㅁ");
 		Order marketTable = serviceExch.marketTable(trade);
-//		System.out.println("ExchangeServiceImpl.marketTable :: 화폐의 시세정보 테이블을 갱신합니다." + "\n" +
-//				"코인 :: " +trade.getCryptoSeq()+ "\n" +
-//				"최근 24시간 고가 :: " + trade.getHigh24()+ "\n" +
-//				"최근 24시간 저가 :: " + trade.getLow24()+ "\n" +
-//				"최근 24시간 거래량 :: " + trade.getVolume24()+ "\n" +
-//				"최근 24시간 거래대금 :: " + trade.getCap24()+ "\n" +
-//				"최근 거래가격 :: " + trade.getRecentPrice()+ "\n" +
-//				"전일 종가 :: " + trade.getClosingPrice() + "\n" +
-//				"전일대비 상승비율 :: "+ trade.getRatio()
-//				);
-		this.template.convertAndSend("/topic/marketTable", marketTable);
-		
+		if(marketTable != null) {
+			this.template.convertAndSend("/topic/marketTable", marketTable);
+		}
+		selectCryptoList(new Crypto());
+		return true;
 	}
-	public void spread(Order trade)throws Exception {
+	
+	@MessageMapping(value="/selectListCryptoTrend/{cryptoSeq}")
+	public void selectListCryptoTrend(Order order,@DestinationVariable Integer cryptoSeq)throws Exception {
+		if(cryptoSeq != null) {
+			order.setCryptoSeq(cryptoSeq);
+		}
+		List<Order> selectListCryptoTrend = serviceExch.selectListCryptoTrend(order);
+		this.template.convertAndSend("/topic/selectListCryptoTrend", selectListCryptoTrend);
+	}
+	@MessageMapping(value="/selectCryptoList")
+	public void selectCryptoList(Crypto crypto)throws Exception {
+		List<Crypto> selectCryptoList = serviceExch.selectCryptoList(crypto);
+		this.template.convertAndSend("/topic/selectCryptoList", selectCryptoList);
+	}
+	
+	
+	@MessageMapping(value="/drawChart/addCandle")
+	public void addCandle(Order order)throws Exception {
+		Order dataSet = new Order();
+		dataSet.setShTime(order.getShTime());
+		dataSet.setCryptoSeq(order.getCryptoSeq());
+		dataSet.setLimit(1);
+		List<Order> addCandle = serviceExch.drawChart(dataSet);
+		
+		System.out.println("addCandle " + order.getShTime() + "봉 캔들 추가");
+	
+		this.template.convertAndSend("/topic/drawChart/addCandle", addCandle);
+	}
+	
+	public boolean spread(Order trade)throws Exception {
 		System.out.println("ExchangeWSController.spread() :: spread 정보를 갱신합니다.");
 		List<Order> spread = serviceExch.spread(trade);
-//		System.out.println("ExchangeServiceImpl.spread :: spread 정보를 가져옵니다." + "\n" +
-//				"매수자 // 매수번호 :: " +trade.getMemberSeqBuy()+ " // " + trade.getObSeqBuy()+ "\n" +
-//				"매수가격 :: "+trade.getbPrice()+ "\n" +
-//				"매도자 // 매도번호 :: " + trade.getMemberSeqSell() + " // " + trade.getObSeqSell()+ "\n" +
-//				"매도가격 :: "+trade.getsPrice()+ "\n" +
-//				"spread :: "+trade.getSpread()
-//			);
 		this.template.convertAndSend("/topic/spread", spread);
-		
+		return true;
 	}
 	
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -148,8 +156,13 @@ public class ExchangeWSController {
 			System.out.println("ExchangeWSController.submitBids().observeSubmittedBids(selectBOBOne) :: 연결된 웹소켓으로 불러온 매수주문 하나를 보냅니다. "+"\n" + "");
 			System.out.println("ExchangeWSController.submitBids() :: 연결된 웹소켓에 메세지를 전달합니다.");
 			
+			
+			availableBalance(order);
 			return bobOne;
 		}
+		
+		
+		
 		
 		@MessageMapping("submitAsks")
 		@SendTo("/topic/observeSubmittedAsks")
@@ -164,7 +177,32 @@ public class ExchangeWSController {
 			System.out.println("ExchangeWSController.submitAsks().observeSubmittedBids(selectSOBOne) :: 연결된 웹소켓으로 불러온 매도주문 하나를 보냅니다. "+"\n" + "");
 			System.out.println("ExchangeWSController.submitAsks() :: 연결된 웹소켓에 메세지를 전달합니다.");
 			
+			availableBalance(order);
 			return sobOne;
+		}
+		
+		
+		public void availableBalance(Order order)throws Exception {
+			
+			ExchDTO userBalance = new ExchDTO();
+			userBalance.setShSelectOne(0);
+			userBalance.setCryptoSeq(order.getCryptoSeq());
+			userBalance.setMemberSeq(order.getMemberSeq());
+			userBalance = serviceExch.userBalance(userBalance);
+			userBalance.setAvailableCash(serviceExch.selectAvailableCashBalance(order.getMemberSeq()));
+			
+			this.template.convertAndSend("/topic/availableBalance", userBalance);
+		}
+		
+		@MessageMapping(value="cancelOrder")
+		public void cancelOrder(Order order)throws Exception {
+			int obSeq = order.getObSeq();
+			
+			int delObseq = serviceExch.delObseq(obSeq);
+			if(delObseq == 1) {
+				this.template.convertAndSend("/topic/cancelOrder", obSeq);
+				availableBalance(order);
+			}
 		}
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@@@ # STOMP submitOrder end
@@ -176,17 +214,19 @@ public class ExchangeWSController {
 	 */
 		
 		@MessageMapping("requestOrderMatching")
-		public void requestOrderMatching(Order order)throws Exception {
+		public boolean requestOrderMatching(Order order)throws Exception {
 			
 			if(order.getBos() == 0) {
 				System.out.println("ExchangeWSController.requestOrderMatching() BOS :: "+order.getBos()+" 매수주문매칭 요청");
-				serviceExch.orderMatchingBuy(order, serviceExch.selectSOB(order));
+				serviceExch.orderMatchingBuy(order);
 			}else {
 				System.out.println("ExchangeWSController.requestOrderMatching() BOS :: "+order.getBos()+" 매도주문매칭 요청");
-				serviceExch.orderMatchingSell(order, serviceExch.selectBOB(order));
+				serviceExch.orderMatchingSell(order);
 			}
-			
+			return true;
 		}
+		
+		
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@@@ # STOMP requestOrderMatching end
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -196,7 +236,7 @@ public class ExchangeWSController {
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 */
 		@RequestMapping(path="updateIncompleteOrderDivFromOB")
-		public void updateIncompleteOrderDivFromOB(Order order) {
+		public boolean updateIncompleteOrderDivFromOB(Order order) {
 			System.out.println(
 					"ExchangeWSController.updateIncompleteOrderDivFromOB :: 소화가 안된 주문을 갱신합니다."+"\n"
 					+ "주문번호는, order.getObSeq() :: "+order.getObSeq()+"\n"
@@ -204,18 +244,22 @@ public class ExchangeWSController {
 					+ "주문 상태는, order.getOrderStatus() :: "+order.getOrderStatus()+"\n"
 					+ "주문유형은 "+order.getOrderType() + " 입니다."+"\n" + "");
 			this.template.convertAndSend("/topic/updateIncompleteOrderDivFromOB", order);
-			
+			return true;
 		}
 		@RequestMapping(path="deleteCompleteOrderDivFromOB")
-		public void deleteCompleteOrderDivFromOB(Order order) {
+		public boolean deleteCompleteOrderDivFromOB(Order order,String msg) {
 			System.out.println(
 					"ExchangeWSController.deleteCompleteOrderDivFromOB :: 거래가 완료된 주문을 삭제합니다."+"\n"
 					+ "주문번호는, order.getObSeq() :: "+order.getObSeq()+"\n"
 					+ "매수/매도는, order.getObSeq() :: "+order.getBos()+"\n"
 					+ "주문 상태는, order.getOrderStatus() :: "+order.getOrderStatus()+"\n"
 					+ "주문유형은 "+order.getOrderType() + " 입니다."+"\n" + "");
-			this.template.convertAndSend("/topic/deleteCompleteOrderDivFromOB", order);
-			
+			if(msg == "iep") {
+				this.template.convertAndSend("/topic/deleteCompleteOrderDivFromOBiep", order);
+			}else {
+				this.template.convertAndSend("/topic/deleteCompleteOrderDivFromOB", order);
+			}
+			return true;
 		}
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@@@ # STOMP deleteCompleteOrderDivFromOB end

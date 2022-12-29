@@ -2,9 +2,9 @@ package com.seoul.infra.modules.membergroup;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -17,10 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.seoul.infra.common.MailService;
 import com.seoul.infra.modules.codegroup.CodeGroupServiceImpl;
 
 @Controller
@@ -29,6 +30,8 @@ public class MemberGroupController {
 	
 	@Autowired
 	MemberGroupServiceImpl service;
+	@Autowired
+	MailService mailService;
 	
 	@RequestMapping(value = "memberGroupList")
 	public String memberGroupList(@ModelAttribute("vo") MemberGroup vo,Model model) throws Exception {
@@ -41,8 +44,6 @@ public class MemberGroupController {
 		int selectOneCnt = service.selectOneCnt(vo);
 		System.out.println("@@@selectOneCnt" + selectOneCnt);
 		
-		
-
 		return "infra/hwangdmin/membergroup/memberGroupList"; 
 	}
 	@ResponseBody
@@ -56,19 +57,76 @@ public class MemberGroupController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "isDupleId")
-	public Map<String, Object> checkId(MemberGroup dto) throws Exception {
-
-		Map<String, Object> returnMap = new HashMap<String, Object>();
+	@RequestMapping(value = "duplicationCheck")
+	public int checkId(MemberGroup dto) throws Exception {
 		
-		int result = service.isDupleId(dto);
-
-		if (result > 0) {
-			returnMap.put("rt", "fail");
-		} else {
-			returnMap.put("rt", "success");
+		return service.isDuple(dto);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "requestEmailValidation")
+	public String requestEmailValidation(MemberGroup dto) throws Exception {
+		
+		return mailService.sendMailViaSmtpGmail(dto.getMemberEmail());
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "requestUserLogin")
+	public HashMap<String,String> selectOneLogin(MemberGroup dto,HttpSession session) throws Exception {
+		HashMap<String,String> rp = new HashMap<String,String>();
+		MemberGroup selectOneLogin = service.selectOneLogin(dto);
+		
+		if(selectOneLogin.getCnt() == 1) {
+			session.setAttribute("memberName", selectOneLogin.getMemberNickname());
+	        session.setAttribute("memberSeq", selectOneLogin.getMemberSeq());
+	        
+	        System.out.println("session.setAttribute : getMemberName :: "+ selectOneLogin.getMemberNickname());
+	        System.out.println("session.setAttribute : getMemberSeq :: "+ selectOneLogin.getMemberSeq());
+			rp.put("rp", "success");
+			return rp;
+		}else {
+			rp.put("rp", "fail");
+			return rp;
 		}
-		return returnMap;
+		
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "requestAddUser")
+	public HashMap<String,String> requestAddUser(MemberGroup dto) throws Exception {
+		
+		HashMap<String,String> rp = new HashMap<String,String>();
+		
+		int adduser = service.addUser(dto);
+		int sum = 0;
+		
+		if(adduser == 1) {
+			
+			dto.setShOption(1);
+			dto.setShOption2(50000000);
+			int addBalance1 = service.addBalance(dto);
+			dto.setShOption(2);
+			dto.setShOption2(0);
+			int addBalance2 = service.addBalance(dto);
+			dto.setShOption(3);
+			dto.setShOption2(0);
+			int addBalance3 = service.addBalance(dto);
+			dto.setShOption(4);
+			dto.setShOption2(0);
+			int addBalance4 = service.addBalance(dto);
+			
+			sum = addBalance1 + addBalance2 + addBalance3 + addBalance4;
+			if(sum == 4) {
+				rp.put("rp", "success");
+			}else {
+				rp.put("rp", "failed to addBalance");
+			}
+			return rp;
+		}else {
+			rp.put("rp", "failed to adduser");
+			return rp;
+		}
 	}
 	
 	@RequestMapping("excelDownload")

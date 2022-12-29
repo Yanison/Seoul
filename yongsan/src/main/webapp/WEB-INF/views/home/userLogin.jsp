@@ -42,23 +42,21 @@
 
 		<div class="center-body">
 			
-			<a title="황비트" class="logo-link" href="http://127.0.0.1:8082/" style="margin:0 0 10px; width:150px; height:50px;"></a>
+			<a title="황비트" class="logo-link" href="/" style="margin:0 0 10px; width:150px; height:50px;"></a>
 			<span class="title" style="margin:0 0 10px;">로그인</span>
 			
-			<input id="id"  class="app-inp" type="text" name="id" placeholder="아이디"/>
+			<input id="memberId"  class="app-inp" type="text" name="아이디" placeholder="아이디" />
 			<div id="id-alert" class="alert-box"></div>
 			
-			<input id="pw"  class="app-inp" type="text" name="pw" placeholder="비밀번호"/>
+			<input id="memberPw"  class="app-inp" type="password" name="비밀번호" placeholder="비밀번호"/>
 			<div id="pw-alert" class="alert-box"></div>
 	
-			<input type="submit" id="this-login-btn" class="login-btn" value="로그인">
+			<input type="button" id="this-login-btn" class="login-btn" value="로그인" onclick="loginVali()">
 				
 			<a class="login_sns kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://127.0.0.1:8082/kakaologin&response_type=code">
 				<i class="fa-solid fa-comment fontaws" style="margin-right:10px;"></i>카카오 로그인
 			</a>
-			<a class="login_sns google"><i class="fa-brands fa-google fontaws"></i>구글 로그인</a>
-			<button class="login_sns naver" id="naverLogin" onclick="naverLogin()"><i class="fa-solid fa-n fontaws"></i>네이버 로그인</button>
-			<a class="login_sns google" href="http://127.0.0.1:8082/adduser">회원가입</a>
+			<a class="login_sns google" href="/adduser">일반 회원가입</a>
 		</div>
 </section>
 

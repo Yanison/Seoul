@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.investments.userOrderHistoryMapper">
+
+	<resultMap id="InvestmentsDto" type="com.seoul.infra.modules.investments.InvestmentsDto"></resultMap>
+
+	
+	<select id="uoh_ordersHistory" resultMap="InvestmentsDto">
+		<![CDATA[
+		select 
+		  ifNull(date_format(t.timestamp,'%Y.%m.%d'),'0000-00-00')  as timestampMD
+		  ,ifNull(date_format(t.timestamp,'%H:%i:%s'),'0000-00-00')  as timestampR -- 체결시간
+		  ,c.cryptoName
+		  ,c.cryptoSym
+		  ,obSeq
+		  ,m.memberNickname
+		  ,case when bos = 0
+		        then '매수'
+		        when bos = 1
+		        then '매도'
+		   end as bos
+		  ,ifNull(t.price,0) as price
+		  ,Round(obAmount,6) as obAmount
+		  ,Round((ifNull(t.price,0) * obAmount)) as pp
+		  ,ifNull(date_format(o.timestamp,'%Y.%m.%d'),'0000-00-00')  as orderTimestampMD
+		  ,ifNull(date_format(o.timestamp,'%H:%i:%s'),'0000-00-00')  as orderTimestampR 
+		from orderBook o 
+		  left join transaction t on o.obSeq = if(bos = 0, t.obSeqBuy,t.obSeqSell) 
+		  left join crypto c on o.submittedCrypto = c.cryptoSeq
+		  left join member m on m.memberSeq = o.submittedBy
+		  where 1=1
+		]]>
+		<if test='shDuration != null and shDuration != ""'>
+			<![CDATA[ and  date_add(now(),interval -  ${shDuration}) <= o.timestamp ]]>
+		</if>
+		<if test='shOption != null'>
+			and bos = #{shOption}
+		</if>
+		<if test='shValue != null and shValue != ""'>
+			and c.cryptoName = #{shValue}
+		</if>
+		<![CDATA[
+		order by 
+	    o.timestamp desc
+	    limit #{rowNumToShow} offset #{startRnumForMysql}
+		]]>
+	</select>
+	
+	<select id="uoh_ordersHistoryCnt" resultType="Integer">
+		select
+		  count(*) cnt
+		from
+		(
+		<![CDATA[
+		select 
+		  ifNull(date_format(t.timestamp,'%Y.%m.%d'),'0000-00-00')  as timestampMD
+		  ,ifNull(date_format(t.timestamp,'%H:%i:%s'),'0000-00-00')  as timestampR -- 체결시간
+		  ,c.cryptoName
+		  ,c.cryptoSym
+		  ,obSeq
+		  ,m.memberNickname
+		  ,case when bos = 0
+		        then '매수'
+		        when bos = 1
+		        then '매도'
+		   end as bos
+		  ,ifNull(t.price,0) as price
+		  ,Round(obAmount,6) as obAmount
+		  ,Round((ifNull(t.price,0) * obAmount)) as pp
+		  ,ifNull(date_format(o.timestamp,'%Y.%m.%d'),'0000-00-00')  as orderTimestampMD
+		  ,ifNull(date_format(o.timestamp,'%H:%i:%s'),'0000-00-00')  as orderTimestampR 
+		from orderBook o 
+		  left join transaction t on o.obSeq = if(bos = 0, t.obSeqBuy,t.obSeqSell) 
+		  left join crypto c on o.submittedCrypto = c.cryptoSeq
+		  left join member m on m.memberSeq = o.submittedBy
+		  where 1=1
+		]]>
+		<if test='shDuration != null and shDuration != ""'>
+			<![CDATA[ and  date_add(now(),interval -  ${shDuration}) <= o.timestamp ]]>
+		</if>
+		<if test='shOption != null'>
+			and bos = #{shOption}
+		</if>
+		<if test='shValue != null and shValue != ""'>
+			and c.cryptoName = #{shValue}
+		</if>
+		) cnt
+	</select>
+	
+	<select id="uoh_pendingHistory" resultMap="InvestmentsDto">
+		<![CDATA[
+		select
+		  date_format(ob.timestamp,'%Y.%m.%d') as timestampMD -- 체결시간
+		  ,date_format(ob.timestamp,'%H:%i:%s') as timestampR -- 체결시간
+		  ,obSeq
+      ,m.memberNickname
+		  ,c.cryptoSeq -- cryptoSeq
+		  ,c.cryptoName -- 코인 이름 
+		  ,c.cryptoSym -- 코인 심볼
+		  ,case 
+		    when bos = 0
+		    then '매수'
+		    when bos = 1
+		    then '매도'
+		  end as bos-- 거래종류
+		  ,price -- 주문가격
+		  ,ifNull(orderAmount,0) as orderAmount -- 주문수량
+		  ,obAmount -- 미체결량
+		from orderBook ob 
+		  left join crypto c on ob.submittedCrypto = c.cryptoSeq
+		  left join member m on ob.submittedBy = m.memberSeq
+		  where 1=1
+		  and orderStatus = 0
+		  and cryptoSeq not in ('1')
+		  order by 
+		  timestamp desc
+		  limit #{rowNumToShow} offset #{startRnumForMysql}
+		]]>
+	</select>
+	
+	<select id="uoh_pendingHistoryCnt" resultType="Integer">
+		select
+		  count(*) cnt
+		from
+		(
+		<![CDATA[
+		select
+		  date_format(ob.timestamp,'%Y.%m.%d') as timestampMD -- 체결시간
+		  ,date_format(ob.timestamp,'%H:%i:%s') as timestampR -- 체결시간
+		  ,obSeq
+      ,m.memberNickname
+		  ,c.cryptoSeq -- cryptoSeq
+		  ,c.cryptoName -- 코인 이름 
+		  ,c.cryptoSym -- 코인 심볼
+		  ,case 
+		    when bos = 0
+		    then '매수'
+		    when bos = 1
+		    then '매도'
+		  end as bos-- 거래종류
+		  ,price -- 주문가격
+		  ,ifNull(orderAmount,0) as orderAmount -- 주문수량
+		  ,obAmount -- 미체결량
+		from orderBook ob 
+		  left join crypto c on ob.submittedCrypto = c.cryptoSeq
+		  left join member m on ob.submittedBy = m.memberSeq
+		  where 1=1
+		  and orderStatus = 0
+		  and cryptoSeq not in ('1')
+		  order by 
+		  timestamp desc
+		]]>
+		) cnt
+	</select>
+</mapper>

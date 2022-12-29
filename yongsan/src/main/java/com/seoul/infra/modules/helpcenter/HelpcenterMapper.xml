@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.helpcenter.HelpcenterMapper">
+
+
+
+	<resultMap id="HelpcenterDto" type="com.seoul.infra.modules.helpcenter.HelpcenterDto"></resultMap>
+	
+	<select id="selectBdList" resultMap="HelpcenterDto">
+		select
+		  bdSeq,
+		  bdTitle,
+		  bdDiv,
+		  bdContent,
+		  m.memberSeq,
+		  m.memberNickname,
+		  b.bdRegDateTime,
+		  view,
+		  (select count(text) from comment c where c.bdSeq = b.bdSeq) as cnt
+		from board b left join member m on b.memberSeq = m.memberSeq
+		<if test='shOption == 0'>
+			where b.bdSeq = #{bdSeq}
+		</if>
+		<if test='shOption == 1'>
+			where m.memberSeq = #{memberSeq}
+		</if>
+		order by b.bdRegDateTime desc
+		limit #{rowNumToShow} offset #{startRnumForMysql}
+	</select>
+	
+	<select id="selectBdListCnt" resultType="Integer">
+		select count(*) cnt from board
+		<if test='shOption == 0'>
+			where bdSeq = #{bdSeq}
+		</if>
+		
+		<if test='shOption == 1'>
+			where memberSeq = #{memberSeq}
+		</if>
+	</select>
+	
+	<insert id="write">
+		insert into board(
+			bdTitle
+			,bdDiv
+			,bdContent
+			,memberSeq
+			,bdRegDateTime
+		)values(
+			#{bdTitle},
+			#{bdDiv},
+			#{bdContent},
+			#{memberSeq},
+			now()
+		)
+	</insert>
+	<update id="uptBd">
+		update board set
+			bdDiv = #{bdDiv},
+			bdTitle = #{bdTitle},
+			bdContent = #{bdContent} 
+		where bdSeq = #{bdSeq}
+	</update>
+	<delete id="delBd">
+		delete from board where bdSeq = #{bdSeq} 
+	</delete>
+	
+	<select id="selectCmtList" resultMap="HelpcenterDto">
+		select
+			c.cmtSeq
+		    ,m.memberseq
+		    ,m.memberNickname
+		    ,c.text
+		    ,c.cmtRegDateTime
+	   from comment c left join member m on c.memberSeq = m.memberSeq
+	    	where bdSeq = #{bdSeq}
+	    	<if test='shValue == "mm"'>
+	    	and m.memberSeq = #{memberSeq}
+	    	</if>
+	    	order by c.cmtRegDateTime desc
+	    	limit #{rowNumToShow} offset #{startRnumForMysql}
+	</select>
+	
+	<select id="selectCmtListCnt" resultType="Integer">
+		select count(*) cnt from comment where bdSeq = #{bdSeq}
+	</select>
+	
+	<insert id="cmt">
+		insert into comment(
+			text
+			,bdSeq
+			,memberSeq
+			,cmtRegDateTime
+		)values(
+			#{text},
+			#{bdSeq},
+			#{memberSeq},
+			now()
+		)
+	</insert>
+	<update id="uptCmt">
+		update comment set 
+			text = #{text} 
+		where cmtSeq = #{cmtSeq} 
+	</update>
+	<delete id="delCmt">
+		delete from comment where cmtSeq = #{cmtSeq} 
+	</delete>
+	
+	<update id="view">
+		update board set view = view + 1 where bdSeq = #{bdSeq}
+	</update>
+</mapper>

@@ -31,12 +31,25 @@
 		select count(*) from member
 	</select>
 	
-	<select id="isDupleId" resultType="Integer">
-		select count(*) from member where 1=1 and memberId = #{memberId}
+	<select id="isDuple" resultType="Integer">
+		select count(*) from member where 1=1 and
+		<if test="shOption == 0">
+			 memberId = #{shValue}
+		</if>
+		<if test="shOption == 1">
+			 memberNickname = #{shValue}
+		</if>
 	</select>
 	
 	<select id = "selectOneLogin" resultMap="resultMapObj">
-		select memberid,pw from member where memberId = #{memberId} and memberPw = #{memberPw}
+		select 
+			memberSeq,
+			memberId,
+			memberPw,
+			memberNickname,
+			count(*) cnt 
+		from member where memberId = #{memberId} and memberPw = #{memberPw}
+		 	group by memberSeq;
 	</select>
 	
 	<select id = "selectOneId" resultMap="resultMapObj">
@@ -49,13 +62,11 @@
 	
 	<select id="findUserId" resultMap="resultMapObj">
 		select
-		
 		<choose>
 			<when test="shOption == 1">memberId</when>
 			<when test="shOption == 2">memberEmail</when>
 			<when test="shOption == 3">memberTel</when>
 		</choose>
-		
 		from member
 	</select>
 	
@@ -63,35 +74,27 @@
 		insert member (
 			memberId
 			,memberPw
-			,memberName
 			,memberNickname
-			,memberGender
-			,memberAddrLoad
-     		,memberAddrJibun
-			,addrDetail
-			,postCode
-			,addrLat
-			,addrLong
-			,memberTel
 			,memberEmail
-			,memberDob
 		)
 		values(
 			#{memberId}
 			,#{memberPw}
-			,#{memberName}
 			,#{memberNickname}
-			,#{memberGender}
-			,#{memberAddrLoad}
-     		,#{memberAddrJibun}
-			,#{addrDetail}
-			,#{postCode}
-			,#{addrLat}
-			,#{addrLong}
-			,#{memberTel}
-			,#{memberEmailId} + #{EmailDM}
-			,#{memberDob}
-		)
+			,#{memberEmail}
+		);
+	</insert>
+	
+	<insert id="addBalance">
+		insert into exchangeBalance (
+			  memberSeq
+			  ,cryptoSeq
+			  ,balance
+			) values(
+			   (select memberSeq from member where memberId = #{memberId})
+			  ,#{shOption}
+			  ,#{shOption2}
+			);
 	</insert>
 	
 	<select id="findKkoMember" resultMap="resultMapObj">
@@ -119,5 +122,4 @@
 			,now()
 		)
 	</insert>
-	
 </mapper>

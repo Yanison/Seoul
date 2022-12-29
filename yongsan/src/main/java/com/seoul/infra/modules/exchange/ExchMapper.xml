@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.exchange.ExchMapper">
+	<resultMap id="Order" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Order">
+		<result property ="memberSeq" column="submittedBy"></result>
+		<result property ="cryptoSeq" column="submittedCrypto"></result>
+	</resultMap>
+	<resultMap id="Order2" type="com.seoul.infra.modules.exchange.orderMatchingSystem.Order">
+	</resultMap>
+	<resultMap id="exchDto" type="com.seoul.infra.modules.exchange.dto.ExchDTO"></resultMap>
+	<resultMap id="crypto" type="com.seoul.infra.dto.Crypto"></resultMap>
+	
+	
+	
+	<select id="selectOBList" resultMap="Order">
+		select
+			obSeq
+			,submittedBy
+			,submittedCrypto
+			,format(obAmount,3)as obAmount
+			,price
+			,orderType
+			,bos
+			,orderStatus
+			,timestamp
+			,Round((price * obAmount)) as totalPrice
+			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
+		from orderBook
+			where 1=1
+			<choose>
+				<when test="shValueInt == 0">
+				and obSeq = #{obSeq};
+				</when>
+				<otherwise>
+				and bos = #{bos}
+				and orderStatus = 0
+				and submittedCrypto = #{cryptoSeq}
+				order by price,obSeq
+				limit #{limit}
+				</otherwise>
+			</choose>
+	</select>
+<!-- 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@ user start
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	
+	<select id="userBalance" resultMap="exchDto">
+		select
+		  memberSeq
+		  ,cashBalance
+		  ,pendingCash
+		  ,(cashBalance - pendingCash)as availableCash
+		  ,cryptoSeq
+		  ,cryptoSym
+		  ,cryptoBalance
+		  ,pendingCrypto
+		  ,Round((e.cryptoBalance - e.pendingCrypto))as availableCtpyto
+		from
+		(
+		select 
+		  e.memberSeq
+		  ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+		  ,c.cryptoSeq as cryptoSeq
+		  ,c.cryptoSym as cryptoSym
+		  ,ifNull(balance,0) as cryptoBalance
+		  ,ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 0 and bos =0 ),0) as pendingCash
+		  ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 0 and bos = 1),0) as pendingCrypto
+		from exchangeBalance e 
+		  left join crypto c on e.cryptoSeq = c.cryptoSeq 
+		  where  1=1
+		  and c.cryptoSeq not in('1')
+		)e where 1=1 
+		<if test="shSelectOne == 0">
+			and memberSeq = #{memberSeq}
+			and cryptoSeq = #{cryptoSeq};
+		</if>
+	</select>
+	
+	<select id="selectAvailableCashBalance" resultType="double" parameterType="Integer">
+		select 
+		  ifNull(Round((cashBalance - sum(pendingCash))),0) as availableCash
+		from(
+		  select
+		    memberSeq
+		    ,cashBalance
+		    ,pendingCash
+		    ,cryptoSeq
+		    ,cryptoSym
+		    ,cryptoBalance
+		    ,pendingCrypto
+		    ,Round((e.cryptoBalance - e.pendingCrypto))as availableCtpyto
+		  from
+		  (
+		    select 
+		      e.memberSeq
+		      ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1) as cashBalance
+		      ,c.cryptoSeq as cryptoSeq
+		      ,c.cryptoSym as cryptoSym
+		      ,balance as cryptoBalance
+		      ,(select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 0 and bos =0 ) as pendingCash
+		      ,(select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 0 and bos = 1) as pendingCrypto
+		    from exchangeBalance e 
+		      left join crypto c on e.cryptoSeq = c.cryptoSeq 
+		      where  1=1
+		      and c.cryptoSeq not in('1')
+		    )e where 1=1 
+		    and memberSeq = #{memberSeq}
+		) ee
+	</select>
+	
+	<select id="selectUserBalance" resultType="Integer">
+		select
+			ifNull(balance,0) as balance
+		from exchangeBalance where 1=1
+		and memberSeq = #{memberSeq}
+		and cryptoSeq = #{cryptoSeq};
+	</select>
+	
+<!-- 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@ user end
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ -->
+	<select id="selectListCryptoTrend" resultMap="Order2">
+		select
+		  t.cryptoSeq,
+		  t.cryptoName,
+		  t.cryptoNameKor,
+		  t.cryptoSym,
+		  t.cap24,
+		  t.closingPrice,
+		  t.recentPrice,
+		  Round((t.recentPrice/t.closingPrice)*100) as ratio
+		from(
+		select
+		  c.cryptoName as cryptoName,
+		  c.cryptoNameKor as cryptoNameKor,
+		  c.cryptoSeq as cryptoSeq,
+		  c.cryptoSym as cryptoSym,
+		  (select sum(price) from transaction where 1=1 and cryptoSeq = c.cryptoSeq and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = 4) as cap24,
+		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() -1 order by timestamp desc limit 1) closingPrice,
+		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() order by timestamp desc limit 1) as recentPrice
+		from crypto c left join transaction t on c.cryptoSeq = t.cryptoSeq group by c.cryptoSeq
+		) t where t.cryptoSeq = #{cryptoSeq} and cryptoSeq not in('1');
+	</select>
+	
+	<select id="selectCryptoList" resultMap="Order2">
+	<![CDATA[
+		select
+		  t.cryptoSeq,
+		  t.cryptoName,
+		  t.cryptoNameKor,
+		  t.cryptoSym,
+		  ifNull(t.cap24,0) as cap24,
+		  ifNull(t.closingPrice,0) as closingPrice,
+		  ifNull(t.recentPrice,0) as recentPrice,
+		  ifNull(Round((t.recentPrice/t.closingPrice)*100),0) as ratio,
+		  ifNull(Round((t.closingPrice - t.recentPrice)),0) as gap
+		from(
+		select
+		  c.cryptoName as cryptoName,
+		  c.cryptoNameKor as cryptoNameKor,
+		  c.cryptoSeq as cryptoSeq,
+		  c.cryptoSym as cryptoSym,
+		  (select sum(price) from transaction where 1=1 and cryptoSeq = c.cryptoSeq and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = 4) as cap24,
+		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() -1 order by timestamp desc limit 1) closingPrice,
+		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() order by timestamp desc limit 1) as recentPrice
+		from crypto c left join transaction t on c.cryptoSeq = t.cryptoSeq group by c.cryptoSeq
+		) t where cryptoSeq not in('1');
+	]]>
+		
+	</select>
+	
+	<select id="selectCryptoOne" resultMap="exchDto">
+		select
+			cryptoSeq,
+			cryptoSym,
+			cryptoName,
+			cryptoNameKor
+		from crypto
+		where 1=1
+			and cryptoSym = #{cryptoSym}
+	</select>
+	
+	<select id="getOnlaodInfo"  resultMap="exchDto">
+		select
+			cryptoSeq
+		from crypto
+		where cryptoSym = #{cryptoSym}
+	</select>
+	
+	<!-- 주문내역 -->
+	<select id="selectMyOrder" resultMap="Order2">
+		<choose>
+			<when test="shValueInt != null">
+			select * from orderbook where obSeq = #{shValueInt};
+			</when>
+			<otherwise>
+			select 
+			submittedCrypto
+			  ,date_format(timestamp,'%Y.%m.%d') as timestampMD
+			  ,date_format(timestamp,'%H:%i:%s') as timestampR
+			  ,obSeq
+			  ,submittedCrypto
+			  ,bos
+			  ,price
+			  ,obAmount
+			from orderBook
+			  where 1=1
+			  and orderStatus = 0
+			  and submittedCrypto = #{cryptoSeq}
+			  and submittedBy = #{memberSeq}
+			  <if test="bos != null">
+			  and bos = #{bos}
+			  </if>
+			  order by 
+			  timestamp desc
+			  limit #{limit}
+			  ;
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 체결내역 -->
+	<select id="selectMytransaction" resultMap="Order2">
+		select
+		cryptoSeq
+		  ,transactionSeq
+		  ,memberSeqSell
+		  ,memberSeqBuy
+		  ,cryptoSeq
+		  ,price
+		  ,amount
+		  ,date_format(timestamp,'%Y.%m.%d') as timestampMD
+		  ,date_format(timestamp,'%H:%i:%s') as timestampR
+		from (
+		select * from transaction where cryptoSeq = #{cryptoSeq} and memberSeqSell = #{memberSeq}
+		union
+		select * from transaction where cryptoSeq = #{cryptoSeq} and memberSeqBuy = #{memberSeq}
+		) his
+		order by timestamp desc
+		limit #{limit};
+	</select>
+</mapper>

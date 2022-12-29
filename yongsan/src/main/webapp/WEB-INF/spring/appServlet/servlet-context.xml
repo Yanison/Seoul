@@ -38,13 +38,12 @@
 	<context:component-scan base-package="com.seoul.*" />
 	
 	<!-- session interceptor s 2022.03.13 for logincheck -->
-	<!-- <interceptors>
+	<interceptors>
 		<interceptor>
-			<mapping path="/**"/>
-			<exclude-mapping path="./userLoginkko" />
-			<exclude-mapping path="./" />
+			<mapping path="/investments/**"/>
+			<mapping path="/helpcenter/**"/>
 			<beans:bean id="checkLoginSessionInterception" class="com.seoul.infra.common.interceptor.CheckLoginSessionInterception"/>
 		</interceptor>
-	</interceptors>	 -->
+	</interceptors>
 	<!-- session interceptor e 2022.03.13 for logincheck -->
 </beans:beans>

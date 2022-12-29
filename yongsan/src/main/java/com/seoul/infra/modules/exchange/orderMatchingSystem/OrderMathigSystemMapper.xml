@@ -29,12 +29,15 @@
 			,bos
 			,orderStatus
 			,timestamp
+			,Round((price * obAmount)) as totalPrice
+			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
 		from orderBook
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq desc
+			order by price,obSeq
 	</select>
 	
 	<select id="selectBOBOne" resultMap="Order">
@@ -48,12 +51,15 @@
 			,bos
 			,orderStatus
 			,timestamp
+			,Round((price * obAmount)) as totalPrice
+			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
 		from orderBook
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq desc limit 1;
+			order by obseq desc limit 1;
 	</select>
 	
 	<select id="selectSOB" resultMap="Order">
@@ -67,12 +73,15 @@
 			,bos
 			,orderStatus
 			,timestamp
+			,Round((price * obAmount)) as totalPrice
+			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
 		from orderBook
 			where 1=1
 			and bos = 1
 			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
 			and submittedCrypto = #{cryptoSeq}
-			order by obSeq
+			order by price,obSeq
 	</select>
 	
 	<select id="selectSOBOne" resultMap="Order">
@@ -86,6 +95,9 @@
 			,bos
 			,orderStatus
 			,timestamp
+			,Round((price * obAmount)) as totalPrice
+			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
 		from orderBook 
 			where 1=1
 			and bos = 1
@@ -94,6 +106,36 @@
 			<!-- and submittedBy = #{memberSeq} -->
 			order by obSeq desc limit 1;
 	</select>
+	
+	<select id="selectOBListForMatching" resultMap="Order">
+		select
+			obSeq
+			,submittedBy
+			,submittedCrypto
+			,format(obAmount,3)as obAmount
+			,price
+			,orderType
+			,bos
+			,orderStatus
+			,timestamp
+			,Round((price * obAmount)) as totalPrice
+		from orderBook
+			where 1=1
+			<if test=" bos == 0">
+			and bos = 1
+				<if test=" orderType == 0">and price = #{price}</if>
+				<if test=" orderType == 1"><![CDATA[and price >= #{price}]]></if>
+			</if>
+			<if test=" bos == 1">
+			and bos = 0
+				<if test=" orderType == 0">and price = #{price}</if>
+				<if test=" orderType == 1"><![CDATA[and price <= #{price}]]></if>
+			</if>
+			and orderStatus = 0
+			and submittedCrypto = #{cryptoSeq}
+			order by price,obSeq
+	</select>
+	
 	
 	<select id="selectOrderStatus" resultType="Integer">
 		select orderStatus from OrderBook where 1=1
@@ -117,7 +159,7 @@
 		from transaction
 		where 1=1
 		and cryptoSeq = #{cryptoSeq}
-		order by transactionSeq desc limit 11;
+		order by transactionSeq desc limit 10;
 	</select>
 	
 	<select id="transactionTable" resultMap="Order2">
@@ -178,26 +220,26 @@
 	
 		<!-- market table -->   
 		select
-		
+			
 			<!-- column-->  cryptoSeq,
 			
 			<!--  24시간 고가  -->   
-			<![CDATA[(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)]]>
 			
 			<!-- column--> as high24,
 			
 			<!--  24시간 저가    -->
-			<![CDATA[(select price from transaction where 1=1 and date(timestamp) = curdate() order by timestamp limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() order by timestamp limit 1)]]>
 			
 			<!-- column--> as todayLow24,
 			
 			<!--  24시간 고가  -->   
-			<![CDATA[(select price from transaction where 1=1 and date(timestamp) = curdate() order by timestamp desc limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() order by timestamp desc limit 1)]]>
 			
 			<!-- column--> as todayHigh24,
 			
 			<!--  24시간 저가    -->
-			<![CDATA[(select price from transaction where 1=1 and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)]]>
 			
 			<!-- column--> as low24,
 			
@@ -215,30 +257,30 @@
 			<!-- column--> as cap24,
 			
 			<!--  최근 가격   --> 
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1)]]>
 			
 			<!-- column--> as recentPrice,
 			
 			<!--  전일 종가    -->
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)]]>
+			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)]]>
 			
 			<!-- column--> as closingPrice,
 			
 			<!--  상승 & 하락 비율    -->
 			<![CDATA[ABS(Round((
-			((select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
+			((select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
 			-
-			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
+			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
 			/
-			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate()-1 order by transactionSeq desc limit 1)
+			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate()-1 order by transactionSeq desc limit 1)
 			)*100,2))]]>
 			
 			<!-- column--> as ratioPre,
 			<![CDATA[
 			ABS(
-			((select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
+			((select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
 			-
-			(select price from transaction where 1=1 and cryptoSeq = 4 and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
+			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
 			)
 			]]> as priceGap
 			
@@ -293,6 +335,7 @@
 		insert into orderBook(
 			price
 			,obAmount
+			,orderAmount
 			,submittedBy
 			,submittedCrypto
 			,orderType
@@ -302,6 +345,7 @@
 		)
 		values(
 			#{price}
+			,#{obAmount}
 			,#{obAmount}
 			,#{memberSeq}
 			,#{cryptoSeq}
@@ -315,6 +359,7 @@
 		insert into orderBook(
 			price
 			,obAmount
+			,orderAmount
 			,submittedBy
 			,submittedCrypto
 			,orderType
@@ -324,6 +369,7 @@
 		values(
 			#{price}
 			,#{obAmount}
+			,#{obAmount}
 			,#{memberSeq}
 			,#{cryptoSeq}
 			,#{orderType}
@@ -331,6 +377,97 @@
 			,now()
 		)
 	</insert>
+	
+	<select id="drawChart" resultMap="Order2">
+			select
+			<choose>
+				<when test='shTime == "y1"'>
+				  year(timestamp) durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  year(tt.timestamp) =  durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  year(tt.timestamp) =  durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq =  #{cryptoSeq} 
+				group by 
+					durationSub 
+				order by 
+					durationSub desc
+				</when>
+				<when test='shTime == "d1"'>
+				  date(timestamp) durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  date(tt.timestamp) =  durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  date(tt.timestamp) =  durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq =  #{cryptoSeq} 
+					group by 
+						durationSub 
+					order by 
+						durationSub desc 
+				</when>
+				<when test='shTime == "h1"'>
+				  date(timestamp) duration
+				  ,hour(timestamp) durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  hour(tt.timestamp) =  durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  hour(tt.timestamp) =  durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq = #{cryptoSeq}
+				  group by 
+				  duration
+				  ,durationSub
+				  order by 
+				  duration desc
+				  ,durationSub desc
+				</when>
+				<when test='shTime == "m10"'>
+				  date(timestamp) duration
+				  ,floor(subStr(timestamp,15,2)/10)*10 durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  minute(tt.timestamp) = durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  minute(tt.timestamp) = durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq = #{cryptoSeq}
+				  group by 
+				  duration
+				  ,durationSub
+				  order by 
+				  duration desc
+				  ,durationSub desc 
+				</when>
+				<when test='shTime == "m1"'>
+				  date(timestamp) duration
+				  ,substr(timestamp,18,2) durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  minute(tt.timestamp) = durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  minute(tt.timestamp) = durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq = #{cryptoSeq}
+				  group by 
+				  duration
+				  ,durationSub
+				  order by 
+				  duration desc
+				  ,durationSub desc 
+				</when>
+				<otherwise>
+				 date(timestamp) duration
+				  ,hour(timestamp) durationSub
+				  ,max(price) high
+				  ,min(price) low
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  hour(tt.timestamp) =  durationSub order by timestamp desc limit 1) closingPrice
+				  ,(select tt.price from transaction tt where cryptoSeq = #{cryptoSeq} and  hour(tt.timestamp) =  durationSub order by timestamp limit 1) startPrice
+				from transaction t where cryptoSeq = #{cryptoSeq}
+				  group by 
+				  duration
+				  ,durationSub
+				  order by 
+				  duration desc
+				  ,durationSub desc
+				</otherwise>
+			</choose>
+			 limit #{limit};
+	</select>
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@ submit orders  end\
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -339,8 +476,8 @@
 @@@@@@@@@@@@@@@@@@@@@ activate or unactivate Order start
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
- 	<update id="delObseq">
- 		update orderBook set delNy = 0
+ 	<update id="delObseq" parameterType="Integer">
+ 		update orderBook set orderStatus = 1
 			where 1=1
 			and obSeq = #{obSeq}
  	</update>
@@ -348,7 +485,7 @@
  	<update id="completeOrder">
  		update orderBook set orderStatus = 3
 			where 1=1
-			and orderStatus = 3
+			and orderStatus = 0
 			and obSeq = #{obSeq}
  	</update>
   <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -403,4 +540,90 @@
 @@@@@@@@@@@@@ insert Transacted Order end 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
+ 
+ 	<update id="updateUserBalanceA">
+ 		update exchangeBalance set balance = Round(
+	 		<if test="bos == 0">
+	 		<![CDATA[
+			      (
+			        (select e.balance from 
+			          (select ee.balance 
+			            from exchangeBalance ee 
+			            where 1=1 
+			            and ee.memberSeq = #{memberSeq}
+			            and ee.cryptoSeq = 1
+			          )e
+			        )
+			    	- #{totalPrice}
+			      ),0
+			    )
+			    where 1=1
+			    and memberSeq = #{memberSeq}
+			    and cryptoSeq = 1;
+	 			]]>
+	 		</if>
+	 		<if test="bos == 1">
+	 		<![CDATA[
+			      (
+			        (select e.balance from 
+			          (select ee.balance 
+			            from exchangeBalance ee 
+			            where 1=1 
+			            and ee.memberSeq = #{memberSeq}
+			            and ee.cryptoSeq = #{cryptoSeq}
+			          )e
+			        )
+			    	- #{obAmount}
+			      ),0
+			    )
+			    where 1=1
+			    and memberSeq = #{memberSeq}
+			    and cryptoSeq = #{cryptoSeq};
+	 			]]>
+	 		</if>
+	</update>
+	
+	
+	<update id="updateUserBalanceB">
+ 		update exchangeBalance set balance = Round(
+	 		<if test="bos == 0">
+	 		<![CDATA[
+			      (
+			        (select e.balance from 
+			          (select ee.balance 
+			            from exchangeBalance ee 
+			            where 1=1 
+			            and ee.memberSeq = #{memberSeq}
+			            and ee.cryptoSeq = #{cryptoSeq}
+			          )e
+			        )
+			    	+ #{obAmount}
+			      ),0
+			    )
+			    where 1=1
+			    and memberSeq = #{memberSeq}
+			    and cryptoSeq = #{cryptoSeq};
+	 			]]>
+	 		</if>
+	 		<if test="bos == 1">
+	 		<![CDATA[
+			      (
+			        (select e.balance from 
+			          (select ee.balance 
+			            from exchangeBalance ee 
+			            where 1=1
+			            and ee.memberSeq = #{memberSeq}
+			            and ee.cryptoSeq = 1
+			          )e
+			        )
+			    	+ #{totalPrice}
+			      ),0
+			    )
+			    where 1=1
+			    and memberSeq = #{memberSeq}
+			    and cryptoSeq = 1;
+	 			]]>
+	 		</if>
+	</update>
+ 
 </mapper>

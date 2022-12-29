@@ -5,12 +5,10 @@
 <title>CoinHwang</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<%@ include file="../rscs/basicRscs.jsp"%>
-<!-- CSS only -->
-<link type="text/css" rel="stylesheet" href="./resources/css/home.css">
 
-<script src="../resources/js/homeComponent/home.js"></script>
-<script src="./resources/js/getPrice1.js"></script>
+<!-- CSS only -->
+<link type="text/css" rel="stylesheet" href="/resources/css/home.css">
+<%@ include file="../rscs/basicRscs.jsp"%>
 
 </head>
 <body style="min-width: 1600px;">
@@ -26,7 +24,7 @@
 					<h1 style="margin: 0 0 5px 0;">가장 신뢰받는 글로벌 표준 디지털 자산 거래소</h1>
 					<span style="margin: 0 0 30px 0;">안전하고 투명한 시스템으로 빠르고 편리한 거래
 						환경을 제공합니다.</span>
-					<div class=app-box>
+					<!-- <div class=app-box>
 						<div class="app-box-content">
 							<div class="left-app-box-content">
 								<span class="coin-num contents-num">
@@ -47,7 +45,7 @@
 									style="background: #093687;" href="">Who's Earning?</a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</section>
@@ -66,12 +64,12 @@
 							<span class="coinCode"> <span><img
 									class="coinSymbol" src="https://static.upbit.com/logos/BTC.png"
 									alt="https://static.upbit.com/logos/BTC.png"></span> <span>BTC</span>
-							</span> <span style="font-size: 16px">Bitcoin</span>
+							</span> <span style="font-size: 16px" id="BTC_sym">Bitcoin</span>
 						</div>
 						<div class="coinPrice">
-							<div id="btcPrice" class="tradePrice money">123123213231231</div>
+							<div id="BTC_price" class="tradePrice money">123123213231231</div>
 							<div class="priceDetail">
-								<span>전일대비</span>
+								<span id="BTC_gap">전일대비</span>
 								<div id="updownbtc" class="updown"></div>
 								<div id="priceGapbtc" class="priceGap">
 									<div id="arrowbtc" class="arrow"></div>
@@ -81,7 +79,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="priceBoxBot">
+					<div id="4Chart" class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
 
@@ -92,13 +90,13 @@
 						<div class="coinName">
 							<span class="coinCode"> <span><img
 									class="coinSymbol" src="https://static.upbit.com/logos/ETH.png"
-									alt="https://static.upbit.com/logos/ETH.png"></span> <span>ETH</span>
-							</span> <span style="font-size: 16px">Ethereum</span>
+									alt="https://static.upbit.com/logos/ETH.png"></span> <span>SYC</span>
+							</span> <span style="font-size: 16px">SYCoin</span>
 						</div>
 						<div class="coinPrice">
 							<div id="ethPrice" class="tradePrice money"></div>
 							<div class="priceDetail">
-								<span>전일대비</span>
+								<span id="SYC_gap">전일대비</span>
 								<div id="updowneth" class="updown"></div>
 								<div id="priceGapeth" class="priceGap">
 									<div id="arroweth" class="arrow"></div>
@@ -108,7 +106,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="priceBoxBot">
+					<div id="3Chart" class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
 
@@ -119,8 +117,8 @@
 						<div class="coinName">
 							<span class="coinCode"> <span><img
 									class="coinSymbol" src="https://static.upbit.com/logos/XRP.png"
-									alt="https://static.upbit.com/logos/XRP.png"></span> <span>XRP</span>
-							</span> <span style="font-size: 16px">Ripple</span>
+									alt="https://static.upbit.com/logos/XRP.png"></span> <span>EZC</span>
+							</span> <span style="font-size: 16px">EZCoin</span>
 						</div>
 						<div class="coinPrice">
 							<div id="xrpPrice" class="tradePrice"></div>
@@ -135,7 +133,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="priceBoxBot">
+					<div id="2Chart" class="priceBoxBot">
 						<div class="priceBoxBotChart"></div>
 					</div>
 
@@ -374,3 +372,8 @@
 
 </body>
 </html>
+
+
+<script src="./resources/js/getPrice1.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/../resources/js/homeComponent/home.js"></script>

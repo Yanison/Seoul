@@ -165,7 +165,20 @@ width:480px;
 	width:480px;
 	justify-content: space-between;
 }
+
 .eamilBox .app-inp{
+	width:45%;
+}
+
+.emailVali{
+	display:flex;
+	width:480px;
+	justify-content: space-between;
+}
+#emailVail_alert{
+	margin-bottom: 20px;
+}
+.emailVali .app{
 	width:45%;
 }
 

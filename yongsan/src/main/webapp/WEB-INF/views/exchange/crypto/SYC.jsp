@@ -185,6 +185,9 @@
 								<div class="lCRightMenu">
 								</div>
 							</div>
+							<div id="candleChart" class="candleChart">
+								
+							</div>
 						</div>
 					</div>
 					

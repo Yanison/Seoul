@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoul.infra.modules.investments.InvestmentsMapper">
+
+	<resultMap id="InvestmentsDto" type="com.seoul.infra.modules.investments.InvestmentsDto"></resultMap>
+	
+	
+	<sql id="selectCommon">
+		WHERE 1=1
+		<!-- <if test="shDelNy != null and !shDelNy.equals('')">AND activeNy = #{shDelNy}</if> -->
+	<choose>
+		<when test="shOption == 1">AND memberseq = #{shValue}</when>
+		<when test="shOption == 2">AND name LIKE CONCAT('%',#{shValue},'%')</when>
+		<when test="shOption == 3">AND nickname LIKE CONCAT('%',#{shValue},'%')</when>
+		<when test="shOption == 4">AND activeNy LIKE CONCAT('%',#{shValue},'%')</when>
+	</choose>
+	</sql>
+	
+	<select id="selectCryptoName" resultMap="InvestmentsDto">
+		select cryptoName from crypto where cryptoName LIKE CONCAT('%', #{shValue}, '%')
+	</select>
+	<select id="tradeStatus" resultMap="InvestmentsDto">
+		<![CDATA[
+			select
+			    cryptoSeq
+			    ,cryptoName
+			    ,cryptoSym
+			    ,memberSeq
+			    ,ifNull(balance,0) as balance -- 보유 수량
+			    ,Round((((buySum - soldSum) / balance)),8) as app -- 매수 평균가
+			    ,(buySum - soldSum) as pp -- 매수금액 
+			    ,(recentPrice * balance) as valuation -- 평가 금액 
+			    ,(recentPrice * balance) - (buySum - soldSum) as pnl -- 평가 손익 
+			    ,ifNull(Round((((recentPrice * balance) - (buySum - soldSum))/(buySum - soldSum)),2)*100,0) as roi -- 수익률 
+			  from
+			  ( 
+			  select 
+			      e.memberSeq 
+					  ,c.cryptoSeq as cryptoSeq
+			      ,c.cryptoSym as cryptoSym
+			      ,c.cryptoName as cryptoName
+					  ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+					  ,ifNull(balance,0) as cryptoBalance
+			      ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
+			      ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
+			      ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
+			      ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
+					from exchangeBalance e
+					  left join crypto c on e.cryptoSeq = c.cryptoSeq 
+					  where c.cryptoSeq not in('1')
+			  )ts where memberSeq = #{memberSeq}
+			  ;	
+		]]>
+	</select>
+	
+	<select id="tradeStatusCnt" resultType="Integer">
+		select
+		  count(*) cnt
+		from
+		(
+		<![CDATA[
+			select
+			    cryptoSeq
+			    ,cryptoName
+			    ,cryptoSym
+			    ,memberSeq
+			    ,ifNull(balance,0) as balance -- 보유 수량
+			    ,Round((((buySum - ifNull(soldSum,0)) / balance)),8) as app -- 매수 평균가
+			    ,(buySum - ifNull(soldSum,0)) as pp -- 매수금액 
+			    ,(recentPrice * balance) as valuation -- 평가 금액 
+			    ,(recentPrice * balance) - (buySum - ifNull(soldSum,0)) as pnl -- 평가 손익 
+			    ,ifNull(Round((((recentPrice * balance) - (buySum - ifNull(soldSum,0)))/(buySum - ifNull(soldSum,0))),2)*100,0) as roi -- 수익률 
+			  from
+			  ( 
+			  select 
+			      e.memberSeq 
+					  ,c.cryptoSeq as cryptoSeq
+			      ,c.cryptoSym as cryptoSym
+			      ,c.cryptoName as cryptoName
+					  ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+					  ,ifNull(balance,0) as cryptoBalance
+			      ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
+			      ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
+			      ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
+			      ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
+					from exchangeBalance e
+					  left join crypto c on e.cryptoSeq = c.cryptoSeq 
+					  where c.cryptoSeq not in('1')
+			  )ts where memberSeq = #{memberSeq}
+		]]>
+		) cnt
+	</select>
+	
+	<select id="assetEvaluation" resultMap="InvestmentsDto">
+		<![CDATA[
+			select
+			    memberSeq
+			    ,cashBalance -- 보유 원화
+			    ,(cashBalance + Round(sum(valuation),0)) as totalAsset -- 총 자산
+			    ,Round(   (sum(pnl) / count(*)  ),0) as pnlAvg -- 총 평가손익
+			    ,Round(sum(valuation),0) as valuationAvg -- 총 평가 금액
+			    ,Round(sum(pp),0) as ppAvg -- 총 매수금액
+			    ,Round(   (sum(roi) / count(*)  ),0) as roiAvg -- 총 평가 수익률 
+			  from
+			  (
+			     select
+			      memberSeq
+			      ,cashBalance -- 보유 수량
+			      ,Round((((buySum - ifNull(soldSum,0)) / balance)),8) as app -- 매수 평균가
+			      ,(buySum - ifNull(soldSum,0)) as pp -- 매수금액 
+			      ,(recentPrice * balance) as valuation -- 평가 금액 
+			      ,(recentPrice * balance) - (buySum - ifNull(soldSum,0)) as pnl -- 평가 손익 
+			      ,ifNull(Round((((recentPrice * balance) - (buySum - ifNull(soldSum,0)))/(buySum - ifNull(soldSum,0))),2)*100,0) as roi -- 수익률 
+			    from
+			    ( 
+			    select 
+			        e.memberSeq 
+			        ,c.cryptoSeq as cryptoSeq
+			        ,c.cryptoSym as cryptoSym
+			        ,c.cryptoName as cryptoName
+			        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+			        ,ifNull(balance,0) as cryptoBalance
+			        ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
+			        ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
+			        ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
+			        ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
+			      from exchangeBalance e
+			        left join crypto c on e.cryptoSeq = c.cryptoSeq 
+			        where c.cryptoSeq not in('1')
+			    )ts where memberSeq = #{memberSeq}
+			  )as assetEval
+			;
+		]]>
+	</select>
+	
+	
+	
+	<select id="ordersHistory" resultMap="InvestmentsDto">
+		<![CDATA[
+		select 
+		  ifNull(date_format(t.timestamp,'%Y.%m.%d'),'0000-00-00')  as timestampMD
+		  ,ifNull(date_format(t.timestamp,'%H:%i:%s'),'0000-00-00')  as timestampR -- 체결시간
+		  ,c.cryptoName
+		  ,c.cryptoSym
+		  ,obSeq
+		  ,case when bos = 0
+		        then '매수'
+		        when bos = 1
+		        then '매도'
+		   end as bos
+		  ,ifNull(t.price,0) as price
+		  ,Round(obAmount,6) as obAmount
+		  ,Round((ifNull(t.price,0) * obAmount)) as pp
+		  ,ifNull(date_format(o.timestamp,'%Y.%m.%d'),'0000-00-00')  as orderTimestampMD
+		  ,ifNull(date_format(o.timestamp,'%H:%i:%s'),'0000-00-00')  as orderTimestampR 
+		from orderBook o 
+		  left join transaction t on o.obSeq = if(bos = 0, t.obSeqBuy,t.obSeqSell) 
+		  left join crypto c on o.submittedCrypto = c.cryptoSeq
+		where o.submittedBy = #{memberSeq}
+		]]>
+		<if test='shDuration != null and shDuration != ""'>
+			<![CDATA[ and  date_add(now(),interval -  ${shDuration}) <= o.timestamp ]]>
+		</if>
+		<if test='shOption != null'>
+			and bos = #{shOption}
+		</if>
+		<if test='shValue != null and shValue != ""'>
+			and c.cryptoName = #{shValue}
+		</if>
+		<![CDATA[
+		order by 
+	    o.timestamp desc
+	    limit #{rowNumToShow} offset #{startRnumForMysql}
+		]]>
+	</select>
+	
+	<select id="ordersHistoryCnt" resultType="Integer">
+		select
+		  count(*) cnt
+		from
+		(
+		<![CDATA[
+		select 
+		  ifNull(date_format(t.timestamp,'%Y.%m.%d'),'0000-00-00')  as timestampMD
+		  ,ifNull(date_format(t.timestamp,'%H:%i:%s'),'0000-00-00')  as timestampR -- 체결시간
+		  ,c.cryptoName
+		  ,c.cryptoSym
+		  ,obSeq
+		  ,case when bos = 0
+		        then '매수'
+		        when bos = 1
+		        then '매도'
+		   end as bos
+		  ,ifNull(t.price,0) as price
+		  ,Round(obAmount,6) 
+		  ,Round((ifNull(t.price,0) * obAmount))   as pp
+		  ,ifNull(date_format(o.timestamp,'%Y.%m.%d'),'0000-00-00')  as orderTimestampMD
+		  ,ifNull(date_format(o.timestamp,'%H:%i:%s'),'0000-00-00')  as orderTimestampR 
+		from orderBook o 
+		  left join transaction t on o.obSeq = if(bos = 0, t.obSeqBuy,t.obSeqSell) 
+		  left join crypto c on o.submittedCrypto = c.cryptoSeq
+		where o.submittedBy = #{memberSeq}
+		]]>
+		<if test='shDuration != null and shDuration != ""'>
+			<![CDATA[ and  date_add(now(),interval -  ${shDuration}) <= o.timestamp ]]>
+		</if>
+		<if test='shOption != null'>
+			and bos = #{shOption}
+		</if>
+		<if test='shValue != null and shValue != ""'>
+			and c.cryptoName = #{shValue}
+		</if>
+		) cnt
+	</select>
+	
+	<select id="pendingHistory" resultMap="InvestmentsDto">
+		<![CDATA[
+		select
+		  date_format(ob.timestamp,'%Y.%m.%d') as timestampMD -- 체결시간
+		  ,date_format(ob.timestamp,'%H:%i:%s') as timestampR -- 체결시간
+		  ,obSeq
+		  ,c.cryptoSeq -- cryptoSeq
+		  ,c.cryptoName -- 코인 이름 
+		  ,c.cryptoSym -- 코인 심볼
+		  ,case 
+		    when bos = 0
+		    then '매수'
+		    when bos = 1
+		    then '매도'
+		  end as bos-- 거래종류
+		  ,price -- 주문가격
+		  ,ifNull(orderAmount,0) as orderAmount -- 주문수량
+		  ,obAmount -- 미체결량
+		from orderBook ob 
+		  left join crypto c on ob.submittedCrypto = c.cryptoSeq
+		  left join member m on ob.submittedBy = m.memberSeq
+		  where 1=1
+		  and submittedBy = #{memberSeq}
+		  and orderStatus = 0
+		  and cryptoSeq not in ('1')
+		  order by 
+		  timestamp desc
+		  limit #{rowNumToShow} offset #{startRnumForMysql}
+		]]>
+	</select>
+	
+	<select id="pendingHistoryCnt" resultType="Integer">
+		select
+		  count(*) cnt
+		from
+		(
+		<![CDATA[
+		select
+		  date_format(ob.timestamp,'%Y.%m.%d') as timestampMD -- 체결시간
+		  ,date_format(ob.timestamp,'%H:%i:%s') as timestampR -- 체결시간
+		  ,obSeq
+		  ,c.cryptoSeq -- cryptoSeq
+		  ,c.cryptoName -- 코인 이름 
+		  ,c.cryptoSym -- 코인 심볼
+		  ,case 
+		    when bos = 0
+		    then '매수'
+		    when bos = 1
+		    then '매도'
+		  end as bos-- 거래종류
+		  ,price -- 주문가격
+		  ,ifNull(orderAmount,0) as orderAmount -- 주문수량
+		  ,obAmount -- 미체결량
+		from orderBook ob 
+		  left join crypto c on ob.submittedCrypto = c.cryptoSeq
+		  left join member m on ob.submittedBy = m.memberSeq
+		  where 1=1
+		  and submittedBy = #{memberSeq}
+		  and orderStatus = 0
+		  and cryptoSeq not in ('1')
+		  order by 
+		  timestamp desc
+		]]>
+		) cnt
+	</select>
+</mapper>

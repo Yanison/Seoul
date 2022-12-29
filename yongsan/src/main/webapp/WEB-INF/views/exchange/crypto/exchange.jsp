@@ -4,25 +4,26 @@
 <head>
 <title>거래소</title>
 
-<%@ include file="../../rscs/basicRscs.jsp"%>
 
+<%@ include file="../../rscs/basicRscs.jsp"%>
 <link type="text/css" rel="stylesheet" href="/../resources/css/exchange.css">
-<script src="./resources/js/getPrice1.js"></script>
-<script src="/../resources/js/exchange/exchange.js"></script>
-<script src="../resources/js/exchange/exchWebSock/getOBByWebSock.js"></script>
-<script src="/../resources/js/exchange/BoS/orderBosDiv.js"></script>
+
+
 <!-- #c84a31; red
 #0062df; blue 
 -->
 
 
 </head>
+<input type="hidden" name="todayLow24">
+<input type="hidden" name="closingPrice">
 <input type="hidden" name="recentPrice">
 <input type="hidden" name="ratioPre">
 <input type="hidden" name="high24">
 <input type="hidden" name="low24">
 <input type="hidden" name="todayHigh24">
 <input type="hidden" name="todayLow24">
+<input id="coinSym"type="hidden" value="${selectCrpytoOne.cryptoSym}">
 
 <body>
 	<div class="exWrapper">
@@ -203,10 +204,26 @@
 								<div class="lCLeftMenu">
 									<span class="menuContents">
 										<i class="fa-solid fa-window-maximize"></i>
+										<select id="selectChartDuration" onchange="chartTable()">
+											<option value="m1">1분</option>
+											<!-- <option value="m5">5분</option> -->
+											<option value="m10">10분</option>
+											<!-- <option value="m15">15분</option>
+											<option value="m30">30분</option> -->
+											<option value="h1" selected>1시간</option>
+											<!-- <option value="h4">4시간</option> -->
+											<option value="d1">1일</option>
+											<!-- <option value="w1">1주</option> -->
+											<option value="mth1">한 달</option>
+											<!-- <option value="y1">1년</option> -->
+										</select>
 									</span>
 								</div>
 								<div class="lCRightMenu">
 								</div>
+							</div>
+							<div id="candleChart" class="candleChart">
+								
 							</div>
 						</div>
 					</div>
@@ -346,16 +363,16 @@
 							<span class="orderBoxTab">
 								<ul>
 									<li class="tabBuy">
-										<a href="#1" class="navItem2 nav2_1 active2Buy" title="매수">매수</a>
+										<a class="navItem2 nav2_1 active2Buy" title="매수">매수</a>
 									</li>
 									<li class="tabSell">
-										<a href="#2" class="navItem2 nav2_2" title="매도">매도</a>
+										<a  class="navItem2 nav2_2" title="매도">매도</a>
 									</li>
 									<li class="easyorder">
-										<a href="#3" class="navItem2 nav2_3" title="간편주문">간편주문</a>
+										<a id="easyorder" class="navItem2 nav2_3" title="간편주문">간편주문</a>
 									</li>
-									<li class="transactionHis">
-										<a href="#4" class="navItem2 nav2_4" title="거래내역">거래내역</a>
+									<li class="transactionHis" onclick="orderHis()">
+										<a id="transactionHis" class="navItem2 nav2_4" title="거래내역">거래내역</a>
 									</li>
 								</ul>
 							</span>
@@ -403,3 +420,10 @@
 
 </body>
 </html>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="./resources/js/getPrice1.js"></script>
+<script src="/../resources/js/exchange/exchange.js"></script>
+<script src="../resources/js/exchange/exchWebSock/getOBByWebSock.js"></script>
+<script src="/../resources/js/exchange/BoS/orderBosDiv.js"></script>

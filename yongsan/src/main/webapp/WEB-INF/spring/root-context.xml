@@ -16,8 +16,8 @@
 		 -->
 		
 		<!-- local db -->		
-		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/yongsan?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="root" />
+		<property name="url" value="jdbc:log4jdbc:mysql://yongsan.caas47fzd5zb.ap-northeast-2.rds.amazonaws.com:33066/yongsan?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="hwangDmin" />
 		<property name="password" value="992837yns13616!" />
 	</bean>
 	    

@@ -2,9 +2,6 @@
 
 
 <%-- <%% %> 쓰는 대신 제이쿼리 cdn처럼 당겨올 수 있음 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page session="false" %>
 <script src="../resources/js/exchange/BoS/exHis.js"></script>
 <!-- css,js _ (입력)에서 상속받음. --> 
@@ -14,14 +11,14 @@
 	<div class="viewOption">
 		<div class="radioOption">
 			<div class="radioCheck">
-				<label>
-					<input type="radio" name="settleOrder" class="settleOrder" value="1" checked></input><span class="viewOptionText1">미체결</span>
+				<label id="myOrders">
+					<input type="radio" name="settleOrder" class="settleOrder" value="1" checked></input><span class="viewOptionText1" >미체결</span>
 				</label>			 
 			</div>
 			<div class="radioCheck">	
 				<div class="form-check">
-				<label>
-					<input type="radio" name="settleOrder" class="settleOrder"  value="2"><span class="viewOptionText2" style="color:#666;">체결</span>
+				<label id="myTransactions">
+					<input type="radio" name="settleOrder" class="settleOrder"  value="2"><span class="viewOptionText2" style="color:#666;" >체결</span>
 				</label>			 
 			</div>		
 			</div>
@@ -41,7 +38,7 @@
 	</div>
 	<div class="settleOrderWrapper">
 		<div class="settleOrderNY _N">
-			<table class="settleOrderTable">
+			<table id="pendingOrdersHis" class="settleOrderTable">
 				<colgroup>
 					<col width="82px">
 					<col width="90px">
@@ -59,12 +56,12 @@
 					</tr>
 					<tr>
 						<th>구분</th>
-						<th>주문가격</th>
+						<th>주문수량</th>
 						<th>미체결량</th>											
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="exHis">
+<%-- 					<tr class="exHis">
 						<td>
 							<div class="exHis_Day">2022.08.29</div>
 							<div class="exHis_time">10:49:33</div>
@@ -83,13 +80,13 @@
 						<td>
 							<button>취소</button>						
 						</td>
-					</tr>
+					</tr> --%>
 				</tbody>
 			</table>
 		</div>
 		
 		<div class="settleOrderNY _Y" style="display:none">
-			<table class="settleOrderTable">
+			<table id="transactedOrdersHis" class="settleOrderTable">
 				<colgroup>
 					<col width="94px">
 					<col width="100px">
@@ -109,23 +106,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="exHis">
-						<td>
-							<div class="exHis_Day">2022.08.29</div>
-							<div class="exHis_time">10:49:33</div>
-						</td>
-						<td>
-							<div class="exHis_Pairs"><c:out value="${selectCrpytoOne.cryptoSym}"/>/KRW</div>
-							<div class="exHis_TradeType">매수</div>
-						</td>
-						<td>
-							<div class="exHis_Price">num</div>
-							<div class="exHis_MyPrice">num</div>
-						</td>
-						<td>
-							<div class="exHis_Amount">num</div>							
-						</td>
-					</tr>
+				
 				</tbody>
 			</table>
 		</div>

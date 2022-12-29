@@ -1,0 +1,75 @@
+
+
+/*footer start*/
+.home-footer {
+	width:100%;
+	height:288px;
+	display:flex;
+	align-items:center;
+	border-top:1px solid #eee;
+	background:#fff;
+}
+
+.home-footer-wrapper{
+	width:100%;
+	height:230px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	margin:0 122px;
+	padding:0px;
+}
+
+.company-info-box {
+	width:1200px;
+	height:100%;
+	display:flex;
+	align-items:flex-start;
+}
+
+.logo-link {
+	height:17px;
+	width: 77px;
+    margin:0 40px 0 0;
+    height: 17px;
+    display: inline-block;
+    background:transparent url(https://cdn.upbit.com/upbit-web/images/logo_upbit.19e2e01.svg) no-repeat 0 0;
+    cursor:pointer;
+}
+
+.company-info {
+	width:100%;
+	font-size:14px;
+	color:#999999;
+}
+
+.company-info > * {
+	margin:0 0 5;
+}
+
+.company-info span,a,img {
+	margin:0 5px 10px;
+}
+
+
+.sns-link {
+	color:#999999;
+	font-size:18px;
+}
+.sns-link:hover {
+	color:#999999;
+}
+
+.left-link-box {
+	width:calc(100% - 760px);
+	height:100%;
+	display:flex;
+	justify-content:left;
+}
+
+.left-link-box > div {
+	margin:0 40px 0 0;
+	font-size:14px;
+}
+
+

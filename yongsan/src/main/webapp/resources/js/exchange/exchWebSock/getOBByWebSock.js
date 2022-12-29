@@ -1,12 +1,14 @@
 $(document).ready(function(){
-	var cryptoSeq = $('#cryptoSeq').val()
-	var memberSeq = $('#memberSeq').val()
+	console.log("${drawChart}")
+	let cryptoSeq = $('#cryptoSeq').val()
+	let memberSeq = $('#memberSeq').val()
 	selectBOB()
 	selectSOB()
 	selectTransacton()
 	console.log('@@@@@@@@@@@@ cryptoSeq :: ' + cryptoSeq + '// memberSeq :: ' + memberSeq)
 	connect();
 	marketTable();
+	chartTable()
 })
  
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -34,7 +36,9 @@ function connect() {
 	        var obAmount = JSON.parse(observeSubmittedBids.body).obAmount;
 	        var obSeq = JSON.parse(observeSubmittedBids.body).obSeq;
 	        var orderType = JSON.parse(observeSubmittedBids.body).orderType;
-			boBtrOne(price,obAmount,obSeq,orderType)
+	        var ratio = JSON.parse(observeSubmittedBids.body).ratio;
+	        var amountRatio = JSON.parse(observeSubmittedBids.body).amountRatio;
+			boBtrOne(price,obAmount,obSeq,orderType,ratio,amountRatio)
 			limitMaxTrAppend()
 			
 			
@@ -51,8 +55,9 @@ function connect() {
 	        var obAmount = JSON.parse(observeSubmittedAsks.body).obAmount;
 	        var obSeq = JSON.parse(observeSubmittedAsks.body).obSeq;
 	        var orderType = JSON.parse(observeSubmittedAsks.body).orderType;
-	        
-			soBtrOne(price,obAmount,obSeq,orderType)
+	        var ratio = JSON.parse(observeSubmittedAsks.body).ratio;
+	        var amountRatio = JSON.parse(observeSubmittedAsks.body).amountRatio;
+			soBtrOne(price,obAmount,obSeq,orderType,ratio,amountRatio)
 			limitMaxTrAppend()
 			
 			stompClient.send("/app/requestOrderMatching", {}, observeSubmittedAsks.body);
@@ -63,11 +68,26 @@ function connect() {
 	        			+ ' price :: '+ JSON.parse(deleteCompleteOrderDivFromOB.body).price +" \n "
 	        			+ ' obamount ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obAmount +" \n "
 	        			+ ' obSeq ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeq +" \n "
+	        			+ ' obSeqSell ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeqSell +" \n "
+	        			+ ' obSeqBuy ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeqBuy +" \n "
 	        			+ ' orderType ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).orderType +" \n "
 	        			)
 	        var order = JSON.parse(deleteCompleteOrderDivFromOB.body)
-	        
-			deleteObTr(order)
+	        var deleteEatten = ""
+			deleteObTr(order,deleteEatten)
+	    });
+	    stompClient.subscribe('/topic/deleteCompleteOrderDivFromOBiep', function (deleteCompleteOrderDivFromOB) {
+	        console.log('subscribeed deleteCompleteOrderDivFromOB ::from server //' 
+	        			+ ' price :: '+ JSON.parse(deleteCompleteOrderDivFromOB.body).price +" \n "
+	        			+ ' obamount ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obAmount +" \n "
+	        			+ ' obSeq ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeq +" \n "
+	        			+ ' obSeqSell ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeqSell +" \n "
+	        			+ ' obSeqBuy ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).obSeqBuy +" \n "
+	        			+ ' orderType ::' + JSON.parse(deleteCompleteOrderDivFromOB.body).orderType +" \n "
+	        			)
+	        var order = JSON.parse(deleteCompleteOrderDivFromOB.body)
+	        var deleteBoth = "iep"
+			deleteObTr(order,deleteBoth)
 	    });
 	     stompClient.subscribe('/topic/updateIncompleteOrderDivFromOB', function (updateIncompleteOrderDivFromOB) {
 	        console.log('subscribeed updateIncompleteOrderDivFromOB ::from server //' 
@@ -98,6 +118,19 @@ function connect() {
 	        
 	        prependSelectTransactonTr(transactionTable);
 	        limitMaxTrAppend()
+	        
+	        addCandle()
+	    });
+	    
+	     stompClient.subscribe('/topic/drawChart/addCandle', function (data) {
+	        var data = JSON.parse(data.body)
+	        
+	        let candle = [data.duration,data.low,data.startPrice,data.closingPrice,data.high]
+	        chartData.push(candle)
+	        if(chartData.length > 60){
+				chartData.pop()
+			}
+	        drawChart()
 	    });
 	    
 	    stompClient.subscribe('/topic/marketTable', function (marketTable) {
@@ -134,6 +167,80 @@ function connect() {
 	        			+ ' spread :: '+ JSON.parse(spread.body).spread +" \n "
 	        			)
 	    });
+		 stompClient.subscribe('/topic/cancelOrder', function (cancelOrder){
+			var cancelOrder = JSON.parse(cancelOrder.body)
+			let obSeq = cancelOrder;
+			
+			let userCashBal = $('#inputKRWBal').val()
+			let userCoinBal =$('#input'+cryptoSym+'Bal').val()
+			let orderPrice = $('#hisObSeq'+obSeq).find('.exHis_MyPrice').text()
+			let orderAmount = $('#hisObSeq'+obSeq).find('.exHis_Amount').text()
+			let thisBos = $('#exHis_bos'+obSeq).val();
+			
+			if(thisBos == 0){
+				
+				var leftCah = (Number(userCashBal) + Number(orderPrice));
+				console.log("cancelOrder, userCashBal :: " + userCashBal)
+				console.log("cancelOrder, orderPrice :: " + orderPrice)
+				$('#inputKRWBal').val(leftCah);
+			}else{
+				var leftCrypto = (Number(userCoinBal) + Number(orderAmount))
+				console.log("cancelOrder, userCoinBal :: " + userCoinBal)
+				console.log("cancelOrder, orderAmount :: " + orderAmount)
+				$('#input'+cryptoSym+'Bal').val(leftCrypto);
+			}
+			
+			$('#obSeq'+cancelOrder).remove()
+			$('#hisObSeq'+cancelOrder).remove()
+		});
+		stompClient.subscribe('/topic/availableBalance', function (userBalance){
+			var userBalance = JSON.parse(userBalance.body)
+			
+			console.log(userBalance)
+				let cashbalance = userBalance.userBalance;
+				let pendingcash = userBalance.pendingcash;
+				let availableCash = userBalance.availableCash;
+				console.log("userBalance :: " + availableCash)
+				let availableCtpyto = userBalance.availableCtpyto;
+				let cryptoSym = userBalance.cryptoSym;
+				
+				if(availableCash == null || availableCash == 0){
+					$('#inputKRWBal').val(0)
+				}else{
+					
+					$('#inputKRWBal').val(availableCash)
+					$('#input'+cryptoSym+'Bal').val(availableCtpyto)
+				}
+			
+			
+		});
+		
+		stompClient.subscribe('/topic/selectCryptoList', function (cryptoList){
+			var cryptoList = JSON.parse(cryptoList.body)
+			
+			let n = cryptoList.length;
+			$('#cryptoListBar tr').remove()
+			for(let i = 0 ; i < n ; i ++){
+				let html = ''
+				html += '<tr id="'+cryptoList[i].cryptoName+'" class="cryptoRow thisCoin" value="'+cryptoList[i].cryptoName+'" onclick="toThisCoin(this)">'
+				html += '<td class="likeThis"><i class="fa-regular fa-star"></i></i></td>'
+				html += '<td class="smallCandle">-</td>'
+				html += '<td class="CryptoName" style="text-align:left;">'
+				html += '<div class="getCryptoNm">'+cryptoList[i].cryptoName+'</div>'
+				html += '<div class="getCryptoSym">'+cryptoList[i].cryptoSym+'</div>'
+				html += '</td>'
+				html += '<td class="CryptoPricePresent">'+cryptoList[i].recentPrice+'</td>'
+				html += '<td class="24Hvari">'
+				html += '<div>'+cryptoList[i].ratio+'%</div>'
+				html += '<div>'+cryptoList[i].gap+'₩</div>'
+				html += '</td>'
+				html += '<td class="CryptoCap">'
+				html += '<div><span>num</span><i>백만</i></div>'
+				html += '</td>'
+				html += '</tr>'
+				$('#cryptoListBar').append(html)
+			}
+		});
     });
 }
 
@@ -142,29 +249,87 @@ function connect() {
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 */
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@ #Ajax request start
+@@@@@@@@@ # start
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 */
-
-
 //submit order request throu Ajax start
 //submit Bids
+
+
+
+function cancelOrder(e){
+	if(!confirm("취소하시겠습니까?")){return false;}
+	let obSeq = $(e).val();
+	
+	data ={
+		'obSeq' : obSeq,
+		'memberSeq' : memberSeq,
+		'cryptoSeq' :  cryptoSeq
+	}
+	
+	stompClient.send("/app/cancelOrder", {}, JSON.stringify(data));
+}
+  
 function sendOrder(order) {
+	let cryptoSym = $('#coinSym').val()
+	let userCashBal = $('#inputKRWBal').val()
+	let userCoinBal =$('#input'+cryptoSym+'Bal').val()
 	if(order.price == "" || order.obAmount == "" || order.memberSeq == undefined){
 		alert("주문가격 또는 수량을 입력해주세요")
 		return false;
-	}else{
+	}
+	
+	if(order.orderType == 0){
 		if(order.bos == 0){
+			console.log("order.totalPrice :: " + order.totalPrice + "//" + userCashBal)
+			if(order.obAmount >= 1000){
+				alert("1000 미만의 수량만 주문이 가능합니다.")
+				return false;	
+			}
+			if(userCashBal < order.totalPrice){
+				alert("주문 가능 금액을 초과하였습니다.")
+				return false;	
+			}
 			stompClient.send("/app/submitBids", {}, JSON.stringify(order));
 			return true
 		}else{
+			console.log("order.totalPrice :: " + order.obAmount + "//" + userCoinBal)
+			if(order.obAmount >= 1000){
+				alert("1000 미만의 수량만 주문이 가능합니다.")
+				return false;
+			}
+			if(order.obAmount > userCoinBal){
+				alert("매도 가능한 수량을 초과하였습니다.")
+				return false;	
+			}
 			stompClient.send("/app/submitAsks", {}, JSON.stringify(order));
 			return true
-		}
-		
+		}	
+	}else{
+		if(order.bos == 0){
+			if(userCashBal < order.totalPrice){
+				alert("주문 가능 금액을 초과하였습니다.")
+				return false;	
+			}
+			stompClient.send("/app/submitBids", {}, JSON.stringify(order));
+			return true
+		}else{
+			console.log("order.totalPrice :: " + order.obAmount + "//" + userCoinBal)
+			if(order.obAmount >= 1000){
+				alert("1000 미만의 수량만 주문이 가능합니다.")
+				return false;
+			}
+			if(order.obAmount > userCoinBal){
+				alert("매도 가능한 수량을 초과하였습니다.")
+				return false;	
+			}
+			stompClient.send("/app/submitAsks", {}, JSON.stringify(order));
+			return true
+		}	
 	}
+	
+	
 }
-
 function submitBids(){
 	
 	if(confirm("매수하시겠습니까?")){
@@ -172,6 +337,7 @@ function submitBids(){
 		    {
 		        "price" : $('#bidsPrice').val()
 		        ,"obAmount" : $('#bidsAmount').val()
+		        ,'totalPrice' : ($('#bidsPrice').val() * $('#bidsAmount').val())
 		        ,"memberSeq" : $('#memberSeq').val()
 		        ,"cryptoSeq" : $('#cryptoSeq').val()
 		        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -179,10 +345,10 @@ function submitBids(){
 		    }
 		
 		if(order.orderType == 0){
-		    if(order.price == "" && order.obAmount == ""){
-				alert("주문 가격밑 수량을 입력해주세요")
+		    if(order.price == "" || order.obAmount == ""){
+				alert("주문 가격 및 수량을 입력해주세요")
 				return false;
-			}else if(order.price == 0 && order.obAmount == 0){
+			}else if(order.price == 0 || order.obAmount == 0){
 				alert("주문가격 혹은 주문수량 1 이상을 입력해주세요.")
 				return false;
 			}
@@ -190,6 +356,7 @@ function submitBids(){
 				"매수주문 신청 내역입니다."+"\n"+
 				"bidsPrice :: " + order.price+"\n"+
 				"bidsAmount :: " + order.obAmount+"\n"+
+				"totalPrice :: " + order.totalPrice+"\n"+
 				"memberSeq :: " + order.memberSeq+"\n"+
 				"cryptoSeq :: " + order.cryptoSeq+"\n"+
 				"orderType :: " + order.orderType
@@ -203,7 +370,7 @@ function submitBids(){
 		}else{
 			var order = 
 		    {
-		        "price" : $('#bidsSum').val()
+		        'totalPrice' : $('#bidsSum').val()
 		        ,"memberSeq" : $('#memberSeq').val()
 		        ,"cryptoSeq" : $('#cryptoSeq').val()
 		        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -239,10 +406,12 @@ function submitBids(){
 //submit Asks
 function submitAsks(){
 	if(confirm("매도하시겠습니까?")){
+		
 		var order = 
 			    {
 			        "price" : $('#asksPrice').val()
 			        ,"obAmount" : $('#asksAmount').val()
+			        ,'totalPrice' : ($('#asksPrice').val() * $('#asksAmount').val())
 			        ,"memberSeq" : $('#memberSeq').val()
 			        ,"cryptoSeq" : $('#cryptoSeq').val()
 			        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -253,16 +422,17 @@ function submitAsks(){
 				"매수주문 신청 내역입니다."+"\n"+
 				"asksPrice :: " + order.price+"\n"+
 				"asksAmount :: " + order.obAmount+"\n"+
+				"totalPrice :: " + order.totalPrice+"\n"+
 				"memberSeq :: " + order.memberSeq+"\n"+
 				"cryptoSeq :: " + order.cryptoSeq+"\n"+
 				"orderType :: " + order.orderType
 				)
 				
 				
-			if(order.price == "" && order.obAmount == ""){
-				alert("주문 가격밑 수량을 입력해주세요")
+			if(order.price == "" || order.obAmount == ""){
+				alert("주문 가격 및 수량을 입력해주세요")
 				return false;
-			}else if(order.price == 0 && order.obAmount == 0){
+			}else if(order.price == 0 || order.obAmount == 0){
 				alert("주문가격 혹은 주문수량 1 이상을 입력해주세요.")
 				return false;
 			}
@@ -276,7 +446,7 @@ function submitAsks(){
 		}else{
 			var order = 
 			    {
-			        "price" : $('#asksSum').val()
+			        'totalPrice' : $('#asksSum').val()
 			        ,"memberSeq" : $('#memberSeq').val()
 			        ,"cryptoSeq" : $('#cryptoSeq').val()
 			        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -313,7 +483,6 @@ function submitAsks(){
 }
 //submit order request throu Ajax end
 
-
 function selectBOB(){
 	var cryptoSeq = $('#cryptoSeq').val()
 	console.log('selectBOB cryptoSeq :: '+cryptoSeq)
@@ -332,7 +501,9 @@ function selectBOB(){
 					var obAmount = selectBOB[i].obAmount
 					var obSeq = selectBOB[i].obSeq
 					var orderType = selectBOB[i].orderType
-					bidsTr(getPrice,obAmount,obSeq,orderType);
+					var ratio = selectBOB[i].ratio
+					var amountRatio = selectBOB[i].amountRatio
+					bidsTr(getPrice,obAmount,obSeq,orderType,ratio,amountRatio);
 				}
 			}
 			,error : function(err){
@@ -359,8 +530,9 @@ function selectSOB(){
 					var obAmount = selectSOB[i].obAmount
 					var obSeq = selectSOB[i].obSeq
 					var orderType = selectSOB[i].orderType
-					maxAppendS += 1;
-					soBtr(getPrice,obAmount,obSeq,orderType)
+					var ratio = selectSOB[i].ratio
+					var amountRatio = selectSOB[i].amountRatio
+					soBtr(getPrice,obAmount,obSeq,orderType,ratio,amountRatio)
 				}
 			}
 			,error : function(err){
@@ -435,6 +607,72 @@ function marketTable(){
 	})
 }
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+let chartData =[]
+
+function chartTable(){
+	var cryptoSeq = $('#cryptoSeq').val() 
+	var selectChartDuration = $('#selectChartDuration option:selected').val();
+	console.log('chartTable')
+	$.ajax({
+		async:true
+		,cache:false
+		,type:"post"
+		,url:"/exchange/drawChart"
+		,data:{
+			'cryptoSeq' : cryptoSeq,
+			'shTime' : selectChartDuration,
+			'limit' : 60
+			}
+		,success:function(data){
+			chartData =[]
+			let len = data.length;
+			for(let i = 0; i < len ; i ++){
+				//[x축 시간,최솟값,초기값,최종값,최댓값,원통의 도움말 혹은 스타일(선택)]
+				let candle = [data[i].duration,data[i].low,data[i].startPrice,data[i].closingPrice,data[i].high]
+				chartData.push(candle)
+			}
+			drawChart()
+			
+		}
+		,error:function(err){
+			alert("selectTransacton err")
+		}
+	})
+}
+
+
+
+function drawChart() {
+	        			
+    data = google.visualization.arrayToDataTable(
+	//[x축 시간,최솟값,초기값,최종값,최댓값,원통의 도움말 혹은 스타일(선택)]
+      chartData
+      // Treat first row as data as well.
+    , true);
+
+    var options = {
+      legend:'none',
+      candlestick: {
+        fallingColor: { strokeWidth: 0, fill: '#0062df' }, // red
+        risingColor: { strokeWidth: 0, fill: '#c84a31' }   // green
+      },
+      hAxis:{direction: -1}
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('candleChart'));
+
+    chart.draw(data, options);
+}
+
+function addCandle(){
+	var data ={
+		cryptoSeq : $('#cryptoSeq').val(),
+		shTime : $('#selectChartDuration option:selected').val()
+	}
+	stompClient.send("/app/drawChart/addCandle",{},JSON.stringify(data))
+}
 
 function appendSelectTransactonTr(list){
 	console.log("appendSelectTransactonTr :: " + list)
@@ -512,22 +750,22 @@ function limitMaxTrAppend(){
 	}
 }
 // # add BOB <tr> append
-function bidsTr(price,obAmount,obSeq,orderType){
-	console.log("boBtr obSeq :: " + obSeq) 
-	//value="'+price+'"
+function bidsTr(price,amount,obSeq,orderType,ratio,amountRatio) {
+	let obAmount = amount.toFixed(4)
+	
 	var boBtr = null;
 	boBtr += '<tr id="obSeq'+obSeq+'" class="up downtest boBtr">';
 	boBtr += '<td class="upB">';
-	boBtr += '<a href="#">';
-	boBtr += '<div class="ty03">';
+	boBtr += '<a >';
+	boBtr += '<div class="ty03" onclick="selectPrice(this)">';
 	boBtr += '<strong class="rPrice">'+ price +'</strong>';
 	boBtr += '</div>';
-	boBtr += '<div class="ty02">ratio%</div>';
+	boBtr += '<div class="ty02">'+ratio+'%</div>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="bar">';
-	boBtr += '<a href="#">';
-	boBtr += '<div style="width: 84.4%;"></div>';
+	boBtr += '<a onclick="selectAmount(this)">'; 
+	boBtr += '<div style="width:'+amountRatio+'%;"></div>';
 	boBtr += '<p class="obAmount">'+obAmount+'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
@@ -545,20 +783,22 @@ function bidsTr(price,obAmount,obSeq,orderType){
 	return true;
 }
 // # add BOB <tr> prepend
-function boBtrOne(price,obAmount,obSeq,orderType){
+function boBtrOne(price,amount,obSeq,orderType,ratio,amountRatio) {
+	var obAmount = amount.toFixed(4)
+	
 	var boBtr = null;
 	boBtr += '<tr id="obSeq'+obSeq+'" class="up downtest boBtr">';
 	boBtr += '<td class="upB">';
-	boBtr += '<a href="#">';
-	boBtr += '<div class="ty03">';
+	boBtr += '<a >';
+	boBtr += '<div class="ty03" onclick="selectPrice(this)">';
 	boBtr += '<strong class="rPrice">'+ price +'</strong>';
 	boBtr += '</div>';
-	boBtr += '<div class="ty02">ratio%</div>';
+	boBtr += '<div class="ty02">'+ratio+'%</div>';
 	boBtr += '</a>';
 	boBtr += '</td>';
 	boBtr += '<td class="bar">';
-	boBtr += '<a href="#">';
-	boBtr += '<div style="width: 84.4%;"></div>';
+	boBtr += '<a onclick="selectAmount(this)">';
+	boBtr += '<div style="width:'+amountRatio+'%;"></div>';
 	boBtr += '<p class="obAmount">'+obAmount+'</p>';
 	boBtr += '</a>';
 	boBtr += '</td>';
@@ -570,30 +810,28 @@ function boBtrOne(price,obAmount,obSeq,orderType){
 	boBtr +='<input type="hidden" name="obAmount" value="'+obAmount+'">'
 	boBtr += '</tr>	';
 	
-	
-	
 	$('#bidsTbody').prepend(boBtr)
 }
 
 // # add SOB <tr>
-function soBtr(price,obAmount,obSeq,orderType){
-	console.log('soBtr obSeq :: '+ obSeq);
+function soBtr(price,amount,obSeq,orderType,ratio,amountRatio) {
+	var obAmount = amount.toFixed(4)
 	
 	var sobtr = null;
 	sobtr += '<tr class="down downtest soBtr" id="obSeq'+obSeq+'">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
-	sobtr += '<a href="#">';
-	sobtr += '<div style="width: 84.4%;"></div>';
+	sobtr += '<a onclick="selectAmount(this)">';
+	sobtr += '<div style="width:'+amountRatio+'%;"></div>';
 	sobtr += '<p class="obAmount">'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
-	sobtr += '<a href="#">';
-	sobtr += '<div class="ty03">';
+	sobtr += '<a >';
+	sobtr += '<div class="ty03" onclick="selectPrice(this)">';
 	sobtr += '<strong class="rPrice">'+price+'</strong>';
 	sobtr += '</div>';
-	sobtr += '<div class="ty02">ratio%</div>';
+	sobtr += '<div class="ty02">'+ratio+'%</div>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
@@ -606,22 +844,24 @@ function soBtr(price,obAmount,obSeq,orderType){
 	$('#asksTbody').append(sobtr)
 }
 
-function soBtrOne(price,obAmount,obSeq,orderType){
+function soBtrOne(price,amount,obSeq,orderType,ratio,amountRatio) {
+	var obAmount = amount.toFixed(4)
+	
 	var sobtr = null;
 	sobtr += '<tr class="down downtest soBtr" id="obSeq'+obSeq+'">';
 	sobtr += '<td></td>';
 	sobtr += '<td class="bar">';
-	sobtr += '<a href="#">';
-	sobtr += '<div style="width: 84.4%;"></div>';
+	sobtr += '<a onclick="selectAmount(this)">';
+	sobtr += '<div style="width:'+amountRatio+'%;"></div>';
 	sobtr += '<p class="obAmount">'+obAmount+'</p>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr += '<td class="downB">';
-	sobtr += '<a href="#">';
-	sobtr += '<div class="ty03">';
+	sobtr += '<a >';
+	sobtr += '<div class="ty03" onclick="selectPrice(this)">';
 	sobtr += '<strong class="rPrice">'+price+'</strong>';
 	sobtr += '</div>';
-	sobtr += '<div class="ty02">ratio%</div>';
+	sobtr += '<div class="ty02">'+ratio+'%</div>';
 	sobtr += '</a>';
 	sobtr += '</td>';
 	sobtr +='<input type="hidden" name="obSeq_'+obSeq+'" value="'+obSeq+'">'
@@ -634,19 +874,30 @@ function soBtrOne(price,obAmount,obSeq,orderType){
 	$('#asksTbody').append(sobtr)
 }
 
-function deleteObTr(order){
-	console.log("deleteObTr :: 거래가 성사된 주문을 삭제합니다.")
+
+
+function deleteObTr(order,e){
+	
+	console.log("deleteObTr :: 거래가 성사된 주문을 삭제합니다. event ::  " + e)
 	//var inputHiddenObSeq = $('input[name="obSeq'+obSeq+'"]').val()
-	$("#obSeq"+order.obSeq).remove();
-	console.log(
-		"deleteObTr() ::해당 주문의 tr id는 :: "+ order.obSeq + " 입니다. \n"
+	if(e == "iep"){
+		$("#obSeq"+order.obSeqSell).remove();
+		$("#obSeq"+order.obSeqBuy).remove();
+		
+		console.log(
+		"deleteObTr() ::해당 주문의 tr id는 :: "+ order.obSeqSell+ " // "+order.obSeqBuy + " 입니다. \n"
 		+"해당 요소를 삭제합니다.")
-	
+	}else{
+		$("#obSeq"+order.obSeq).remove();
+		
+		console.log(
+		"deleteObTr() ::해당 주문의 tr id는 :: "+ order.obSeq+" 입니다. \n"+"해당 요소를 삭제합니다.")
+	}
 }
 
 function updateOrderAmount(order){
 	console.log("updateOrderAmount target :: " + "tr#obSeq"+order.obSeq+" p.obAmount")
-	$("tr#obSeq"+order.obSeq+" p.obAmount").text(order.obAmount)
+	$("tr#obSeq"+order.obSeq+" p.obAmount").text(order.obAmount.toFixed(4))
 }
 
 function effectOfChaginghRatio(marketTable){

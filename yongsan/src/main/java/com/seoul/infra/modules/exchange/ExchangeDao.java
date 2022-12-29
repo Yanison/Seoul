@@ -19,14 +19,18 @@ public class ExchangeDao {
 	@Resource(name="sqlSession")
 	private SqlSession sqlSession;
 	
-	public static String namespace = "com.seoul.infra.modules.exchange.mapper.ExchMapper";
-	public static String omsNamespace = "com.seoul.infra.modules.exchange.mapper.OrderMathigSystemMapper";
+	public static String exchMapper = "com.seoul.infra.modules.exchange.ExchMapper";
 	public static String crypto= "com.seoul.infra.modules.cryptogroup.CryptoGroupMapper";
+	public static String omsMapper = "com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMathigSystemMapper";
 	
 	
 	
+	public List<Order> selectOBList(Order order){
+		
+		return sqlSession.selectList(exchMapper+".selectOBList",order);
+	}
 	public ExchDTO getOnlaodInfo(ExchDTO dto) {
-		return sqlSession.selectOne(namespace+".getOnlaodInfo", dto);
+		return sqlSession.selectOne(exchMapper+".getOnlaodInfo", dto);
 	}
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -34,33 +38,51 @@ public class ExchangeDao {
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	public ExchDTO userBalance(ExchDTO dto) {
-		return sqlSession.selectOne(namespace+".userBalance", dto);
+		return sqlSession.selectOne(exchMapper+".userBalance", dto);
+	}
+	
+	public double selectAvailableCashBalance(Integer memberSeq) {
+		
+		return sqlSession.selectOne(exchMapper+".selectAvailableCashBalance",memberSeq);
 	}
 	
 	public int selectUserBalance(Order order) {
-		return sqlSession.selectOne(namespace+".selectUserBalance", order);
+		
+		return sqlSession.selectOne(exchMapper+".selectUserBalance", order);
 	}
-	
 	public int updateUserBalance(Order order) {
-		return sqlSession.update(namespace +".updateUserBalance", order);
+		System.out.println();
+		
+		return sqlSession.update(exchMapper +".updateUserBalance", order);
 	}
-	
+	public List<Order> selectMyOrder(Order order){
+		
+		return sqlSession.selectList(exchMapper+".selectMyOrder",order);
+	}
+	public List<Order> selectMytransaction(Order order){
+		
+		return sqlSession.selectList(exchMapper+".selectMytransaction",order);
+	}
+	public List<Order> selectListCryptoTrend(Order order){
+		
+		return sqlSession.selectList(exchMapper+".selectListCryptoTrend", order);
+	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ submit Order
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	public int submitBids(ExchDTO dto) {
-		return sqlSession.insert(namespace +".submitBids", dto);
+		return sqlSession.insert(exchMapper +".submitBids", dto);
 	}
 	public int submitAsks(ExchDTO dto) {
-		return sqlSession.insert(namespace +".submitAsks", dto);
+		return sqlSession.insert(exchMapper +".submitAsks", dto);
 	}
 	
 	public List<Crypto> selectCryptoList(Crypto crypto) {
-		return sqlSession.selectList(namespace + ".selectCryptoList", crypto);
+		return sqlSession.selectList(exchMapper + ".selectCryptoList", crypto);
 	}
 	
 	public ExchDTO selectCrpytoOne(ExchDTO dto) {
-		return sqlSession.selectOne(namespace + ".selectCryptoOne", dto);
+		return sqlSession.selectOne(exchMapper + ".selectCryptoOne", dto);
 	}
 }

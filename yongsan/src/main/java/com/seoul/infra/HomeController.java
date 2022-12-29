@@ -38,9 +38,6 @@ public class HomeController {
 	public String home(
 			Model model) {
 		
-		
-//		
-		
 		Object memberName = session.getAttribute("memberName");
 		Object idTokenKko  = session.getAttribute("idTokenKko");
 		Object memberSeq  = session.getAttribute("memberSeq");
@@ -53,7 +50,6 @@ public class HomeController {
 		model.addAttribute("memberName", memberName);
 		model.addAttribute("idTokenKko", idTokenKko);
 		model.addAttribute("memberSeq", memberSeq);
-		
 		
 		return "home/home";
 	}
@@ -91,7 +87,7 @@ public class HomeController {
 	        
 	        session.invalidate();
 //	        
-//	        session.setMaxInactiveInterval(60 * Constants.SESSION_MINUTE); // 60second * 30 = 30minute
+	        session.setMaxInactiveInterval(60 * 60); // 60second * 30 = 30minute
 	        session.setAttribute("memberName", userInfo.getMemberName());
 	        session.setAttribute("idTokenKko", userInfo.getIdTokenKko());
 	        session.setAttribute("memberSeq", userInfo.getMemberSeq());
@@ -120,31 +116,15 @@ public class HomeController {
 	public Map<String, Object> login(MemberGroup dto, HttpSession httpSession) throws Exception {
 		
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-
-		MemberGroup rtMember = service.selectOneId(dto);
-		System.out.println("id :: "+dto.getMemberId());
-		System.out.println("pw :: "+dto.getMemberPw());
-		//유저 아이디가 존재한다면,
-		if (rtMember != null) {
+		MemberGroup rtMember = service.selectOneLogin(dto);
+		if (rtMember.getMemberId() != null) {
 			//유저 아이디와 비밀번호를 불러와서
-			MemberGroup rtMember2 = service.selectOneLogin(dto);
-			System.out.println("db pw :: "+rtMember2.getMemberPw()+" vs "+" input pw :: "+dto.getMemberPw());
+			
+			System.out.println("db pw :: "+rtMember.getMemberPw()+" vs "+" input pw :: "+dto.getMemberPw());
 			//유저 아이디와 비밀번호가 존재한다
-			if (rtMember2 != null) {
-				System.out.println("db pw :: "+rtMember2.getMemberPw()+" == "+" input pw :: "+dto.getMemberPw());
-				
-				httpSession.setAttribute("sessSeq", rtMember2.getMemberSeq());
-				httpSession.setAttribute("sessId", rtMember2.getMemberId());
-				httpSession.setAttribute("sessName", rtMember2.getMemberName());
-
-				returnMap.put("rt", "success");
-			//유저 아이디와 비밀번호가 존재하지 않는다
-			} else {
-				returnMap.put("rt", "fail");
-			}
 		//유저 아이디가 존재하지 않는다면
+			returnMap.put("rt", "success");
 		} else {
-
 			returnMap.put("rt", "fail");
 		}
 		return returnMap;
@@ -184,11 +164,6 @@ public class HomeController {
 		 returnMap.put("rt","success");
 		 System.out.println("session isInvalidated? memberName :: " + session.getAttribute("memberName"));
 		 System.out.println("session isInvalidated? idTokenKko :: " + session.getAttribute("idTokenKko"));
-			
-		 
 		 return returnMap;
 	 }
-	
-	
-	
 }

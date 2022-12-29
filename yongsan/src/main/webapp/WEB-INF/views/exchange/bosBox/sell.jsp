@@ -39,22 +39,16 @@
 	<strong>주문가능</strong>
 	</dt>
 	<dd>
-		<strong class="userCashBal">num</strong><em>KRW</em>
+		<strong id="<c:out value="${selectCrpytoOne.cryptoSym}"/>Bal" class="userCoinBal moneyFmt"><input id="input<c:out value="${selectCrpytoOne.cryptoSym}"/>Bal" class="inputNumber inputNumberLeft" type="number" readOnly></strong><em><c:out value="${selectCrpytoOne.cryptoSym}"/></em>
+		
 	</dd>
-	<script>
-		function calcOrderA(price,amount){
-			var p = $(price).val()
-			var a = $(amount).val()
-			$('#asksSum').val(p * a)
-		}
-	</script>
 	<dt>
 	<strong>매도가격</strong><em>(KRW)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input id="asksPrice" type="number" class="form-control recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderA('#asksPrice','#asksAmount')">
+		  <input id="asksPrice" type="number" class="form-control recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
@@ -66,26 +60,26 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="number" id="asksAmount" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderA('#asksPrice','#asksAmount')">										 
+		  <input type="number" id="asksAmount" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >										 
 		</div>
 		
 	</dd>
 	<dt></dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <span class="input-group-text" id="inputGroup-sizing-default">10%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">25%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">50%</span>
-		  <span class="input-group-text" id="inputGroup-sizing-default">100%</span>									  										 
+		  <span class="input-group-text" id="inputGroup-sizing-default" value="1" onclick="quantityPer(this,1)" >10%</span>
+		  <span class="input-group-text" id="inputGroup-sizing-default" value="1" onclick="quantityPer(this,1)">25%</span>
+		  <span class="input-group-text" id="inputGroup-sizing-default" value="1" onclick="quantityPer(this,1)">50%</span>
+		  <span class="input-group-text" id="inputGroup-sizing-default" value="1" onclick="quantityPer(this,1)">100%</span>									  										 
 		</div>
 	</dd>
 	
 	<dt>
-		<strong>주문총액</strong><em>(KRW)</em>
+		<strong id="totalOrderS">주문총액</strong><em>(<c:out value="${selectCrpytoOne.cryptoSym}"/>)</em>
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <input id="asksSum" type="number" class="form-control" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >										 
+		  <input id="asksSum" type="number" class="form-control" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readOnly>										 
 		</div>
 	</dd>
 	<dd class="orderNotice">
@@ -93,7 +87,7 @@
 	</dd>
 	
 	<dd class="last">
-		<span class="orderBtn1"> 초기화 </span>
+		<button id="resetS"class="orderBtn1"> 초기화 </button>
 		<button id="submitAsks" class="orderBtn2" style="background:#1261c4;" onclick="submitAsks()"> 매도 </button>
 	</dd>
 

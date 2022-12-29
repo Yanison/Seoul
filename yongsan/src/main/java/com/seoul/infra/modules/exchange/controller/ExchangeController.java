@@ -64,13 +64,6 @@ public class ExchangeController {
 		model.addAttribute("idTokenKko", idTokenKko);
 		model.addAttribute("memberSeq", memberSeq);
 		
-		System.out.println("ExchangeController.getBasicList()"+ "\n" +
-				"cryptoSeq :: " + dto.getCryptoSeq() + "\n" +
-				"cryptoName :: " + dto.getCryptoName() + "\n" +
-				"cryptoNameKor :: " + dto.getCryptoNameKor() + "\n" +
-				"memberSeq :: " + dto.getMemberSeq() + "\n" +
-				"memberName :: " + dto.getMemberName()
-				);
 		Order selectTransacton = serviceExch.transactionTable(order);
 		model.addAttribute("selectTransacton", selectTransacton);
 	}
@@ -119,12 +112,12 @@ public class ExchangeController {
 					)throws Exception {
 		
 		dto.setCryptoSym(cryptoSym);
-		
 		getBasicList(model, vo,  dto,order);
+		
+		model.addAttribute("cryptoSym", cryptoSym);
 		
 		return "exchange/crypto/exchange";
 	}
-	
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  *@@@@@@@@@@@ # Exch Pages end

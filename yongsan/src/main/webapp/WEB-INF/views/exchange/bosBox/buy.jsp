@@ -26,19 +26,13 @@
 			<input type="hidden" id="orderType"/>
 		</div>
 	</dd>
-	<script>
-		function calcOrderB(price,amount){
-			var p = $(price).val()
-			var a = $(amount).val()
-			$('#bidsSum').val(p * a)
-		}
-	</script>
 	<dt>
 	<strong>주문가능</strong>
 	</dt>
 	<dd>
 		
-		<strong id="userCashBal" class="moneyfmt userCashBal"></strong><em>KRW</em>
+		<strong id="KRWBal" class="moneyfmt userCashBal"><input id="inputKRWBal" class="inputNumber inputNumberLeft" type="number" readOnly></strong><em>KRW</em>
+		<!-- <input id="inputKRWBal" type="hidden"> -->
 	</dd>
 	
 	<dt>
@@ -47,7 +41,7 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input id="bidsPrice" name="price" type="number" class="form-control bidsPrice moneyFmt recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderB('#bidsPrice','#bidsAmount')">
+		  <input id="bidsPrice" name="price" type="number" class="form-control bidsPrice moneyFmt recentPrice" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-minus"></i></span>
 		  <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-plus"></i></span>
 		</div>
@@ -59,17 +53,17 @@
 	<dd>
 		<div class="input-group mb-3">
 		  <span class="input-group-text" id="inputGroup-sizing-default">num</span>
-		  <input type="number" id="bidsAmount" name="obAmount" class="form-control bidsAmount moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrderB('#bidsPrice','#bidsAmount')">										 
+		  <input type="number" id="bidsAmount" name="obAmount" class="form-control bidsAmount moneyFmt" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">										 
 		</div>
 		
 	</dd>
 	<dt></dt>
 	<dd>
 		<div id="QuantityPer" class="input-group mb-3">
-		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">10%</span>
-		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">25%</span>
-		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">50%</span>
-		  <span class="input-group-text qp" id="inputGroup-sizing-default" onclick="quantityPer(this)">100%</span>									  										 
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" value="0" onclick="quantityPer(this,0)" >10%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" value="0" onclick="quantityPer(this,0)" >25%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" value="0" onclick="quantityPer(this,0)" >50%</span>
+		  <span class="input-group-text qp" id="inputGroup-sizing-default" value="0" onclick="quantityPer(this,0)" >100%</span>									  										 
 		</div>
 	</dd>
 	
@@ -78,7 +72,7 @@
 	</dt>
 	<dd>
 		<div class="input-group mb-3">
-		  <input id="bidsSum" type="number" class="form-control bidSum moneyFmt" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onkeyup="calcOrder('#bidsPrice','#bidsAmount')">										 
+		  <input id="bidsSum" type="number" class="form-control bidSum moneyFmt" value="0" name="calcOrder" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onchange="calcOrder('#bidsPrice','#bidsAmount')" readOnly>										 
 		</div>
 	</dd>
 	<dd class="orderNotice">
@@ -86,7 +80,7 @@
 	</dd>
 	
 	<dd class="last">
-		<span class="orderBtn1"> 초기화 </span>
+		<button id="resetB"class="orderBtn1"> 초기화 </button>
 		<button id="submitBids" class="orderBtn2 orderType" onclick='submitBids()' value="0" style="background:#c84a31"> 매수 </button>
 	</dd>
 

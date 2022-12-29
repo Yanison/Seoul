@@ -9,7 +9,7 @@ import com.seoul.infra.dto.Crypto;
 import com.seoul.infra.modules.exchange.controller.ExchangeWSController;
 import com.seoul.infra.modules.exchange.dto.ExchDTO;
 import com.seoul.infra.modules.exchange.orderMatchingSystem.Order;
-import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderBook;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderBook3;
 import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderMatchingSystemDao;
 
 @Service
@@ -22,7 +22,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	OrderMatchingSystemDao omsDao;
 
 	@Autowired 
-	OrderBook orderbook;
+	OrderBook3 orderbook;
 	
 	@Autowired
 	ExchangeWSController exchangeWSController;
@@ -37,9 +37,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 	public List<Crypto> selectCryptoList(Crypto crypto)  throws Exception{
 		return dao.selectCryptoList(crypto);
 	}
-	
-	
-	
+	public List<Order> selectListCryptoTrend(Order order) throws Exception{
+		return dao.selectListCryptoTrend(order);
+	}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ User
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -53,11 +53,21 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return dao.selectUserBalance(order);
 	}
 	@Override
+	public double selectAvailableCashBalance(Integer seq) throws Exception{
+		return dao.selectAvailableCashBalance(seq);
+	}
+	@Override
 	public int updateUserBalance(Order order)throws Exception{
 		return dao.updateUserBalance(order);
 	}
-
-	
+	@Override
+	public List<Order> selectMyOrder(Order order) throws Exception{
+		return dao.selectMyOrder(order);
+	}
+	@Override
+	public List<Order> selectMytransaction(Order order) throws Exception{
+		return dao.selectMytransaction(order);
+	}
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * @@@@@@ select OB Bids&Asks
@@ -79,17 +89,26 @@ public class ExchangeServiceImpl implements ExchangeService {
 		System.out.println("ExchangeServiceImpl.selectSOB :: 매도주문을 모두 가져오는 메소드입니다.");
 		return omsDao.selectSOB(dto);
 	};
-	
 	@Override
 	public Order selectSOBOne(Order dto) throws Exception{
 		System.out.println("ExchangeServiceImpl.selectSOBOne :: 최근 하나의 매도주문을 가져오는 메소드입니다.");
 		return omsDao.selectSOBOne(dto);
 	}
-	
+	@Override
+	public List<Order> selectOBList(Order order) throws Exception{
+		
+		return dao.selectOBList(order);
+	}
 	@Override
 	public Integer selectOrderStatus(Order order) throws Exception{
 		System.out.println("ExchangeServiceImpl.selectAmount :: 주문번호 "+order.getObSeq()+"의 매도주문을 가져오는 메소드입니다.");
 		return omsDao.selectOrderStatus(order);
+	}
+	
+	@Override
+	public int delObseq (int obSeq) throws Exception{
+		
+		return omsDao.delObseq(obSeq);
 	}
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -117,6 +136,11 @@ public class ExchangeServiceImpl implements ExchangeService {
 		
 		return omsDao.spread(order);
 	}
+	@Override
+	public List<Order> drawChart(Order order)throws Exception{
+		
+		return omsDao.drawChart(order);
+	}
 	
 	
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -141,7 +165,7 @@ public class ExchangeServiceImpl implements ExchangeService {
  * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 	@Override
-	public void orderMatchingBuy(Order bobOne,List<Order> sellOrders)throws Exception {
+	public void orderMatchingBuy(Order bobOne)throws Exception {
 		
 		System.out.println(
 				"ExchangeServiceImpl.selectBOBOne :: 최근 매수주문 내역 하나를 불러옵니다."
@@ -159,47 +183,8 @@ public class ExchangeServiceImpl implements ExchangeService {
 					"지정매수 메소드를 실행합니다. " + "\n"
 					+ "매게변수는 bobOne과 sellOrders 입니다."+ "\n"
 					);
-			if(orderbook.processLimitBuy(bobOne, sellOrders) == true) {
-				try {
-					
-					exchangeWSController.transactionTable(bobOne);
-					System.out.println("ExchangeServiceImpl.completeOrder :: transactionTable() 정보를 갱신합니다."+ "\n" +
-							"거래번호 :: "+ bobOne.getTransactionSeq()+ "\n" +
-							"거래 통화 :: " + bobOne.getCryptoSeq()+ "\n" +
-							"매수자 :: " +bobOne.getMemberSeqSell()+ "\n" +
-							"매수번호 :: " + bobOne.getObSeqBuy()+ "\n" +
-							"매도번호 :: " + bobOne.getObSeqSell()+ "\n" +
-							"매도자 :: " +bobOne.getMemberSeqBuy()+ "\n" +
-							"거래타입 :: "+ bobOne.getTransactedType()+ "\n" +
-							"거래수량 :: " + bobOne.getAmount()+ "\n" +
-							"거래가격 :: " + bobOne.getbPrice()+ "\n" +
-							"거래 시간 :: " + bobOne.getTimestamp()+ "\n" +
-							"전일대비 :: " + bobOne.getRatioPre()+ "\n" +
-							"직전대비 :: " + bobOne.getRatioRe()
-							);
-					exchangeWSController.marketTable(bobOne);
-					System.out.println("ExchangeServiceImpl.marketTable :: 화폐의 시세정보 테이블을 갱신합니다." + "\n" +
-							"코인 :: " +bobOne.getCryptoSeq()+ "\n" +
-							"최근 24시간 고가 :: " + bobOne.getHigh24()+ "\n" +
-							"최근 24시간 저가 :: " + bobOne.getLow24()+ "\n" +
-							"최근 24시간 거래량 :: " + bobOne.getVolume24()+ "\n" +
-							"최근 24시간 거래대금 :: " + bobOne.getCap24()+ "\n" +
-							"최근 거래가격 :: " + bobOne.getRecentPrice()+ "\n" +
-							"전일 종가 :: " + bobOne.getClosingPrice() + "\n" +
-							"전일대비 상승비율 :: "+ bobOne.getRatioPre()
-							);
-					exchangeWSController.spread(bobOne);
-					System.out.println("ExchangeServiceImpl.spread :: spread 정보를 가져옵니다." + "\n" +
-							"매수자 // 매수번호 :: " +bobOne.getMemberSeqBuy()+ " // " + bobOne.getObSeqBuy()+ "\n" +
-							"매수가격 :: "+bobOne.getbPrice()+ "\n" +
-							"매도자 // 매도번호 :: " + bobOne.getMemberSeqSell() + " // " + bobOne.getObSeqSell()+ "\n" +
-							"매도가격 :: "+bobOne.getsPrice()+ "\n" +
-							"spread :: "+bobOne.getSpread()
-						);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if(orderbook.processLimitBuy(bobOne) == true) {
+				callMarketTrend(bobOne);
 			}
 		}else if(bobOne.getOrderType() == 1) {
 			System.out.println(
@@ -208,54 +193,14 @@ public class ExchangeServiceImpl implements ExchangeService {
 					+ "매게변수는 bobOne과 sellOrders 입니다."+ "\n"
 					);
 			
-			if( orderbook.processMarketBuy(bobOne,sellOrders) == true) {
-				try {
-					
-					
-					exchangeWSController.transactionTable(bobOne);
-					System.out.println("ExchangeServiceImpl.completeOrder :: transactionTable() 정보를 갱신합니다."+ "\n" +
-							"거래번호 :: "+ bobOne.getTransactionSeq()+ "\n" +
-							"거래 통화 :: " + bobOne.getCryptoSeq()+ "\n" +
-							"매수자 :: " +bobOne.getMemberSeqSell()+ "\n" +
-							"매수번호 :: " + bobOne.getObSeqBuy()+ "\n" +
-							"매도번호 :: " + bobOne.getObSeqSell()+ "\n" +
-							"매도자 :: " +bobOne.getMemberSeqBuy()+ "\n" +
-							"거래타입 :: "+ bobOne.getTransactedType()+ "\n" +
-							"거래수량 :: " + bobOne.getAmount()+ "\n" +
-							"거래가격 :: " + bobOne.getbPrice()+ "\n" +
-							"거래 시간 :: " + bobOne.getTimestamp()+ "\n" +
-							"전일대비 :: " + bobOne.getRatioPre()+ "\n" +
-							"직전대비 :: " + bobOne.getRatioRe()
-							);
-					exchangeWSController.marketTable(bobOne);
-					System.out.println("ExchangeServiceImpl.marketTable :: 화폐의 시세정보 테이블을 갱신합니다." + "\n" +
-							"코인 :: " +bobOne.getCryptoSeq()+ "\n" +
-							"최근 24시간 고가 :: " + bobOne.getHigh24()+ "\n" +
-							"최근 24시간 저가 :: " + bobOne.getLow24()+ "\n" +
-							"최근 24시간 거래량 :: " + bobOne.getVolume24()+ "\n" +
-							"최근 24시간 거래대금 :: " + bobOne.getCap24()+ "\n" +
-							"최근 거래가격 :: " + bobOne.getRecentPrice()+ "\n" +
-							"전일 종가 :: " + bobOne.getClosingPrice() + "\n" +
-							"전일대비 상승비율 :: "+ bobOne.getRatioPre()
-							);
-					exchangeWSController.spread(bobOne);
-					System.out.println("ExchangeServiceImpl.spread :: spread 정보를 가져옵니다." + "\n" +
-							"매수자 // 매수번호 :: " +bobOne.getMemberSeqBuy()+ " // " + bobOne.getObSeqBuy()+ "\n" +
-							"매수가격 :: "+bobOne.getbPrice()+ "\n" +
-							"매도자 // 매도번호 :: " + bobOne.getMemberSeqSell() + " // " + bobOne.getObSeqSell()+ "\n" +
-							"매도가격 :: "+bobOne.getsPrice()+ "\n" +
-							"spread :: "+bobOne.getSpread()
-						);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if( orderbook.processMarketBuy(bobOne) == true) {
+				callMarketTrend(bobOne);
 			}
 		}
 	}
 	
 	@Override
-	public void orderMatchingSell(Order sobOne,List<Order> buyOrders)throws Exception {
+	public void orderMatchingSell(Order sobOne)throws Exception {
 		
 		System.out.println(
 				"ExchangeServiceImpl.selectSOBOne :: 최근 매도주문 내역 하나를 불러옵니다."
@@ -274,42 +219,8 @@ public class ExchangeServiceImpl implements ExchangeService {
 					+ "매게변수는 sobOne과 buyOrders 입니다."+ "\n"
 					);
 			
-			if( orderbook.processLimitBuy(sobOne, buyOrders) == true) {
-				
-				exchangeWSController.transactionTable(sobOne);
-				System.out.println("ExchangeServiceImpl.completeOrder :: transactionTable() 정보를 갱신합니다."+ "\n" +
-						"거래번호 :: "+ sobOne.getTransactionSeq()+ "\n" +
-						"거래 통화 :: " + sobOne.getCryptoSeq()+ "\n" +
-						"매수자 :: " +sobOne.getMemberSeqSell()+ "\n" +
-						"매수번호 :: " + sobOne.getObSeqBuy()+ "\n" +
-						"매도번호 :: " + sobOne.getObSeqSell()+ "\n" +
-						"매도자 :: " +sobOne.getMemberSeqBuy()+ "\n" +
-						"거래타입 :: "+ sobOne.getTransactedType()+ "\n" +
-						"거래수량 :: " + sobOne.getAmount()+ "\n" +
-						"거래가격 :: " + sobOne.getbPrice()+ "\n" +
-						"거래 시간 :: " + sobOne.getTimestamp()+ "\n" +
-						"전일대비 :: " + sobOne.getRatioPre()+ "\n" +
-						"직전대비 :: " + sobOne.getRatioRe()
-						);
-				exchangeWSController.marketTable(sobOne);
-				System.out.println("ExchangeServiceImpl.marketTable :: 화폐의 시세정보 테이블을 갱신합니다." + "\n" +
-						"코인 :: " +sobOne.getCryptoSeq()+ "\n" +
-						"최근 24시간 고가 :: " + sobOne.getHigh24()+ "\n" +
-						"최근 24시간 저가 :: " + sobOne.getLow24()+ "\n" +
-						"최근 24시간 거래량 :: " + sobOne.getVolume24()+ "\n" +
-						"최근 24시간 거래대금 :: " + sobOne.getCap24()+ "\n" +
-						"최근 거래가격 :: " + sobOne.getRecentPrice()+ "\n" +
-						"전일 종가 :: " + sobOne.getClosingPrice() + "\n" +
-						"전일대비 상승비율 :: "+ sobOne.getRatioPre()
-						);
-				exchangeWSController.spread(sobOne);
-				System.out.println("ExchangeServiceImpl.spread :: spread 정보를 가져옵니다." + "\n" +
-						"매수자 // 매수번호 :: " +sobOne.getMemberSeqBuy()+ " // " + sobOne.getObSeqBuy()+ "\n" +
-						"매수가격 :: "+sobOne.getbPrice()+ "\n" +
-						"매도자 // 매도번호 :: " + sobOne.getMemberSeqSell() + " // " + sobOne.getObSeqSell()+ "\n" +
-						"매도가격 :: "+sobOne.getsPrice()+ "\n" +
-						"spread :: "+sobOne.getSpread()
-					);
+			if(orderbook.processLimitBuy(sobOne) == true) {
+				callMarketTrend(sobOne);
 			}
 			
 		}else if(sobOne.getOrderType() == 1) {
@@ -319,43 +230,20 @@ public class ExchangeServiceImpl implements ExchangeService {
 					+ "매게변수는 sobOne과 buyOrders 입니다."+ "\n"
 					);
 			
-			if( orderbook.processMarketSell(sobOne,buyOrders) == true) {
-				
-				exchangeWSController.transactionTable(sobOne);
-				System.out.println("ExchangeServiceImpl.completeOrder :: transactionTable() 정보를 갱신합니다."+ "\n" +
-						"거래번호 :: "+ sobOne.getTransactionSeq()+ "\n" +
-						"거래 통화 :: " + sobOne.getCryptoSeq()+ "\n" +
-						"매수자 :: " +sobOne.getMemberSeqSell()+ "\n" +
-						"매수번호 :: " + sobOne.getObSeqBuy()+ "\n" +
-						"매도번호 :: " + sobOne.getObSeqSell()+ "\n" +
-						"매도자 :: " +sobOne.getMemberSeqBuy()+ "\n" +
-						"거래타입 :: "+ sobOne.getTransactedType()+ "\n" +
-						"거래수량 :: " + sobOne.getAmount()+ "\n" +
-						"거래가격 :: " + sobOne.getbPrice()+ "\n" +
-						"거래 시간 :: " + sobOne.getTimestamp()+ "\n" +
-						"전일대비 :: " + sobOne.getRatioPre()+ "\n" +
-						"직전대비 :: " + sobOne.getRatioRe()
-						);
-				exchangeWSController.marketTable(sobOne);
-				System.out.println("ExchangeServiceImpl.marketTable :: 화폐의 시세정보 테이블을 갱신합니다." + "\n" +
-						"코인 :: " +sobOne.getCryptoSeq()+ "\n" +
-						"최근 24시간 고가 :: " + sobOne.getHigh24()+ "\n" +
-						"최근 24시간 저가 :: " + sobOne.getLow24()+ "\n" +
-						"최근 24시간 거래량 :: " + sobOne.getVolume24()+ "\n" +
-						"최근 24시간 거래대금 :: " + sobOne.getCap24()+ "\n" +
-						"최근 거래가격 :: " + sobOne.getRecentPrice()+ "\n" +
-						"전일 종가 :: " + sobOne.getClosingPrice() + "\n" +
-						"전일대비 상승비율 :: "+ sobOne.getRatioPre()
-						);
-				exchangeWSController.spread(sobOne);
-				System.out.println("ExchangeServiceImpl.spread :: spread 정보를 가져옵니다." + "\n" +
-						"매수자 // 매수번호 :: " +sobOne.getMemberSeqBuy()+ " // " + sobOne.getObSeqBuy()+ "\n" +
-						"매수가격 :: "+sobOne.getbPrice()+ "\n" +
-						"매도자 // 매도번호 :: " + sobOne.getMemberSeqSell() + " // " + sobOne.getObSeqSell()+ "\n" +
-						"매도가격 :: "+sobOne.getsPrice()+ "\n" +
-						"spread :: "+sobOne.getSpread()
-					);
+			if( orderbook.processMarketSell(sobOne) == true) { 
+				callMarketTrend(sobOne);
 			}
+		}
+	}
+	
+	public void callMarketTrend(Order order) {
+		try {
+			exchangeWSController.transactionTable(order);
+			exchangeWSController.marketTable(order);
+			exchangeWSController.spread(order);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

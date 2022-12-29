@@ -6,8 +6,7 @@ public class MemberGroupVO extends commonVO {
 	
 	private int mmSess;
 	private int shValuOption;
-	
-	
+	private String shStrOption;
 	public int getMmSess() {
 		return mmSess;
 	}
@@ -20,8 +19,10 @@ public class MemberGroupVO extends commonVO {
 	public void setShValuOption(int shValuOption) {
 		this.shValuOption = shValuOption;
 	}
-	
-	
-	
-
+	public String getShStrOption() {
+		return shStrOption;
+	}
+	public void setShStrOption(String shStrOption) {
+		this.shStrOption = shStrOption;
+	}
 }

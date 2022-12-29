@@ -52,10 +52,17 @@ public class MemberGroupServiceImpl implements  MemberGroupService{
 		
 		return dao.addUser(dto);
 	}
+	@Override
+	public int addBalance(MemberGroup dto) throws Exception{
+		
+		return dao.addBalance(dto);
+	}
 	
 	@Override
 	public MemberGroup selectOneLogin (MemberGroup dto) throws Exception{
-
+		
+		dto.setMemberPw(UtilSecurity.encryptSha256(dto.getMemberPw()));
+		
 		return dao.selectOneLogin(dto);
 	}
 	public MemberGroup selectOneId (MemberGroup dto) throws Exception{
@@ -63,8 +70,8 @@ public class MemberGroupServiceImpl implements  MemberGroupService{
 	}
 	
 	@Override
-	public int isDupleId (MemberGroup vo) throws Exception{
-		return dao.isDupleId(vo);
+	public int isDuple (MemberGroup vo) throws Exception{
+		return dao.isDuple(vo);
 	}
 	
 	

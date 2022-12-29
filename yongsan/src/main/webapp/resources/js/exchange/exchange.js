@@ -1,6 +1,6 @@
 $(document).ready(function(){
-	
-	getUserBal(idTokenKko);
+	cryptoList()
+	getUserBal();
 	
 	
 	
@@ -153,59 +153,94 @@ $(document).ready(function(){
 			var amountToggle = $('#amountToggle02').val('1')
 		}
 	})
-});
+	
+	console.log("onload :: "+ " memberSeq :: " + memberSeq + " cryptoSeq :: " +  cryptoSeq + " cryptoSym :: " + cryptoSym)
+})
 
-function getUserBal(idTokenKko){
-	var idTokenKko = $('#idTokenKko').val()
+const memberSeq = $('#memberSeq').val()
+const cryptoSeq = $('#cryptoSeq').val()
+const cryptoSym = $('#coinSym').val()
+let pendingCash;
+let pendingAmount;
+
+function orderSumB(){
+	let tp = bidsPrice.value*bidsAmount.value
+	bidsSum.value = tp
+}
+function selectPrice(e){
+	let thisPrice = $(e).find('strong').text()
+	$('input.recentPrice').val(thisPrice)
+	orderSumB()
+}
+function selectAmount(e){
+	let thisAmount = $(e).find('p').text();
+	$('input#asksAmount').val(thisAmount)
+	$('input#bidsAmount').val(thisAmount)
+	orderSumB()
+	
+}
+const bidsPrice = document.getElementById("bidsPrice");
+const bidsAmount = document.getElementById("bidsAmount");
+const bidsSum = document.getElementById("bidsSum");
+bidsPrice.addEventListener('keyup',orderSumB)
+bidsAmount.addEventListener('keyup',orderSumB)
+bidsPrice.addEventListener('change',orderSumB)
+bidsAmount.addEventListener('change',orderSumB)
+
+
+function getUserBal(){
 	var cryptoSeq = $('#cryptoSeq').val()
+	var memberSeq = $('#memberSeq').val()
 	
 	var html ="";
 	html += '<div class="pleaseLogin">'
-	html += '<a id="kkoadduser" class="pleaseLoginBtn" href="http://127.0.0.1:8082/userLoginkko">로그인</a>'
+	html += '<a id="kkoadduser" class="pleaseLoginBtn" href="/userLoginkko">로그인</a>'
 	html += '</div>'
 	
 	
-	if(idTokenKko == ""){
+	if(memberSeq == ""){
 		$('.orderBoxBody').html(html)
 	}else{
 		html = null;
 	}
 	//userBalance
-	if(idTokenKko != ""){
-		console.log("idTokenKko session :: " +idTokenKko);
+	if(memberSeq != ""){
 		$.ajax({
 			async:true
 			,cache:false
 			,type:"post"
 			,url:"/exchange/userBalance"
 			,data:{
-				"idTokenKko" : idTokenKko
+				'shSelectOne': 0
+				,"memberSeq" : memberSeq
 				,"cryptoSeq" : cryptoSeq
 				}
 			,success: function(userBalance){
 				console.log(userBalance)
-				if(userBalance.balance == null || userBalance.balance == 0){
-					$('.userCashBal').text("잔고 없음")
+				let cashbalance = userBalance.userBalance;
+				let pendingcash = userBalance.pendingcash;
+				let availableCash = userBalance.availableCash;
+				console.log("userBalance :: " + availableCash)
+				let availableCtpyto = userBalance.availableCtpyto;
+				let cryptoSym = userBalance.cryptoSym;
+				
+				if(availableCash == null || availableCash == 0){
+					$('#inputKRWBal').val(0)
 				}else{
-					$('.userCashBal').val(userBalance.balance)
-					$('.userCashBal').text(userBalance.balance)
-					$('#memberSeq').val(userBalance.memberSeq)
-					$('#cryptoSeq').val(userBalance.cryptoSeq)
+					
+					$('#KRWBal').val(availableCash)
+					$('#inputKRWBal').val(availableCash)
+					$('#input'+cryptoSym+'Bal').val(availableCtpyto)
 				}
-				
-				
 			}
 			,error : function(err){
 				alert("노노")
 			}
-			
 		})
 	}else{
 		console.log("no idTokenKko session :: " +idTokenKko);
 	}
 }
-
-
 function getOnLoadInfo(){
 	$.ajax({
 			async:true
@@ -222,6 +257,153 @@ function getOnLoadInfo(){
 			}
 			
 		})
-	
-	
+}
+function  orderHis(){
+	myOrder()
+	myTransaction()
+}
+
+function myOrder(){
+	let pendingOrdersHis = $('#pendingOrdersHis tbody')
+	$('#pendingOrdersHis tbody tr').remove();
+	$.ajax({
+			async:true
+			,cache:false
+			,type:"post"
+			,url:"/exchange/requestMyOrders"
+			,data:{
+				'memberSeq' : memberSeq,
+				'cryptoSeq' : cryptoSeq,
+				'limit': 20
+				}
+			,success: function(requestMyOrders){
+				
+				
+				for(let i = 0 ; i < requestMyOrders.length; i ++){
+					
+					let bos;
+					if(requestMyOrders[i].bos == 0){
+						bos = "매수"
+					}else{
+						bos = "매도"
+					}
+					let html1 = ''
+					html1 += '<tr id="hisObSeq'+requestMyOrders[i].obSeq+'" class="exHis"><td>'
+					html1 += 	'<div class="exHis_Day">'+requestMyOrders[i].timestampMD+'</div>'
+					html1 += 	'<div class="exHis_time">'+requestMyOrders[i].timestampR+'</div>'
+					html1 += '</td>'
+					html1 += '<td>'
+					html1 += 	'<div class="exHis_Pairs"><strong>'+ cryptoSym +'/KRW</strong></div>'
+					html1 += 	'<div id="exHis_bos'+requestMyOrders[i].obSeq+'" value="'+requestMyOrders[i].bos+'" class="exHis_TradeType" style="color:">'+bos+'</div>'
+					html1 += '</td>'
+					html1 += '<td>'
+					html1 += 	'<div class="exHis_Price"> - </div>'
+					html1 += 	'<div class="exHis_MyPrice">'+requestMyOrders[i].price+'</div>'
+					html1 += '</td>'
+					html1 += '<td>'
+					html1 += 	'<div class="exHis_Amount">'+requestMyOrders[i].obAmount.toFixed(4)+'</div>'
+					html1 += '</td>'
+					html1 += '<td>'
+					html1 += 	'<button id="cancelOrder" value="'+requestMyOrders[i].obSeq+'" onclick="cancelOrder(this)">취소</button>'
+					html1 += '</td>'
+					html1 += '</tr>'
+					
+					pendingOrdersHis.append(html1)
+				}
+			}
+			,error : function(err){
+				alert("getOnLoadInfo userBalance :: err")
+			}
+			
+		})
+}
+
+function myTransaction(){
+	const transactedOrdersHis = $('#transactedOrdersHis tbody')
+	$('#transactedOrdersHis tbody tr').remove()
+	$.ajax({
+			async:true
+			,cache:false
+			,type:"post"
+			,url:"/exchange/requestMytransaction"
+			,data:{
+				'memberSeq' : memberSeq,
+				'cryptoSeq' : cryptoSeq,
+				'bos': 2,
+				'limit': 20
+				}
+			,success: function(requestMytransaction){
+				
+				for(let i = 0 ; i < requestMytransaction.length; i ++){
+					let bos;
+					if(requestMytransaction[i].memberSeqSell != null || requestMytransaction[i].memberSeqSell != undefined){
+						bos = "매수"
+					}else{
+						bos = "매도"
+					}
+					
+					let html2 = ''
+					html2 += '<tr class="exHis">'
+					html2 += '<td>'
+					html2 += '<div class="exHis_Day">'+requestMytransaction[i].timestampMD+'</div>'
+					html2 += '<div class="exHis_time">'+requestMytransaction[i].timestampR+'</div>'
+					html2 += '</td>'
+					html2 += '<td>'
+					html2 += '<div class="exHis_Pairs"><strong>'+cryptoSym+'/KRW</strong></div>'
+					html2 += '<div class="exHis_TradeType">'+bos+'</div>'
+					html2 += '</td>'
+					html2 += '<td>'
+					html2 += '<div class="exHis_Price"> - </div>'
+					html2 += '<div class="exHis_MyPrice">'+requestMytransaction[i].price+'</div>'
+					html2 += '</td>'
+					html2 += '<td>'
+					html2 += '<div class="exHis_Amount">'+requestMytransaction[i].amount+'</div>'
+					html2 += '</td>'
+					html2 += '</tr>'
+					
+					transactedOrdersHis.append(html2)
+				}
+			
+			}
+			,error : function(err){
+				alert("getOnLoadInfo userBalance :: err")
+			}
+			
+		})
+}
+
+function cryptoList(){
+	$.ajax({
+		url:'/exchange/getCryptoList'
+		,type:'get'
+		,data:{}
+		,success:function(cryptoList){
+			for(let i = 0 ; i < cryptoList.length;i++){
+				console.log(cryptoList[i])
+				let html = ''
+				html += '<tr id="'+cryptoList[i].cryptoName+'" class="cryptoRow thisCoin" value="'+cryptoList[i].cryptoName+'" onclick="toThisCoin(this)">'
+				html += '<td class="likeThis"><i class="fa-regular fa-star"></i></i></td>'
+				html += '<td class="smallCandle">-</td>'
+				html += '<td class="CryptoName" style="text-align:left;">'
+				html += '<div class="getCryptoNm">'+cryptoList[i].cryptoName+'</div>'
+				html += '<div class="getCryptoSym">'+cryptoList[i].cryptoSym+'</div>'
+				html += '</td>'
+				html += '<td class="CryptoPricePresent">'+cryptoList[i].recentPrice+'</td>'
+				html += '<td class="24Hvari">'
+				html += '<div>'+cryptoList[i].ratio+'%</div>'
+				html += '<div>'+cryptoList[i].gap+'₩</div>'
+				html += '</td>'
+				html += '<td class="CryptoCap">'
+				html += '<div><span>num</span><i>백만</i></div>'
+				html += '</td>'
+				html += '</tr>'
+				
+				$('#cryptoListBar').append(html)
+			}
+		}
+	})
+}
+function toThisCoin(e){
+	let cryptoSym = $(e).find('.getCryptoSym').text();
+	location.href='/exchange/'+cryptoSym
 }

@@ -2,7 +2,7 @@ package com.seoul.infra.modules.exchange.orderMatchingSystem;
 
 import java.sql.Date;
 
-public class Order  {
+public class Order extends OrderVo  {
 	
 	/*
 	 * 주문자 정보
@@ -86,17 +86,6 @@ public class Order  {
 	}
 	public void setTimestamp(final Date timestamp) {
 		this.timestamp = timestamp;
-	}
-	
-	
-	
-	public double totalPirce;
-	
-	public double getTotalPirce() {
-		return totalPirce;
-	}
-	public void setTotalPirce(final double price,final double amount) {
-		this.totalPirce = price*amount ;
 	}
 	
 	/*
@@ -193,8 +182,22 @@ public class Order  {
 	private double ratioPre;
 	private double spread;
 	private double priceGap;
+	private double ratio;
+	private double amountRatio;
 
 	
+	public double getAmountRatio() {
+		return amountRatio;
+	}
+	public void setAmountRatio(double amountRatio) {
+		this.amountRatio = amountRatio;
+	}
+	public double getRatio() {
+		return ratio;
+	}
+	public void setRatio(double ratio) {
+		this.ratio = ratio;
+	}
 	public double getPriceGap() {
 		return priceGap;
 	}
@@ -311,9 +314,145 @@ public class Order  {
 		this.sAmount = sAmount;
 	}
 	
+	private double balance;
+	private double totalPrice;
+	
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	//chartFeild
+	private Date year;
+	private Date date;
+	private String duration;
+	private String durationSub;
+	private String y1;
+	private String d1;
+	private String w1;
+	private String h4;
+	private String h1;
+	private String m30;
+	private String m15;
+	private String m10;
+	private String m5;
+	private String m1;
+	private double high;
+	private double low;
+	private double startPrice;
 	
 	
 	
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+	public String getDurationSub() {
+		return durationSub;
+	}
+	public void setDurationSub(String durationSub) {
+		this.durationSub = durationSub;
+	}
+	public Date getYear() {
+		return year;
+	}
+	public void setYear(Date year) {
+		this.year = year;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public String getY1() {
+		return y1;
+	}
+	public void setY1(String y1) {
+		this.y1 = y1;
+	}
+	public String getD1() {
+		return d1;
+	}
+	public void setD1(String d1) {
+		this.d1 = d1;
+	}
+	public String getW1() {
+		return w1;
+	}
+	public void setW1(String w1) {
+		this.w1 = w1;
+	}
+	public String getH4() {
+		return h4;
+	}
+	public void setH4(String h4) {
+		this.h4 = h4;
+	}
+	public String getH1() {
+		return h1;
+	}
+	public void setH1(String h1) {
+		this.h1 = h1;
+	}
+	public String getM30() {
+		return m30;
+	}
+	public void setM30(String m30) {
+		this.m30 = m30;
+	}
+	public String getM15() {
+		return m15;
+	}
+	public void setM15(String m15) {
+		this.m15 = m15;
+	}
+	public String getM10() {
+		return m10;
+	}
+	public void setM10(String m10) {
+		this.m10 = m10;
+	}
+	public String getM5() {
+		return m5;
+	}
+	public void setM5(String m5) {
+		this.m5 = m5;
+	}
+	public String getM1() {
+		return m1;
+	}
+	public void setM1(String m1) {
+		this.m1 = m1;
+	}
+	public double getHigh() {
+		return high;
+	}
+	public void setHigh(double high) {
+		this.high = high;
+	}
+	public double getLow() {
+		return low;
+	}
+	public void setLow(double low) {
+		this.low = low;
+	}
+	public double getStartPrice() {
+		return startPrice;
+	}
+	public void setStartPrice(double startPrice) {
+		this.startPrice = startPrice;
+	}
 	public void setOrders(Integer mmSeqBuy,Integer mmSeqSell,Integer obSeqBuy,Integer obSeqSell,double obAmount,double price) {
 		setMemberSeqBuy(mmSeqBuy); //매수자
 		setMemberSeqSell(mmSeqSell);// 매도자
@@ -322,5 +461,57 @@ public class Order  {
 		setObAmount(obAmount); // 소화될 수량
 		setPrice(price); // 가격
 	}
+	
+	private String cryptoName;
+	private String cryptoNameKor;
+	private String cryptoSym;
+
+
+	public String getCryptoSym() {
+		return cryptoSym;
+	}
+	public void setCryptoSym(String cryptoSym) {
+		this.cryptoSym = cryptoSym;
+	}
+	public String getCryptoName() {
+		return cryptoName;
+	}
+	public void setCryptoName(String cryptoName) {
+		this.cryptoName = cryptoName;
+	}
+	public String getCryptoNameKor() {
+		return cryptoNameKor;
+	}
+	public void setCryptoNameKor(String cryptoNameKor) {
+		this.cryptoNameKor = cryptoNameKor;
+	}
+	
+	private double gap;
+
+
+	public double getGap() {
+		return gap;
+	}
+	public void setGap(double gap) {
+		this.gap = gap;
+	}
+	
+	private Integer submittedCrypto;
+	private Integer submittedBy;
+
+
+	public Integer getSubmittedCrypto() {
+		return submittedCrypto;
+	}
+	public void setSubmittedCrypto(Integer submittedCrypto) {
+		this.submittedCrypto = submittedCrypto;
+	}
+	public Integer getSubmittedBy() {
+		return submittedBy;
+	}
+	public void setSubmittedBy(Integer submittedBy) {
+		this.submittedBy = submittedBy;
+	}
+	
 }
 

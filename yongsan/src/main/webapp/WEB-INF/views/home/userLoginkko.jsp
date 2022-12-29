@@ -71,7 +71,7 @@ cursor:pointer;
 				 	 <p class="p3" style="display:block"><i class="fa-solid fa-circle"></i> &nbsp;&nbsp; 카카오계정으로 간편하게 안전하게 로그인(회원가입)할 수 있습니다.</p>
 				 	 <p class="p3" style="display:block"><i class="fa-solid fa-circle"></i> 
 				 	 	&nbsp;&nbsp; 다른 방법으로 로그인 하시겠어요?
-				 	 	<a class="p3" href="http://127.0.0.1:8082/userLogin">
+				 	 	<a class="p3" onclick="goAddUser()">
 					 	 다른 방법으로 로그인하기
 					 	</a>
 				 	 </p>

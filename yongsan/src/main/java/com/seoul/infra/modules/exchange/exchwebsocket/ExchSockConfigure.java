@@ -18,7 +18,7 @@ public class ExchSockConfigure implements WebSocketMessageBrokerConfigurer {
 
 	  @Override
 	  public void registerStompEndpoints(StompEndpointRegistry registry) {
-	    registry.addEndpoint("/exchWebSocketService").withSockJS();
+	    registry.addEndpoint("/exchWebSocketService").setAllowedOrigins("*").withSockJS();
 	  }
 
 }

@@ -254,7 +254,7 @@ main > section {
 	font-weight: 700;
 	text-decoration:none;
 	cursor:pointer;
-	padding:12px 58px;
+	padding:12px 55px;
 	line-height:35px;
 }
 .chartBoxHeaderContents:hover {
@@ -369,6 +369,10 @@ main > section {
 	display:flex;
 	align-items:center;
 	padding:0 10px;
+}
+.candleChart{
+	width: 100%;
+    height: calc(100% - 38px);
 }
 
 .menuContents {
@@ -1203,6 +1207,7 @@ input[type=radio]{
 .settleOrderWrapper .settleOrderNY{
 	width:100%;
 	height:100%;
+	overflow:scroll;
 }
 .settleOrderWrapper .settleOrderNY .settleOrderTable{
 	width:100%;

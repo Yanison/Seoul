@@ -8,9 +8,37 @@ public class commonVO extends PaginationVO   {
 	private Date shValueDate;
 	private Integer ActiveNy;
 	private Integer shOption;
+	private Integer shOption2;
+	private Integer cnt;
+	private int sessSeq;
+	private String shDuration;
 	
 	
 	
+	public String getShDuration() {
+		return shDuration;
+	}
+	public void setShDuration(String shDuration) {
+		this.shDuration = shDuration;
+	}
+	public int getSessSeq() {
+		return sessSeq;
+	}
+	public void setSessSeq(int sessSeq) {
+		this.sessSeq = sessSeq;
+	}
+	public Integer getShOption2() {
+		return shOption2;
+	}
+	public void setShOption2(Integer shOption2) {
+		this.shOption2 = shOption2;
+	}
+	public Integer getCnt() {
+		return cnt;
+	}
+	public void setCnt(Integer cnt) {
+		this.cnt = cnt;
+	}
 	public Integer getShOption() {
 		return shOption;
 	}
@@ -118,17 +146,6 @@ public class commonVO extends PaginationVO   {
 		} else {
 			setStartRnumForMysql((getRowNumToShow() * (getThisPage()-1)));
 		}
-		
-//		System.out.println("getThisPage():" + getThisPage());
-//		System.out.println("getTotalRows():" + getTotalRows());
-//		System.out.println("getRowNumToShow():" + getRowNumToShow());
-//		System.out.println("getTotalPages():" + getTotalPages());
-//		System.out.println("getStartPage():" + getStartPage());
-//		System.out.println("getEndPage():" + getEndPage());		
-//		System.out.println("getStartRnumForOracle():" + getStartRnumForOracle());
-//		System.out.println("getEndRnumForOracle():" + getEndRnumForOracle());
-//		System.out.println("getStartRnumForMysql(): " + getStartRnumForMysql());
 	}
-	
 	
 }

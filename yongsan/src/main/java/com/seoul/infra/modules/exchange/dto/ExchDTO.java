@@ -1,11 +1,9 @@
 package com.seoul.infra.modules.exchange.dto;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.seoul.infra.modules.exchange.orderMatchingSystem.OrderVo;
 
-import com.seoul.infra.modules.exchange.ExchangeDao;
-
-public class ExchDTO {
+public class ExchDTO extends OrderVo {
 	
 	/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@ #memberInfo start
@@ -91,17 +89,28 @@ public class ExchDTO {
 
 	
 
-	private int balance;
+	private double balance;
 	private double price;
 	private double obAmount;
 	private int orderType;
 	private int bos;
+	private double cashBalance;
+	private double pendingCash;
+	private double cryptoBalance;
+	private double pendingCrypto;
+	private double availableCtpyto;
+	private double availableCash;
 	
-	
-	public int getBalance() {
+	public double getAvailableCash() {
+		return availableCash;
+	}
+	public void setAvailableCash(double availableCash) {
+		this.availableCash = availableCash;
+	}
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	public double getPrice() {
@@ -128,7 +137,36 @@ public class ExchDTO {
 	public void setBos(int bos) {
 		this.bos = bos;
 	}
-	
+	public double getCashBalance() {
+		return cashBalance;
+	}
+	public void setCashBalance(double cashBalance) {
+		this.cashBalance = cashBalance;
+	}
+	public double getPendingCash() {
+		return pendingCash;
+	}
+	public void setPendingCash(double pendingCash) {
+		this.pendingCash = pendingCash;
+	}
+	public double getCryptoBalance() {
+		return cryptoBalance;
+	}
+	public void setCryptoBalance(double cryptoBalance) {
+		this.cryptoBalance = cryptoBalance;
+	}
+	public double getPendingCrypto() {
+		return pendingCrypto;
+	}
+	public void setPendingCrypto(double pendingCrypto) {
+		this.pendingCrypto = pendingCrypto;
+	}
+	public double getAvailableCtpyto() {
+		return availableCtpyto;
+	}
+	public void setAvailableCtpyto(double availableCtpyto) {
+		this.availableCtpyto = availableCtpyto;
+	}
 	/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 * @@@@ #ExchComponent end
 	 * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
