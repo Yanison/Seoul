@@ -43,7 +43,7 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
  ┃ ┃ ┃ ┃ ┣ 📂dto<br>
  ┃ ┃ ┃ ┃ ┣ 📂modules<br>
  ┃ ┃ ┃ ┃ ┃ ┣ 📂exchange                             exchange :: 거래소 Back-End-Side 로직 구현 package <br>
- ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller                         controller :: 거래소 페이지의 의 Controller        <br>                
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller                         controller :: 거래소 페이지의 의 Controller<br>              
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchwebsocket                      exchwebsocket :: 프로젝트의 STOMP WebSocket Configure Package<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂orderMatchingSystem                orderMatchingSystem :: 거래기능(OrderBook Algorithm) 관련 서비스로직 Package<br>
