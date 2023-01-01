@@ -15,11 +15,14 @@
 
 
 ### 참고자료
-Foundations of Reinforcement Learning with Applications in Finance
-https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf 
-- Java-Matching-Engine-Core
-https://github.com/Laffini/Java-Matching-Engine-Core
+Foundations of Reinforcement Learning with Applications in Finance<br>
+https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf <br>
+- Java-Matching-Engine-Core<br>
+https://github.com/Laffini/Java-Matching-Engine-Core<br>
  
-WebSocket
-- 스프링 웹소켓 공식문서
-- 스프링 STOMP 공식 예제
+- WebSocket
+https://docs.spring.io/spring-framework/docs/5.2.6.RELEASE/spring-framework-reference/web.html#websocket<br>
+https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
+
+
+## 프로젝트 구조
