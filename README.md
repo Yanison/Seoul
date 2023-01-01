@@ -15,7 +15,7 @@
 
 
 ### 참고자료
-Foundations of Reinforcement Learning with Applications in Finance<br>
+- Foundations of Reinforcement Learning with Applications in Finance<br>
 https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf <br>
 - Java-Matching-Engine-Core<br>
 https://github.com/Laffini/Java-Matching-Engine-Core<br>
