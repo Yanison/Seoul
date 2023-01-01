@@ -42,18 +42,18 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
  ┃ ┃ ┃ ┃ ┃ ┗ 📜MailService.java<br>
  ┃ ┃ ┃ ┃ ┣ 📂dto<br>
  ┃ ┃ ┃ ┃ ┣ 📂modules<br>
- ┃ ┃ ┃ ┃ ┃ ┣ 📂exchange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exchange :: 거래소 Back-End-Side 로직 구현 package <br>
- ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;controller :: 거래소 페이지의 의 Controller            
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchange &nbsp;&nbsp;::&nbsp;&nbsp;거래소 Back-End-Side 로직 구현 package <br>
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller  :: 거래소 페이지의 의 Controller            
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto<br>
- ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchwebsocket                      exchwebsocket :: 프로젝트의 STOMP WebSocket Configure Package<br>
- ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂orderMatchingSystem                orderMatchingSystem :: 거래기능(OrderBook Algorithm) 관련 서비스로직 Package<br>
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchwebsocket &nbsp;&nbsp;::&nbsp;&nbsp;프로젝트의 STOMP WebSocket Configure Package<br>
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂orderMatchingSystem &nbsp;&nbsp;::&nbsp;&nbsp;거래기능(OrderBook Algorithm) 관련 서비스로직 Package<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ExchMapper.xml<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ExchangeDao.java<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ExchangeService.java<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜ExchangeServiceImpl.java<br>
- ┃ ┃ ┃ ┃ ┃ ┣ 📂helpcenter                           helpcenter :: 고객센터 페이지의 서비스 로직 pakcage<br>
- ┃ ┃ ┃ ┃ ┃ ┣ 📂investments                          investments :: 보유자산 및 자산평가, 거래내역 서비스로직 package<br>
- ┃ ┃ ┃ ┃ ┃ ┣ 📂membergroup                          membergroup :: 유저관리 관련 서비스 로직 package<br>
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂helpcenter &nbsp;&nbsp;::&nbsp;&nbsp;고객센터 페이지의 서비스 로직 pakcage<br>
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂investments &nbsp;&nbsp;::&nbsp;&nbsp;보유자산 및 자산평가, 거래내역 서비스로직 package<br>
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂membergroup &nbsp;&nbsp;::&nbsp;&nbsp; 유저관리 관련 서비스 로직 package<br>
  ┃ ┃ ┃ ┃ ┃ ┗ 📜A.java<br>
  ┃ ┃ ┃ ┃ ┗ 📜HomeController.java<br>
  ┃ ┃ ┃ ┗ 📜.DS_Store<br>
@@ -77,15 +77,15 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
  ┃ ┃ ┃ ┃ ┣ 📜servlet-context.xml<br>
  ┃ ┃ ┃ ┃ ┗ 📜stomp.xml<br>
  ┃ ┃ ┃ ┗ 📜root-context.xml<br>
- ┃ ┃ ┣ 📂views                          views :: html(jsp) package<br> 
- ┃ ┃ ┃ ┣ 📂exchange                     exchange :: 거래소<br> 
- ┃ ┃ ┃ ┣ 📂helpcenter                   helpcenter :: 고객센터 <br> 
- ┃ ┃ ┃ ┣ 📂home                         home :: 홈<br> 
- ┃ ┃ ┃ ┣ 📂include                      include :: header, footer 와 같은 include 요소들<br> 
- ┃ ┃ ┃ ┣ 📂investments                  investments :: 보유자산 페이지 <br> 
- ┃ ┃ ┃ ┣ 📂rscs                         rscs :: 외부 resource 관리 include <br>
+ ┃ ┃ ┣ 📂views &nbsp;&nbsp; ::&nbsp;&nbsp; html(jsp) package<br> 
+ ┃ ┃ ┃ ┣ 📂exchange &nbsp;&nbsp;::&nbsp;&nbsp; 거래소<br> 
+ ┃ ┃ ┃ ┣ 📂helpcenter &nbsp;&nbsp;::&nbsp;&nbsp; 고객센터 <br> 
+ ┃ ┃ ┃ ┣ 📂home &nbsp;&nbsp;::&nbsp;&nbsp; 홈<br> 
+ ┃ ┃ ┃ ┣ 📂include &nbsp;&nbsp;::&nbsp;&nbsp; header, footer 와 같은 include 요소들<br> 
+ ┃ ┃ ┃ ┣ 📂investments &nbsp;&nbsp;::&nbsp;&nbsp; 보유자산 페이지 <br> 
+ ┃ ┃ ┃ ┣ 📂rscs &nbsp;&nbsp;::&nbsp;&nbsp; 외부 resource 관리 include <br>
  ┃ ┃ ┃ ┣ 📂templates<br>
- ┃ ┃ ┃ ┣ 📂userOrderHistory             userOrderHistory :: 유저의 거래내역 페이지<br> 
+ ┃ ┃ ┃ ┣ 📂userOrderHistory &nbsp;&nbsp;::&nbsp;&nbsp; 유저의 거래내역 페이지<br> 
  ┃ ┃ ┗ 📜web.xml<br> 
  ┃ ┗ 📂resources<br> 
  ┃ ┃ ┣ 📂css<br> 
@@ -95,18 +95,18 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
  ┃ ┃ ┃ ┣ 📂exchange<br> 
  ┃ ┃ ┃ ┃ ┣ 📂BoS<br> 
  ┃ ┃ ┃ ┃ ┣ 📂cryptoList<br> 
- ┃ ┃ ┃ ┃ ┣ 📂exchWebSock                exchWebSock <br> 
- ┃ ┃ ┃ ┃ ┃ ┗ 📜getOBByWebSock.js        getOBByWebSock.js :: stomp websocket 기반 실시간 거래 기능 구현을 위한 front logic script<br> 
+ ┃ ┃ ┃ ┃ ┣ 📂exchWebSock<br> 
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜getOBByWebSock.js &nbsp;&nbsp; ::&nbsp;&nbsp; stomp websocket 기반 실시간 거래 기능 구현을 위한 front logic script<br> 
  ┃ ┃ ┃ ┃ ┣ 📂transacationHistory<br> 
  ┃ ┃ ┃ ┃ ┃ ┗ 📜transacationHistory.js<br> 
  ┃ ┃ ┃ ┃ ┣ 📜exchange.js<br> 
- ┃ ┃ ┃ ┣ 📂homeComponent                homeComponent :: 로그인 및 회원가입 관연 로직을 포함한 folder<br> 
+ ┃ ┃ ┃ ┣ 📂homeComponent &nbsp;&nbsp; ::&nbsp;&nbsp; 로그인 및 회원가입 관연 로직을 포함한 folder<br> 
  ┃ ┃ ┃ ┃ ┣ 📂addUser<br> 
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Validation.js<br> 
  ┃ ┃ ┃ ┃ ┣ 📜header.js<br> 
  ┃ ┃ ┃ ┃ ┣ 📜home.js<br> 
  ┃ ┃ ┃ ┃ ┣ 📜login.js<br> 
- ┃ ┃ ┃ ┣ 📂investment                   investment :: 자산투자 현황 관련 로직을 포함한 folder<br> 
+ ┃ ┃ ┃ ┣ 📂investment &nbsp;&nbsp; ::&nbsp;&nbsp; 자산투자 현황 관련 로직을 포함한 folder<br> 
  ┃ ┃ ┃ ┃ ┣ 📜balance.js<br> 
  ┃ ┃ ┃ ┃ ┣ 📜history.js<br> 
  ┃ ┃ ┃ ┃ ┗ 📜wait_orders.js<br> 
