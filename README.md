@@ -10,3 +10,16 @@ FrontEnd-Language: javaScript,jQeury,Ajax<br>
 BackEnd-Language:Java<br>
 BackEnd-Framework:Spring Legacy,mybatis,maven<br>
 was:tomcat 9.0<br>
+
+
+
+
+참고자료
+- Foundations of Reinforcement Learning with Applications in Finance
+https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf 
+- Java-Matching-Engine-Core
+https://github.com/Laffini/Java-Matching-Engine-Core
+ 
+WebSocket
+- 스프링 웹소켓 공식문서
+- 스프링 STOMP 공식 예제
