@@ -98,7 +98,11 @@ bdDelBtn.addEventListener('click',()=>{
 		,data:{bdSeq:JSON.stringify(arr)}
 		,dataType:'json'
 		,success:function(e){
-			console.log(e)
+			for(let i = 0 ; i < arr.length;i++){
+				let seq = arr[i].bdSeq
+				
+				$('#bd'+seq).remove()
+			}		
 		},error:function(e){
 			console.log(e)
 		}

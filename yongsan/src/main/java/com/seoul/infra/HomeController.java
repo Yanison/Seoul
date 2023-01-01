@@ -1,6 +1,7 @@
 package com.seoul.infra;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.seoul.infra.dto.Crypto;
+import com.seoul.infra.modules.exchange.ExchangeServiceImpl;
 import com.seoul.infra.modules.membergroup.MemberGroup;
 import com.seoul.infra.modules.membergroup.MemberGroupServiceImpl;
 import com.seoul.infra.modules.membergroup.NaverLoginService;
+
 
 @Controller
 public class HomeController {
@@ -24,6 +28,8 @@ public class HomeController {
 	MemberGroupServiceImpl service;
 	@Autowired
 	NaverLoginService naverLoginService;
+	@Autowired
+	ExchangeServiceImpl serviceExch;
 	@Autowired
 	private HttpSession session;
 	
@@ -36,7 +42,8 @@ public class HomeController {
 	
 	@RequestMapping(value="/")
 	public String home(
-			Model model) {
+			Model model
+			,Crypto crypto) {
 		
 		Object memberName = session.getAttribute("memberName");
 		Object idTokenKko  = session.getAttribute("idTokenKko");
@@ -50,6 +57,14 @@ public class HomeController {
 		model.addAttribute("memberName", memberName);
 		model.addAttribute("idTokenKko", idTokenKko);
 		model.addAttribute("memberSeq", memberSeq);
+		
+		try {
+			List<Crypto> cryptoList = serviceExch.selectCryptoList(crypto);
+			model.addAttribute("cryptoList", cryptoList);
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		
 		
 		return "home/home";
 	}
@@ -74,32 +89,34 @@ public class HomeController {
 	}
 	
 	 @RequestMapping("/kakaologin")
-	    public String adduserkko(@RequestParam(value = "code", required = false) String code) throws Exception{
+	    public String adduserkko(@RequestParam(value = "code", required = false) String code){
 	        System.out.println("#########" + code);
 	       
-	        
-	        String access_Token = service.getAccessToken(code);
-	        MemberGroup userInfo = service.getUserInfo(access_Token);
-	       
-	        System.out.println("##access_Token## :: " + access_Token);
-	        System.out.println("##userInfo## :: " + userInfo);
-	        System.out.println("##getMemberName## :: " + userInfo.getMemberName());
-	        
-	        session.invalidate();
-//	        
-	        session.setMaxInactiveInterval(60 * 60); // 60second * 30 = 30minute
-	        session.setAttribute("memberName", userInfo.getMemberName());
-	        session.setAttribute("idTokenKko", userInfo.getIdTokenKko());
-	        session.setAttribute("memberSeq", userInfo.getMemberSeq());
-	        
-	        //HttpSession에 대한 이해를 서술해야함 HttpServletRequest vs HttpSession
-	        System.out.println("session.setAttribute : getMemberName :: "+ userInfo.getMemberName());
-	        System.out.println("session.setAttribute : getIdTokenKko :: "+ userInfo.getIdTokenKko());
-	        System.out.println("session.setAttribute : getMemberSeq :: "+ userInfo.getMemberSeq());
-		      
-	      
-	        return "redirect:/";
-	        
+	        try {
+	        	 String access_Token = service.getAccessToken(code);
+	 	        MemberGroup userInfo = service.getUserInfo(access_Token);
+	 	       
+	 	        System.out.println("##access_Token## :: " + access_Token);
+	 	        System.out.println("##userInfo## :: " + userInfo);
+	 	        System.out.println("##getMemberName## :: " + userInfo.getMemberName());
+	 	        
+	 	        session.invalidate();
+//	 	        
+	 	        session.setMaxInactiveInterval(60 * 60); // 60second * 30 = 30minute
+	 	        session.setAttribute("memberName", userInfo.getMemberName());
+	 	        session.setAttribute("idTokenKko", userInfo.getIdTokenKko());
+	 	        session.setAttribute("memberSeq", userInfo.getMemberSeq());
+	 	        
+	 	        //HttpSession에 대한 이해를 서술해야함 HttpServletRequest vs HttpSession
+	 	        System.out.println("session.setAttribute : getMemberName :: "+ userInfo.getMemberName());
+	 	        System.out.println("session.setAttribute : getIdTokenKko :: "+ userInfo.getIdTokenKko());
+	 	        System.out.println("session.setAttribute : getMemberSeq :: "+ userInfo.getMemberSeq());
+	 	        
+	 	       return "redirect:/";
+	        }catch(Exception e){
+	        	
+	        	return "redirect:/userLogin";
+	        }
 	        //redirect의 동작 방식을 기술해야함
 	    }
 	
@@ -109,6 +126,11 @@ public class HomeController {
 		
 		
 		return "home/userLogin";
+	}
+	@RequestMapping(value="/userLoginFor")
+	public String userLoginFor(MemberGroup dto, HttpSession httpSession) throws Exception{
+		
+		return "home/userLoginFor";
 	}
 	
 	@ResponseBody
@@ -141,7 +163,7 @@ public class HomeController {
 		
 		model.addAttribute("nowPage", "adduserkko");
 		
-		return "home/userLoginkko";
+		return "home/userLogin";
 	}
 	
 	@RequestMapping(value="/userLoginkko")
@@ -149,7 +171,7 @@ public class HomeController {
 		
 		model.addAttribute("nowPage", "userLoginkko");
 		
-		return "home/userLoginkko";
+		return "home/userLogin";
 	}
 	
 	

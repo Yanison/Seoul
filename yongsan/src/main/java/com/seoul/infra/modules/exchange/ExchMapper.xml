@@ -128,53 +128,76 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  -->
 	<select id="selectListCryptoTrend" resultMap="Order2">
+		<![CDATA[
 		select
-		  t.cryptoSeq,
-		  t.cryptoName,
-		  t.cryptoNameKor,
-		  t.cryptoSym,
-		  t.cap24,
-		  t.closingPrice,
-		  t.recentPrice,
-		  Round((t.recentPrice/t.closingPrice)*100) as ratio
-		from(
-		select
-		  c.cryptoName as cryptoName,
-		  c.cryptoNameKor as cryptoNameKor,
-		  c.cryptoSeq as cryptoSeq,
-		  c.cryptoSym as cryptoSym,
-		  (select sum(price) from transaction where 1=1 and cryptoSeq = c.cryptoSeq and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = 4) as cap24,
-		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() -1 order by timestamp desc limit 1) closingPrice,
-		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() order by timestamp desc limit 1) as recentPrice
-		from crypto c left join transaction t on c.cryptoSeq = t.cryptoSeq group by c.cryptoSeq
-		) t where t.cryptoSeq = #{cryptoSeq} and cryptoSeq not in('1');
+		    cryptoSeq
+		    ,cryptoName
+		    ,cryptoNameKor
+		    ,cryptoSym
+		    ,high24
+		    ,low24
+		    ,todayLow24
+		    ,todayHigh24
+		    ,Round(volume24,0) volume24
+		    ,cap24
+		    ,recentPrice
+		    ,closingPrice
+		    ,ifNull(Round(((recentPrice - closingPrice)/closingPrice)*100,2),0) as ratio
+		    ,(recentPrice - closingPrice) as priceGap
+		  from (
+		  select 
+		  cryptoSeq
+		  ,cryptoName
+		  ,cryptoNameKor
+		  ,cryptoSym
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0) as high24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price limit 1),0)as low24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price desc limit 1),0)as todayHigh24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price limit 1),0)as todayLow24
+		  ,ifNull((select sum(obAmount) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as volume24
+		  ,ifNull((select sum(price) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as cap24
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = curdate() order by timestamp desc limit 1),0)as recentPrice
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1),0)as closingPrice
+		from orderBook ob left join crypto c on ob.submittedCrypto = c.cryptoSeq where orderStatus = 3 and submittedCrypto not in ('1')  group by submittedCrypto 
+		  )market where cryptoSeq = #{cryptoSeq}
+		]]>
+		
 	</select>
 	
 	<select id="selectCryptoList" resultMap="Order2">
 	<![CDATA[
 		select
-		  t.cryptoSeq,
-		  t.cryptoName,
-		  t.cryptoNameKor,
-		  t.cryptoSym,
-		  ifNull(t.cap24,0) as cap24,
-		  ifNull(t.closingPrice,0) as closingPrice,
-		  ifNull(t.recentPrice,0) as recentPrice,
-		  ifNull(Round((t.recentPrice/t.closingPrice)*100),0) as ratio,
-		  ifNull(Round((t.closingPrice - t.recentPrice)),0) as gap
-		from(
-		select
-		  c.cryptoName as cryptoName,
-		  c.cryptoNameKor as cryptoNameKor,
-		  c.cryptoSeq as cryptoSeq,
-		  c.cryptoSym as cryptoSym,
-		  (select sum(price) from transaction where 1=1 and cryptoSeq = c.cryptoSeq and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = 4) as cap24,
-		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() -1 order by timestamp desc limit 1) closingPrice,
-		  (select price from transaction where 1=1 and cryptoSeq = c.cryptoSeq and date(timestamp) = curdate() order by timestamp desc limit 1) as recentPrice
-		from crypto c left join transaction t on c.cryptoSeq = t.cryptoSeq group by c.cryptoSeq
-		) t where cryptoSeq not in('1');
+		    cryptoSeq
+		    ,cryptoName
+		    ,cryptoNameKor
+		    ,cryptoSym
+		    ,high24
+		    ,low24
+		    ,todayLow24
+		    ,todayHigh24
+		    ,Round(volume24,0) volume24
+		    ,cap24
+		    ,recentPrice
+		    ,closingPrice
+		    ,ifNull(Round(((recentPrice - closingPrice)/closingPrice)*100,2),0) as ratioPre
+		    ,(recentPrice - closingPrice) as priceGap
+		  from (
+		  select 
+		  cryptoSeq
+		  ,cryptoName
+		  ,cryptoNameKor
+		  ,cryptoSym
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0) as high24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price limit 1),0)as low24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price desc limit 1),0)as todayHigh24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price limit 1),0)as todayLow24
+		  ,ifNull((select sum(obAmount) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as volume24
+		  ,ifNull((select sum(price) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as cap24
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = curdate() order by timestamp desc limit 1),0)as recentPrice
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1),0)as closingPrice
+		from orderBook ob left join crypto c on ob.submittedCrypto = c.cryptoSeq where orderStatus = 3 and submittedCrypto not in ('1')  group by submittedCrypto 
+		  )market
 	]]>
-		
 	</select>
 	
 	<select id="selectCryptoOne" resultMap="exchDto">

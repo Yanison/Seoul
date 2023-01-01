@@ -45,18 +45,15 @@
 			<a title="황비트" class="logo-link" href="/" style="margin:0 0 10px; width:150px; height:50px;"></a>
 			<span class="title" style="margin:0 0 10px;">로그인</span>
 			
-			<input id="memberId"  class="app-inp" type="text" name="아이디" placeholder="아이디" />
+			<input id="memberId"  class="app-inp" type="text" name="아이디" placeholder="아이디" value="ghkdtjsdi1"/>
 			<div id="id-alert" class="alert-box"></div>
 			
-			<input id="memberPw"  class="app-inp" type="password" name="비밀번호" placeholder="비밀번호" />
+			<input id="memberPw"  class="app-inp" type="password" name="비밀번호" placeholder="비밀번호" value="seon1011901!"/>
 			<div id="pw-alert" class="alert-box"></div>
 	
 			<input type="button" id="this-login-btn" class="login-btn" value="로그인" onclick="loginVali()">
 				
-			<!-- <a class="login_sns kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://127.0.0.1:8082/kakaologin&response_type=code">
-				<i class="fa-solid fa-comment fontaws" style="margin-right:10px;"></i>카카오 로그인
-			</a> -->
-			<a class="login_sns kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://3.35.238.197:8082/kakaologin&response_type=code">
+			<a class="login_sns kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://3.35.238.197/kakaologin&response_type=code">
 				<i class="fa-solid fa-comment fontaws" style="margin-right:10px;"></i>카카오 로그인
 			</a>
 			<a class="login_sns google" href="/adduser">일반 회원가입</a>

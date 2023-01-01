@@ -10,12 +10,16 @@ goList = function(thisPage){
 	$('input:hidden[name=startRnumForMysql]').val(startRnumForMysql);
 	
 	
-	let pagingUrl = '?thisPage='+thisPage+'&rowNumToShow='+rowNumToShow+'&startRnumForMysql='+startRnumForMysql
+	let pagingUrl = '&thisPage='+thisPage+'&rowNumToShow='+rowNumToShow+'&startRnumForMysql='+startRnumForMysql
     let nowURl = window.location.href;
     let splitUrl = nowURl.split('?')
     let prUrl = splitUrl[0];
+    let qstr = splitUrl[1];
+    let param = splitUrl[1].split('&')
 	
-	let targetUrl = prUrl+pagingUrl
+	let targetUrl = prUrl+'?'+param[0]+'&'+param[1]+'&'+param[2]+pagingUrl
 	
+	console.log(param)
+	console.log(targetUrl)
 	location.href=targetUrl
 }

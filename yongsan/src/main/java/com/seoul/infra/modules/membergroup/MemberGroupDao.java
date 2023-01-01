@@ -35,7 +35,6 @@ public class MemberGroupDao {
 	
 	
 //User
-	
 	public int addUser(MemberGroup dto) {
 		return sqlSession.update(namespace + ".addUser", dto);
 	}

@@ -21,9 +21,7 @@
 			<input type="hidden" name="memberSeq" value="${memberSeq}">
 			<input value="상담 유형 :: ${bdOne.bdDiv}" id="boardTitle" class="app-inp boardInput boardTitle contentText bdView" type="text" name="bdTitle" readonly>
 			<input value="${bdOne.bdTitle}" id="boardTitle" class="app-inp boardInput boardTitle contentText contentTextTitle bdView" type="text" name="bdTitle" readonly>
-			<textarea id="boardContents" class="boardInput boardContents contentText bdView" id="bdContent" name="bdContent" readonly>
-				${bdOne.bdContent}
-			</textarea>
+			<textarea id="boardContents" class="boardInput boardContents contentText bdView" id="bdContent" name="bdContent" readonly>${bdOne.bdContent}</textarea>
 			<div id="boardWrite_footer" class="boardWrite_footer">
 				<c:if test="${bdOne.memberSeq} == ${memberSeq}">
 					<button class="uptBtn" type="button"> 글 수정하기 </button>

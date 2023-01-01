@@ -54,6 +54,7 @@ public class HelpcenterRestController {
 				System.out.println(bdSeq);
 				HelpcenterDto dto = new HelpcenterDto();
 				dto.setBdSeq(bdSeq);
+				dto.setShValue("bd");
 				dao.delCmt(dto);
 				del += dao.delBd(dto);
 				
@@ -87,7 +88,7 @@ public class HelpcenterRestController {
 	@ResponseBody
 	@RequestMapping(value="/board/commnet/delete")
 	public int deleteCmt(HelpcenterDto dto,HttpSession session) {
-		
+		dto.setShValue("cmt");
 		int cmt = dao.delCmt(dto);
 		
 		return dto.getCmtSeq();

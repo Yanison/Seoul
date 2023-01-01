@@ -88,8 +88,6 @@ public class MemberGroupController {
 			rp.put("rp", "fail");
 			return rp;
 		}
-		
-		
 	}
 	
 	@ResponseBody

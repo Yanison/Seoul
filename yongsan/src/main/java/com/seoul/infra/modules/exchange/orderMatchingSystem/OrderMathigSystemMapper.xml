@@ -23,16 +23,16 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)as obAmount
+			,Round(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
 			,Round((price * obAmount)) as totalPrice
-			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round(((price - (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1)) / (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1))*100) as ratio
 			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
-		from orderBook
+		from orderBook ob
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
@@ -45,16 +45,16 @@
 			obSeq
 			,submittedBy 
 			,submittedCrypto
-			,format(obAmount,3)as obAmount
+			,Round(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
 			,Round((price * obAmount)) as totalPrice
-			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round(((price - (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1)) / (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1))*100) as ratio
 			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
-		from orderBook
+		from orderBook ob
 			where 1=1
 			and bos = 0
 			and orderStatus = 0  <!-- orderStatus = 0 :: pending -->
@@ -67,16 +67,16 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)as obAmount
+			,Round(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
 			,Round((price * obAmount)) as totalPrice
-			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round(((price - (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1)) / (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1))*100) as ratio
 			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
-		from orderBook
+		from orderBook ob
 			where 1=1
 			and bos = 1
 			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
@@ -89,16 +89,16 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)as obAmount
+			,Round(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
 			,orderStatus
 			,timestamp
 			,Round((price * obAmount)) as totalPrice
-			,Round((price / (select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() -1 order by transactionSeq desc limit 1))*100) as ratio
+			,Round(((price - (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1)) / (select price from orderBook where submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1))*100) as ratio
 			,Round((obAmount / (select o.obAmount from orderBook o where 1=1 and o.submittedCrypto = #{cryptoSeq} order by o.obAmount desc limit 1))*100) as amountRatio
-		from orderBook 
+		from orderBook ob
 			where 1=1
 			and bos = 1
 			and orderStatus = 0 <!-- orderStatus = 0 :: pending -->
@@ -112,7 +112,7 @@
 			obSeq
 			,submittedBy
 			,submittedCrypto
-			,format(obAmount,3)as obAmount
+			,Round(obAmount,3)as obAmount
 			,price
 			,orderType
 			,bos
@@ -138,7 +138,7 @@
 	
 	
 	<select id="selectOrderStatus" resultType="Integer">
-		select orderStatus from OrderBook where 1=1
+		select orderStatus from orderBook where 1=1
 		and submittedCrypto = #{cryptoSeq}
 		and obSeq = #{obSeq}
 	</select>
@@ -218,75 +218,32 @@
 	
 	<select id="marketTable" resultMap="Order2">
 	
-		<!-- market table -->   
+		<![CDATA[
 		select
-			
-			<!-- column-->  cryptoSeq,
-			
-			<!--  24시간 고가  -->   
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and timestamp >= date_add(now(), interval -24 hour) order by timestamp desc limit 1)]]>
-			
-			<!-- column--> as high24,
-			
-			<!--  24시간 저가    -->
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() order by timestamp limit 1)]]>
-			
-			<!-- column--> as todayLow24,
-			
-			<!--  24시간 고가  -->   
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and date(timestamp) = curdate() order by timestamp desc limit 1)]]>
-			
-			<!-- column--> as todayHigh24,
-			
-			<!--  24시간 저가    -->
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and timestamp >= date_add(now(), interval -24 hour) order by timestamp limit 1)]]>
-			
-			<!-- column--> as low24,
-			
-			<!--  일별 거래량    -->
-			<![CDATA[
-			(select sum(amount) from transaction  where 1=1 and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = #{cryptoSeq})
-			]]>
-			
-			<!-- column--> as volume24,
-			
-			<!--  일별 거래대금    -->
-			<![CDATA[
-			(select sum(price) from transaction  where 1=1 and timestamp >= date_add(now(), interval -24 hour) and cryptoSeq = #{cryptoSeq})]]>
-			
-			<!-- column--> as cap24,
-			
-			<!--  최근 가격   --> 
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1)]]>
-			
-			<!-- column--> as recentPrice,
-			
-			<!--  전일 종가    -->
-			<![CDATA[(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)]]>
-			
-			<!-- column--> as closingPrice,
-			
-			<!--  상승 & 하락 비율    -->
-			<![CDATA[ABS(Round((
-			((select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
-			-
-			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
-			/
-			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate()-1 order by transactionSeq desc limit 1)
-			)*100,2))]]>
-			
-			<!-- column--> as ratioPre,
-			<![CDATA[
-			ABS(
-			((select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() -1 order by transactionSeq desc limit 1)
-			-
-			(select price from transaction where 1=1 and cryptoSeq = #{cryptoSeq} and  date(timestamp) = curdate() order by transactionSeq desc limit 1))
-			)
-			]]> as priceGap
-			
-			
-		from transaction 
-		where cryptoSeq = #{cryptoSeq} limit 1;
+		    high24
+		    ,low24
+		    ,todayLow24
+		    ,todayHigh24
+		    ,Round(volume24,0) volume24
+		    ,cap24
+		    ,recentPrice
+		    ,closingPrice
+		    ,Round(((recentPrice - closingPrice)/closingPrice)*100,2) as ratioPre
+		    ,(recentPrice - closingPrice) as priceGap
+		  from (
+		  select 
+		  submittedCrypto
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0) as high24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price limit 1),0)as low24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price desc limit 1),0)as todayHigh24
+		  ,ifNull((select price from orderBook where submittedCrypto = ob.submittedCrypto and timestamp = date_add(now(), interval -1 day) order by price limit 1),0)as todayLow24
+		  ,ifNull((select sum(obAmount) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as volume24
+		  ,ifNull((select sum(price) from orderBook where submittedCrypto = ob.submittedCrypto and timestamp >= date_add(now(), interval -1 day) order by price desc limit 1),0)as cap24
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = curdate() order by timestamp desc limit 1),0)as recentPrice
+		  ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = ob.submittedCrypto and date(timestamp) = (curdate()-1) order by timestamp desc limit 1),0)as closingPrice
+		from orderBook ob where orderStatus = 3 and submittedCrypto not in ('1')  group by submittedCrypto 
+		  )market where submittedCrypto = #{cryptoSeq}
+		]]>
 	
 	</select>
 	
@@ -299,8 +256,8 @@
 		s.memberSeqSell,
 		b.bPrice, 
 		s.sPrice,
-		format(b.bAmount,3) as bAmount,
- 		format(s.sAmount,3) as sAmount,
+		Round(b.bAmount,3) as bAmount,
+ 		Round(s.sAmount,3) as sAmount,
 		(b.bPrice - s.sPrice)
 		as spread 
 	from

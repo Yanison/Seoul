@@ -371,7 +371,9 @@ function myTransaction(){
 			
 		})
 }
-
+function p(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function cryptoList(){
 	$.ajax({
 		url:'/exchange/getCryptoList'
@@ -388,13 +390,13 @@ function cryptoList(){
 				html += '<div class="getCryptoNm">'+cryptoList[i].cryptoName+'</div>'
 				html += '<div class="getCryptoSym">'+cryptoList[i].cryptoSym+'</div>'
 				html += '</td>'
-				html += '<td class="CryptoPricePresent">'+cryptoList[i].recentPrice+'</td>'
+				html += '<td class="CryptoPricePresent">'+p(cryptoList[i].recentPrice)+'</td>'
 				html += '<td class="24Hvari">'
 				html += '<div>'+cryptoList[i].ratio+'%</div>'
-				html += '<div>'+cryptoList[i].gap+'₩</div>'
+				html += '<div>'+p(cryptoList[i].priceGap)+'₩</div>'
 				html += '</td>'
 				html += '<td class="CryptoCap">'
-				html += '<div><span>num</span><i>백만</i></div>'
+				html += '<div><span>'+p(cryptoList[i].volume24)+'</span><i>백만</i></div>'
 				html += '</td>'
 				html += '</tr>'
 				

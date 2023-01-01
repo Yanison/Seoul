@@ -1,24 +1,7 @@
 $(document).ready(function(){
-	google.charts.load('current', {'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawChart);
-	
 	connect()
 	cryptoList()
-	chartTable(2)
-	chartTable(3)
-	chartTable(4)
-	for(let i = 0  ; i <homeCrypto.length; i++){
-		console.log("homeCrypto[i].cryptoSeq  "+homeCrypto[i].cryptoSeq)
-		//chartTable(homeCrypto[i].cryptoSeq)
-	}
 });
-
-let homeCrypto = {
-	'cryptoSeq' : 2,
-	'cryptoSeq' : 3,
-	'cryptoSeq' : 4,
-}
-
 var stompClient = null;
 
 function connect() {
@@ -32,11 +15,12 @@ function connect() {
 			let n = cryptoList.length;
 			$('#cryptoListBar').remove('tr')
 			for(let i = 0 ; i < n ; i ++){
-				console.log(cryptoList[i])
-				$('#'+cryptoList[i].cryptoName+'_name').text(cryptoList[i].cryptoName)
+				$('#'+cryptoList[i].cryptoSym+'_name').text(cryptoList[i].cryptoName)
 				$('#'+cryptoList[i].cryptoSym+'_sym').text(cryptoList[i].cryptoSym)
-				$('#'+cryptoList[i].recentPrice+'_price').text(cryptoList[i].recentPrice)
-				$('#'+cryptoList[i].gap+'_gap').text(cryptoList[i].gap)
+				$('#'+cryptoList[i].cryptoSym+'_price').text(p(cryptoList[i].recentPrice)+" KRW")
+				$('#'+cryptoList[i].cryptoSym+'_priceGapGap').text(cryptoList[i].ratioPre+" %")
+				$('#'+cryptoList[i].cryptoSym+'_gap').text(p(cryptoList[i].priceGap) + " KRW")
+				
 			}
 		});
     });
@@ -56,17 +40,14 @@ function cryptoList(){
 				
 				$('#'+cryptoList[i].cryptoSym+'_name').text(cryptoList[i].cryptoName)
 				$('#'+cryptoList[i].cryptoSym+'_sym').text(cryptoList[i].cryptoSym)
-				$('#'+cryptoList[i].cryptoSym+'_price').text(priceToString(recentPrice)+" KRW")
-				$('#'+cryptoList[i].cryptoSym+'_gap').text(priceToString(gap)+" KRW")
+				$('#'+cryptoList[i].cryptoSym+'_price').text(p(cryptoList[i].recentPrice)+" KRW")
+				$('#'+cryptoList[i].cryptoSym+'_priceGapGap').text(cryptoList[i].ratioPre+" %")
+				$('#'+cryptoList[i].cryptoSym+'_gap').text(p(cryptoList[i].priceGap) + " KRW")
+				
 			}
 		}
 	})
 }
-
-
-
-
-
 
 function chartTable(cryptoSeq){
 	console.log('chartTable')
@@ -95,31 +76,8 @@ function chartTable(cryptoSeq){
 		}
 	})
 }
-function drawChart(chartData) {
-	var options = {
-      legend:'none',
-      candlestick: {
-        fallingColor: { strokeWidth: 0, fill: '#0062df' }, // red
-        risingColor: { strokeWidth: 0, fill: '#c84a31' }   // green
-      },
-      hAxis:{direction: -1}
-    };
 
-	        			
-    data = google.visualization.arrayToDataTable(chartData, true);
-    
-    var chart4 = new google.visualization.CandlestickChart(document.getElementById('4Chart'));
-    var chart3 = new google.visualization.CandlestickChart(document.getElementById('3Chart'));
-    var chart2 = new google.visualization.CandlestickChart(document.getElementById('2Chart'));
-
-    chart4.draw(data, options);
-    chart3.draw(data, options);
-    chart2.draw(data, options);
-}
-
-
-
-function priceToString(price) {
+function p(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 

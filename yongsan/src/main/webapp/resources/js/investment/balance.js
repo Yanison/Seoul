@@ -66,7 +66,7 @@ function requestTradeStatus(){
 							</div>
 						</td>
 						<td>
-							<strong class="table_column amount">`+p(balance)+`</strong>
+							<strong class="table_column amount">`+balance+`</strong>
 							<i class="table_column crptoSym">`+cryptoSym+`</i>
 						</td>
 						<td>

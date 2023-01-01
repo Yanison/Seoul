@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
-<script src="/resources/js/pagination.js"></script>
+<script src="/resources/js/paginationSH.js"></script>
 
 <input id="index" type="hidden" value="${i.index}">
 

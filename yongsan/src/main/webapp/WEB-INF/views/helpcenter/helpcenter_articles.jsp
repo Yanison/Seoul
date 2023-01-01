@@ -48,7 +48,7 @@
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${selectBdList}" var="bd" varStatus="status">
-											<tr>
+											<tr id="bd${bd.bdSeq}">
 												<td class="col_start" style="text-align:left;"><input type="checkbox" class="chkBox" name="bdChk" value="${bd.bdSeq}"></td>
 									  			<td class="col_start" style="text-align:left;" onclick="goThisBd(${bd.bdSeq})">${bd.bdTitle} (${bd.cnt})</td>							
 									  			<td class="col_mid" style="text-align:center;"><fmt:formatDate value="${bd.bdRegDateTime}" pattern="yyyy-MM-dd"/></td>

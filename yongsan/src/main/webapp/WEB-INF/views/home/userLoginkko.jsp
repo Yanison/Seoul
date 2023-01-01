@@ -43,7 +43,7 @@ cursor:pointer;
 					<p class="p1 texts"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; 간편하게 카카오로 로그인 버튼을 눌러 회원가입을 해보세요!</p>
 					<p class="p1 texts"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; 방문하신 사이트 주소가 아래와 일치한지 확인해주세요</p>
 					<p class="p2 texts">https://hwangbit.com</p>
-				 	 <a href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://127.0.0.1:8082/kakaologin&response_type=code">
+				 	 <a href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://3.35.238.197:8082/kakaologin&response_type=code">
 				 	 	<img src="../resources/image/kakao_login_medium_wide.png"/>
 				 	 </a>
 				 	 <div class="pBox">
@@ -64,7 +64,7 @@ cursor:pointer;
 					<h1 class="h1 texts">로그인</h1>
 					<p class="p1 texts"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; 방문하신 사이트 주소가 아래와 일치한지 확인해주세요</p>
 					<p class="p2 texts">https://hwangbit.com</p>
-				 	 <a href="https://kauth.kakao.com/oauth/authorize?client_id=0150c62dea4406ba52dbae88e0293319&redirect_uri=http://127.0.0.1:8082/kakaologin&response_type=code">
+				 	 <a href="https://kauth.kakao.com/oauth/authorize?client_id=e154e22cec2a25c3db467518a4b2f3ff&redirect_uri=http://3.35.238.197:8082/kakaologin&response_type=code">
 				 	 	<img src="../resources/image/kakao_login_medium_wide.png"/>
 				 	 </a>
 				 	 <div class="pBox">

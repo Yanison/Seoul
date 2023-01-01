@@ -5,7 +5,6 @@
 <title>CoinHwang</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <!-- CSS only -->
 <link type="text/css" rel="stylesheet" href="/resources/css/home.css">
 <%@ include file="../rscs/basicRscs.jsp"%>
@@ -67,22 +66,18 @@
 							</span> <span style="font-size: 16px" id="BTC_sym">Bitcoin</span>
 						</div>
 						<div class="coinPrice">
-							<div id="BTC_price" class="tradePrice money">123123213231231</div>
+							<div id="BTC_price" class="tradePrice money"></div>
 							<div class="priceDetail">
 								<span id="BTC_gap">전일대비</span>
 								<div id="updownbtc" class="updown"></div>
 								<div id="priceGapbtc" class="priceGap">
 									<div id="arrowbtc" class="arrow"></div>
-									<div id="priceGapGapbtc" class="priceGapGap"></div>
+									<div id="BTC_priceGapGap" class="priceGapGap"></div>
 								</div>
 								<span id="btcPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
-					<div id="4Chart" class="priceBoxBot">
-						<div class="priceBoxBotChart"></div>
-					</div>
-
 				</div>
 				<div class="priceBox priceETH">
 
@@ -94,22 +89,18 @@
 							</span> <span style="font-size: 16px">SYCoin</span>
 						</div>
 						<div class="coinPrice">
-							<div id="ethPrice" class="tradePrice money"></div>
+							<div id="SYC_price" class="tradePrice money"></div>
 							<div class="priceDetail">
-								<span id="SYC_gap">전일대비</span>
+								<span id="SYC_gap">전일대비대</span>
 								<div id="updowneth" class="updown"></div>
 								<div id="priceGapeth" class="priceGap">
 									<div id="arroweth" class="arrow"></div>
-									<div id="priceGapGapeth" class="priceGapGap"></div>
+									<div id="SYC_priceGapGap" class="priceGapGap"></div>
 								</div>
 								<span id="ethPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
-					<div id="3Chart" class="priceBoxBot">
-						<div class="priceBoxBotChart"></div>
-					</div>
-
 				</div>
 				<div class="priceBox priceXRP">
 
@@ -121,22 +112,18 @@
 							</span> <span style="font-size: 16px">EZCoin</span>
 						</div>
 						<div class="coinPrice">
-							<div id="xrpPrice" class="tradePrice"></div>
+							<div id="EZC_price" class="tradePrice"></div>
 							<div class="priceDetail">
-								<span>전일대비</span>
+								<span id="EZC_gap">전일대비</span>
 								<div id="updownxrp" class="updown"></div>
 								<div id="priceGapxrp" class="priceGap">
 									<div id="arrowxrp" class="arrow"></div>
-									<div id="priceGapGapxrp" class="priceGapGap"></div>
+									<div id="EZC_priceGapGap" class="priceGapGap"></div>
 								</div>
 								<span id="xrpPreprice" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
-					<div id="2Chart" class="priceBoxBot">
-						<div class="priceBoxBotChart"></div>
-					</div>
-
 				</div>
 			</div>
 		</section>

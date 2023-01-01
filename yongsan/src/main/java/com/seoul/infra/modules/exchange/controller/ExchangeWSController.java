@@ -188,8 +188,8 @@ public class ExchangeWSController {
 			userBalance.setShSelectOne(0);
 			userBalance.setCryptoSeq(order.getCryptoSeq());
 			userBalance.setMemberSeq(order.getMemberSeq());
-			userBalance = serviceExch.userBalance(userBalance);
-			userBalance.setAvailableCash(serviceExch.selectAvailableCashBalance(order.getMemberSeq()));
+			userBalance.setAvailableCash(serviceExch.userBalance(userBalance).getAvailableCash());
+			userBalance.setAvailableCtpyto(serviceExch.userBalance(userBalance).getAvailableCtpyto());
 			
 			this.template.convertAndSend("/topic/availableBalance", userBalance);
 		}

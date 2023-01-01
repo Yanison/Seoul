@@ -387,3 +387,10 @@ input.contentTextTitle{
 .uptBtn{
 	z-index:99;
 }
+textarea.bdView{
+	border: none;
+	padding:0;
+}
+textarea.boardInput:focus{
+	outline: none
+}

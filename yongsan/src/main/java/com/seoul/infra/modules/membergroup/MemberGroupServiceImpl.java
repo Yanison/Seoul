@@ -94,7 +94,8 @@ public class MemberGroupServiceImpl implements  MemberGroupService{
              StringBuilder sb = new StringBuilder();
              sb.append("grant_type=authorization_code");
              sb.append("&client_id=0150c62dea4406ba52dbae88e0293319");  //본인이 발급받은 key
-             sb.append("&redirect_uri=http://127.0.0.1:8082/kakaologin");     // 본인이 설정해 놓은 경로
+             //sb.append("&redirect_uri=http://127.0.0.1:8082/kakaologin");     // 본인이 설정해 놓은 경로
+             sb.append("&redirect_uri=http://3.35.238.197:8082/kakaologin");
              sb.append("&code=" + authorize_code);
              bw.write(sb.toString());
              bw.flush();

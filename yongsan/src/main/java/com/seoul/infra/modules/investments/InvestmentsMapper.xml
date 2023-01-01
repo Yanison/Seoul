@@ -25,35 +25,46 @@
 	<select id="tradeStatus" resultMap="InvestmentsDto">
 		<![CDATA[
 			select
-			    cryptoSeq
-			    ,cryptoName
-			    ,cryptoSym
-			    ,memberSeq
-			    ,ifNull(balance,0) as balance -- 보유 수량
-			    ,Round((((buySum - soldSum) / balance)),8) as app -- 매수 평균가
-			    ,(buySum - soldSum) as pp -- 매수금액 
-			    ,(recentPrice * balance) as valuation -- 평가 금액 
-			    ,(recentPrice * balance) - (buySum - soldSum) as pnl -- 평가 손익 
-			    ,ifNull(Round((((recentPrice * balance) - (buySum - soldSum))/(buySum - soldSum)),2)*100,0) as roi -- 수익률 
-			  from
-			  ( 
-			  select 
-			      e.memberSeq 
-					  ,c.cryptoSeq as cryptoSeq
-			      ,c.cryptoSym as cryptoSym
-			      ,c.cryptoName as cryptoName
-					  ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
-					  ,ifNull(balance,0) as cryptoBalance
-			      ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
-			      ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
-			      ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
-			      ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
-					from exchangeBalance e
-					  left join crypto c on e.cryptoSeq = c.cryptoSeq 
-					  where c.cryptoSeq not in('1')
-			  )ts where memberSeq = #{memberSeq}
-			  ;	
+		      memberSeq
+		      ,cashBalance -- 보유 현금
+		      ,cryptoSeq
+		      ,cryptoSym
+		      ,cryptoName
+		      ,recentPrice
+		      ,balance
+		      ,(recentPrice * balance) as valuation -- 평가 금액
+		      ,(ppSum) as pp -- 매수금액
+		      ,Round((ppSum / paSum),0) as app -- 매수 평균가
+		      ,(recentPrice * paSum) - ppSum as pnl -- 평가 손익 
+		      ,Round((((recentPrice * paSum) - ppSum)/ppSum)*100,2) as roi -- 수익률 
+		    from
+		    ( 
+		     select 
+		        e.memberSeq 
+		        ,c.cryptoSeq as cryptoSeq
+		        ,c.cryptoSym as cryptoSym
+		        ,c.cryptoName as cryptoName
+		        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+		        ,ifNull(balance,0) as cryptoBalance
+		        ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = c.cryptoSeq order by timestamp desc limit 1),0) as recentPrice -- 최근 거래 가격
+		        ,(
+		        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+		        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+		        ) as ppSum
+		        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) as buySumAmount
+		        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0) as sellSumAmount
+		        ,(ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+		        ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+		        ) as paSum
+		        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq),0) as balance
+		      from exchangeBalance e
+		        left join crypto c on e.cryptoSeq = c.cryptoSeq 
+		        where c.cryptoSeq not in('1')
+		    )ts where memberSeq = #{memberSeq}
 		]]>
+		<if test='shValue == "crypto" '>
+			and cryptoSeq = #{cryptoSeq}
+		</if>
 	</select>
 	
 	<select id="tradeStatusCnt" resultType="Integer">
@@ -63,33 +74,42 @@
 		(
 		<![CDATA[
 			select
-			    cryptoSeq
-			    ,cryptoName
-			    ,cryptoSym
-			    ,memberSeq
-			    ,ifNull(balance,0) as balance -- 보유 수량
-			    ,Round((((buySum - ifNull(soldSum,0)) / balance)),8) as app -- 매수 평균가
-			    ,(buySum - ifNull(soldSum,0)) as pp -- 매수금액 
-			    ,(recentPrice * balance) as valuation -- 평가 금액 
-			    ,(recentPrice * balance) - (buySum - ifNull(soldSum,0)) as pnl -- 평가 손익 
-			    ,ifNull(Round((((recentPrice * balance) - (buySum - ifNull(soldSum,0)))/(buySum - ifNull(soldSum,0))),2)*100,0) as roi -- 수익률 
-			  from
-			  ( 
-			  select 
-			      e.memberSeq 
-					  ,c.cryptoSeq as cryptoSeq
-			      ,c.cryptoSym as cryptoSym
-			      ,c.cryptoName as cryptoName
-					  ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
-					  ,ifNull(balance,0) as cryptoBalance
-			      ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
-			      ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
-			      ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
-			      ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
-					from exchangeBalance e
-					  left join crypto c on e.cryptoSeq = c.cryptoSeq 
-					  where c.cryptoSeq not in('1')
-			  )ts where memberSeq = #{memberSeq}
+		      memberSeq
+		      ,cashBalance -- 보유 현금
+		      ,cryptoSeq
+		      ,cryptoSym
+		      ,cryptoName
+		      ,recentPrice
+		      ,balance
+		      ,(recentPrice * balance) as valuation -- 평가 금액
+		      ,(ppSum) as pp -- 매수금액
+		      ,Round((ppSum / paSum),0) as app -- 매수 평균가
+		      ,(recentPrice * paSum) - ppSum as pnl -- 평가 손익 
+		      ,Round((((recentPrice * paSum) - ppSum)/ppSum)*100,2) as roi -- 수익률 
+		    from
+		    ( 
+		     select 
+		        e.memberSeq 
+		        ,c.cryptoSeq as cryptoSeq
+		        ,c.cryptoSym as cryptoSym
+		        ,c.cryptoName as cryptoName
+		        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+		        ,ifNull(balance,0) as cryptoBalance
+		        ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = c.cryptoSeq order by timestamp desc limit 1),0) as recentPrice -- 최근 거래 가격 
+		        ,(
+		        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+		        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+		        ) as ppSum
+		        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) as buySumAmount
+		        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0) as sellSumAmount
+		        ,(ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+		        ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+		        ) as paSum
+		        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq),0) as balance
+		      from exchangeBalance e
+		        left join crypto c on e.cryptoSeq = c.cryptoSeq 
+		        where c.cryptoSeq not in('1')
+		    )ts where memberSeq = #{memberSeq}
 		]]>
 		) cnt
 	</select>
@@ -102,35 +122,45 @@
 			    ,(cashBalance + Round(sum(valuation),0)) as totalAsset -- 총 자산
 			    ,Round(   (sum(pnl) / count(*)  ),0) as pnlAvg -- 총 평가손익
 			    ,Round(sum(valuation),0) as valuationAvg -- 총 평가 금액
-			    ,Round(sum(pp),0) as ppAvg -- 총 매수금액
-			    ,Round(   (sum(roi) / count(*)  ),0) as roiAvg -- 총 평가 수익률 
+			    ,Round(sum(pp),0) as ppAvg-- 총 매수금액
+			    ,Round((sum(valuation) - sum(pp))/sum(pp)*100,2) as roiAvg -- 총 평가 수익률 
 			  from
 			  (
 			     select
-			      memberSeq
-			      ,cashBalance -- 보유 수량
-			      ,Round((((buySum - ifNull(soldSum,0)) / balance)),8) as app -- 매수 평균가
-			      ,(buySum - ifNull(soldSum,0)) as pp -- 매수금액 
-			      ,(recentPrice * balance) as valuation -- 평가 금액 
-			      ,(recentPrice * balance) - (buySum - ifNull(soldSum,0)) as pnl -- 평가 손익 
-			      ,ifNull(Round((((recentPrice * balance) - (buySum - ifNull(soldSum,0)))/(buySum - ifNull(soldSum,0))),2)*100,0) as roi -- 수익률 
-			    from
-			    ( 
-			    select 
-			        e.memberSeq 
-			        ,c.cryptoSeq as cryptoSeq
-			        ,c.cryptoSym as cryptoSym
-			        ,c.cryptoName as cryptoName
-			        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
-			        ,ifNull(balance,0) as cryptoBalance
-			        ,(select price from transaction where cryptoSeq = c.cryptoSeq order by timestamp desc limit 1) as recentPrice
-			        ,(select sum(price * amount) from transaction where memberSeqBuy = e.memberSeq and cryptoSeq = c.cryptoSeq) as buySum
-			        ,(select sum(price * amount) from transaction where memberSeqSell = e.memberSeq and cryptoSeq = c.cryptoSeq) as soldSum
-			        ,(select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq) as balance
-			      from exchangeBalance e
-			        left join crypto c on e.cryptoSeq = c.cryptoSeq 
-			        where c.cryptoSeq not in('1')
-			    )ts where memberSeq = #{memberSeq}
+				      memberSeq
+				      ,cashBalance -- 보유 현금
+				      ,cryptoSeq
+				      ,recentPrice
+				      ,balance
+				      ,(recentPrice * balance) as valuation -- 평가 금액
+				      ,(ppSum) as pp -- 매수금액
+				      ,Round((ppSum / paSum),0) as app -- 매수 평균가
+				      ,(recentPrice * paSum) - ppSum as pnl -- 평가 손익 
+				      ,Round((((recentPrice * paSum) - ppSum)/ppSum)*100,2) as roi -- 수익률 
+				    from
+				    ( 
+				     select 
+				        e.memberSeq 
+				        ,c.cryptoSeq as cryptoSeq
+				        ,c.cryptoSym as cryptoSym
+				        ,c.cryptoName as cryptoName
+				        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = 1),0) as cashBalance
+				        ,ifNull(balance,0) as cryptoBalance
+				        ,ifNull((select price from orderBook where orderStatus = 3 and submittedCrypto = c.cryptoSeq order by timestamp desc limit 1),0) as recentPrice -- 최근 거래 가격
+				        ,(
+				        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+				        ifNull((select sum(price * obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+				        ) as ppSum
+				        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) as buySumAmount
+				        ,ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0) as sellSumAmount
+				        ,(ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 0),0) -
+				        ifNull((select sum(obAmount) from orderBook where submittedBy = e.memberSeq and submittedCrypto = c.cryptoSeq and orderStatus = 3 and bos = 1),0)
+				        ) as paSum
+				        ,ifNull((select balance from exchangeBalance where memberSeq = e.memberSeq and cryptoSeq = c.cryptoSeq),0) as balance
+				      from exchangeBalance e
+				        left join crypto c on e.cryptoSeq = c.cryptoSeq 
+				        where c.cryptoSeq not in('1')
+				    )ts where memberSeq = #{memberSeq}
 			  )as assetEval
 			;
 		]]>

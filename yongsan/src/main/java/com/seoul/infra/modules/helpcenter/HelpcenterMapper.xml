@@ -107,7 +107,13 @@
 		where cmtSeq = #{cmtSeq} 
 	</update>
 	<delete id="delCmt">
-		delete from comment where cmtSeq = #{cmtSeq} 
+		delete from comment
+		<if test='shValue == "cmt"'>
+			where cmtSeq = #{cmtSeq}
+		</if>
+		<if test='shValue == "bd"'>
+			where bdSeq = #{bdSeq}
+		</if> 
 	</delete>
 	
 	<update id="view">

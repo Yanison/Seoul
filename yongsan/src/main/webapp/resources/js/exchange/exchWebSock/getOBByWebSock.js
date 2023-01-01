@@ -10,6 +10,10 @@ $(document).ready(function(){
 	marketTable();
 	chartTable()
 })
+
+function p(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
  
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@ # WebSock connect start 
@@ -144,11 +148,11 @@ function connect() {
 	        			+ ' ratioPre ::' + JSON.parse(marketTable.body).ratioPre +" \n "
 	        			)
 	        
-	        $('#high24').text(JSON.parse(marketTable.body).high24);
-	        $('#low24').text(JSON.parse(marketTable.body).low24);
-	        $('#volume24').text(JSON.parse(marketTable.body).volume24);
-	        $('#cap24').text(JSON.parse(marketTable.body).cap24);
-	        $('#recentPrice').text(JSON.parse(marketTable.body).recentPrice);
+	        $('#high24').text(JSON.parse(p(marketTable.body).high24));
+	        $('#low24').text(JSON.parse(p(marketTable.body).low24));
+	        $('#volume24').text(JSON.parse(p(marketTable.body).volume24));
+	        $('#cap24').text(JSON.parse(p(marketTable.body).cap24));
+	        $('#recentPrice').text(JSON.parse(p(marketTable.body).recentPrice));
 	        $('#ratioPre').text(JSON.parse(marketTable.body).ratioPre);
 	        
 	        effectOfChaginghRatio(JSON.parse(marketTable.body))
@@ -195,22 +199,12 @@ function connect() {
 		});
 		stompClient.subscribe('/topic/availableBalance', function (userBalance){
 			var userBalance = JSON.parse(userBalance.body)
-			
-			console.log(userBalance)
-				let cashbalance = userBalance.userBalance;
-				let pendingcash = userBalance.pendingcash;
 				let availableCash = userBalance.availableCash;
-				console.log("userBalance :: " + availableCash)
 				let availableCtpyto = userBalance.availableCtpyto;
-				let cryptoSym = userBalance.cryptoSym;
 				
-				if(availableCash == null || availableCash == 0){
-					$('#inputKRWBal').val(0)
-				}else{
-					
-					$('#inputKRWBal').val(availableCash)
-					$('#input'+cryptoSym+'Bal').val(availableCtpyto)
-				}
+				console.log("availableBal :: "+ availableCash + "//" + availableCtpyto)
+				$('#inputKRWBal').val(availableCash)
+				$('#input'+cryptoSym+'Bal').val(availableCtpyto)
 			
 			
 		});
@@ -229,13 +223,13 @@ function connect() {
 				html += '<div class="getCryptoNm">'+cryptoList[i].cryptoName+'</div>'
 				html += '<div class="getCryptoSym">'+cryptoList[i].cryptoSym+'</div>'
 				html += '</td>'
-				html += '<td class="CryptoPricePresent">'+cryptoList[i].recentPrice+'</td>'
+				html += '<td class="CryptoPricePresent">'+p(cryptoList[i].recentPrice)+'</td>'
 				html += '<td class="24Hvari">'
 				html += '<div>'+cryptoList[i].ratio+'%</div>'
-				html += '<div>'+cryptoList[i].gap+'₩</div>'
+				html += '<div>'+p(cryptoList[i].priceGap)+'₩</div>'
 				html += '</td>'
 				html += '<td class="CryptoCap">'
-				html += '<div><span>num</span><i>백만</i></div>'
+				html += '<div><span>'+p(cryptoList[i].volume24)+'</span><i>백만</i></div>'
 				html += '</td>'
 				html += '</tr>'
 				$('#cryptoListBar').append(html)
@@ -272,8 +266,8 @@ function cancelOrder(e){
   
 function sendOrder(order) {
 	let cryptoSym = $('#coinSym').val()
-	let userCashBal = $('#inputKRWBal').val()
-	let userCoinBal =$('#input'+cryptoSym+'Bal').val()
+	let userCashBal =Number($('#inputKRWBal').val()) 
+	let userCoinBal =Number($('#input'+cryptoSym+'Bal').val())
 	if(order.price == "" || order.obAmount == "" || order.memberSeq == undefined){
 		alert("주문가격 또는 수량을 입력해주세요")
 		return false;
@@ -282,10 +276,10 @@ function sendOrder(order) {
 	if(order.orderType == 0){
 		if(order.bos == 0){
 			console.log("order.totalPrice :: " + order.totalPrice + "//" + userCashBal)
-			if(order.obAmount >= 1000){
-				alert("1000 미만의 수량만 주문이 가능합니다.")
-				return false;	
-			}
+//			if(order.obAmount >= 1000){
+//				alert("1000 미만의 수량만 주문이 가능합니다.")
+//				return false;	
+//			}
 			if(userCashBal < order.totalPrice){
 				alert("주문 가능 금액을 초과하였습니다.")
 				return false;	
@@ -294,10 +288,10 @@ function sendOrder(order) {
 			return true
 		}else{
 			console.log("order.totalPrice :: " + order.obAmount + "//" + userCoinBal)
-			if(order.obAmount >= 1000){
-				alert("1000 미만의 수량만 주문이 가능합니다.")
-				return false;
-			}
+//			if(order.obAmount >= 1000){
+//				alert("1000 미만의 수량만 주문이 가능합니다.")
+//				return false;
+//			}
 			if(order.obAmount > userCoinBal){
 				alert("매도 가능한 수량을 초과하였습니다.")
 				return false;	
@@ -306,6 +300,7 @@ function sendOrder(order) {
 			return true
 		}	
 	}else{
+		
 		if(order.bos == 0){
 			if(userCashBal < order.totalPrice){
 				alert("주문 가능 금액을 초과하였습니다.")
@@ -314,11 +309,11 @@ function sendOrder(order) {
 			stompClient.send("/app/submitBids", {}, JSON.stringify(order));
 			return true
 		}else{
-			console.log("order.totalPrice :: " + order.obAmount + "//" + userCoinBal)
-			if(order.obAmount >= 1000){
-				alert("1000 미만의 수량만 주문이 가능합니다.")
-				return false;
-			}
+//			console.log("order.totalPrice :: " + order.obAmount + "//" + userCoinBal)
+//			if(order.obAmount >= 1000){
+//				alert("1000 미만의 수량만 주문이 가능합니다.")
+//				return false;
+//			}
 			if(order.obAmount > userCoinBal){
 				alert("매도 가능한 수량을 초과하였습니다.")
 				return false;	
@@ -335,9 +330,9 @@ function submitBids(){
 	if(confirm("매수하시겠습니까?")){
 		var order = 
 		    {
-		        "price" : $('#bidsPrice').val()
-		        ,"obAmount" : $('#bidsAmount').val()
-		        ,'totalPrice' : ($('#bidsPrice').val() * $('#bidsAmount').val())
+		        "price" : Number($('#bidsPrice').val())
+		        ,"obAmount" : Number($('#bidsAmount').val())
+		        ,'totalPrice' : Number(($('#bidsPrice').val() * $('#bidsAmount').val()))
 		        ,"memberSeq" : $('#memberSeq').val()
 		        ,"cryptoSeq" : $('#cryptoSeq').val()
 		        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -368,6 +363,8 @@ function submitBids(){
 				$('#bidsSum').val(null);
 			}	
 		}else{
+			alert("시장매수 기능은 아직 구현중입니다.")
+			return false;
 			var order = 
 		    {
 		        'totalPrice' : $('#bidsSum').val()
@@ -409,9 +406,9 @@ function submitAsks(){
 		
 		var order = 
 			    {
-			        "price" : $('#asksPrice').val()
-			        ,"obAmount" : $('#asksAmount').val()
-			        ,'totalPrice' : ($('#asksPrice').val() * $('#asksAmount').val())
+			        "price" : Number($('#asksPrice').val())
+			        ,"obAmount" : Number($('#asksAmount').val())
+			        ,'totalPrice' : Number($('#asksPrice').val() * $('#asksAmount').val())
 			        ,"memberSeq" : $('#memberSeq').val()
 			        ,"cryptoSeq" : $('#cryptoSeq').val()
 			        ,"orderType" : $('label.otLabel input[name="orderTypeBuy"]:checked').val()
@@ -444,6 +441,8 @@ function submitAsks(){
 				$('#asksSum').val(null);
 				}	
 		}else{
+			alert("시장매수 기능은 아직 구현중입니다.")
+			return false;
 			var order = 
 			    {
 			        'totalPrice' : $('#asksSum').val()
@@ -758,7 +757,7 @@ function bidsTr(price,amount,obSeq,orderType,ratio,amountRatio) {
 	boBtr += '<td class="upB">';
 	boBtr += '<a >';
 	boBtr += '<div class="ty03" onclick="selectPrice(this)">';
-	boBtr += '<strong class="rPrice">'+ price +'</strong>';
+	boBtr += '<strong class="rPrice">'+ p(price)+'</strong>';
 	boBtr += '</div>';
 	boBtr += '<div class="ty02">'+ratio+'%</div>';
 	boBtr += '</a>';
@@ -791,7 +790,7 @@ function boBtrOne(price,amount,obSeq,orderType,ratio,amountRatio) {
 	boBtr += '<td class="upB">';
 	boBtr += '<a >';
 	boBtr += '<div class="ty03" onclick="selectPrice(this)">';
-	boBtr += '<strong class="rPrice">'+ price +'</strong>';
+	boBtr += '<strong class="rPrice">'+ p(price)+'</strong>';
 	boBtr += '</div>';
 	boBtr += '<div class="ty02">'+ratio+'%</div>';
 	boBtr += '</a>';
@@ -829,7 +828,7 @@ function soBtr(price,amount,obSeq,orderType,ratio,amountRatio) {
 	sobtr += '<td class="downB">';
 	sobtr += '<a >';
 	sobtr += '<div class="ty03" onclick="selectPrice(this)">';
-	sobtr += '<strong class="rPrice">'+price+'</strong>';
+	sobtr += '<strong class="rPrice">'+ p(price)+'</strong>';
 	sobtr += '</div>';
 	sobtr += '<div class="ty02">'+ratio+'%</div>';
 	sobtr += '</a>';
@@ -859,7 +858,7 @@ function soBtrOne(price,amount,obSeq,orderType,ratio,amountRatio) {
 	sobtr += '<td class="downB">';
 	sobtr += '<a >';
 	sobtr += '<div class="ty03" onclick="selectPrice(this)">';
-	sobtr += '<strong class="rPrice">'+price+'</strong>';
+	sobtr += '<strong class="rPrice">'+ p(price)+'</strong>';
 	sobtr += '</div>';
 	sobtr += '<div class="ty02">'+ratio+'%</div>';
 	sobtr += '</a>';
@@ -902,19 +901,19 @@ function updateOrderAmount(order){
 
 function effectOfChaginghRatio(marketTable){
 	
-	$('#volume24').text(marketTable.volume24)
-	$('#cap24').text(marketTable.cap24)
-	$('#asksPrice').val(marketTable.recentPrice)
-	$('#bidsPrice').val(marketTable.recentPrice)
+	$('#volume24').text(p(marketTable.volume24))
+	$('#cap24').text(p(marketTable.cap24))
+	$('#asksPrice').val(p(marketTable.recentPrice))
+	$('#bidsPrice').val(p(marketTable.recentPrice))
 	
-	$('#closingPrice').text(marketTable.closingPrice)
+	$('#closingPrice').text(p(marketTable.closingPrice))
 	
-	$('#recentPrice').text(marketTable.recentPrice)
+	$('#recentPrice').text(p(marketTable.recentPrice))
 	$('.ratioPre').text(marketTable.ratioPre)
-	$('#high24').text(marketTable.high24)
-	$('#low24').text(marketTable.low24)
-	$('#todayHigh24').text(marketTable.todayHigh24)
-	$('#todayLow24').text(marketTable.todayLow24)
+	$('#high24').text(p(marketTable.high24))
+	$('#low24').text(p(marketTable.low24))
+	$('#todayHigh24').text(p(marketTable.todayHigh24))
+	$('#todayLow24').text(p(marketTable.todayLow24))
 	
 	
 	
