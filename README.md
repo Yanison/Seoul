@@ -42,7 +42,7 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
  ┃ ┃ ┃ ┃ ┃ ┗ 📜MailService.java<br>
  ┃ ┃ ┃ ┃ ┣ 📂dto<br>
  ┃ ┃ ┃ ┃ ┣ 📂modules<br>
- ┃ ┃ ┃ ┃ ┃ ┣ 📂exchange                             exchange :: 거래소 Back-End-Side 로직 구현 package<br>
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchange                             exchange :: 거래소 Back-End-Side 로직 구현 package <br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller                         controller :: 거래소 페이지의 의 Controller        <br>                
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto<br>
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exchwebsocket                      exchwebsocket :: 프로젝트의 STOMP WebSocket Configure Package<br>
