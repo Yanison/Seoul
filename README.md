@@ -20,7 +20,7 @@ https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf <br>
 - Java-Matching-Engine-Core<br>
 https://github.com/Laffini/Java-Matching-Engine-Core<br>
  
-- WebSocket
+- WebSocket<br>
 https://docs.spring.io/spring-framework/docs/5.2.6.RELEASE/spring-framework-reference/web.html#websocket<br>
 https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
 
