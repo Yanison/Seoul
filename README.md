@@ -28,6 +28,8 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
 ## 프로젝트 구조
 
 ### Back-End
+
+seoul
 📦main<br>
  ┣ 📂java<br>
  ┃ ┣ 📂com<br>
