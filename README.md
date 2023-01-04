@@ -29,7 +29,7 @@ https://spring.io/guides/gs/messaging-stomp-websocket/ <br>
 
 ### Back-End
 
-seoul
+yongsan<br>
 📦main<br>
  ┣ 📂java<br>
  ┃ ┣ 📂com<br>
