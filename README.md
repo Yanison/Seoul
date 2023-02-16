@@ -21,8 +21,11 @@
 ## ERD
 
 <div>
-<img src="https://user-images.githubusercontent.com/88885019/219269082-34cb8f70-b599-4482-a3a9-433c98337b13.png">
+<img width="545" alt="image" src="https://user-images.githubusercontent.com/88885019/219269254-b4a479c5-98a3-47c9-8c33-d0fc62b7061d.png">
 </div>
+
+
+
 
 
 
