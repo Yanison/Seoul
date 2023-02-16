@@ -18,6 +18,14 @@
 - DB 거래내역을 기반한 보유자산 변동 시각화
 
 
+## ERD
+
+<div>
+<img src="https://user-images.githubusercontent.com/88885019/219269082-34cb8f70-b599-4482-a3a9-433c98337b13.png">
+</div>
+
+
+
 ### 참고자료
 - Foundations of Reinforcement Learning with Applications in Finance<br>
 https://stanford.edu/~ashlearn/RLForFinanceBook/chapter9.pdf <br>
