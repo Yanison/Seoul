@@ -11,10 +11,11 @@
 - BackEnd-Framework:Spring Legacy,mybatis,maven<br>
 - was:tomcat 9.0<br>
 
-## Achived
+## 기능구현
 
 - STOMP를 활용한 실시간 거래 시스템 구축
 - 신뢰성 있는 거래 알고리즘 기능 구현
+- DB 거래내역을 기반한 보유자산 변동 시각화
 
 
 ### 참고자료
